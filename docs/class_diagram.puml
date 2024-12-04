@@ -1,0 +1,44 @@
+@startuml
+
+class User{
+pet: Pet
+goals: List<Goal>
+}
+
+class Pet{
+    name: String
+    image: String
+    animation
+}
+
+class Goal{
+    name: String
+    createdAt: Date
+    doneAt: Date
+    isDone(): Boolean
+    markAsDone()
+}
+
+class GoalFilter{
+    byDate()
+    byName()
+    byStatus()
+}
+
+class UserService{
+    get()
+    updatePet()
+    updateSettings()
+}
+
+class UserRepo{
+    get()
+    update()
+}
+class PetRepo{
+    getAll()
+    getById()
+}
+
+
+@enduml
