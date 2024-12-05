@@ -1,44 +1,118 @@
 @startuml
 
-class User{
-pet: Pet
-goals: List<Goal>
+
+package Model{
+
+    class Image{
+        url: String
+    }
+
+    class Animation{
+        frames: List<Image>
+        duration: Int
+    }
+    class User {
+        - pet: Pet
+        - goals: List<Goal>
+        + addGoal()
+        + setPet()
+        + isPetHappy(): Boolean
+    }
+    class UserSettings{
+        + petName: String
+        + reminders: Boolean
+    }
+
+    class Pet {
+        + name: String
+        + animation: Animation?
+        + image: Image
+    }
+    enum Priority {
+        LOW
+        MEDIUM
+        HIGH
+    }
+
+    class Goal {
+        + name: String
+        + deadline: Date?
+        + priority: Priority
+        + createdAt: Date
+        + doneAt: Date?
+        + isDone(): Boolean
+        + markAsDone()
+    }
+    Goal o- Priority
+    User *-- Pet
+    User *-- Goal
+    User *-- UserSettings
+    Pet o-- Image
+    Pet o-- Animation
+    Animation o-- Image
+
 }
 
-class Pet{
-    name: String
-    image: String
-    animation
+package View{
+    class InitialLoginView{
+    }
+
+    class HomeView {
+    }
+
+    class SettingsView{
+    }
 }
 
-class Goal{
-    name: String
-    createdAt: Date
-    doneAt: Date
-    isDone(): Boolean
-    markAsDone()
+package ViewModel{
+    class InitialLoginViewModel{
+        login()
+        user: User
+        pets: List<Pet>
+    }
+    class HomeViewModel {
+        addGoal()
+        markGoalDone()
+        user: User
+    }
+    class SettingsViewModel{
+        userSettings: UserSettings
+        saveSettings()
+    }
 }
 
-class GoalFilter{
-    byDate()
-    byName()
-    byStatus()
+package Repository{
+    class UserRepository {
+        getUser()
+        saveUser()
+    }
+
+    class GoalRepository {
+        getGoals()
+        saveGoal()
+        updateGoal()
+    }
+    class PetRepository{
+        getAll()
+    }
 }
 
-class UserService{
-    get()
-    updatePet()
-    updateSettings()
-}
+InitialLoginView -down-> InitialLoginViewModel
+HomeView -down-> HomeViewModel
+SettingsView -down-> SettingsViewModel
 
-class UserRepo{
-    get()
-    update()
-}
-class PetRepo{
-    getAll()
-    getById()
-}
+InitialLoginViewModel -down--> UserRepository
+InitialLoginViewModel -down--> PetRepository
+
+HomeViewModel -down> GoalRepository
+HomeViewModel -down> UserRepository
+
+SettingsViewModel -down-> UserRepository
+
+
+PetRepository --> Pet
+UserRepository --> User
+GoalRepository --> Goal
 
 
 @enduml
