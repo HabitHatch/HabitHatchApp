@@ -24,14 +24,14 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
       - name: Install Android SDK
         uses: android-actions/setup-android@v3
         with:
-          api-level: 35
-          build-tools: '35.0.0'
+          log-accepted-android-sdk-licenses: false
 
       - name: Cache Gradle Dependencies
         uses: actions/cache@v4
@@ -44,12 +44,25 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Build Release APK
-        run: ./gradlew assembleRelease --no-daemon
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: Decode Keystore from Secret
+        run: |
+          echo "${{ secrets.APK_RELEASE_KEYSTORE}}" | base64 --decode > release-key.jks
+
+      - name: Sign APK
+        run: |
+          apksigner sign --ks release-key.jks \
+                         --ks-key-alias ${{ secrets.ANDROID_KEY_ALIAS }} \
+                         --ks-pass pass:${{ secrets.ANDROID_KEYSTORE_PASSWORD }} \
+                         --key-pass pass:${{ secrets.ANDROID_KEY_PASSWORD }} \
+                         --out app-release-signed.apk \
+                         app/build/outputs/apk/release/app-release-unsigned.apk
 
       - name: Release APK
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            app/build/outputs/apk/release/app-release-unsigned.apk
+            app-release-signed.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
