@@ -18,9 +18,9 @@ fun InitialLoginScreen(navController: NavHostController) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "This is Screen 1")
+        Text(text = "Welcome to the App")
         Button(onClick = { navController.navigate(Screen.Home.route) }) {
-            Text("Go to Screen 2")
+            Text("Choose Pet")
         }
     }
 }
