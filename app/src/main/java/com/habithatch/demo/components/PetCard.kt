@@ -22,12 +22,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.habithatch.demo.types.Pet
 
 @Composable
 fun PetCard(
-    imageRes: Int,
+    pet: Pet,
     isChecked: Boolean,
-    onToggleCheck: () -> Unit
+    onPetSelected: () -> Unit
 ) {
     val checkedColor = MaterialTheme.colorScheme.primary
     val uncheckedColor = MaterialTheme.colorScheme.surface
@@ -36,7 +37,7 @@ fun PetCard(
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onToggleCheck() }
+            .clickable { onPetSelected() }
     ) {
         Box(
             modifier = Modifier
@@ -44,7 +45,7 @@ fun PetCard(
                 .fillMaxWidth()
         ) {
             Image(
-                painter = painterResource(id = imageRes),
+                painter = painterResource(id = pet.imageRes),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.clip(RoundedCornerShape(12.dp))
