@@ -14,7 +14,22 @@ Wenn nicht alle Ziele erledigt dunkler Farbfilter, Tier ist unglücklich
 User Settings anzeigen
 
 ## Tech Stack
+- **Kotlin Version**: 2.1.0
+- **Min Android SDK**: 34
 
+### Jetpack Compose:
+- material3: version 1.3.2
+
+### Room Database:
+
+### Unit Testing:
+- junit: 4.13.2
+- truth: 1.1.6`
+
+### Android Testing:
+- androidx.test.ext:junit: 1.2.1
+- espresso-core: 3.6.1
+- compose.ui:ui-test-junit4: 1.7.6
 
 
 ## Architecture:
