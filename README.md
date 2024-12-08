@@ -37,3 +37,7 @@ User Settings anzeigen
 ![](docs/class_diagram.png)
 
 
+## Activities / Navigation
+Android recommend only using one Activity, to use Jetpack Navigation instead.
+https://developer.android.com/topic/architecture/recommendations
+
