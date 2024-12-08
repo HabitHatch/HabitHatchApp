@@ -113,6 +113,4 @@ SettingsViewModel -down-> UserRepository
 PetRepository --> Pet
 UserRepository --> User
 GoalRepository --> Goal
-
-
 @enduml
