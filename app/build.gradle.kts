@@ -67,6 +67,7 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.3.1")
     implementation("androidx.compose.ui:ui-tooling:1.7.5")
     debugImplementation("androidx.compose.ui:ui-tooling:1.7.5")
+    implementation("androidx.navigation:navigation-compose:2.8.4")
 
     // Room Database
     implementation("androidx.room:room-runtime:2.6.1")
