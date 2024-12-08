@@ -2,7 +2,7 @@
 
 was wir entwickeln?!
 Beim Start Auswahl von Tier, 4 werden angezeigt, aber nur 1 kann ausgewählt werden
-Aktivity Wechsel von Start zu Home
+Activity Wechsel von Start zu Home
 Tabelle/Liste an Zielen
 Tabelle sortieren nach erledigt und Deadline oder Prio
 Ziel hinzufügen
