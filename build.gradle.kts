@@ -1,7 +1,9 @@
+import org.gradle.kotlin.dsl.android
+
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.compose")
+    id("com.android.application") version "8.6.1"
+    id("org.jetbrains.kotlin.android") version "2.1.0"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.1.0"
     id("com.google.devtools.ksp") version "2.1.0-1.0.29"
 }
 
@@ -55,12 +57,16 @@ dependencies {
     implementation("androidx.core:core-ktx:1.15.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
 
+    // Dependency Injection
+    annotationProcessor("com.google.dagger:dagger-compiler:2.52")
+    ksp("com.google.dagger:dagger-compiler:2.52")
+
     // Jetpack Compose
     implementation("androidx.activity:activity-compose:1.9.3")
-    implementation(platform("androidx.compose:compose-bom:2024.11.00"))
-    implementation("androidx.compose.material3:material3:1.3.1")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.7.5")
-    debugImplementation("androidx.compose.ui:ui-tooling:1.7.5")
+    implementation(platform("androidx.compose:compose-bom:2024.12.00"))
+    implementation("androidx.compose.material3:material3:1.3.2")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.7.6")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.7.6")
 
     // Room Database
     implementation("androidx.room:room-runtime:2.6.1")
@@ -68,8 +74,11 @@ dependencies {
 
     // Unit Testing
     testImplementation("junit:junit:4.13.2")
+    testImplementation("io.mockk:mockk:1.13.8")
+    testImplementation("androidx.room:room-testing:2.6.1")
+    testImplementation("com.google.truth:truth:1.1.6")
 
     // Android Testing
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.7.5")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.7.6")
 }
