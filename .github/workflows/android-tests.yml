@@ -30,8 +30,24 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      - name: run tests
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          api-level: 35
+          build-tools: "35.0.0"
+
+      - name: Start Emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 34
-          script: ./gradlew connectedAndroidTest
+          api-level: 35
+          target: google_apis_playstore
+          arch: x86_64
+          profile: medium_phone
+          disk-size: 6G
+          ram-size: 2048M
+          heap-size: 336M
+          enable-hw-keyboard: true
+          emulator-options: "-skin 1080x2400 -gpu auto -camera-back virtualscene -camera-front emulated"
+
+      - name: Run Instrumented Tests
+        run: ./gradlew connectedAndroidTest
