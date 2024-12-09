@@ -31,7 +31,7 @@ jobs:
           api-level: 34
           target: google_apis_playstore
           arch: x86_64
-          profile: medium_phone
+          profile: Medium_Phone_API_35
           disk-size: 6G
           ram-size: 2048M
           heap-size: 336M
