@@ -1,4 +1,4 @@
-name: Build and Release APK
+name: Android Tests
 
 on:
   push:
@@ -10,8 +10,19 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Install Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          log-accepted-android-sdk-licenses: false
 
       - name: Enable KVM
         run: |
