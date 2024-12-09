@@ -56,10 +56,8 @@ dependencies {
     // Core Libraries
     implementation("androidx.core:core-ktx:1.15.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
+    implementation("androidx.room:room-ktx:2.6.1")
 
-    // Dependency Injection
-    annotationProcessor("com.google.dagger:dagger-compiler:2.52")
-    ksp("com.google.dagger:dagger-compiler:2.52")
 
     // Jetpack Compose
     implementation("androidx.activity:activity-compose:1.9.3")

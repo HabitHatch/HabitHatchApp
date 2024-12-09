@@ -1,6 +1,5 @@
 package com.habithatch.demo
 
-import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -8,24 +7,55 @@ import androidx.navigation.compose.rememberNavController
 import com.habithatch.demo.screens.HomeScreen
 import com.habithatch.demo.screens.InitialLoginScreen
 import com.habithatch.demo.screens.SettingsScreen
+import com.habithatch.demo.viewModels.InitialLoginViewModel
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 
-sealed class Screen(val route: String, val composable: @Composable (NavHostController) -> Unit) {
-    object InitialLogin : Screen("initialLogin", @Composable { navController -> InitialLoginScreen(navController) })
-    object Home : Screen("home", @Composable { navController -> HomeScreen(navController) })
-    object Settings : Screen("settings", @Composable { navController -> SettingsScreen(navController) })
+
+sealed class Screen(val route: String, val composable: (@Composable (NavHostController) -> Unit)? = null) {
+    fun getComposable() {
+        this.composable
+    }
+
+    object InitialLogin : Screen("initialLogin")
+    object Home : Screen("home", @Composable { HomeScreen(it) })
+    object Settings : Screen("settings", @Composable { SettingsScreen(it) })
 }
 
 @Composable
-fun AppNavigation() {
+fun AppNavigation(initialLoginViewModel: InitialLoginViewModel) {
     val navController = rememberNavController()
+    val isSignedUp by initialLoginViewModel.isSignedUp.collectAsState()
 
-    NavHost(
-        navController = navController,
-        startDestination = Screen.InitialLogin.route
-    ) {
-        listOf(Screen.InitialLogin, Screen.Home, Screen.Settings).forEach { screen ->
-            composable(screen.route) {
-                screen.composable(navController)
+    if (isSignedUp == null) {
+        // Show a loading screen or a placeholder while the signup status is being determined
+    } else {
+        val startDestination = if (isSignedUp == true) {
+            Screen.Home.route
+        } else {
+            Screen.InitialLogin.route
+        }
+
+        NavHost(
+            navController = navController,
+            startDestination = startDestination
+        ) {
+            composable(Screen.InitialLogin.route) {
+                InitialLoginScreen(
+                    navController = navController,
+                    onSignUp = { pet ->
+                        initialLoginViewModel.signUpUser(pet)
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.InitialLogin.route) { inclusive = true }
+                        }
+                    }
+                )
+            }
+            listOf(Screen.Home, Screen.Settings).forEach { screen ->
+                composable(screen.route) {
+                    screen.composable?.let { it1 -> it1(navController) }
+                }
             }
         }
     }

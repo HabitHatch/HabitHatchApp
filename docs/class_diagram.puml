@@ -24,6 +24,7 @@ package Model{
     }
 
     class Pet {
+        - id: Int
         + name: String
         + animation: Animation?
         + image: Image
@@ -92,8 +93,11 @@ package Repository{
         saveGoal()
         updateGoal()
     }
-    class PetRepository{
-        getAll()
+}
+
+package StaticData {
+    object PetProvider {
+        getAllPets(): List<Pet>
     }
 }
 
