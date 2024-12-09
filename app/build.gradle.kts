@@ -64,6 +64,7 @@ dependencies {
     implementation(platform("androidx.compose:compose-bom:2024.11.00"))
     implementation("androidx.compose.material3:material3:1.3.1")
     implementation("androidx.compose.ui:ui-tooling:1.7.5")
+    testImplementation("androidx.test.ext:junit:1.2.1")
     debugImplementation("androidx.compose.ui:ui-tooling:1.7.5")
     implementation("androidx.navigation:navigation-compose:2.8.4")
 
@@ -74,11 +75,21 @@ dependencies {
     // Unit Testing
     testImplementation("junit:junit:4.13.2")
     testImplementation("io.mockk:mockk:1.13.8")
-    testImplementation("androidx.room:room-testing:2.6.1")
     testImplementation("com.google.truth:truth:1.4.4")
+    // Room Testing
+    testImplementation("androidx.room:room-testing:2.6.1")
+
+
+    // Kotlin Coroutines for testing
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+
+    // AndroidX Core Testing (for LiveData, Coroutines support)
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+
 
     // Android Testing
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.7.5")
+    androidTestImplementation("com.google.truth:truth:1.4.4")
 }
