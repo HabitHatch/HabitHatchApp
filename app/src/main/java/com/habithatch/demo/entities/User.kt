@@ -1,11 +1,11 @@
 package com.habithatch.demo.entities
 
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.UUID
 
-@Entity()
+@Entity
 data class User(
-    @PrimaryKey() val id: Int = 1,
-    @Embedded val pet: Pet? = null
+    @PrimaryKey val uid: String = UUID.randomUUID().toString(),
+    val petId: Int
 )
