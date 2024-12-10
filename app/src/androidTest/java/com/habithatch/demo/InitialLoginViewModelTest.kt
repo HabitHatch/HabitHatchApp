@@ -3,12 +3,13 @@ package com.habithatch.demo
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
-import com.habithatch.demo.daos.UserDao
 import com.habithatch.demo.db.AppDatabase
 import com.habithatch.demo.entities.Pet
 import com.habithatch.demo.entities.User
+import com.habithatch.demo.repositories.UserRepository
 import com.habithatch.demo.viewModels.InitialLoginViewModel
-import junit.framework.TestCase.fail
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -17,7 +18,7 @@ import org.junit.Test
 class InitialLoginViewModelInstrumentedTest {
 
     private lateinit var database: AppDatabase
-    private lateinit var userDao: UserDao
+    private lateinit var userRepository: UserRepository
     private lateinit var viewModel: InitialLoginViewModel
 
     @Before
@@ -26,8 +27,9 @@ class InitialLoginViewModelInstrumentedTest {
         database = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
             .allowMainThreadQueries()
             .build()
-        userDao = database.userDao()
-        viewModel = InitialLoginViewModel(userDao)
+        val userDao = database.userDao()
+        userRepository = UserRepository(userDao)
+        viewModel = InitialLoginViewModel(userRepository)
     }
 
     @After
@@ -39,28 +41,30 @@ class InitialLoginViewModelInstrumentedTest {
     fun `isSignedUp should be true when user exists`() {
         runBlocking {
             // Arrange
-            val user = User(uid = "", petId = 1)
+            val user = User(petId = 1)
 
             // Act
-            userDao.insert(user)
-            val viewModel = InitialLoginViewModel(userDao)
+            userRepository.createUser(user)
+            val viewModel = InitialLoginViewModel(userRepository)
 
             // Assert
-            assertThat(viewModel.isSignedUp.value).isTrue()
+            assertThat(viewModel.isSignedUp.first()).isTrue()
         }
     }
 
     @Test
     fun `signUpUser inserts user into the database`() {
+
+        // Arrange
+        val pet = Pet(id = 1, name = "Dog", imageRes = -1)
+
+        // Act
+        viewModel.signUpUser(pet)
+
         runBlocking {
-            // Arrange
-            val pet = Pet(id = 1, name = "Dog", imageRes = -1)
-
-            // Act
-            viewModel.signUpUser(pet)
-
+            delay(100)
             // Assert
-            val user = userDao.getUser()
+            val user = userRepository.getUser()
             assertThat(user).isNotNull()
         }
     }
