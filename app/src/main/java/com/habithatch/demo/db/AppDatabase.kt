@@ -4,15 +4,18 @@ import android.content.Context
 import androidx.room.Room
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.habithatch.demo.daos.GoalDao
 import com.habithatch.demo.daos.PetDao
 import com.habithatch.demo.daos.UserDao
+import com.habithatch.demo.entities.Goal
 import com.habithatch.demo.entities.Pet
 import com.habithatch.demo.entities.User
 
-@Database(entities = [User::class, Pet::class], version = 1)
+@Database(entities = [User::class, Pet::class, Goal::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun petDao(): PetDao
+    abstract fun goalDao(): GoalDao
 }
 
 

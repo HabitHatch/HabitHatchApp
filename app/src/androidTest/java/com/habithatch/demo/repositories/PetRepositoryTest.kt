@@ -1,16 +1,16 @@
-package com.habithatch.demo
+package com.habithatch.demo.repositories
 
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
 import com.habithatch.demo.db.AppDatabase
 import com.habithatch.demo.entities.Pet
-import com.habithatch.demo.repositories.PetRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
+// TODO: Make Unit Test
 class PetRepositoryTest {
 
     private lateinit var database: AppDatabase
@@ -33,14 +33,14 @@ class PetRepositoryTest {
     }
 
     @Test
-    fun insertStaticPets_whenEmptyDatabase_shouldInsertPets() {
+    fun `insertAll(), should insert Pets, when pets table is empty`() {
         runBlocking {
             // Arrange
             val pets = listOf(Pet(1, "Cat", 123), Pet(2, "Dog", 456))
 
             // Act
-            petRepository.insertStaticPets(pets)
-            val retrievedPets = petRepository.getAllPets()
+            petRepository.insertAll(pets)
+            val retrievedPets = petRepository.getAll()
 
             // Assert
             assertThat(retrievedPets).containsExactlyElementsIn(pets)
@@ -48,14 +48,15 @@ class PetRepositoryTest {
     }
 
     @Test
-    fun insertStaticPets_whenNotEmpty_shouldThrowException() {
+    fun `insertAll(), should throw IllegalStateException, when pets table is not empty`() {
         runBlocking {
             // Arrange
             val pets = listOf(Pet(1, "Cat", 123), Pet(2, "Dog", 456))
-            petRepository.insertStaticPets(pets)
+            petRepository.insertAll(pets)
 
-            val exception = kotlin.runCatching {
-                petRepository.insertStaticPets(pets)
+            // Act
+            val exception = runCatching {
+                petRepository.insertAll(pets)
             }.exceptionOrNull()
 
             // Assert

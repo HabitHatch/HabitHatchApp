@@ -87,6 +87,9 @@ package Repository{
         getUser()
         saveUser()
     }
+    class PetRepository{
+        getAll()
+    }
 
     class GoalRepository {
         getGoals()
@@ -94,11 +97,12 @@ package Repository{
         updateGoal()
     }
 }
+package DAO{
+    class UserDAO
 
-package StaticData {
-    object PetProvider {
-        getAllPets(): List<Pet>
-    }
+    class PetDAO
+
+    class GoalDAO
 }
 
 InitialLoginView -down-> InitialLoginViewModel
@@ -114,7 +118,11 @@ HomeViewModel -down> UserRepository
 SettingsViewModel -down-> UserRepository
 
 
-PetRepository --> Pet
-UserRepository --> User
-GoalRepository --> Goal
+PetRepository --down> PetDAO
+UserRepository --down> UserDAO
+GoalRepository --down> GoalDAO
+
+PetDAO -down-> Pet
+UserDAO -down-> User
+GoalDAO -down-> Goal
 @enduml

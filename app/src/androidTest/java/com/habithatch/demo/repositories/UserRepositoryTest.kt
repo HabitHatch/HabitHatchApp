@@ -1,16 +1,16 @@
-package com.habithatch.demo
+package com.habithatch.demo.repositories
 
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
 import com.habithatch.demo.db.AppDatabase
 import com.habithatch.demo.entities.User
-import com.habithatch.demo.repositories.UserRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
+// TODO: Make Unit Test
 class UserRepositoryTest {
 
     private lateinit var database: AppDatabase
@@ -33,7 +33,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    fun `create User should insert User`() {
+    fun `createUser() should add a User, when no User exists`() {
         runBlocking {
             // Arrange
             val user = User(petId = 1)
@@ -49,7 +49,7 @@ class UserRepositoryTest {
 
 
     @Test()
-    fun `create User when User exists should throw Exception`() {
+    fun `createUser() should throw an IllegalStateException, when a User already exists`() {
         runBlocking {
             // Arrange
             val user1 = User(petId = 1)
@@ -57,7 +57,7 @@ class UserRepositoryTest {
             userRepository.createUser(user1)
 
             // Act
-            val exception = kotlin.runCatching {
+            val exception = runCatching {
                 userRepository.createUser(user2)
             }.exceptionOrNull()
             assertThat(exception).isInstanceOf(IllegalStateException::class.java)
@@ -65,7 +65,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    fun `update User should replace existing User`() {
+    fun `updateUser() should replace existing User, when User exists`() {
         runBlocking {
             // Arrange
             val user1 = User(petId = 1)
@@ -81,13 +81,13 @@ class UserRepositoryTest {
     }
 
     @Test()
-    fun `update User when no User exists should throw Exception`() {
+    fun `updateUser() should throw IllegalStateException, when no User exists`() {
         runBlocking {
             // Arrange
             val user1 = User(petId = 1)
 
             // Act
-            val exception = kotlin.runCatching {
+            val exception = runCatching {
                 userRepository.updateUser(user1)
             }.exceptionOrNull()
             assertThat(exception).isInstanceOf(IllegalStateException::class.java)
@@ -95,13 +95,13 @@ class UserRepositoryTest {
     }
 
     @Test()
-    fun `create user with invalid uuid should throw exception`() {
+    fun `createUser() should throw IllegalArgumentException, when invalid UUID format`() {
         runBlocking {
             // Arrange
             val user1 = User(uid = "invalid-uid", petId = 1)
 
             // Act
-            val exception = kotlin.runCatching {
+            val exception = runCatching {
                 userRepository.createUser(user1)
             }.exceptionOrNull()
             assertThat(exception).isInstanceOf(IllegalArgumentException::class.java)
@@ -109,7 +109,7 @@ class UserRepositoryTest {
     }
 
     @Test()
-    fun `delete User should remove User`(){
+    fun `deleteUser() should remove the User`(){
         runBlocking{
             // Arrange
             val user1 = User(petId = 1)
