@@ -19,22 +19,5 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Enable KVM
-        run: |
-          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-          sudo udevadm control --reload-rules
-          sudo udevadm trigger --name-match=kvm
-
-      - name: run tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 34
-          target: google_apis_playstore
-          arch: x86_64
-          profile: pixel_9
-          disk-size: 6G
-          ram-size: 2048M
-          heap-size: 336M
-          enable-hw-keyboard: true
-          emulator-options: "-skin 1080x2400 -gpu auto -camera-back virtualscene -camera-front emulated"
-          script: ./gradlew connectedAndroidTest
+      - name: Run Instrumented Tests on Gradle-Managed Devices
+        run: ./gradlew pixel2api30DebugAndroidTest

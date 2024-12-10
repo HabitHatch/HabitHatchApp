@@ -3,22 +3,18 @@ package com.habithatch.demo
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
-import com.habithatch.demo.daos.UserDao
 import com.habithatch.demo.db.AppDatabase
 import com.habithatch.demo.entities.Pet
-import com.habithatch.demo.entities.User
-import com.habithatch.demo.viewModels.InitialLoginViewModel
-import junit.framework.TestCase.fail
+import com.habithatch.demo.repositories.PetRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class InitialLoginViewModelInstrumentedTest {
+class PetRepositoryTest {
 
     private lateinit var database: AppDatabase
-    private lateinit var userDao: UserDao
-    private lateinit var viewModel: InitialLoginViewModel
+    private lateinit var petRepository: PetRepository
 
     @Before
     fun setup() {
@@ -26,8 +22,9 @@ class InitialLoginViewModelInstrumentedTest {
         database = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
             .allowMainThreadQueries()
             .build()
-        userDao = database.userDao()
-        viewModel = InitialLoginViewModel(userDao)
+
+        val petDao = database.petDao()
+        petRepository = PetRepository(petDao)
     }
 
     @After
@@ -36,32 +33,33 @@ class InitialLoginViewModelInstrumentedTest {
     }
 
     @Test
-    fun `isSignedUp should be true when user exists`() {
+    fun insertStaticPets_whenEmptyDatabase_shouldInsertPets() {
         runBlocking {
             // Arrange
-            val user = User(uid = "", petId = 1)
+            val pets = listOf(Pet(1, "Cat", 123), Pet(2, "Dog", 456))
 
             // Act
-            userDao.insert(user)
-            val viewModel = InitialLoginViewModel(userDao)
+            petRepository.insertStaticPets(pets)
+            val retrievedPets = petRepository.getAllPets()
 
             // Assert
-            assertThat(viewModel.isSignedUp.value).isTrue()
+            assertThat(retrievedPets).containsExactlyElementsIn(pets)
         }
     }
 
     @Test
-    fun `signUpUser inserts user into the database`() {
+    fun insertStaticPets_whenNotEmpty_shouldThrowException() {
         runBlocking {
             // Arrange
-            val pet = Pet(id = 1, name = "Dog", imageRes = -1)
+            val pets = listOf(Pet(1, "Cat", 123), Pet(2, "Dog", 456))
+            petRepository.insertStaticPets(pets)
 
-            // Act
-            viewModel.signUpUser(pet)
+            val exception = kotlin.runCatching {
+                petRepository.insertStaticPets(pets)
+            }.exceptionOrNull()
 
             // Assert
-            val user = userDao.getUser()
-            assertThat(user).isNotNull()
+            assertThat(exception).isInstanceOf(IllegalStateException::class.java)
         }
     }
 }

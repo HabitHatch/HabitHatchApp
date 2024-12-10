@@ -27,8 +27,8 @@ class InitialLoginViewModel(private val userDao: UserDao) : ViewModel() {
 
     fun signUpUser(pet: Pet) {
         viewModelScope.launch {
-            val newUser = User(pet = pet)
-            userDao.insertOrUpdateUser(newUser)
+            val newUser = User(uid= "CHANGE ME", petId = 1)
+            userDao.insert(newUser)
         }
     }
 }
