@@ -2,15 +2,15 @@ package com.habithatch.demo.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.habithatch.demo.daos.UserDao
 import com.habithatch.demo.entities.Pet
 import com.habithatch.demo.entities.User
+import com.habithatch.demo.repositories.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 
-class InitialLoginViewModel(private val userDao: UserDao) : ViewModel() {
+class InitialLoginViewModel(private val userRepository: UserRepository) : ViewModel() {
     private val _isSignedUp = MutableStateFlow<Boolean?>(null)
     val isSignedUp: StateFlow<Boolean?> = _isSignedUp
 
@@ -20,15 +20,15 @@ class InitialLoginViewModel(private val userDao: UserDao) : ViewModel() {
 
     private fun checkUserSignUpStatus() {
         viewModelScope.launch {
-            val user = userDao.getUser()
+            val user = userRepository.getUser()
             _isSignedUp.value = user != null
         }
     }
 
     fun signUpUser(pet: Pet) {
         viewModelScope.launch {
-            val newUser = User(uid= "CHANGE ME", petId = 1)
-            userDao.insert(newUser)
+            val newUser = User(petId = pet.id)
+            userRepository.createUser(newUser)
         }
     }
 }

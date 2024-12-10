@@ -69,7 +69,7 @@ class UserRepositoryTest {
         runBlocking {
             // Arrange
             val user1 = User(petId = 1)
-            val user2 = User(petId = 2)
+            val user2 = User(uid = user1.uid, petId = 2)
             userRepository.createUser(user1)
 
             // Act
@@ -88,7 +88,7 @@ class UserRepositoryTest {
 
             // Act
             val exception = kotlin.runCatching {
-                userRepository.createUser(user1)
+                userRepository.updateUser(user1)
             }.exceptionOrNull()
             assertThat(exception).isInstanceOf(IllegalStateException::class.java)
         }
@@ -104,7 +104,7 @@ class UserRepositoryTest {
             val exception = kotlin.runCatching {
                 userRepository.createUser(user1)
             }.exceptionOrNull()
-            assertThat(exception).isInstanceOf(IllegalStateException::class.java)
+            assertThat(exception).isInstanceOf(IllegalArgumentException::class.java)
         }
     }
 
@@ -112,7 +112,7 @@ class UserRepositoryTest {
     fun `delete User should remove User`(){
         runBlocking{
             // Arrange
-            val user1 = User(uid = "invalid-uid", petId = 1)
+            val user1 = User(petId = 1)
             userRepository.createUser(user1)
             // Act
             userRepository.deleteUser()
