@@ -26,6 +26,7 @@ class InitialLoginViewModel(private val userRepository: UserRepository) : ViewMo
     }
 
     fun signUpUser(pet: Pet) {
+        checkUserSignUpStatus()
         viewModelScope.launch {
             val newUser = User(petId = pet.id)
             userRepository.createUser(newUser)

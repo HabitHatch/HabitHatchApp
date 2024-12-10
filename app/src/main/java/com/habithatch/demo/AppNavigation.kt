@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.habithatch.demo.screens.HomeScreen
 import com.habithatch.demo.screens.InitialLoginScreen
+import com.habithatch.demo.screens.LoadingScreen
 import com.habithatch.demo.screens.SettingsScreen
 import com.habithatch.demo.viewModels.InitialLoginViewModel
 import androidx.compose.runtime.Composable
@@ -29,7 +30,7 @@ fun AppNavigation(initialLoginViewModel: InitialLoginViewModel) {
     val isSignedUp by initialLoginViewModel.isSignedUp.collectAsState()
 
     if (isSignedUp == null) {
-        // Show a loading screen or a placeholder while the signup status is being determined
+        LoadingScreen()
     } else {
         val startDestination = if (isSignedUp == true) {
             Screen.Home.route

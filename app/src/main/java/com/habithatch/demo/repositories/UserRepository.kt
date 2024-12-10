@@ -29,11 +29,11 @@ class UserRepository(private val userDao: UserDao) {
         if (user.uid != existingUser.uid) {
             throw IllegalArgumentException("Cannot change the UID of the user.")
         }
-        userDao.deleteAll()
+        userDao.delete()
         userDao.insert(user)
     }
 
     suspend fun deleteUser() {
-        userDao.deleteAll()
+        userDao.delete()
     }
 }

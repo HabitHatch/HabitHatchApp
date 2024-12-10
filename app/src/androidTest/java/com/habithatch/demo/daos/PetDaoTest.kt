@@ -1,9 +1,8 @@
-package com.habithatch.demo
+package com.habithatch.demo.daos
 
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
-import com.habithatch.demo.daos.PetDao
 import com.habithatch.demo.db.AppDatabase
 import com.habithatch.demo.entities.Pet
 import kotlinx.coroutines.runBlocking
@@ -32,7 +31,7 @@ class PetDaoTest {
     }
 
     @Test
-    fun insertAndRetrievePets() {
+    fun `getAllPets() should return all pets in the database`() {
         runBlocking {
             // Arrange
             val pets = listOf(
