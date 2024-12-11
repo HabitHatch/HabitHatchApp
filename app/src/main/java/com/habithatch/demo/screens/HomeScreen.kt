@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.habithatch.demo.Screen
+import com.habithatch.demo.components.PetAnimation
 
 @Composable
 fun HomeScreen(navController: NavHostController) {
