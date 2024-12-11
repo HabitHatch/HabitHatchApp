@@ -8,7 +8,12 @@ import androidx.room.PrimaryKey
 data class Goal(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val title: String,
-    val isDone: Boolean = false
-){
-    constructor(title: String, isDone: Boolean = false) : this(0, title, isDone)
+    val isDone: Boolean = false,
+    val priority: GoalPriority = GoalPriority.NORMAL
+) {
+    constructor(
+        title: String,
+        isDone: Boolean = false,
+        goalPriority: GoalPriority = GoalPriority.NORMAL
+    ) : this(0, title, isDone, goalPriority)
 }

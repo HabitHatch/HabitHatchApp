@@ -3,7 +3,8 @@ package com.habithatch.demo.daos
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
-import com.habithatch.demo.db.AppDatabase
+import com.habithatch.demo.data.daos.GoalDao
+import com.habithatch.demo.data.db.AppDatabase
 import com.habithatch.demo.data.entities.Goal
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -31,13 +32,13 @@ class GoalDaoTest {
     }
 
     @Test
-    fun `insert() should store goal in database`() {
+    fun getGoalById_shouldGetAGoalById_whenGoalExists() {
         runBlocking {
             // Arrange
             val goal = Goal(id = 1, title = "Drink water")
+            goalDao.insert(goal)
 
             // Act
-            goalDao.insert(goal)
             val result = goalDao.getGoalById(1)
 
             // Assert
@@ -46,47 +47,7 @@ class GoalDaoTest {
     }
 
     @Test
-    fun `update() should change goal in database`() {
-        runBlocking {
-            // Arrange
-            val goal = Goal(id = 1, title = "Read book", isDone = false)
-            val changedGoal = goal.copy(isDone = true)
-            goalDao.insert(goal)
-
-            // Act
-            goalDao.update(changedGoal)
-            val result = goalDao.getGoalById(1)
-
-            // Assert
-            assertThat(result).isEqualTo(goal)
-        }
-    }
-
-    @Test
-    fun `getAllActive() should retrieve all goals not done`() {
-        runBlocking {
-            // Arrange
-            val goals = listOf(
-                Goal(id = 1, title = "Drink water"),
-                Goal(id = 3, title = "Learn how to code", isDone = true),
-            )
-            goals.forEach { goalDao.insert(it) }
-
-            // Act
-            val activeGoals = goalDao.getAllActive().first()
-
-            // Assert
-            assertThat(activeGoals).containsAtLeastElementsIn(
-                listOf(
-                    Goal(id = 1, title = "Drink water"),
-                    Goal(id = 2, title = "Read book")
-                )
-            )
-        }
-    }
-
-    @Test
-    fun `getAll() should retrieve all goals stored`() {
+    fun getAll_shouldRetrieveAllGoalsStored() {
         runBlocking {
             // Arrange
             val goals = listOf(

@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.first
 
 class UserRepository(private val userDao: UserDao) {
     fun getUser(): Flow<User?> {
-        return userDao.getUserFlow()
+        return userDao.getUser()
     }
 
     suspend fun createUser(user: User): User {
@@ -16,7 +16,7 @@ class UserRepository(private val userDao: UserDao) {
         if (existingUser != null) {
             throw IllegalStateException("A user already exists. Delete the current user before creating a new one.")
         }
-        if (!isValidUuid(user.uid)) {
+        if (!isValidUuid(user.uuid)) {
             throw IllegalArgumentException("Invalid UUID format for user ID.")
         }
         userDao.insert(user)

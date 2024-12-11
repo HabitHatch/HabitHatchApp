@@ -16,9 +16,6 @@ interface GoalDao {
     @Query("SELECT * FROM goal")
     fun getAll(): Flow<List<Goal>>
 
-    @Query("SELECT * FROM goal WHERE NOT isDone")
-    fun getAllActive(): Flow<List<Goal>>
-
     @Insert
     suspend fun insert(goal: Goal)
 

@@ -1,6 +1,5 @@
-package com.habithatch.demo.common
+package com.habithatch.demo.common.goals
 
-import com.habithatch.demo.data.entities.Goal
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.AlertDialog

@@ -7,6 +7,6 @@ import java.util.UUID
 
 @Entity
 data class User(
-    @PrimaryKey val uid: String = UUID.randomUUID().toString(),
+    @PrimaryKey val uuid: String = UUID.randomUUID().toString(),
     @Embedded val pet: Pet
 )
