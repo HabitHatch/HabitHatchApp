@@ -7,12 +7,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 
 class UserRepository(private val userDao: UserDao) {
-    fun getUserFlow(): Flow<User?> {
+    fun getUser(): Flow<User?> {
         return userDao.getUserFlow()
     }
 
     suspend fun createUser(user: User): User {
-        val existingUser = this.getUserFlow().first()
+        val existingUser = this.getUser().first()
         if (existingUser != null) {
             throw IllegalStateException("A user already exists. Delete the current user before creating a new one.")
         }

@@ -32,7 +32,7 @@ class InitialLoginViewModel(
 
     private fun observeUserSignUpStatus() {
         viewModelScope.launch {
-            userRepository.getUserFlow().collect { user ->
+            userRepository.getUser().collect { user ->
                 _isSignedUp.value = user != null
             }
         }

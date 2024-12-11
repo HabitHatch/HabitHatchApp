@@ -6,6 +6,8 @@ import com.habithatch.demo.entities.Goal
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
@@ -20,10 +22,12 @@ class GoalRepositoryTest {
                 Goal(id = 1, title = "Goal 1", isDone = false),
                 Goal(id = 2, title = "Goal 2", isDone = true)
             )
-            coEvery { mockGoalDao.getAllActive() } returns goals.filter { !it.isDone }
+            coEvery { mockGoalDao.getAllActive() } returns flow {
+                emit(goals.filter { !it.isDone })
+            }
 
             // Act
-            val activeGoals = repository.getAllActive()
+            val activeGoals = repository.getAllActive().first()
 
             // Assert
             assertThat(activeGoals).containsExactly(

@@ -7,6 +7,7 @@ import com.habithatch.demo.screens.HomeScreen
 import com.habithatch.demo.screens.InitialLoginScreen
 import com.habithatch.demo.screens.LoadingScreen
 import com.habithatch.demo.screens.SettingsScreen
+import com.habithatch.demo.viewModels.HomeViewModel
 import com.habithatch.demo.viewModels.InitialLoginViewModel
 import com.habithatch.demo.viewModels.SettingsViewModel
 import androidx.compose.runtime.Composable
@@ -21,7 +22,8 @@ sealed class Screen(val route: String) {
 @Composable
 fun AppNavigation(
     settingsViewModel: SettingsViewModel,
-    initialLoginViewModel: InitialLoginViewModel
+    initialLoginViewModel: InitialLoginViewModel,
+    homeViewModel: HomeViewModel
 ) {
     val navController = rememberNavController()
     val isSignedUp by initialLoginViewModel.isSignedUp.collectAsState()
@@ -29,7 +31,6 @@ fun AppNavigation(
         LoadingScreen()
     } else if (isSignedUp == false) {
         InitialLoginScreen(
-            navController = navController,
             viewModel = initialLoginViewModel
         )
     } else {
@@ -38,7 +39,7 @@ fun AppNavigation(
             startDestination = Screen.Home.route
         ) {
             composable(Screen.Home.route) {
-                HomeScreen(navController = navController)
+                HomeScreen(navController = navController, viewModel = homeViewModel)
             }
             composable(Screen.Settings.route) {
                 SettingsScreen(navController = navController, settingsViewModel = settingsViewModel)

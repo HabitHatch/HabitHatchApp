@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.habithatch.demo.entities.Goal
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface GoalDao {
@@ -13,12 +14,12 @@ interface GoalDao {
     suspend fun getGoalById(goalId: Int): Goal?
 
     @Query("SELECT * FROM goal")
-    suspend fun getAll(): List<Goal>
+    fun getAll(): Flow<List<Goal>>
 
     @Query("SELECT * FROM goal WHERE NOT isDone")
-    suspend fun getAllActive(): List<Goal>
+    fun getAllActive(): Flow<List<Goal>>
 
-    @Insert()
+    @Insert
     suspend fun insert(goal: Goal)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)

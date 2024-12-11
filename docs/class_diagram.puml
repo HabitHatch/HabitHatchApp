@@ -13,10 +13,6 @@ package Model{
     }
     class User {
         - pet: Pet
-        - goals: List<Goal>
-        + addGoal()
-        + setPet()
-        + isPetHappy(): Boolean
     }
     class UserSettings{
         + petName: String
