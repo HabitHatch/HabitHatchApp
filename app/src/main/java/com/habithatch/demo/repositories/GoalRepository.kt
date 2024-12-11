@@ -2,16 +2,13 @@ package com.habithatch.demo.repositories
 
 import com.habithatch.demo.daos.GoalDao
 import com.habithatch.demo.entities.Goal
+import kotlinx.coroutines.flow.Flow
 
 
 class GoalRepository(private val goalDao: GoalDao) {
-    suspend fun getAll(): List<Goal> {
-        return goalDao.getAll()
-    }
+    fun getAll(): Flow<List<Goal>> = goalDao.getAll()
 
-    suspend fun getAllActive(): List<Goal> {
-        return goalDao.getAllActive()
-    }
+    fun getAllActive(): Flow<List<Goal>> = goalDao.getAllActive()
 
     suspend fun insert(goal: Goal) {
         goalDao.insert(goal)

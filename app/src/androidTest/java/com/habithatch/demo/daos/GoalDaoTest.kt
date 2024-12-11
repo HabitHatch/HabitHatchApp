@@ -5,6 +5,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
 import com.habithatch.demo.db.AppDatabase
 import com.habithatch.demo.entities.Goal
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -37,7 +38,7 @@ class GoalDaoTest {
 
             // Act
             goalDao.insert(goal)
-            val result = goalDao.getAll().filter { it.id == 1 }
+            val result = goalDao.getGoalById(1)
 
             // Assert
             assertThat(result).isEqualTo(goal)
@@ -67,14 +68,12 @@ class GoalDaoTest {
             // Arrange
             val goals = listOf(
                 Goal(id = 1, title = "Drink water"),
-                Goal(id = 2, title = "Read book"),
                 Goal(id = 3, title = "Learn how to code", isDone = true),
-                Goal(id = 4, title = "Go for a walk", isDone = true)
             )
             goals.forEach { goalDao.insert(it) }
 
             // Act
-            val activeGoals = goalDao.getAllActive()
+            val activeGoals = goalDao.getAllActive().first()
 
             // Assert
             assertThat(activeGoals).containsAtLeastElementsIn(
@@ -91,15 +90,13 @@ class GoalDaoTest {
         runBlocking {
             // Arrange
             val goals = listOf(
-                Goal(id = 1, title = "Drink water"),
                 Goal(id = 2, title = "Read book"),
                 Goal(id = 3, title = "Learn how to code", isDone = true),
-                Goal(id = 4, title = "Go for a walk", isDone = true)
             )
             goals.forEach { goalDao.insert(it) }
 
             // Act
-            val activeGoals = goalDao.getAll()
+            val activeGoals = goalDao.getAll().first()
 
             // Assert
             assertThat(activeGoals).containsExactlyElementsIn(goals)

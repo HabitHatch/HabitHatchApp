@@ -15,21 +15,26 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun PetAnimation(
-    pet: Pet
+    pet: Pet,
+    modifier: Modifier = Modifier.fillMaxWidth()
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
         horizontalArrangement = Arrangement.Center
     ) {
         Card(
             shape = RoundedCornerShape(12.dp),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(1f)
         ) {
             Image(
                 painter = painterResource(id = pet.imageRes),
                 contentDescription = "${pet.name} image",
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.clip(RoundedCornerShape(12.dp))
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(12.dp))
             )
         }
     }
