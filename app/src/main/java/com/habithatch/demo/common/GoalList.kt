@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun GoalList(
     goals: List<Goal>,
+    onToggleDone: (Goal) -> Unit,
     modifier: Modifier = Modifier.fillMaxSize()
 ) {
     LazyColumn(
@@ -22,7 +23,7 @@ fun GoalList(
     ) {
         goals.forEach { goal ->
             item {
-                GoalItem(goal = goal)
+                GoalItem(goal = goal, onToggleDone = onToggleDone)
             }
         }
     }
@@ -32,9 +33,9 @@ fun GoalList(
 @Composable
 fun GoalListPreview() {
     val goals = listOf(
-        Goal(id = 1, title = "Goal 1"),
-        Goal(id = 2, title = "Goal 2"),
-        Goal(id = 3, title = "Goal 3")
+        Goal(title = "Goal 1", isDone = true),
+        Goal(title = "Goal 2"),
+        Goal(title = "Goal 3")
     )
-    GoalList(goals = goals)
+    GoalList(goals = goals, onToggleDone = {})
 }

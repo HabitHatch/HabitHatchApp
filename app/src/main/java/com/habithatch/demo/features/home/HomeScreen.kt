@@ -2,17 +2,14 @@ package com.habithatch.demo.features.home
 
 
 import androidx.navigation.NavHostController
-import com.habithatch.demo.common.GoalList
 import com.habithatch.demo.common.GoalListScreen
 import com.habithatch.demo.common.LoadingScreen
 import com.habithatch.demo.common.PetAnimation
 import com.habithatch.demo.core.Screen
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -59,7 +56,11 @@ fun HomeScreen(
                 .fillMaxWidth()
                 .padding(top = 300.dp)
         ) {
-            GoalListScreen(goals = goals.value, onAddGoal = { viewModel.addGoal(it) })
+            GoalListScreen(
+                goals = goals.value,
+                onAddGoal = { viewModel.addGoal(it) },
+                onToggleDone = { viewModel.toggleGoalDone(it) }
+            )
         }
 
 

@@ -1,7 +1,7 @@
 package com.habithatch.demo.repositories
 
 import com.google.common.truth.Truth.assertThat
-import com.habithatch.demo.daos.GoalDao
+import com.habithatch.demo.data.daos.GoalDao
 import com.habithatch.demo.data.entities.Goal
 import com.habithatch.demo.data.repositories.GoalRepository
 import io.mockk.coEvery

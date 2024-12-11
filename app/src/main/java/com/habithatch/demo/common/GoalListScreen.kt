@@ -17,7 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun GoalListScreen(
     goals: List<Goal>,
-    onAddGoal: (String) -> Unit
+    onAddGoal: (String) -> Unit,
+    onToggleDone: (Goal) -> Unit
 ) {
     var showDialog = remember { mutableStateOf(false) }
 
@@ -30,6 +31,7 @@ fun GoalListScreen(
         content = { paddingValues ->
             GoalList(
                 goals = goals,
+                onToggleDone = onToggleDone,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
@@ -57,6 +59,7 @@ fun PreviewGoalListScreen() {
             Goal(id = 2, title = "Goal 2"),
             Goal(id = 3, title = "Goal 3")
         ),
-        onAddGoal = { goalName -> println("Added goal: $goalName") }
+        onAddGoal = { goalName -> println("Added goal: $goalName") },
+        onToggleDone = { goal -> println("Toggled done for goal: ${goal.title}") }
     )
 }
