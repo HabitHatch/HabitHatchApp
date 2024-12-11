@@ -31,6 +31,11 @@ class HomeViewModel(
             goalRepository.insert(newGoal)
         }
     }
+    fun toggleGoalDone(goal: Goal) {
+        viewModelScope.launch {
+            goalRepository.toggleGoalDone(goal.id)
+        }
+    }
 
     private fun observeUser() {
         viewModelScope.launch {

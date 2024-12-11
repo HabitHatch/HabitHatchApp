@@ -14,9 +14,9 @@ class GoalRepository(private val goalDao: GoalDao) {
         goalDao.insert(goal)
     }
 
-    suspend fun markGoalHasDone(goalId: Int) {
+    suspend fun toggleGoalDone(goalId: Int) {
         goalDao.getGoalById(goalId)?.let {
-            val goal = it.copy(isDone = true)
+            val goal = it.copy(isDone = !it.isDone)
             goalDao.update(goal)
         }
     }
