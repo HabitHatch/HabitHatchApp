@@ -1,10 +1,11 @@
 package com.habithatch.demo.viewModels
 
 import com.google.common.truth.Truth.assertThat
-import com.habithatch.demo.entities.Pet
-import com.habithatch.demo.entities.User
-import com.habithatch.demo.repositories.PetRepository
-import com.habithatch.demo.repositories.UserRepository
+import com.habithatch.demo.data.entities.Pet
+import com.habithatch.demo.data.entities.User
+import com.habithatch.demo.data.repositories.PetRepository
+import com.habithatch.demo.data.repositories.UserRepository
+import com.habithatch.demo.features.signup.InitialLoginViewModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every

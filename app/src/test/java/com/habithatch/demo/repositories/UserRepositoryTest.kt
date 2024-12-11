@@ -2,8 +2,9 @@ package com.habithatch.demo.repositories
 
 import com.google.common.truth.Truth.assertThat
 import com.habithatch.demo.daos.UserDao
-import com.habithatch.demo.entities.Pet
-import com.habithatch.demo.entities.User
+import com.habithatch.demo.data.entities.Pet
+import com.habithatch.demo.data.entities.User
+import com.habithatch.demo.data.repositories.UserRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

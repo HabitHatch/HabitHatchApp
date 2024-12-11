@@ -4,8 +4,8 @@ import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
 import com.habithatch.demo.db.AppDatabase
-import com.habithatch.demo.entities.Pet
-import com.habithatch.demo.entities.User
+import com.habithatch.demo.data.entities.Pet
+import com.habithatch.demo.data.entities.User
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
