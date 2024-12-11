@@ -13,6 +13,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -44,7 +45,9 @@ class InitialLoginViewModelTest {
     fun `isSignedUp() should be true, when user exists`() {
         runTest {
             // Arrange
-            coEvery { userRepository.getUser() } returns User(pet = Pet(name = "Dog", imageRes = -1))
+            coEvery { userRepository.getUser() } returns flow {
+                emit(User(pet = Pet(name = "Dog", imageRes = -1)))
+            }
 
             // Act
             val viewModel = InitialLoginViewModel(userRepository, petRepository)
@@ -59,7 +62,7 @@ class InitialLoginViewModelTest {
     fun `isSignedUp() should be false, when no user exists`() {
         runTest {
             // Arrange
-            coEvery { userRepository.getUser() } returns null
+            coEvery { userRepository.getUser() } returns flow { emit(null) }
 
             // Act
             val viewModel = InitialLoginViewModel(userRepository, petRepository)
@@ -75,7 +78,7 @@ class InitialLoginViewModelTest {
         runTest {
             // Arrange
             val pet = Pet(name = "Dog", imageRes = -1)
-            coEvery { userRepository.getUser() } returns null
+            coEvery { userRepository.getUser() } returns flow { emit(null) }
             coEvery { userRepository.createUser(any()) } answers { firstArg() }
             // Act
             val viewModel = InitialLoginViewModel(userRepository, petRepository)

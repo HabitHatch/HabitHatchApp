@@ -2,7 +2,7 @@ package com.habithatch.demo.features.home
 
 
 import androidx.navigation.NavHostController
-import com.habithatch.demo.common.GoalListScreen
+import com.habithatch.demo.common.goals.GoalListScreen
 import com.habithatch.demo.common.LoadingScreen
 import com.habithatch.demo.common.PetAnimation
 import com.habithatch.demo.core.Screen
