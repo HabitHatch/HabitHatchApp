@@ -3,14 +3,16 @@ package com.habithatch.demo.repositories
 import com.habithatch.demo.daos.UserDao
 import com.habithatch.demo.entities.User
 import com.habithatch.demo.util.isValidUuid
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 
 class UserRepository(private val userDao: UserDao) {
-    suspend fun getUser(): User? {
-        return userDao.getUser()
+    fun getUserFlow(): Flow<User?> {
+        return userDao.getUserFlow()
     }
 
     suspend fun createUser(user: User): User {
-        val existingUser = userDao.getUser()
+        val existingUser = this.getUserFlow().first()
         if (existingUser != null) {
             throw IllegalStateException("A user already exists. Delete the current user before creating a new one.")
         }
@@ -21,17 +23,6 @@ class UserRepository(private val userDao: UserDao) {
         return user
     }
 
-    suspend fun updateUser(user: User) {
-        val existingUser = userDao.getUser()
-        if (existingUser == null) {
-            throw IllegalStateException("No user exists to update. Create a user first.")
-        }
-        if (user.uid != existingUser.uid) {
-            throw IllegalArgumentException("Cannot change the UID of the user.")
-        }
-        userDao.delete()
-        userDao.insert(user)
-    }
 
     suspend fun deleteUser() {
         userDao.delete()

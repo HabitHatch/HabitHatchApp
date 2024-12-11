@@ -1,12 +1,3 @@
 package com.habithatch.demo.entities
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-
-
-@Entity
-data class Pet(
-    @PrimaryKey val id: Int,
-    val name: String,
-    val imageRes: Int
-)
+data class Pet(val name: String, val imageRes: Int)

@@ -4,32 +4,37 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.habithatch.demo.entities.Pet
 import com.habithatch.demo.entities.User
+import com.habithatch.demo.repositories.PetRepository
 import com.habithatch.demo.repositories.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 
-class InitialLoginViewModel(private val userRepository: UserRepository) : ViewModel() {
+class InitialLoginViewModel(
+    private val userRepository: UserRepository, petRepository: PetRepository
+) : ViewModel() {
     private val _isSignedUp = MutableStateFlow<Boolean?>(null)
     val isSignedUp: StateFlow<Boolean?> = _isSignedUp
 
-    init {
-        checkUserSignUpStatus()
-    }
+    val pets: List<Pet> = petRepository.getAll()
 
-    private fun checkUserSignUpStatus() {
-        viewModelScope.launch {
-            val user = userRepository.getUser()
-            _isSignedUp.value = user != null
-        }
+    init {
+        observeUserSignUpStatus()
     }
 
     fun signUpUser(pet: Pet) {
-        checkUserSignUpStatus()
         viewModelScope.launch {
-            val newUser = User(petId = pet.id)
-            userRepository.createUser(newUser)
+            val user = User(pet = pet)
+            userRepository.createUser(user)
+        }
+    }
+
+    private fun observeUserSignUpStatus() {
+        viewModelScope.launch {
+            userRepository.getUserFlow().collect { user ->
+                _isSignedUp.value = user != null
+            }
         }
     }
 }

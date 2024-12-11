@@ -1,6 +1,5 @@
-package com.habithatch.demo
+package com.habithatch.demo.util
 
-import com.habithatch.demo.util.isValidUuid
 import org.junit.Test
 import com.google.common.truth.Truth.assertThat
 
