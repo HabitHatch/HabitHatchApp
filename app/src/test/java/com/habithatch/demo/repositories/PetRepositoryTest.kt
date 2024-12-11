@@ -1,7 +1,8 @@
 package com.habithatch.demo.repositories
 
 import com.google.common.truth.Truth.assertThat
-import com.habithatch.demo.entities.Pet
+import com.habithatch.demo.data.entities.Pet
+import com.habithatch.demo.data.repositories.PetRepository
 import org.junit.Test
 
 class PetRepositoryTest {
