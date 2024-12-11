@@ -9,4 +9,6 @@ data class Goal(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val title: String,
     val isDone: Boolean = false
-)
+){
+    constructor(title: String, isDone: Boolean = false) : this(0, title, isDone)
+}
