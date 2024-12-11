@@ -25,6 +25,13 @@ class HomeViewModel(
         observeGoals()
     }
 
+    fun addGoal(goalTitle: String) {
+        viewModelScope.launch {
+            val newGoal = Goal(title = goalTitle)
+            goalRepository.insert(newGoal)
+        }
+    }
+
     private fun observeUser() {
         viewModelScope.launch {
             userRepository.getUser().collect { user ->

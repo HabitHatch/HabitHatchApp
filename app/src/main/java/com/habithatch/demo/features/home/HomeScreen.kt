@@ -3,6 +3,7 @@ package com.habithatch.demo.features.home
 
 import androidx.navigation.NavHostController
 import com.habithatch.demo.common.GoalList
+import com.habithatch.demo.common.GoalListScreen
 import com.habithatch.demo.common.LoadingScreen
 import com.habithatch.demo.common.PetAnimation
 import com.habithatch.demo.core.Screen
@@ -58,13 +59,8 @@ fun HomeScreen(
                 .fillMaxWidth()
                 .padding(top = 300.dp)
         ) {
-            Text(text = "Goals", modifier = Modifier.align(Alignment.CenterHorizontally))
-            Spacer(modifier = Modifier.height(16.dp))
-            GoalList(
-                goals = goals.value,
-            )
+            GoalListScreen(goals = goals.value, onAddGoal = { viewModel.addGoal(it) })
         }
-
 
 
         Button(
