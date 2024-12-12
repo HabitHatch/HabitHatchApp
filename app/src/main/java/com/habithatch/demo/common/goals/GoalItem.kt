@@ -1,6 +1,5 @@
 package com.habithatch.demo.common.goals
 
-import com.habithatch.demo.data.entities.Goal
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.habithatch.demo.data.entities.Goal
 
 @Composable
 fun GoalItem(
@@ -23,44 +23,44 @@ fun GoalItem(
     onToggleDone: (Goal) -> Unit
 ) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        colors = CardDefaults.cardColors(
-            containerColor =
-            if (goal.isDone)
-                MaterialTheme.colorScheme.secondaryContainer
-            else
-                MaterialTheme.colorScheme.primaryContainer
-        )
-    ) {
-        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(vertical = 4.dp),
+            colors = CardDefaults.cardColors(
+                    containerColor =
+                    if (goal.isDone)
+                        MaterialTheme.colorScheme.secondaryContainer
+                    else
+                        MaterialTheme.colorScheme.primaryContainer
+            )
+    ) {
+        Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
-                checked = goal.isDone,
-                onCheckedChange = { onToggleDone(goal) },
-                modifier = Modifier.padding(end = 8.dp)
+                    checked = goal.isDone,
+                    onCheckedChange = { onToggleDone(goal) },
+                    modifier = Modifier.padding(end = 8.dp)
             )
 
             Text(
-                text = goal.title,
-                style = MaterialTheme.typography.titleMedium.copy(
-                    textDecoration =
-                    if (goal.isDone)
-                        TextDecoration.LineThrough
-                    else TextDecoration.None,
+                    text = goal.title,
+                    style = MaterialTheme.typography.titleMedium.copy(
+                            textDecoration =
+                            if (goal.isDone)
+                                TextDecoration.LineThrough
+                            else TextDecoration.None,
 
-                    color =
-                    if (goal.isDone)
-                        MaterialTheme.colorScheme.onSecondaryContainer
-                    else
-                        MaterialTheme.colorScheme.onPrimaryContainer
-                ),
-                modifier = Modifier.weight(1f)
+                            color =
+                            if (goal.isDone)
+                                MaterialTheme.colorScheme.onSecondaryContainer
+                            else
+                                MaterialTheme.colorScheme.onPrimaryContainer
+                    ),
+                    modifier = Modifier.weight(1f)
             )
         }
     }
@@ -70,14 +70,14 @@ fun GoalItem(
 @Preview(showBackground = true)
 @Composable
 fun GoalItemPreview() {
-    Column() {
+    Column {
         GoalItem(
-            goal = Goal(title = "Test Goal"),
-            onToggleDone = {}
+                goal = Goal(title = "Test Goal"),
+                onToggleDone = {}
         )
         GoalItem(
-            goal = Goal(title = "Test Goal 2", isDone = true),
-            onToggleDone = {}
+                goal = Goal(title = "Test Goal 2", isDone = true),
+                onToggleDone = {}
         )
     }
 }

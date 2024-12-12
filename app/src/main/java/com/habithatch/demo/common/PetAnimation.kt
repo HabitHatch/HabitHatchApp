@@ -1,6 +1,5 @@
 package com.habithatch.demo.common
 
-import com.habithatch.demo.data.entities.Pet
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +11,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.habithatch.demo.data.entities.Pet
 
 @Composable
 fun PetAnimation(
@@ -19,22 +19,22 @@ fun PetAnimation(
     modifier: Modifier = Modifier.fillMaxWidth()
 ) {
     Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.Center
+            modifier = modifier,
+            horizontalArrangement = Arrangement.Center
     ) {
         Card(
-            shape = RoundedCornerShape(12.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(1f)
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1f)
         ) {
             Image(
-                painter = painterResource(id = pet.imageRes),
-                contentDescription = "${pet.name} image",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clip(RoundedCornerShape(12.dp))
+                    painter = painterResource(id = pet.imageRes),
+                    contentDescription = "${pet.name} image",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(12.dp))
             )
         }
     }

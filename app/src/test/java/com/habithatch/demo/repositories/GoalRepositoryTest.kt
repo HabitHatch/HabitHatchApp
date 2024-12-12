@@ -65,9 +65,14 @@ class GoalRepositoryTest {
         runBlocking {
             // Arrange
             val goals = listOf(
-                Goal(id = 1, title = "Read book", isDone = false, priority = GoalPriority.NORMAL),
-                Goal(id = 2, title = "Write book", isDone = true, priority = GoalPriority.HIGH),
-                Goal(id = 3, title = "Buy book", isDone = false, priority = GoalPriority.LOW)
+                    Goal(
+                            id = 1,
+                            title = "Read book",
+                            isDone = false,
+                            priority = GoalPriority.NORMAL
+                    ),
+                    Goal(id = 2, title = "Write book", isDone = true, priority = GoalPriority.HIGH),
+                    Goal(id = 3, title = "Buy book", isDone = false, priority = GoalPriority.LOW)
             )
             coEvery { goalDao.getAll() } returns flowOf(goals)
 
@@ -80,8 +85,13 @@ class GoalRepositoryTest {
 
             // Assert
             assertThat(result).containsExactly(
-                Goal(id = 1, title = "Read book", isDone = false, priority = GoalPriority.NORMAL),
-                Goal(id = 3, title = "Buy book", isDone = false, priority = GoalPriority.LOW)
+                    Goal(
+                            id = 1,
+                            title = "Read book",
+                            isDone = false,
+                            priority = GoalPriority.NORMAL
+                    ),
+                    Goal(id = 3, title = "Buy book", isDone = false, priority = GoalPriority.LOW)
             )
         }
     }
@@ -91,9 +101,14 @@ class GoalRepositoryTest {
         runBlocking {
             // Arrange
             val goals = listOf(
-                Goal(id = 1, title = "Read book", isDone = false, priority = GoalPriority.NORMAL),
-                Goal(id = 2, title = "Write book", isDone = true, priority = GoalPriority.HIGH),
-                Goal(id = 3, title = "Buy book", isDone = false, priority = GoalPriority.LOW)
+                    Goal(
+                            id = 1,
+                            title = "Read book",
+                            isDone = false,
+                            priority = GoalPriority.NORMAL
+                    ),
+                    Goal(id = 2, title = "Write book", isDone = true, priority = GoalPriority.HIGH),
+                    Goal(id = 3, title = "Buy book", isDone = false, priority = GoalPriority.LOW)
             )
             coEvery { goalDao.getAll() } returns flowOf(goals)
 
@@ -112,9 +127,19 @@ class GoalRepositoryTest {
         runBlocking {
             // Arrange
             val goals = listOf(
-                Goal(id = 1, title = "Read book", isDone = false, priority = GoalPriority.NORMAL),
-                Goal(id = 2, title = "Write notes", isDone = true, priority = GoalPriority.HIGH),
-                Goal(id = 3, title = "Buy book", isDone = false, priority = GoalPriority.LOW)
+                    Goal(
+                            id = 1,
+                            title = "Read book",
+                            isDone = false,
+                            priority = GoalPriority.NORMAL
+                    ),
+                    Goal(
+                            id = 2,
+                            title = "Write notes",
+                            isDone = true,
+                            priority = GoalPriority.HIGH
+                    ),
+                    Goal(id = 3, title = "Buy book", isDone = false, priority = GoalPriority.LOW)
             )
             coEvery { goalDao.getAll() } returns flowOf(goals)
 
@@ -127,8 +152,13 @@ class GoalRepositoryTest {
 
             // Assert
             assertThat(result).containsExactly(
-                Goal(id = 1, title = "Read book", isDone = false, priority = GoalPriority.NORMAL),
-                Goal(id = 3, title = "Buy book", isDone = false, priority = GoalPriority.LOW)
+                    Goal(
+                            id = 1,
+                            title = "Read book",
+                            isDone = false,
+                            priority = GoalPriority.NORMAL
+                    ),
+                    Goal(id = 3, title = "Buy book", isDone = false, priority = GoalPriority.LOW)
             )
         }
     }
@@ -138,8 +168,13 @@ class GoalRepositoryTest {
         runBlocking {
             // Arrange
             val goals = listOf(
-                Goal(id = 1, title = "Read book", isDone = false, priority = GoalPriority.NORMAL),
-                Goal(id = 2, title = "Write book", isDone = true, priority = GoalPriority.HIGH)
+                    Goal(
+                            id = 1,
+                            title = "Read book",
+                            isDone = false,
+                            priority = GoalPriority.NORMAL
+                    ),
+                    Goal(id = 2, title = "Write book", isDone = true, priority = GoalPriority.HIGH)
             )
             coEvery { goalDao.getAll() } returns flowOf(goals)
 

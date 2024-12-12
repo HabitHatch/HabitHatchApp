@@ -1,8 +1,8 @@
 package com.habithatch.demo.util
 
-import org.junit.Test
 import com.google.common.truth.Truth.assertThat
 import com.habithatch.demo.core.util.isValidUuid
+import org.junit.Test
 
 
 /**

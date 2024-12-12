@@ -13,9 +13,15 @@ class GoalFilter private constructor(
         private var isDone: Boolean? = null
         private var searchQuery: String? = null
 
-        fun filterByPriorities(priorities: List<GoalPriority>) = apply { this.possiblePriorities = priorities }
-        fun filterByPriority(priority: GoalPriority) = apply { this.possiblePriorities = listOf(priority) }
-        fun filterByPriority(vararg priorities: GoalPriority) = apply { this.possiblePriorities = priorities.toList() }
+        fun filterByPriorities(priorities: List<GoalPriority>) =
+            apply { this.possiblePriorities = priorities }
+
+        fun filterByPriority(priority: GoalPriority) =
+            apply { this.possiblePriorities = listOf(priority) }
+
+        fun filterByPriority(vararg priorities: GoalPriority) =
+            apply { this.possiblePriorities = priorities.toList() }
+
         fun filterByDoneGoals() = apply { this.isDone = true }
         fun filterByUndoneGoals() = apply { this.isDone = false }
         fun filterBySearchQuery(query: String?) = apply { this.searchQuery = query }
@@ -33,7 +39,7 @@ class GoalFilter private constructor(
 
     companion object {
         val defaultFilter: GoalFilter = Builder()
-            .filterByDoneGoals()
+            .filterByUndoneGoals()
             .build()
 
         val matchAllFilter: GoalFilter = Builder()
