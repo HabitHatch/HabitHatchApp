@@ -20,35 +20,35 @@ fun AddGoalDialog(
     var goalName = remember { mutableStateOf("") }
 
     AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text(text = "Add Goal") },
-        text = {
-            Column {
-                Text("Enter goal name:")
-                OutlinedTextField(
-                    value = goalName.value,
-                    onValueChange = { goalName.value = it },
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-        },
-        confirmButton = {
-            Button(
-                onClick = {
-                    if (goalName.value.isNotBlank()) {
-                        onAdd(goalName.value)
-                        goalName.value = ""
-                    }
+            onDismissRequest = onDismiss,
+            title = { Text(text = "Add Goal") },
+            text = {
+                Column {
+                    Text("Enter goal name:")
+                    OutlinedTextField(
+                            value = goalName.value,
+                            onValueChange = { goalName.value = it },
+                            modifier = Modifier.fillMaxWidth()
+                    )
                 }
-            ) {
-                Text("Add")
+            },
+            confirmButton = {
+                Button(
+                        onClick = {
+                            if (goalName.value.isNotBlank()) {
+                                onAdd(goalName.value)
+                                goalName.value = ""
+                            }
+                        }
+                ) {
+                    Text("Add")
+                }
+            },
+            dismissButton = {
+                Button(onClick = onDismiss) {
+                    Text("Cancel")
+                }
             }
-        },
-        dismissButton = {
-            Button(onClick = onDismiss) {
-                Text("Cancel")
-            }
-        }
     )
 }
 

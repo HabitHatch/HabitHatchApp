@@ -14,25 +14,25 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun LoadingScreen(message: String = "Loading...") {
     Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CircularProgressIndicator(
-                modifier = Modifier.size(30.dp),
-                color = MaterialTheme.colorScheme.primary,
-                strokeWidth = 4.dp
+                    modifier = Modifier.size(30.dp),
+                    color = MaterialTheme.colorScheme.primary,
+                    strokeWidth = 4.dp
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = message,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colorScheme.onBackground
+                    text = message,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onBackground
             )
         }
     }

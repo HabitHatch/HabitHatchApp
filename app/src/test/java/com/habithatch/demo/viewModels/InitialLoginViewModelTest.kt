@@ -5,7 +5,8 @@ import com.habithatch.demo.data.entities.Pet
 import com.habithatch.demo.data.entities.User
 import com.habithatch.demo.data.repositories.PetRepository
 import com.habithatch.demo.data.repositories.UserRepository
-import com.habithatch.demo.features.signup.InitialLoginViewModel
+import com.habithatch.demo.features.signup.SignUpStatus
+import com.habithatch.demo.features.signup.SignupViewModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -50,11 +51,11 @@ class InitialLoginViewModelTest {
             }
 
             // Act
-            val viewModel = InitialLoginViewModel(userRepository, petRepository)
+            val viewModel = SignupViewModel(userRepository, petRepository)
             delay(10)
 
             // Assert
-            assertThat(viewModel.isSignedUp.value).isTrue()
+            assertThat(viewModel.isSignedUp.value).isEqualTo(SignUpStatus.SIGNED_UP)
         }
     }
 
@@ -65,11 +66,11 @@ class InitialLoginViewModelTest {
             coEvery { userRepository.getUser() } returns flow { emit(null) }
 
             // Act
-            val viewModel = InitialLoginViewModel(userRepository, petRepository)
+            val viewModel = SignupViewModel(userRepository, petRepository)
             delay(10)
 
             // Assert
-            assertThat(viewModel.isSignedUp.value).isFalse()
+            assertThat(viewModel.isSignedUp.value).isEqualTo(SignUpStatus.NOT_SIGNED_UP)
         }
     }
 
@@ -81,7 +82,7 @@ class InitialLoginViewModelTest {
             coEvery { userRepository.getUser() } returns flow { emit(null) }
             coEvery { userRepository.createUser(any()) } answers { firstArg() }
             // Act
-            val viewModel = InitialLoginViewModel(userRepository, petRepository)
+            val viewModel = SignupViewModel(userRepository, petRepository)
             viewModel.signUpUser(pet)
             delay(10)
 

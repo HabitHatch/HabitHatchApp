@@ -1,6 +1,5 @@
 package com.habithatch.demo.common.goals
 
-import com.habithatch.demo.data.entities.Goal
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.habithatch.demo.data.entities.Goal
 
 @Composable
 fun GoalList(
@@ -17,9 +17,9 @@ fun GoalList(
     modifier: Modifier = Modifier.fillMaxSize()
 ) {
     LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(5.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+            modifier = modifier,
+            contentPadding = PaddingValues(5.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         goals.forEach { goal ->
             item {
@@ -33,9 +33,9 @@ fun GoalList(
 @Composable
 fun GoalListPreview() {
     val goals = listOf(
-        Goal(title = "Goal 1", isDone = true),
-        Goal(title = "Goal 2"),
-        Goal(title = "Goal 3")
+            Goal(title = "Goal 1", isDone = true),
+            Goal(title = "Goal 2"),
+            Goal(title = "Goal 3")
     )
     GoalList(goals = goals, onToggleDone = {})
 }

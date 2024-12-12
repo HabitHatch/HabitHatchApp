@@ -12,8 +12,8 @@ val AppColorScheme = lightColorScheme()
 @Composable
 fun HabitHatchAppTheme(content: @Composable () -> Unit) {
     MaterialTheme(
-        colorScheme = AppColorScheme,
-        typography = AppTypography,
-        content = content
+            colorScheme = AppColorScheme,
+            typography = AppTypography,
+            content = content
     )
 }

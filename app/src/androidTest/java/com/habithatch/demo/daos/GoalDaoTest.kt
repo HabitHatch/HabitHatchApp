@@ -51,8 +51,8 @@ class GoalDaoTest {
         runBlocking {
             // Arrange
             val goals = listOf(
-                Goal(id = 2, title = "Read book"),
-                Goal(id = 3, title = "Learn how to code", isDone = true),
+                    Goal(id = 2, title = "Read book"),
+                    Goal(id = 3, title = "Learn how to code", isDone = true),
             )
             goals.forEach { goalDao.insert(it) }
 
