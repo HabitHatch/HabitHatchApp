@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.data.entities.Goal
+import com.habithatch.demo.data.entities.GoalDoneState
 
 @Composable
 fun GoalList(
@@ -33,7 +34,7 @@ fun GoalList(
 @Composable
 fun GoalListPreview() {
     val goals = listOf(
-            Goal(title = "Goal 1", isDone = true),
+            Goal(title = "Goal 1", isDone = GoalDoneState.DONE),
             Goal(title = "Goal 2"),
             Goal(title = "Goal 3")
     )

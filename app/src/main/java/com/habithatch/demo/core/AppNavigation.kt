@@ -25,12 +25,9 @@ sealed class Screen(val route: String) {
 fun AppNavigation() {
     val navController = rememberNavController()
     val signupViewModel: SignupViewModel = hiltViewModel()
-    val homeViewModel: HomeViewModel = hiltViewModel()
-    val isSignedUp by  signupViewModel.isSignedUp.collectAsStateWithLifecycle()
-    val user by homeViewModel.user.collectAsStateWithLifecycle()
+    val isSignedUp by signupViewModel.isSignedUp.collectAsStateWithLifecycle()
 
     Log.d("AppNavigation", "isSignedUp: $isSignedUp")
-    Log.d("AppNavigation", "user: $user")
     when (isSignedUp) {
         SignUpStatus.SIGNED_UP -> {
             NavHost(
@@ -38,7 +35,7 @@ fun AppNavigation() {
                     startDestination = Screen.Home.route
             ) {
                 composable(Screen.Home.route) {
-                    HomeScreen(navController = navController, user = user)
+                    HomeScreen(navController = navController)
                 }
                 composable(Screen.Settings.route) {
                     SettingsScreen(navController = navController)

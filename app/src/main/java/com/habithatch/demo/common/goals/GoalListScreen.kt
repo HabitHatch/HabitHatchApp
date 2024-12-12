@@ -1,5 +1,6 @@
 package com.habithatch.demo.common.goals
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -8,19 +9,27 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.habithatch.demo.features.home.HomeViewModel
+import com.habithatch.demo.data.entities.Goal
+import com.habithatch.demo.data.entities.GoalDoneState
+import com.habithatch.demo.data.entities.GoalPriority
+import com.habithatch.demo.data.models.GoalFilter
 
 @Composable
 fun GoalListScreen(
-    viewModel: HomeViewModel = hiltViewModel(),
+    goals: List<Goal>,
+    searchQuery: String,
+    visibleDoneStates: Map<GoalDoneState, Boolean>,
+    visiblePriorities: Map<GoalPriority, Boolean>,
+    onToggleDone: (Goal) -> Unit,
+    addGoal: (String) -> Unit,
+    onQueryChange: (String) -> Unit,
+    onDoneStateVisibilityChange: (GoalDoneState, Boolean) -> Unit,
+    onPriorityVisibilityChange: (GoalPriority, Boolean) -> Unit,
 ) {
     val showDialog = remember { mutableStateOf(false) }
-    val goals = viewModel.filteredGoals.collectAsState()
 
     Scaffold(
             floatingActionButton = {
@@ -29,13 +38,25 @@ fun GoalListScreen(
                 }
             },
             content = { paddingValues ->
-                GoalList(
-                        goals = goals.value,
-                        onToggleDone = { goal -> viewModel.toggleGoalDone(goal) },
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(paddingValues)
-                )
+                Column(
+                        modifier = Modifier.padding(paddingValues)
+                ) {
+                    GoalFilterBar(
+                            searchQuery = searchQuery,
+                            visibleDoneStates = visibleDoneStates,
+                            visiblePriorities = visiblePriorities,
+                            onQueryChange = onQueryChange,
+                            onDoneStateVisibleChange = onDoneStateVisibilityChange,
+                            onPriorityVisibilityChange = onPriorityVisibilityChange
+                    )
+                    GoalList(
+                            goals = goals,
+                            onToggleDone = onToggleDone,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(paddingValues)
+                    )
+                }
             }
     )
 
@@ -43,7 +64,7 @@ fun GoalListScreen(
         AddGoalDialog(
                 onDismiss = { showDialog.value = false },
                 onAdd = { goalName ->
-                    viewModel.addGoal(goalName)
+                    addGoal(goalName)
                     showDialog.value = false
                 }
         )
