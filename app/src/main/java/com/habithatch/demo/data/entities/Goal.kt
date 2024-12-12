@@ -8,12 +8,12 @@ import androidx.room.PrimaryKey
 data class Goal(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val title: String,
-    val isDone: Boolean = false,
+    val isDone: GoalDoneState =  GoalDoneState.UNDONE,
     val priority: GoalPriority = GoalPriority.NORMAL
 ) {
     constructor(
         title: String,
-        isDone: Boolean = false,
+        isDone: GoalDoneState = GoalDoneState.UNDONE,
         goalPriority: GoalPriority = GoalPriority.NORMAL
     ) : this(0, title, isDone, goalPriority)
 }

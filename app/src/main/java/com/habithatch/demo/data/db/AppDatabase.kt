@@ -10,7 +10,7 @@ import com.habithatch.demo.data.daos.UserDao
 import com.habithatch.demo.data.entities.Goal
 import com.habithatch.demo.data.entities.User
 
-@Database(entities = [User::class, Goal::class], version = 4)
+@Database(entities = [User::class, Goal::class], version = 5)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao

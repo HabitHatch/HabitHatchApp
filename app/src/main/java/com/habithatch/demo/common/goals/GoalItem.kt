@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.data.entities.Goal
+import com.habithatch.demo.data.entities.GoalDoneState
 
 @Composable
 fun GoalItem(
@@ -28,7 +29,7 @@ fun GoalItem(
                 .padding(vertical = 4.dp),
             colors = CardDefaults.cardColors(
                     containerColor =
-                    if (goal.isDone)
+                    if (goal.isDone == GoalDoneState.DONE)
                         MaterialTheme.colorScheme.secondaryContainer
                     else
                         MaterialTheme.colorScheme.primaryContainer
@@ -41,7 +42,7 @@ fun GoalItem(
                 verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
-                    checked = goal.isDone,
+                    checked = goal.isDone == GoalDoneState.DONE,
                     onCheckedChange = { onToggleDone(goal) },
                     modifier = Modifier.padding(end = 8.dp)
             )
@@ -50,12 +51,12 @@ fun GoalItem(
                     text = goal.title,
                     style = MaterialTheme.typography.titleMedium.copy(
                             textDecoration =
-                            if (goal.isDone)
+                            if (goal.isDone == GoalDoneState.DONE)
                                 TextDecoration.LineThrough
                             else TextDecoration.None,
 
                             color =
-                            if (goal.isDone)
+                            if (goal.isDone == GoalDoneState.DONE)
                                 MaterialTheme.colorScheme.onSecondaryContainer
                             else
                                 MaterialTheme.colorScheme.onPrimaryContainer
@@ -76,7 +77,7 @@ fun GoalItemPreview() {
                 onToggleDone = {}
         )
         GoalItem(
-                goal = Goal(title = "Test Goal 2", isDone = true),
+                goal = Goal(title = "Test Goal 2", isDone = GoalDoneState.DONE),
                 onToggleDone = {}
         )
     }
