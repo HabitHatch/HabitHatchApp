@@ -4,16 +4,17 @@ import javax.inject.Inject
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.habithatch.demo.core.config.HabitHatchConfig
 import com.habithatch.demo.data.entities.Pet
 import com.habithatch.demo.data.entities.User
-import com.habithatch.demo.data.repositories.PetRepository
+import com.habithatch.demo.data.repositories.UserAlreadyExistsException
 import com.habithatch.demo.data.repositories.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-enum class SignUpStatus {
+enum class SignUpState {
     SIGNED_UP,
     NOT_SIGNED_UP,
     LOADING
@@ -22,12 +23,12 @@ enum class SignUpStatus {
 @HiltViewModel
 class SignupViewModel @Inject constructor(
     private val userRepository: UserRepository,
-    petRepository: PetRepository
+    habitHatchConfig: HabitHatchConfig
 ) : ViewModel() {
-    private val _isSignedUp = MutableStateFlow<SignUpStatus>(SignUpStatus.LOADING)
-    val isSignedUp: StateFlow<SignUpStatus> = _isSignedUp
+    private val _isSignedUp = MutableStateFlow<SignUpState>(SignUpState.LOADING)
+    val isSignedUp: StateFlow<SignUpState> = _isSignedUp
 
-    val pets: List<Pet> = petRepository.getAll()
+    val pets: List<Pet> = habitHatchConfig.pets
 
     init {
         observeUserSignUpStatus()
@@ -35,8 +36,15 @@ class SignupViewModel @Inject constructor(
 
     fun signUpUser(pet: Pet) {
         viewModelScope.launch {
-            val user = User(pet = pet)
-            userRepository.createUser(user)
+            try {
+                val user = User(pet = pet)
+                userRepository.createUser(user)
+            } catch(e: UserAlreadyExistsException) {
+                Log.e("SignupViewModel", "Error signing up user", e)
+                _isSignedUp.value = SignUpState.SIGNED_UP
+            } catch (e: Exception) {
+                Log.e("SignupViewModel", "Error signing up user", e)
+            }
         }
     }
 
@@ -44,14 +52,8 @@ class SignupViewModel @Inject constructor(
         viewModelScope.launch {
             userRepository.getUser().collect { user ->
                 _isSignedUp.value = when (user) {
-                    null -> {
-                        Log.e("SignupViewModel", "User is not signed up")
-                        SignUpStatus.NOT_SIGNED_UP
-                    }
-                    else -> {
-                        Log.e("SignupViewModel", "User is signed up")
-                        SignUpStatus.SIGNED_UP
-                    }
+                    null -> SignUpState.NOT_SIGNED_UP
+                    else -> SignUpState.SIGNED_UP
                 }
             }
         }

@@ -4,6 +4,8 @@ import javax.inject.Inject
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.habithatch.demo.core.config.HabitHatchConfig
+import com.habithatch.demo.core.navigation.NavigationItem
 import com.habithatch.demo.data.entities.Goal
 import com.habithatch.demo.data.entities.GoalDoneState
 import com.habithatch.demo.data.entities.GoalPriority
@@ -25,7 +27,8 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val userRepository: UserRepository,
-    private val goalRepository: GoalRepository
+    private val goalRepository: GoalRepository,
+    habitHatchConfig: HabitHatchConfig
 ) : ViewModel() {
 
     private val _user = MutableStateFlow<User?>(null)
@@ -44,6 +47,8 @@ class HomeViewModel @Inject constructor(
 
     private val _priorityVisibleMap = MutableStateFlow(GoalPriority.entries.associateWith { true })
     val priorityVisibleMap = _priorityVisibleMap.asStateFlow()
+
+    val bottomNavigationItems: List<NavigationItem> = habitHatchConfig.navigationItems
 
     init {
         seedGoals()

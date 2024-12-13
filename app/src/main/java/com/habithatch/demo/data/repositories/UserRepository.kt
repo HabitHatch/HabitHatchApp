@@ -7,16 +7,6 @@ import com.habithatch.demo.data.entities.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 
-class UserAlreadyExistsException(user: User) : IllegalStateException(
-        "Not possible to add User: ${user.uuid}" +
-                "There is already a User in the Database." +
-                " Delete current User before creating a new one."
-)
-
-class InvalidUuidFormatException(uuid: String) : IllegalArgumentException(
-        "Invalid UUID format for user ID: $uuid User ID must be a valid UUID."
-)
-
 class UserRepository(private val userDao: UserDao) {
     fun getUser(): Flow<User?> {
         return userDao.getUser()

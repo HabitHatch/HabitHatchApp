@@ -8,53 +8,24 @@ data class GoalFilter(
     val doneStateVisibleMap: Map<GoalDoneState, Boolean>,
     val searchQuery: String?
 ) {
-
-    class Builder{
-        private var priorityVisibleMap: MutableMap<GoalPriority, Boolean> =
-            GoalPriority.entries.associateWith { true } as MutableMap<GoalPriority, Boolean>
-        private var doneStateVisibleMap: MutableMap<GoalDoneState, Boolean> =
-            GoalDoneState.entries.associateWith { true } as MutableMap<GoalDoneState, Boolean>
-        private var searchQuery: String? = null
-        constructor()
-
-        private constructor(
-            prioritiesToBeShownMap: MutableMap<GoalPriority, Boolean>,
-            possibleIsDoneStates: MutableMap<GoalDoneState, Boolean>,
-            searchQuery: String?
-        ){
-            this.priorityVisibleMap = prioritiesToBeShownMap
-            this.doneStateVisibleMap = possibleIsDoneStates
-            this.searchQuery = searchQuery
+    init {
+        val allPriorities = GoalPriority.entries.toSet()
+        require(priorityVisibleMap.keys == allPriorities) {
+            "priorityVisibleMap must contain all values of GoalPriority exactly once."
         }
 
-        fun hidePriority(priority: GoalPriority) = apply {
-            priorityVisibleMap[priority] = false
+        val allDoneStates = GoalDoneState.entries.toSet()
+        require(doneStateVisibleMap.keys == allDoneStates) {
+            "doneStateVisibleMap must contain all values of GoalDoneState exactly once."
         }
-
-        fun hidePriorities(priorities: List<GoalPriority>) = apply {
-            priorities.forEach { hidePriority(it) }
-        }
-
-
-        fun showPriority(priority: GoalPriority) = apply {
-            priorityVisibleMap[priority] = true
-        }
-
-        fun showPriorities(priorities: List<GoalPriority>) = apply {
-            priorities.forEach { showPriority(it) }
-        }
-
-        fun setDoneStateVisible(doneState: GoalDoneState, visible: Boolean) = apply {
-            this.doneStateVisibleMap[doneState] = visible
-        }
-
-        fun filterBySearchQuery(query: String?) = apply { this.searchQuery = query }
-
-        fun copy(): Builder{
-            return Builder(priorityVisibleMap, doneStateVisibleMap, searchQuery)
-        }
-        fun build(): GoalFilter {
-            return GoalFilter(priorityVisibleMap, doneStateVisibleMap, searchQuery)
+    }
+    companion object {
+        fun matchAllFilter(): GoalFilter {
+            return GoalFilter(
+                    priorityVisibleMap = GoalPriority.entries.associateWith { true },
+                    doneStateVisibleMap = GoalDoneState.entries.associateWith { true },
+                    searchQuery = null
+            )
         }
     }
 }

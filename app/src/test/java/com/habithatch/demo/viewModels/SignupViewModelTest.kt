@@ -1,11 +1,11 @@
 package com.habithatch.demo.viewModels
 
 import com.google.common.truth.Truth.assertThat
+import com.habithatch.demo.core.config.HabitHatchConfig
 import com.habithatch.demo.data.entities.Pet
 import com.habithatch.demo.data.entities.User
-import com.habithatch.demo.data.repositories.PetRepository
 import com.habithatch.demo.data.repositories.UserRepository
-import com.habithatch.demo.features.signup.SignUpStatus
+import com.habithatch.demo.features.signup.SignUpState
 import com.habithatch.demo.features.signup.SignupViewModel
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -15,25 +15,28 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.withTimeout
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class InitialLoginViewModelTest {
+class SignupViewModelTest {
     private val userRepository = mockk<UserRepository>()
-    private val petRepository = mockk<PetRepository>()
+    private val appConfig = mockk<HabitHatchConfig>()
 
     private val testDispatcher = StandardTestDispatcher()
+    private val someUser = User(pet = Pet(name = "Dog", imageRes = 1001))
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        every { petRepository.getAll() } returns emptyList()
+        every { appConfig.pets } returns emptyList()
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -43,34 +46,42 @@ class InitialLoginViewModelTest {
     }
 
     @Test
-    fun `isSignedUp() should be true, when user exists`() {
+    fun `isSignedUp() should be SIGNED_UP, when user exists`() {
         runTest {
             // Arrange
             coEvery { userRepository.getUser() } returns flow {
-                emit(User(pet = Pet(name = "Dog", imageRes = -1)))
+                emit(someUser)
+            }
+            val viewModel = SignupViewModel(userRepository, appConfig)
+            val signUpState = viewModel.isSignedUp
+            val actualValues = mutableListOf<SignUpState>()
+            // Act
+
+            withTimeout(1000) {
+                signUpState.take(2).collect {
+                    actualValues.add(it)
+                }
             }
 
-            // Act
-            val viewModel = SignupViewModel(userRepository, petRepository)
-            delay(10)
-
             // Assert
-            assertThat(viewModel.isSignedUp.value).isEqualTo(SignUpStatus.SIGNED_UP)
+            assertThat(actualValues)
+                .containsExactly(SignUpState.LOADING, SignUpState.SIGNED_UP)
+                .inOrder()
         }
     }
 
     @Test
-    fun `isSignedUp() should be false, when no user exists`() {
+    fun `isSignedUp() should be NOT_SIGNED_UP, when no user exists`() {
         runTest {
             // Arrange
             coEvery { userRepository.getUser() } returns flow { emit(null) }
 
             // Act
-            val viewModel = SignupViewModel(userRepository, petRepository)
-            delay(10)
+            val viewModel = SignupViewModel(userRepository, appConfig)
+            delay(100)
 
             // Assert
-            assertThat(viewModel.isSignedUp.value).isEqualTo(SignUpStatus.NOT_SIGNED_UP)
+            assertThat(viewModel.isSignedUp.value).isEqualTo(SignUpState.NOT_SIGNED_UP)
         }
     }
 
@@ -82,9 +93,9 @@ class InitialLoginViewModelTest {
             coEvery { userRepository.getUser() } returns flow { emit(null) }
             coEvery { userRepository.createUser(any()) } answers { firstArg() }
             // Act
-            val viewModel = SignupViewModel(userRepository, petRepository)
+            val viewModel = SignupViewModel(userRepository, appConfig)
             viewModel.signUpUser(pet)
-            delay(10)
+            delay(100)
 
             // Assert
             coVerify { userRepository.createUser(match { it.pet == pet }) }

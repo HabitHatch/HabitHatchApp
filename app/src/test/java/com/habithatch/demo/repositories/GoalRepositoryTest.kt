@@ -3,6 +3,7 @@ package com.habithatch.demo.repositories
 import com.google.common.truth.Truth.assertThat
 import com.habithatch.demo.data.daos.GoalDao
 import com.habithatch.demo.data.entities.Goal
+import com.habithatch.demo.data.entities.GoalDoneState
 import com.habithatch.demo.data.entities.GoalPriority
 import com.habithatch.demo.data.models.GoalFilter
 import com.habithatch.demo.data.repositories.GoalRepository
@@ -24,38 +25,54 @@ class GoalRepositoryTest {
     fun setup() {
         goalDao = mockk()
         goalRepository = GoalRepository(goalDao)
+        coEvery { goalDao.update(any()) } returns Unit
+    }
+
+    private suspend fun assertThatGoalFilterMatches(
+        matchingGoals: List<Goal>,
+        notMatchingGoals: List<Goal>,
+        filter: GoalFilter
+    ) {
+        // Arrange
+        val goals = matchingGoals + notMatchingGoals
+        coEvery { goalDao.getAll() } returns flowOf(goals)
+
+        // Act
+        val result = goalRepository.getFilteredGoals(filter).toList().flatten()
+
+        // Assert
+        assertThat(result).containsExactlyElementsIn(matchingGoals)
     }
 
     @Test
-    fun `toggleGoalDone() should toggle the isDone state of a goal`() {
+    fun `toggleGoalDone() should mark goal as done when goal not done`() {
         runBlocking {
             // Arrange
-            val goal = Goal(id = 1, title = "Read book", isDone = false)
-            val updatedGoal = goal.copy(isDone = true)
+            val goal = Goal(title = "goal", isDone = GoalDoneState.UNDONE)
+
             coEvery { goalDao.getGoalById(goal.id) } returns goal
-            coEvery { goalDao.update(updatedGoal) } returns Unit
 
             // Act
             goalRepository.toggleGoalDone(goal.id)
 
             // Assert
+            val updatedGoal = goal.copy(isDone = GoalDoneState.DONE)
             coVerify { goalDao.update(updatedGoal) }
         }
     }
 
     @Test
-    fun `toggleGoalDone() should toggle the isDone state back when already done`() {
+    fun `toggleGoalDone() should mark goal as not done when goal done`() {
         runBlocking {
             // Arrange
-            val goal = Goal(id = 1, title = "Read book", isDone = true)
-            val updatedGoal = goal.copy(isDone = false)
+            val goal = Goal(title = "goal", isDone = GoalDoneState.DONE)
             coEvery { goalDao.getGoalById(goal.id) } returns goal
-            coEvery { goalDao.update(updatedGoal) } returns Unit
 
             // Act
             goalRepository.toggleGoalDone(goal.id)
 
             // Assert
+            val updatedGoal = goal.copy(isDone = GoalDoneState.UNDONE)
             coVerify { goalDao.update(updatedGoal) }
         }
     }
@@ -64,35 +81,24 @@ class GoalRepositoryTest {
     fun `getFilteredGoals() should return goals matching the priorities`() {
         runBlocking {
             // Arrange
-            val goals = listOf(
-                    Goal(
-                            id = 1,
-                            title = "Read book",
-                            isDone = false,
-                            priority = GoalPriority.NORMAL
-                    ),
-                    Goal(id = 2, title = "Write book", isDone = true, priority = GoalPriority.HIGH),
-                    Goal(id = 3, title = "Buy book", isDone = false, priority = GoalPriority.LOW)
+            val matchingGoals = listOf(
+                    Goal(title = "Goal 1", priority = GoalPriority.NORMAL),
+                    Goal(title = "Goal 2", priority = GoalPriority.NORMAL)
+
             )
-            coEvery { goalDao.getAll() } returns flowOf(goals)
-
-            val filter = GoalFilter.Builder()
-                .filterByPriority(GoalPriority.NORMAL, GoalPriority.LOW)
-                .build()
-
-            // Act
-            val result = goalRepository.getFilteredGoals(filter).toList().flatten()
-
-            // Assert
-            assertThat(result).containsExactly(
-                    Goal(
-                            id = 1,
-                            title = "Read book",
-                            isDone = false,
-                            priority = GoalPriority.NORMAL
-                    ),
-                    Goal(id = 3, title = "Buy book", isDone = false, priority = GoalPriority.LOW)
+            val notMatchingGoals = listOf(
+                    Goal(title = "not matching", priority = GoalPriority.HIGH),
             )
+
+            val filter = GoalFilter.matchAllFilter().copy(
+                    priorityVisibleMap = mapOf(
+                            GoalPriority.NORMAL to true,
+                            GoalPriority.HIGH to false,
+                    )
+            )
+
+            // Act & Assert
+            assertThatGoalFilterMatches(matchingGoals, notMatchingGoals, filter)
         }
     }
 
@@ -100,25 +106,15 @@ class GoalRepositoryTest {
     fun `getFilteredGoals() should return all goals when no filter is applied`() {
         runBlocking {
             // Arrange
-            val goals = listOf(
-                    Goal(
-                            id = 1,
-                            title = "Read book",
-                            isDone = false,
-                            priority = GoalPriority.NORMAL
-                    ),
-                    Goal(id = 2, title = "Write book", isDone = true, priority = GoalPriority.HIGH),
-                    Goal(id = 3, title = "Buy book", isDone = false, priority = GoalPriority.LOW)
+            val matchingGoals = listOf(
+                    Goal(title = "Goal 1"),
+                    Goal(title = "Goal 2"),
+                    Goal(title = "Goal 3")
             )
-            coEvery { goalDao.getAll() } returns flowOf(goals)
+            val filter = GoalFilter.matchAllFilter()
 
-            val filter = GoalFilter.matchAllFilter
-
-            // Act
-            val result = goalRepository.getFilteredGoals(filter).toList().flatten()
-
-            // Assert
-            assertThat(result).isEqualTo(goals)
+            // Act & Assert
+            assertThatGoalFilterMatches(matchingGoals, emptyList(), filter)
         }
     }
 
@@ -126,67 +122,39 @@ class GoalRepositoryTest {
     fun `getFilteredGoals() should return goals matching the search query`() {
         runBlocking {
             // Arrange
-            val goals = listOf(
-                    Goal(
-                            id = 1,
-                            title = "Read book",
-                            isDone = false,
-                            priority = GoalPriority.NORMAL
-                    ),
-                    Goal(
-                            id = 2,
-                            title = "Write notes",
-                            isDone = true,
-                            priority = GoalPriority.HIGH
-                    ),
-                    Goal(id = 3, title = "Buy book", isDone = false, priority = GoalPriority.LOW)
+            val matchingGoals = listOf(
+                    Goal(title = "Goal match 1"),
+                    Goal(title = "Goal match 2")
+
             )
-            coEvery { goalDao.getAll() } returns flowOf(goals)
-
-            val filter = GoalFilter.Builder()
-                .filterBySearchQuery("book")
-                .build()
-
-            // Act
-            val result = goalRepository.getFilteredGoals(filter).toList().flatten()
-
-            // Assert
-            assertThat(result).containsExactly(
-                    Goal(
-                            id = 1,
-                            title = "Read book",
-                            isDone = false,
-                            priority = GoalPriority.NORMAL
-                    ),
-                    Goal(id = 3, title = "Buy book", isDone = false, priority = GoalPriority.LOW)
+            val notMatchingGoals = listOf(
+                    Goal(id = 2, title = "not matching"),
             )
+            val filter = GoalFilter.matchAllFilter().copy(
+                    searchQuery = "Goal"
+            )
+
+            // Act & Assert
+            assertThatGoalFilterMatches(matchingGoals, notMatchingGoals, filter)
         }
     }
 
     @Test
-    fun `getFilteredGoals() should return no goals if filter excludes all`() {
+    fun `getFilteredGoals() should return no goals when search query does not match`() {
         runBlocking {
             // Arrange
-            val goals = listOf(
-                    Goal(
-                            id = 1,
-                            title = "Read book",
-                            isDone = false,
-                            priority = GoalPriority.NORMAL
-                    ),
-                    Goal(id = 2, title = "Write book", isDone = true, priority = GoalPriority.HIGH)
+            val notMatchingGoals = listOf(
+                    Goal(title = "Read book",),
+                    Goal(title = "Write book")
             )
-            coEvery { goalDao.getAll() } returns flowOf(goals)
+            coEvery { goalDao.getAll() } returns flowOf(notMatchingGoals)
 
-            val filter = GoalFilter.Builder()
-                .filterBySearchQuery("non-existent")
-                .build()
+            val filter = GoalFilter.matchAllFilter().copy(
+                    searchQuery = "not matching query"
+            )
 
-            // Act
-            val result = goalRepository.getFilteredGoals(filter).toList().flatten()
-
-            // Assert
-            assertThat(result).isEmpty()
+            // Act & Assert
+            assertThatGoalFilterMatches(emptyList(), notMatchingGoals, filter)
         }
     }
 }

@@ -17,6 +17,8 @@ class UserDaoTest {
 
     private lateinit var database: AppDatabase
     private lateinit var userDao: UserDao
+    private val someUser = User(pet = Pet(name = "Pet 1", imageRes = 1001))
+    private val anotherUser = User(pet = Pet(name = "Pet 2", imageRes = 1002))
 
     @Before
     fun setup() {
@@ -34,18 +36,24 @@ class UserDaoTest {
     }
 
     @Test
-    fun insert_shouldAddUserToDatabase() {
+    fun getUser_shouldEmitUser_whenAnyUserExists() {
         runBlocking {
-            // Arrange
-            val user = User(pet = Pet(name = "Test Pet", imageRes = -1))
-
             // Act
-            userDao.insert(user)
+            userDao.insert(someUser)
             val retrievedUser = userDao.getUser().first()
 
             // Assert
-            assertThat(retrievedUser?.uuid).isEqualTo(user.uuid)
-            assertThat(retrievedUser?.pet).isEqualTo(user.pet)
+            assertThat(retrievedUser).isEqualTo(someUser)
+        }
+    }
+    @Test
+    fun getUser_shouldEmitNull_whenNoUserExists() {
+        runBlocking {
+            // Act
+            val retrievedUser = userDao.getUser().first()
+
+            // Assert
+            assertThat(retrievedUser).isNull()
         }
     }
 
@@ -53,10 +61,8 @@ class UserDaoTest {
     fun delete_shouldRemoveAllUsersFromDatabase() {
         runBlocking {
             // Arrange
-            val user1 = User(pet = Pet(name = "Test Pet", imageRes = -1))
-            val user2 = User(pet = Pet(name = "Test Pet", imageRes = -1))
-            userDao.insert(user1)
-            userDao.insert(user2)
+            userDao.insert(someUser)
+            userDao.insert(anotherUser)
 
             // Act
             userDao.delete()

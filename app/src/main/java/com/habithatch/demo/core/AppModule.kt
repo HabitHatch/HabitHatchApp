@@ -2,13 +2,13 @@ package com.habithatch.demo.core
 
 import javax.inject.Singleton
 import android.content.Context
+import com.habithatch.demo.core.config.HabitHatchConfig
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.data.daos.GoalDao
 import com.habithatch.demo.data.daos.UserDao
 import com.habithatch.demo.data.db.AppDatabase
 import com.habithatch.demo.data.db.DatabaseProvider
 import com.habithatch.demo.data.repositories.GoalRepository
-import com.habithatch.demo.data.repositories.PetRepository
 import com.habithatch.demo.data.repositories.UserRepository
 import dagger.Module
 import dagger.Provides
@@ -19,6 +19,12 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Provides
+    @Singleton
+    fun provideConfig(): HabitHatchConfig {
+        return HabitHatchDevConfig
+    }
 
     @Provides
     @Singleton
@@ -49,11 +55,5 @@ object AppModule {
     @Singleton
     fun provideUserRepository(userDao: UserDao): UserRepository {
         return UserRepository(userDao)
-    }
-
-    @Provides
-    @Singleton
-    fun providePetRepository(): PetRepository {
-        return PetRepository(HabitHatchDevConfig.pets)
     }
 }

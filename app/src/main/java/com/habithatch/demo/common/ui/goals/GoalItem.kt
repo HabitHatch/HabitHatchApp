@@ -1,4 +1,4 @@
-package com.habithatch.demo.common.goals
+package com.habithatch.demo.common.ui.goals
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

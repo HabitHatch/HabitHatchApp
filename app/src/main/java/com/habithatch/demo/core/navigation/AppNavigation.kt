@@ -1,25 +1,22 @@
-package com.habithatch.demo.core
+package com.habithatch.demo.core.navigation
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import android.util.Log
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.habithatch.demo.common.LoadingScreen
+import com.habithatch.demo.common.ui.LoadingScreen
 import com.habithatch.demo.features.home.HomeScreen
-import com.habithatch.demo.features.home.HomeViewModel
 import com.habithatch.demo.features.settings.SettingsScreen
 import com.habithatch.demo.features.signup.InitialLoginScreen
-import com.habithatch.demo.features.signup.SignUpStatus
+import com.habithatch.demo.features.signup.SignUpState
 import com.habithatch.demo.features.signup.SignupViewModel
-
-sealed class Screen(val route: String) {
-    object Home : Screen("home")
-    object Settings : Screen("settings")
-}
 
 @Composable
 fun AppNavigation() {
@@ -29,10 +26,11 @@ fun AppNavigation() {
 
     Log.d("AppNavigation", "isSignedUp: $isSignedUp")
     when (isSignedUp) {
-        SignUpStatus.SIGNED_UP -> {
+        SignUpState.SIGNED_UP -> {
             NavHost(
                     navController = navController,
-                    startDestination = Screen.Home.route
+                    startDestination = Screen.Home.route,
+                    modifier = Modifier.padding(5.dp)
             ) {
                 composable(Screen.Home.route) {
                     HomeScreen(navController = navController)
@@ -42,11 +40,12 @@ fun AppNavigation() {
                 }
             }
         }
-        SignUpStatus.NOT_SIGNED_UP -> {
+
+        SignUpState.NOT_SIGNED_UP -> {
             InitialLoginScreen()
         }
 
-        SignUpStatus.LOADING -> {
+        SignUpState.LOADING -> {
             LoadingScreen()
         }
     }
