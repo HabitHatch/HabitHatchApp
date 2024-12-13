@@ -8,6 +8,19 @@ sealed class Screen(
             route = "home",
             label = "Home",
     )
+    object Goals : Screen(
+            route = "goals",
+            label = "Goals",
+    )
+    object Friends : Screen(
+            route = "friends",
+            label = "Friends",
+    )
+
+    object Pet : Screen(
+            route = "pet",
+            label = "Pet",
+    )
 
     object Settings : Screen(
             route = "settings",

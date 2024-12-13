@@ -1,8 +1,5 @@
 package com.habithatch.demo.core.config
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
 import com.habithatch.demo.R
 import com.habithatch.demo.core.navigation.NavigationItem
 import com.habithatch.demo.core.navigation.Screen
@@ -16,7 +13,11 @@ object HabitHatchDevConfig : HabitHatchConfig {
             Pet(name = "Ice Bear", imageRes = R.mipmap.pet_ice_bear)
     )
     override val navigationItems = listOf(
-        NavigationItem(Screen.Home, Icons.Default.Home, true),
-        NavigationItem(Screen.Settings, Icons.Default.Settings, true)
-    )
+            NavigationItem(Screen.Home, R.drawable.vuesax_home_2, true),
+            NavigationItem(Screen.Goals, R.drawable.vuesax_flag, false),
+            NavigationItem(Screen.Friends, R.drawable.vuesax_profile_2user, false),
+            NavigationItem(Screen.Pet, R.drawable.vuesax_pet, false),
+            NavigationItem(Screen.Settings, R.drawable.vuesax_menu, true),
+
+            )
 }

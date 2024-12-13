@@ -3,9 +3,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.navigation.NavigationItem
+import com.habithatch.demo.core.navigation.Screen
 
 @Composable
 fun BottomNavigationBar(
@@ -15,24 +18,45 @@ fun BottomNavigationBar(
 ) {
     BottomAppBar(
             modifier = Modifier.fillMaxWidth(),
-            containerColor = MaterialTheme.colorScheme.primary
-    ) {
-        navigationItems.forEach { item ->
-            IconButton(
-                    onClick = { if (item.enabled) onItemSelected(item) },
-                    modifier = Modifier.weight(1f),
-                    enabled = item.enabled
-            ) {
-                Icon(
-                        imageVector = item.icon,
-                        contentDescription = item.screen.route,
-                        tint =
-                        if (item == selectedItem) MaterialTheme.colorScheme.onPrimary
-                        else if (item.enabled) Color.Gray
-                        else Color.LightGray,
-                        modifier = Modifier.size(24.dp)
-                )
+            actions = {
+                navigationItems.forEach { item ->
+                    IconButton(
+                            onClick = { if (item.enabled) onItemSelected(item) },
+                            modifier = Modifier
+                                .weight(1f)
+                                .size(24.dp),
+                            enabled = item.enabled
+                    ) {
+                        Icon(
+                                painter = painterResource(item.iconResourceId),
+                                contentDescription = item.screen.route,
+                                tint =
+                                if (item == selectedItem) MaterialTheme.colorScheme.primary
+                                else if (item.enabled) MaterialTheme.colorScheme.secondary
+                                else MaterialTheme.colorScheme.tertiary,
+                        )
+                    }
+                }
             }
-        }
+    )
+}
+
+@Preview()
+@Composable
+fun BottomNavigationBarPreview() {
+    val navigationItems = HabitHatchDevConfig.navigationItems
+
+    val homeItem = navigationItems.filter {
+        it.screen == Screen.Home
+    }.firstOrNull()
+
+    if (homeItem == null) {
+        return
     }
+
+    BottomNavigationBar(
+            onItemSelected = {},
+            selectedItem = homeItem,
+            navigationItems = navigationItems
+    )
 }
