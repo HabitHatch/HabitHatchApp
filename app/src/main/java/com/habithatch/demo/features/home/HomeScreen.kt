@@ -27,7 +27,6 @@ import com.habithatch.demo.common.ui.LoadingScreen
 import com.habithatch.demo.common.ui.PetAnimation
 import com.habithatch.demo.common.ui.goals.AddGoalDialog
 import com.habithatch.demo.common.ui.goals.GoalListScreen
-import com.habithatch.demo.core.navigation.NavigationItem
 import com.habithatch.demo.core.navigation.Screen
 import com.habithatch.demo.core.navigation.getNavigationItem
 import com.habithatch.demo.data.entities.User
@@ -44,21 +43,21 @@ fun HomeScreen(
     val priorityVisibleMap by viewModel.priorityVisibleMap.collectAsStateWithLifecycle()
 
     val bottomNavigationItems = viewModel.bottomNavigationItems
-
+    val showDialog = remember { mutableStateOf(false) }
+    val selectedItem = Screen.Home.getNavigationItem(bottomNavigationItems)
+    Log.d("HomeScreen", "Goals: $goals")
     Log.d("HomeScreen", "User: $user")
+
     if (user == null) {
         LoadingScreen()
         return
     }
-    val showDialog = remember { mutableStateOf(false) }
-    val selectedItem = Screen.Home.getNavigationItem(bottomNavigationItems)
+
     if (selectedItem == null) {
         Log.e("HomeScreen", "Home screen not found in navigation items")
         Text(
                 text = "Error: Unable to load the Home Screen",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
+                modifier = Modifier.fillMaxWidth().padding(16.dp),
                 color = MaterialTheme.colorScheme.error
         )
         return
@@ -78,7 +77,6 @@ fun HomeScreen(
                             pet = user!!.pet,
                             modifier = Modifier
                                 .fillMaxWidth(0.5f)
-                                .padding(top = 10.dp)
                     )
                     Column(
                             modifier = Modifier

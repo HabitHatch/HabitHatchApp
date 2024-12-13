@@ -6,7 +6,7 @@ plugins {
     id("org.jetbrains.kotlin.android") version "2.1.0"
     id("org.jetbrains.kotlin.plugin.compose") version "2.1.0"
     id("com.google.devtools.ksp") version "2.1.0-1.0.29"
-    id("com.google.dagger.hilt.android") version "2.52"
+    id("com.google.dagger.hilt.android") version "2.53.1"
 }
 
 room {

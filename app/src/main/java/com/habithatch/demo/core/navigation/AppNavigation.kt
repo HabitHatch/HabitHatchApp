@@ -30,7 +30,6 @@ fun AppNavigation() {
             NavHost(
                     navController = navController,
                     startDestination = Screen.Home.route,
-                    modifier = Modifier.padding(5.dp)
             ) {
                 composable(Screen.Home.route) {
                     HomeScreen(navController = navController)
