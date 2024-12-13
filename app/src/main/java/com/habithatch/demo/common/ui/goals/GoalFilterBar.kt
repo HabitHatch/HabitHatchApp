@@ -1,16 +1,20 @@
-package com.habithatch.demo.common.goals
+package com.habithatch.demo.common.ui.goals
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.data.entities.GoalDoneState
 import com.habithatch.demo.data.entities.GoalPriority
-
 
 @Composable
 fun GoalFilterBar(
@@ -21,7 +25,6 @@ fun GoalFilterBar(
     onDoneStateVisibleChange: (GoalDoneState, Boolean) -> Unit,
     onPriorityVisibilityChange: (GoalPriority, Boolean) -> Unit,
 ) {
-    var searchTextValue: TextFieldValue = TextFieldValue(text = searchQuery)
 
     Column(
             modifier = Modifier
@@ -29,12 +32,20 @@ fun GoalFilterBar(
                 .padding(8.dp)
     ) {
         OutlinedTextField(
-                value = searchTextValue,
-                onValueChange = { query: TextFieldValue ->
-                    searchTextValue = query
-                    onQueryChange(query.text)
+                value = searchQuery,
+                leadingIcon = {
+                    Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Search"
+                    )
                 },
-                modifier = Modifier.fillMaxWidth()
+                onValueChange = { query: String ->
+                    onQueryChange(query)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(40.dp),
+                shape = MaterialTheme.shapes.medium,
         )
 
         Spacer(modifier = Modifier.height(8.dp))

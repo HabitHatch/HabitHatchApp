@@ -6,6 +6,7 @@ import com.google.common.truth.Truth.assertThat
 import com.habithatch.demo.data.daos.GoalDao
 import com.habithatch.demo.data.db.AppDatabase
 import com.habithatch.demo.data.entities.Goal
+import com.habithatch.demo.data.entities.GoalDoneState
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -39,7 +40,7 @@ class GoalDaoTest {
             goalDao.insert(goal)
 
             // Act
-            val result = goalDao.getGoalById(1)
+            val result = goalDao.getGoalById(goal.id)
 
             // Assert
             assertThat(result).isEqualTo(goal)
@@ -51,8 +52,8 @@ class GoalDaoTest {
         runBlocking {
             // Arrange
             val goals = listOf(
-                    Goal(id = 2, title = "Read book"),
-                    Goal(id = 3, title = "Learn how to code", isDone = true),
+                    Goal(id = 1, title = "Read book"),
+                    Goal(id = 2, title = "Learn how to code"),
             )
             goals.forEach { goalDao.insert(it) }
 

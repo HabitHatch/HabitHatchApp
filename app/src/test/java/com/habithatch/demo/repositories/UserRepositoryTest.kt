@@ -12,25 +12,32 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
+import org.junit.Before
 import org.junit.Test
 
 class UserRepositoryTest {
     private val userDao = mockk<UserDao>()
     private val userRepository = UserRepository(userDao)
+    private val somePet = Pet(name = "Pet1", imageRes = 1001)
+    private val anotherPet = Pet(name = "Pet1", imageRes = 1002)
 
+    @Before
+    fun setup() {
+        coEvery { userDao.insert(any()) } returns Unit
+    }
 
     @Test
     fun `createUser() should add a User, when no User exists`() {
         runBlocking {
             // Arrange
             coEvery { userDao.getUser() } returns flow { emit(null) }
-            coEvery { userDao.insert(any()) } returns Unit
-            val user = User(pet = Pet(name = "Pet1", imageRes = -1))
+            val user = User(pet = somePet)
 
             // Act
             val createdUser = userRepository.createUser(user)
 
             // Assert
+            coVerify { userDao.insert(user) }
             assertThat(createdUser).isEqualTo(user)
         }
     }
@@ -40,12 +47,10 @@ class UserRepositoryTest {
     fun `createUser() should throw an IllegalStateException, when a User already exists`() {
         runBlocking {
             // Arrange
-
             coEvery { userDao.getUser() } returns flow {
-                emit(User(pet = Pet(name = "Pet1", imageRes = -1)))
+                emit(User(pet = somePet))
             }
-            coEvery { userDao.insert(any()) } returns Unit
-            val user = User(pet = Pet(name = "Pet2", imageRes = -1))
+            val user = User(pet = anotherPet)
 
             // Act
             val exception = runCatching {
@@ -62,8 +67,7 @@ class UserRepositoryTest {
         runBlocking {
             // Arrange
             coEvery { userDao.getUser() } returns flow { emit(null) }
-            coEvery { userDao.insert(any()) } returns Unit
-            val user1 = User(uuid = "invalid-uid", pet = Pet(name = "Pet1", imageRes = -1))
+            val user1 = User(uuid = "invalid-uid", pet = somePet)
 
             // Act
             val exception = runCatching {
@@ -78,12 +82,13 @@ class UserRepositoryTest {
         runBlocking {
             // Arrange
             coEvery { userDao.getUser() } returns flow {
-                emit(User(pet = Pet(name = "Pet1", imageRes = -1)))
+                emit(User(pet = somePet))
             }
             coEvery { userDao.delete() } returns Unit
 
             // Act
             userRepository.deleteUser()
+
             // Assert
             coVerify { userDao.delete() }
         }

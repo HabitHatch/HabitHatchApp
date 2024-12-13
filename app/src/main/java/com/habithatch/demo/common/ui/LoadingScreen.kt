@@ -1,4 +1,4 @@
-package com.habithatch.demo.common
+package com.habithatch.demo.common.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*

@@ -1,4 +1,4 @@
-package com.habithatch.demo.common.goals
+package com.habithatch.demo.common.ui.goals
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues

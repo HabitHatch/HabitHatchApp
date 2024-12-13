@@ -2,7 +2,6 @@
 
 
 package Model{
-
     class Image{
         url: String
     }
@@ -11,43 +10,36 @@ package Model{
         frames: List<Image>
         duration: Int
     }
+
     class User {
         - pet: Pet
     }
-    class UserSettings{
-        + petName: String
-        + reminders: Boolean
-    }
+
 
     class Pet {
-        - id: Int
         + name: String
         + animation: Animation?
         + image: Image
     }
+
     enum Priority {
-        LOW
-        MEDIUM
+        NORMAL
         HIGH
     }
 
     class Goal {
         + name: String
-        + deadline: Date?
         + priority: Priority
-        + createdAt: Date
-        + doneAt: Date?
-        + isDone(): Boolean
-        + markAsDone()
+        + isDone: Boolean
     }
-    Goal o- Priority
+
+    Goal *- Priority
     User *-- Pet
-    User *-- Goal
+    User *.. Goal
     User *-- UserSettings
     Pet o-- Image
     Pet o-- Animation
     Animation o-- Image
-
 }
 
 package View{
@@ -96,29 +88,33 @@ package Repository{
 package DAO{
     class UserDAO
 
-    class PetDAO
 
     class GoalDAO
 }
 
-InitialLoginView -down-> InitialLoginViewModel
-HomeView -down-> HomeViewModel
-SettingsView -down-> SettingsViewModel
+class AppConfig{
+    pets: List<Pet>
+}
 
-InitialLoginViewModel -down--> UserRepository
-InitialLoginViewModel -down--> PetRepository
+AppConfig o-- Pet
+InitialLoginView .down.> InitialLoginViewModel
+HomeView .down.> HomeViewModel
+SettingsView .down.> SettingsViewModel
 
-HomeViewModel -down> GoalRepository
-HomeViewModel -down> UserRepository
+InitialLoginViewModel .down..> UserRepository
+InitialLoginViewModel .down..> PetRepository
 
-SettingsViewModel -down-> UserRepository
+HomeViewModel .down> GoalRepository
+HomeViewModel .down> UserRepository
+
+SettingsViewModel .down.> UserRepository
 
 
-PetRepository --down> PetDAO
-UserRepository --down> UserDAO
-GoalRepository --down> GoalDAO
+UserRepository ..down> UserDAO
+GoalRepository ..down> GoalDAO
+PetRepository ..down> AppConfig
 
-PetDAO -down-> Pet
+
 UserDAO -down-> User
 GoalDAO -down-> Goal
 @enduml

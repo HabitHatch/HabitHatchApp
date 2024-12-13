@@ -1,0 +1,54 @@
+@startuml
+'https://plantuml.com/class-diagram
+top to bottom direction
+
+component AppNavigation{
+    component SignupScreen{
+        component PetCard{
+
+        }
+    }
+
+    component HomeScreen{
+        component Goals{
+        }
+        component BottomNavBar{
+        }
+        Goals -[hidden]down- BottomNavBar
+    }
+
+    component SettingsScreen{
+        component SettingDetail{
+        }
+        component BottomNavBar{
+        }
+        SettingDetail -[hidden]down- BottomNavBar
+    }
+}
+
+package ViewModel{
+    class SignupViewModel{
+        login()
+        user: User
+        pets: List<Pet>
+    }
+    class HomeViewModel {
+        addGoal()
+        markGoalDone()
+        user: User
+    }
+    class SettingsViewModel{
+        userSettings: UserSettings
+        saveSettings()
+    }
+
+    SignupViewModel --[hidden]right-- HomeViewModel
+    HomeViewModel --[hidden]right-- SettingsViewModel
+}
+AppNavigation ..[hidden]down.. ViewModel
+
+SettingsScreen ..down..> SettingsViewModel
+HomeScreen ..down..> HomeViewModel
+SignupScreen ..down..> SignupViewModel
+
+@enduml
