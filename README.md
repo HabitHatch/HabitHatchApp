@@ -18,11 +18,12 @@
 - Wenn nicht alle Ziele erledigt dunkler Farbfilter, Tier ist unglücklich
 - User Settings anzeigen
 
-### Revised 1
 
-#### Startbildschirm
+---
 
-##### Tierauswahl
+### Startbildschirm
+
+#### Tierauswahl
 
 | **Funktion**            | **Beschreibung**                                                                     |
 |-------------------------|--------------------------------------------------------------------------------------|
@@ -34,18 +35,17 @@
 
 ---
 
-#### Navigation
+### Navigation
 
-##### Wechsel zwischen Activities
+#### Wechsel zwischen Activities
 
 - Wechsel von der Hauptaktivität zu einer anderen Aktivität und wieder zurück.  
   **Hinweis:** Diese Funktion hat keine Auswirkung und dient nur dazu, Anforderungen zu erfüllen.
 
 ---
 
-#### Habits und Tabelle
+### Habits
 
-##### Übersicht
 
 | **Eigenschaft** | **Beschreibung**                      |
 |-----------------|---------------------------------------|
@@ -53,7 +53,6 @@
 | **Priorität**   | Die Wichtigkeit: Normal oder Hoch.    |
 | **Status**      | Ob der Habit erledigt ist oder nicht. |
 
-##### Funktionen der Tabelle
 
 1. **Filtern nach:**
     - Status (erledigt/nicht erledigt).
@@ -68,14 +67,14 @@
 
 ---
 
-#### Animation und Tierzustand
+### Animation und Tierzustand
 
-##### Animation
+#### Animation
 
 - Darstellung einer Animation (Video) des Tiers, bestehend aus **4 wechselnden Frames**.
 - Die Animation wird auf der **Home-Seite** angezeigt.
 
-##### Tierzustand basierend auf Habits
+#### Tierzustand basierend auf Habits
 
 | **Zustand**     | **Beschreibung**                                                                                              |
 |-----------------|---------------------------------------------------------------------------------------------------------------|
@@ -84,9 +83,9 @@
 
 ---
 
-#### User Settings
+### User Settings
 
-##### Anzeige
+#### Anzeige
 
 - **Settings-Seite:**
     - Die User Settings werden angezeigt.
@@ -94,7 +93,7 @@
 
 ---
 
-#### Entfernte Funktionen
+### Entfernte Funktionen
 
 - Die Funktion **"Ziel mit Sprachsteuerung einfügen"** wurde entfernt.
 
