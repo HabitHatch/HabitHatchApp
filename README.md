@@ -20,25 +20,83 @@
 
 ### Revised 1
 
-- Beim Start Auswahl von Pet, 4 werden angezeigt, aber nur 1 kann ausgewählt werden
-    Nachdem ein Pet ausgewählt wurde ist man angemeldet. Beim nächsten Start ist man automatisch eingeloggt.
-- Es gibt keine Authentifizierung oder Registrierung. Die App ist nur für einen Benutzer. Die App ist offline.
-- Aktivity Wechsel von der HauptAktivität zu einer Aktivität die direkt wieder zur Hauptaktivität wechselt. (Um
-  Anforderung zu erfüllen, hat keinerlei Funktion oder Auswirkung)
-- Tabelle/Liste an Habits auf der Home Seite
-  - Ein Habit hat einen Titel, eine Priorität und einen Status (erledigt oder nicht
-    erledigt)
-- Tabelle filtern nach erledigt und Priorität
-- Es gibt die Prioritäten: Normal und Hoch
-- Man kann einen neuen Habit erstellen: Dabei gibt man den Titel und die Priorität an. Der Status ist immer nicht erledigt
-- Ziel als erledigt markieren, indem man auf eine Checkbox klickt
-- `Ziel mit Sprachsteuerung einfügen` wurde entfernt
-- Animation von einem Pet anzeigen, indem ein Video angezeigt wird; Besteht aus 4 wechselnden Frames
-    Die Animation wird auf der Hauptseite / Home angezeigt
-- Wenn alle Ziele erledigt sind, ist Tier glücklich, das Video bekommt einen hellen Farb filter
-- Wenn nicht alle Ziele erledigt dunkler Farbfilter, Tier ist unglücklich
-- User Settings anzeigen auf der Settings Seite, die Settings haben keine Funktionalitäten.
+#### Startbildschirm
 
+##### Tierauswahl
+
+| **Funktion**            | **Beschreibung**                                                                     |
+|-------------------------|--------------------------------------------------------------------------------------|
+| **Tier auswählen**      | 4 Tiere stehen zur Auswahl, jedoch kann nur eines ausgewählt werden.                 |
+| **Automatisches Login** | Nach der Auswahl eines Tiers ist man angemeldet und wird bei jedem Start eingeloggt. |
+
+- Es gibt **keine Authentifizierung** oder Registrierung.  
+  Die App ist für einen einzigen Benutzer und funktioniert offline.
+
+---
+
+#### Navigation
+
+##### Wechsel zwischen Activities
+
+- Wechsel von der Hauptaktivität zu einer anderen Aktivität und wieder zurück.  
+  **Hinweis:** Diese Funktion hat keine Auswirkung und dient nur dazu, Anforderungen zu erfüllen.
+
+---
+
+#### Habits und Tabelle
+
+##### Übersicht
+
+| **Eigenschaft** | **Beschreibung**                      |
+|-----------------|---------------------------------------|
+| **Titel**       | Der Name des Habits.                  |
+| **Priorität**   | Die Wichtigkeit: Normal oder Hoch.    |
+| **Status**      | Ob der Habit erledigt ist oder nicht. |
+
+##### Funktionen der Tabelle
+
+1. **Filtern nach:**
+    - Status (erledigt/nicht erledigt).
+    - Priorität (Normal oder Hoch).
+
+2. **Neuen Habit erstellen:**
+    - Eingabe des Titels und der Priorität.
+    - Der Status ist standardmäßig **nicht erledigt**.
+
+3. **Status ändern:**
+    - Ein Habit kann durch Klicken auf eine Checkbox als **erledigt** markiert werden.
+
+---
+
+#### Animation und Tierzustand
+
+##### Animation
+
+- Darstellung einer Animation (Video) des Tiers, bestehend aus **4 wechselnden Frames**.
+- Die Animation wird auf der **Home-Seite** angezeigt.
+
+##### Tierzustand basierend auf Habits
+
+| **Zustand**     | **Beschreibung**                                                                                              |
+|-----------------|---------------------------------------------------------------------------------------------------------------|
+| **Glücklich**   | Wenn alle Ziele erledigt sind: Das Tier wird glücklich, und das Video erhält einen hellen Farbfilter.         |
+| **Unglücklich** | Wenn nicht alle Ziele erledigt sind: Das Tier bleibt unglücklich, und das Video hat einen dunklen Farbfilter. |
+
+---
+
+#### User Settings
+
+##### Anzeige
+
+- **Settings-Seite:**
+    - Die User Settings werden angezeigt.
+    - **Keine Funktionalitäten vorhanden.**
+
+---
+
+#### Entfernte Funktionen
+
+- Die Funktion **"Ziel mit Sprachsteuerung einfügen"** wurde entfernt.
 
 ## Features:
 
