@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 5,
-    "identityHash": "afa4d09d680ddfbd6967d110e8607625",
+    "identityHash": "897160709809bdc704658712912f6c50",
     "entities": [
       {
         "tableName": "User",
@@ -38,7 +38,7 @@
       },
       {
         "tableName": "Goal",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `isDone` TEXT NOT NULL, `priority` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `doneState` TEXT NOT NULL, `priority` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -53,8 +53,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "isDone",
-            "columnName": "isDone",
+            "fieldPath": "doneState",
+            "columnName": "doneState",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -78,7 +78,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'afa4d09d680ddfbd6967d110e8607625')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '897160709809bdc704658712912f6c50')"
     ]
   }
 }

@@ -2,33 +2,36 @@ package com.habithatch.demo.features.home
 
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.unit.dp
+import java.util.Locale
 import BottomNavigationBar
 import android.util.Log
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.habithatch.demo.common.ui.LoadingScreen
-import com.habithatch.demo.common.ui.PetAnimation
+import com.habithatch.demo.common.ui.TopAppInformationBar
 import com.habithatch.demo.common.ui.goals.AddGoalDialog
 import com.habithatch.demo.common.ui.goals.GoalListScreen
+import com.habithatch.demo.common.ui.pets.PetAnimation
+import com.habithatch.demo.core.navigation.NavigationItem
 import com.habithatch.demo.core.navigation.Screen
-import com.habithatch.demo.core.navigation.getNavigationItem
 import com.habithatch.demo.data.entities.User
 
 @Composable
@@ -43,8 +46,14 @@ fun HomeScreen(
     val priorityVisibleMap by viewModel.priorityVisibleMap.collectAsStateWithLifecycle()
 
     val bottomNavigationItems = viewModel.bottomNavigationItems
+    val primaryNavigationItem = viewModel.primaryNavigationItem
     val showDialog = remember { mutableStateOf(false) }
-    val selectedItem = Screen.Home.getNavigationItem(bottomNavigationItems)
+    val currentRoute = navController.currentBackStackEntry?.destination?.route
+    val screen = Screen.fromRoute(currentRoute)
+    val selectedItem = NavigationItem.findNavigationItemByRoute(
+            route = currentRoute,
+            navigationItems = bottomNavigationItems
+    )
     Log.d("HomeScreen", "Goals: $goals")
     Log.d("HomeScreen", "User: $user")
 
@@ -52,17 +61,25 @@ fun HomeScreen(
         LoadingScreen()
         return
     }
-
-    if (selectedItem == null) {
-        Log.e("HomeScreen", "Home screen not found in navigation items")
-        Text(
-                text = "Error: Unable to load the Home Screen",
-                modifier = Modifier.fillMaxWidth().padding(16.dp),
-                color = MaterialTheme.colorScheme.error
-        )
-        return
-    }
     Scaffold(
+            topBar = {
+                TopAppInformationBar(
+                        title = screen?.title.orEmpty(),
+                        primaryNavigationItem = primaryNavigationItem,
+                        onPrimaryNavigationItemClick = {
+                            navController.navigate(primaryNavigationItem.screen.route)
+                        }
+                )
+            },
+            bottomBar = {
+                BottomNavigationBar(
+                        onNavigationItemClicked = {
+                            navController.navigate(it.screen.route)
+                        },
+                        activeNavigationItem = selectedItem,
+                        navigationItems = bottomNavigationItems
+                )
+            },
             floatingActionButton = {
                 FloatingActionButton(onClick = { showDialog.value = true }) {
                     Icon(imageVector = Icons.Default.Add, contentDescription = "Add Goal")
@@ -70,13 +87,14 @@ fun HomeScreen(
             },
             content = { paddingValues ->
                 Column(
-                        modifier = Modifier.padding(paddingValues),
+                        modifier = Modifier.padding(
+                                paddingValues
+                        ),
                         horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     PetAnimation(
                             pet = user!!.pet,
-                            modifier = Modifier
-                                .fillMaxWidth(0.5f)
+                            modifier = Modifier.fillMaxWidth(0.5f).padding(top=8.dp)
                     )
                     Column(
                             modifier = Modifier
@@ -96,20 +114,8 @@ fun HomeScreen(
                                     viewModel.setPriorityVisibility(priority, visibility)
                                 })
                     }
-
-
                 }
 
-            },
-            bottomBar = {
-                BottomNavigationBar(
-                        onItemSelected = {
-                            if (it.screen == Screen.Home) return@BottomNavigationBar
-                            navController.navigate(it.screen.route)
-                        },
-                        selectedItem = selectedItem,
-                        navigationItems = bottomNavigationItems
-                )
             }
     )
     if (showDialog.value) {

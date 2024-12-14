@@ -1,43 +1,18 @@
 package com.habithatch.demo.core.navigation
 
-sealed class Screen(
-    val route: String,
-    val label: String,
-) {
-    object Home : Screen(
-            route = "home",
-            label = "Home",
-    )
-    object Goals : Screen(
-            route = "goals",
-            label = "Goals",
-    )
-    object Friends : Screen(
-            route = "friends",
-            label = "Friends",
-    )
-
-    object Pet : Screen(
-            route = "pet",
-            label = "Pet",
-    )
-
-    object Settings : Screen(
-            route = "settings",
-            label = "Settings",
-    )
+enum class Screen(val route: String, val title: String) {
+    SIGNUP("signup", "Sign Up"),
+    HOME("home", "Home"),
+    GOALS("goals", "Goals"),
+    FRIENDS("friends", "Friends"),
+    PET("pet", "Pet"),
+    SETTINGS("settings", "Settings");
 
     companion object {
         fun fromRoute(route: String?): Screen? {
-            return when (route) {
-                Home.route -> Home
-                Settings.route -> Settings
-                else -> null
+            return Screen.entries.firstOrNull {
+                it.route == route
             }
         }
     }
-}
-
-fun Screen.getNavigationItem(navigationItems: List<NavigationItem>): NavigationItem?{
-    return navigationItems.filter { this.route == it.screen.route }.firstOrNull()
 }

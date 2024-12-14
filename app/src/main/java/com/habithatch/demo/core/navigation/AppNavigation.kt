@@ -1,11 +1,7 @@
 package com.habithatch.demo.core.navigation
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import android.util.Log
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
@@ -22,19 +18,21 @@ import com.habithatch.demo.features.signup.SignupViewModel
 fun AppNavigation() {
     val navController = rememberNavController()
     val signupViewModel: SignupViewModel = hiltViewModel()
-    val isSignedUp by signupViewModel.isSignedUp.collectAsStateWithLifecycle()
+    val signUpState by signupViewModel.signUpState.collectAsStateWithLifecycle()
 
-    Log.d("AppNavigation", "isSignedUp: $isSignedUp")
-    when (isSignedUp) {
+    when (signUpState) {
         SignUpState.SIGNED_UP -> {
             NavHost(
                     navController = navController,
-                    startDestination = Screen.Home.route,
+                    startDestination = Screen.HOME.route,
             ) {
-                composable(Screen.Home.route) {
+                composable(Screen.SIGNUP.route) {
+                    InitialLoginScreen()
+                }
+                composable(Screen.HOME.route) {
                     HomeScreen(navController = navController)
                 }
-                composable(Screen.Settings.route) {
+                composable(Screen.SETTINGS.route) {
                     SettingsScreen(navController = navController)
                 }
             }

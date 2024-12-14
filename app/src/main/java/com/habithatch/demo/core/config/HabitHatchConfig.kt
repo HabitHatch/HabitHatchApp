@@ -6,4 +6,5 @@ import com.habithatch.demo.data.entities.Pet
 interface HabitHatchConfig {
     val pets: List<Pet>
     val navigationItems: List<NavigationItem>
+    val accountItem: NavigationItem
 }

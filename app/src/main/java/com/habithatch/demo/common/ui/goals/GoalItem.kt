@@ -24,15 +24,12 @@ fun GoalItem(
     onToggleDone: (Goal) -> Unit
 ) {
     Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 4.dp),
+            modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(
-                    containerColor =
-                    if (goal.isDone == GoalDoneState.DONE)
-                        MaterialTheme.colorScheme.secondaryContainer
-                    else
-                        MaterialTheme.colorScheme.primaryContainer
+                    containerColor = when (goal.doneState) {
+                        GoalDoneState.DONE -> MaterialTheme.colorScheme.secondaryContainer
+                        GoalDoneState.UNDONE -> MaterialTheme.colorScheme.primaryContainer
+                    },
             )
     ) {
         Row(
@@ -42,7 +39,7 @@ fun GoalItem(
                 verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
-                    checked = goal.isDone == GoalDoneState.DONE,
+                    checked = goal.doneState == GoalDoneState.DONE,
                     onCheckedChange = { onToggleDone(goal) },
                     modifier = Modifier.padding(end = 8.dp)
             )
@@ -50,16 +47,15 @@ fun GoalItem(
             Text(
                     text = goal.title,
                     style = MaterialTheme.typography.titleMedium.copy(
-                            textDecoration =
-                            if (goal.isDone == GoalDoneState.DONE)
-                                TextDecoration.LineThrough
-                            else TextDecoration.None,
+                            textDecoration = when(goal.doneState){
+                                GoalDoneState.DONE -> TextDecoration.LineThrough
+                                GoalDoneState.UNDONE -> TextDecoration.None
+                            },
 
-                            color =
-                            if (goal.isDone == GoalDoneState.DONE)
-                                MaterialTheme.colorScheme.onSecondaryContainer
-                            else
-                                MaterialTheme.colorScheme.onPrimaryContainer
+                            color = when(goal.doneState){
+                                GoalDoneState.DONE -> MaterialTheme.colorScheme.onSecondaryContainer
+                                GoalDoneState.UNDONE -> MaterialTheme.colorScheme.onPrimaryContainer
+                            }
                     ),
                     modifier = Modifier.weight(1f)
             )
@@ -77,7 +73,7 @@ fun GoalItemPreview() {
                 onToggleDone = {}
         )
         GoalItem(
-                goal = Goal(title = "Test Goal 2", isDone = GoalDoneState.DONE),
+                goal = Goal(title = "Test Goal 2", doneState = GoalDoneState.DONE),
                 onToggleDone = {}
         )
     }

@@ -53,7 +53,7 @@ class SignupViewModelTest {
                 emit(someUser)
             }
             val viewModel = SignupViewModel(userRepository, appConfig)
-            val signUpState = viewModel.isSignedUp
+            val signUpState = viewModel.signUpState
             val actualValues = mutableListOf<SignUpState>()
             // Act
 
@@ -81,7 +81,7 @@ class SignupViewModelTest {
             delay(100)
 
             // Assert
-            assertThat(viewModel.isSignedUp.value).isEqualTo(SignUpState.NOT_SIGNED_UP)
+            assertThat(viewModel.signUpState.value).isEqualTo(SignUpState.NOT_SIGNED_UP)
         }
     }
 
