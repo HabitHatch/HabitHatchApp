@@ -1,0 +1,1562 @@
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.habithatch.demo.core.config.HabitHatchDevConfig
+import com.habithatch.demo.core.navigation.NavigationItem
+import com.habithatch.demo.core.navigation.Screen
+import io.eyram.iconsax.IconSax
+
+@Composable
+fun BottomNavigationBar(
+    onItemSelected: (NavigationItem) -> Unit,
+    selectedItem: NavigationItem,
+    navigationItems: List<NavigationItem>
+) {
+    BottomAppBar(
+            modifier = Modifier.fillMaxWidth(),
+            actions = {
+                navigationItems.forEach { item ->
+                    IconButton(
+                            onClick = { if (item.enabled) onItemSelected(item) },
+                            modifier = Modifier
+                                .weight(1f)
+                                .size(24.dp),
+                            enabled = item.enabled
+                    ) {
+                        Icon(
+                                painter = painterResource(item.iconResourceId),
+                                contentDescription = item.screen.route,
+                                tint =
+                                if (item == selectedItem) MaterialTheme.colorScheme.primary
+                                else if (item.enabled) MaterialTheme.colorScheme.secondary
+                                else MaterialTheme.colorScheme.tertiary,
+                        )
+                    }
+                }
+            }
+    )
+}
+
+@Preview()
+@Composable
+fun BottomNavigationBarPreview() {
+    val navigationItems = HabitHatchDevConfig.navigationItems
+
+
+    BottomNavigationBar(
+            onItemSelected = {},
+            selectedItem = NavigationItem(
+                    screen = Screen.Home,
+                    iconResourceId = IconSax.Linear.Home2,
+                    enabled = true
+            ),
+            navigationItems = navigationItems
+    )
+}package com.habithatch.demo.common.ui.goals
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+
+@Composable
+fun AddGoalDialog(
+    onDismiss: () -> Unit,
+    onAdd: (String) -> Unit
+) {
+    var goalName = remember { mutableStateOf("") }
+
+    AlertDialog(
+            onDismissRequest = onDismiss,
+            title = { Text(text = "Add Goal") },
+            text = {
+                Column {
+                    Text("Enter goal name:")
+                    OutlinedTextField(
+                            value = goalName.value,
+                            onValueChange = { goalName.value = it },
+                            modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            },
+            confirmButton = {
+                Button(
+                        onClick = {
+                            if (goalName.value.isNotBlank()) {
+                                onAdd(goalName.value)
+                                goalName.value = ""
+                            }
+                        }
+                ) {
+                    Text("Add")
+                }
+            },
+            dismissButton = {
+                Button(onClick = onDismiss) {
+                    Text("Cancel")
+                }
+            }
+    )
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun AddGoalDialogPreview() {
+    AddGoalDialog(onDismiss = {}, onAdd = {})
+}package com.habithatch.demo.common.ui.goals
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.*
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.habithatch.demo.data.entities.GoalDoneState
+import com.habithatch.demo.data.entities.GoalPriority
+
+@Composable
+fun GoalFilterBar(
+    searchQuery: String,
+    visibleDoneStates: Map<GoalDoneState, Boolean>,
+    visiblePriorities: Map<GoalPriority, Boolean>,
+    onQueryChange: (String) -> Unit,
+    onDoneStateVisibleChange: (GoalDoneState, Boolean) -> Unit,
+    onPriorityVisibilityChange: (GoalPriority, Boolean) -> Unit,
+) {
+
+    Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+    ) {
+        OutlinedTextField(
+                value = searchQuery,
+                leadingIcon = {
+                    Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Search"
+                    )
+                },
+                onValueChange = { query: String ->
+                    onQueryChange(query)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(40.dp),
+                shape = MaterialTheme.shapes.medium,
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text("Status", style = MaterialTheme.typography.labelSmall)
+                GoalDoneState.entries.forEach { doneState: GoalDoneState ->
+
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Checkbox(
+                                checked = visibleDoneStates[doneState] == true,
+                                onCheckedChange = {
+                                    onDoneStateVisibleChange(doneState, it)
+                                }
+                        )
+                        Text(doneState.name)
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Column(modifier = Modifier.weight(1f)) {
+                Text("Priority", style = MaterialTheme.typography.labelSmall)
+
+                GoalPriority.entries.forEach { priority: GoalPriority ->
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Checkbox(
+                                checked = visiblePriorities[priority] == true,
+                                onCheckedChange = {
+                                    onPriorityVisibilityChange(priority, it)
+                                }
+                        )
+                        Text(priority.name)
+                    }
+                }
+            }
+        }
+    }
+}package com.habithatch.demo.common.ui.goals
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.habithatch.demo.data.entities.Goal
+import com.habithatch.demo.data.entities.GoalDoneState
+
+@Composable
+fun GoalItem(
+    goal: Goal,
+    onToggleDone: (Goal) -> Unit
+) {
+    Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp),
+            colors = CardDefaults.cardColors(
+                    containerColor =
+                    if (goal.isDone == GoalDoneState.DONE)
+                        MaterialTheme.colorScheme.secondaryContainer
+                    else
+                        MaterialTheme.colorScheme.primaryContainer
+            )
+    ) {
+        Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+        ) {
+            Checkbox(
+                    checked = goal.isDone == GoalDoneState.DONE,
+                    onCheckedChange = { onToggleDone(goal) },
+                    modifier = Modifier.padding(end = 8.dp)
+            )
+
+            Text(
+                    text = goal.title,
+                    style = MaterialTheme.typography.titleMedium.copy(
+                            textDecoration =
+                            if (goal.isDone == GoalDoneState.DONE)
+                                TextDecoration.LineThrough
+                            else TextDecoration.None,
+
+                            color =
+                            if (goal.isDone == GoalDoneState.DONE)
+                                MaterialTheme.colorScheme.onSecondaryContainer
+                            else
+                                MaterialTheme.colorScheme.onPrimaryContainer
+                    ),
+                    modifier = Modifier.weight(1f)
+            )
+        }
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun GoalItemPreview() {
+    Column {
+        GoalItem(
+                goal = Goal(title = "Test Goal"),
+                onToggleDone = {}
+        )
+        GoalItem(
+                goal = Goal(title = "Test Goal 2", isDone = GoalDoneState.DONE),
+                onToggleDone = {}
+        )
+    }
+}package com.habithatch.demo.common.ui.goals
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.habithatch.demo.data.entities.Goal
+import com.habithatch.demo.data.entities.GoalDoneState
+
+@Composable
+fun GoalList(
+    goals: List<Goal>,
+    onToggleDone: (Goal) -> Unit,
+    modifier: Modifier = Modifier.fillMaxSize()
+) {
+    LazyColumn(
+            modifier = modifier,
+            contentPadding = PaddingValues(5.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        goals.forEach { goal ->
+            item {
+                GoalItem(goal = goal, onToggleDone = onToggleDone)
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GoalListPreview() {
+    val goals = listOf(
+            Goal(title = "Goal 1", isDone = GoalDoneState.DONE),
+            Goal(title = "Goal 2"),
+            Goal(title = "Goal 3")
+    )
+    GoalList(goals = goals, onToggleDone = {})
+}package com.habithatch.demo.common.ui.goals
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.habithatch.demo.data.entities.Goal
+import com.habithatch.demo.data.entities.GoalDoneState
+import com.habithatch.demo.data.entities.GoalPriority
+
+@Composable
+fun GoalListScreen(
+    goals: List<Goal>,
+    searchQuery: String,
+    visibleDoneStates: Map<GoalDoneState, Boolean>,
+    visiblePriorities: Map<GoalPriority, Boolean>,
+    onToggleDone: (Goal) -> Unit,
+    addGoal: (String) -> Unit,
+    onQueryChange: (String) -> Unit,
+    onDoneStateVisibilityChange: (GoalDoneState, Boolean) -> Unit,
+    onPriorityVisibilityChange: (GoalPriority, Boolean) -> Unit,
+) {
+
+    Column(
+            modifier = Modifier.padding(4.dp)
+    ) {
+        GoalFilterBar(
+                searchQuery = searchQuery,
+                visibleDoneStates = visibleDoneStates,
+                visiblePriorities = visiblePriorities,
+                onQueryChange = onQueryChange,
+                onDoneStateVisibleChange = onDoneStateVisibilityChange,
+                onPriorityVisibilityChange = onPriorityVisibilityChange
+        )
+        GoalList(
+                goals = goals,
+                onToggleDone = onToggleDone,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(4.dp)
+        )
+    }
+}package com.habithatch.demo.common.ui
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+
+@Preview(showBackground = true)
+@Composable
+fun LoadingScreen(message: String = "Loading...") {
+    Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+    ) {
+        Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CircularProgressIndicator(
+                    modifier = Modifier.size(30.dp),
+                    color = MaterialTheme.colorScheme.primary,
+                    strokeWidth = 4.dp
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                    text = message,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onBackground
+            )
+        }
+    }
+}
+package com.habithatch.demo.common.ui
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import com.habithatch.demo.data.entities.Pet
+
+@Composable
+fun PetAnimation(
+    pet: Pet,
+    modifier: Modifier = Modifier.fillMaxWidth()
+) {
+    Row(
+            modifier = modifier,
+            horizontalArrangement = Arrangement.Center
+    ) {
+        Card(
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1f)
+        ) {
+            Image(
+                    painter = painterResource(id = pet.imageRes),
+                    contentDescription = "${pet.name} image",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(12.dp))
+            )
+        }
+    }
+}
+package com.habithatch.demo.common.ui
+
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import com.habithatch.demo.data.entities.Pet
+
+@Composable
+fun PetCard(
+    pet: Pet,
+    isChecked: Boolean,
+    onPetSelected: () -> Unit
+) {
+    val indicatorColor by animateColorAsState(
+            targetValue = if (isChecked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
+            label = "indicatorColorAnimation"
+    )
+    val indicatorSize by animateDpAsState(
+            targetValue = if (isChecked) 36.dp else 32.dp,
+            label = "indicatorSizeAnimation"
+    )
+
+    Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onPetSelected() },
+            horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Card(
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .border(
+                            width = if (isChecked) 2.dp else 0.dp,
+                            color = if (isChecked) MaterialTheme.colorScheme.primary else Color.Transparent,
+                            shape = RoundedCornerShape(12.dp)
+                    )
+        ) {
+            Box(
+                    modifier = Modifier
+                        .aspectRatio(1f)
+                        .fillMaxWidth()
+            ) {
+                Image(
+                        painter = painterResource(id = pet.imageRes),
+                        contentDescription = "${pet.name} image",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.clip(RoundedCornerShape(12.dp))
+                )
+                Box(
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .padding(8.dp)
+                            .size(indicatorSize)
+                            .clip(CircleShape)
+                            .background(indicatorColor)
+                ) {
+                    if (isChecked) {
+                        Icon(
+                                imageVector = Icons.Default.Check,
+                                contentDescription = "Selected ${pet.name}",
+                                tint = MaterialTheme.colorScheme.onPrimary,
+                                modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
+                }
+            }
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+                text = pet.name,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+        )
+    }
+}
+package com.habithatch.demo.common.ui
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import com.habithatch.demo.data.entities.Pet
+
+@Composable
+fun PetsGrid(
+    pets: List<Pet>,
+    columns: Int = 2,
+    outSidePadding: Dp = 50.dp,
+    spaceBetween: Dp = 30.dp,
+    onConfirm: (Pet) -> Unit
+) {
+    val currentPet = remember { mutableStateOf<Pet?>(null) }
+
+    Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        LazyVerticalGrid(
+                columns = GridCells.Fixed(columns),
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(outSidePadding),
+                horizontalArrangement = Arrangement.spacedBy(spaceBetween),
+                verticalArrangement = Arrangement.spacedBy(spaceBetween)
+        ) {
+            itemsIndexed(pets) { _, pet ->
+                PetCard(
+                        pet = pet,
+                        isChecked = currentPet.value == pet,
+                        onPetSelected = {
+                            if (currentPet.value == pet) {
+                                currentPet.value = null
+                            } else {
+                                currentPet.value = pet
+                            }
+                        }
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+                onClick = { currentPet.value?.let { onConfirm(it) } },
+                enabled = currentPet.value != null
+        ) {
+            Text(text = "Confirm Selection")
+        }
+    }
+}
+package com.habithatch.demo.core
+
+import javax.inject.Singleton
+import android.content.Context
+import com.habithatch.demo.core.config.HabitHatchConfig
+import com.habithatch.demo.core.config.HabitHatchDevConfig
+import com.habithatch.demo.data.daos.GoalDao
+import com.habithatch.demo.data.daos.UserDao
+import com.habithatch.demo.data.db.AppDatabase
+import com.habithatch.demo.data.db.DatabaseProvider
+import com.habithatch.demo.data.repositories.GoalRepository
+import com.habithatch.demo.data.repositories.UserRepository
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+
+@Module
+@InstallIn(SingletonComponent::class)
+object AppModule {
+
+    @Provides
+    @Singleton
+    fun provideConfig(): HabitHatchConfig {
+        return HabitHatchDevConfig
+    }
+
+    @Provides
+    @Singleton
+    fun provideDatabase(@ApplicationContext context: Context): AppDatabase {
+        return DatabaseProvider.getDatabase(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGoalDao(database: AppDatabase): GoalDao {
+        return database.goalDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideGoalRepository(goalDao: GoalDao): GoalRepository {
+        return GoalRepository(goalDao)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideUserDao(database: AppDatabase): UserDao {
+        return database.userDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(userDao: UserDao): UserRepository {
+        return UserRepository(userDao)
+    }
+}
+package com.habithatch.demo.core.config
+
+import com.habithatch.demo.core.navigation.NavigationItem
+import com.habithatch.demo.data.entities.Pet
+
+interface HabitHatchConfig {
+    val pets: List<Pet>
+    val navigationItems: List<NavigationItem>
+}package com.habithatch.demo.core.config
+
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.ui.res.painterResource
+import com.habithatch.demo.R
+import com.habithatch.demo.core.navigation.NavigationItem
+import com.habithatch.demo.core.navigation.Screen
+import com.habithatch.demo.data.entities.Pet
+import io.eyram.iconsax.IconSax
+
+object HabitHatchDevConfig : HabitHatchConfig {
+    override val pets = listOf(
+            Pet(name = "Cat", imageRes = R.mipmap.pet_cat),
+            Pet(name = "Fox", imageRes = R.mipmap.pet_fox),
+            Pet(name = "Rabbit", imageRes = R.mipmap.pet_rabbit),
+            Pet(name = "Ice Bear", imageRes = R.mipmap.pet_ice_bear)
+    )
+    override val navigationItems = listOf(
+        NavigationItem(Screen.Home, IconSax.Linear.Home2, true),
+        NavigationItem(Screen.Goals, IconSax.Linear.Flag, false),
+        NavigationItem(Screen.Friends, IconSax.Linear.Profile2user, false),
+        NavigationItem(Screen.Pet, IconSax.Linear.Pet, false),
+        NavigationItem(Screen.Settings, IconSax.Linear.Menu, true),
+
+    )
+}package com.habithatch.demo.core
+
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
+
+@HiltAndroidApp
+class HabitHatchApp : Application() {
+}package com.habithatch.demo.core
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+
+class ImmediatelyFinishingActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        finish()
+    }
+}package com.habithatch.demo.core
+
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import android.content.Intent
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import com.habithatch.demo.core.navigation.AppNavigation
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
+class MainActivity : ComponentActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        switchActivityToMeetTheCustomerRequirement()
+
+        setContent {
+            HabitHatchAppTheme {
+                Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background,
+                ) {
+                    AppNavigation()
+                }
+            }
+        }
+    }
+
+    private fun switchActivityToMeetTheCustomerRequirement() {
+        val intent = Intent(this, ImmediatelyFinishingActivity::class.java)
+        startActivity(intent)
+    }
+}package com.habithatch.demo.core.navigation
+
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import android.util.Log
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.habithatch.demo.common.ui.LoadingScreen
+import com.habithatch.demo.features.home.HomeScreen
+import com.habithatch.demo.features.settings.SettingsScreen
+import com.habithatch.demo.features.signup.InitialLoginScreen
+import com.habithatch.demo.features.signup.SignUpState
+import com.habithatch.demo.features.signup.SignupViewModel
+
+@Composable
+fun AppNavigation() {
+    val navController = rememberNavController()
+    val signupViewModel: SignupViewModel = hiltViewModel()
+    val isSignedUp by signupViewModel.isSignedUp.collectAsStateWithLifecycle()
+
+    Log.d("AppNavigation", "isSignedUp: $isSignedUp")
+    when (isSignedUp) {
+        SignUpState.SIGNED_UP -> {
+            NavHost(
+                    navController = navController,
+                    startDestination = Screen.Home.route,
+            ) {
+                composable(Screen.Home.route) {
+                    HomeScreen(navController = navController)
+                }
+                composable(Screen.Settings.route) {
+                    SettingsScreen(navController = navController)
+                }
+            }
+        }
+
+        SignUpState.NOT_SIGNED_UP -> {
+            InitialLoginScreen()
+        }
+
+        SignUpState.LOADING -> {
+            LoadingScreen()
+        }
+    }
+}
+package com.habithatch.demo.core.navigation
+
+data class NavigationItem(
+    val screen: Screen,
+    val iconResourceId: Int,
+    val enabled: Boolean = true
+)
+package com.habithatch.demo.core.navigation
+
+sealed class Screen(
+    val route: String,
+    val label: String,
+) {
+    object Home : Screen(
+            route = "home",
+            label = "Home",
+    )
+    object Goals : Screen(
+            route = "goals",
+            label = "Goals",
+    )
+    object Friends : Screen(
+            route = "friends",
+            label = "Friends",
+    )
+
+    object Pet : Screen(
+            route = "pet",
+            label = "Pet",
+    )
+
+    object Settings : Screen(
+            route = "settings",
+            label = "Settings",
+    )
+
+    companion object {
+        fun fromRoute(route: String?): Screen? {
+            return when (route) {
+                Home.route -> Home
+                Settings.route -> Settings
+                else -> null
+            }
+        }
+    }
+}
+
+fun Screen.getNavigationItem(navigationItems: List<NavigationItem>): NavigationItem?{
+    return navigationItems.filter { this.route == it.screen.route }.firstOrNull()
+}
+package com.habithatch.demo.core
+
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
+import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.Composable
+
+
+val AppTypography = Typography()
+val AppColorScheme = lightColorScheme()
+
+@Composable
+fun HabitHatchAppTheme(content: @Composable () -> Unit) {
+    MaterialTheme(
+            colorScheme = AppColorScheme,
+            typography = AppTypography,
+            content = content
+    )
+}
+package com.habithatch.demo.core.util
+
+import java.util.UUID
+
+fun isValidUuid(uuid: String): Boolean {
+    return try {
+        UUID.fromString(uuid)
+        true
+    } catch (_: IllegalArgumentException) {
+        false
+    }
+}package com.habithatch.demo.data.daos
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
+import com.habithatch.demo.data.entities.Goal
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface GoalDao {
+    @Query("SELECT * FROM goal WHERE goal.id = :goalId")
+    suspend fun getGoalById(goalId: Int): Goal?
+
+    @Query("SELECT * FROM goal")
+    fun getAll(): Flow<List<Goal>>
+
+    @Insert
+    suspend fun insert(goal: Goal)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun update(goal: Goal)
+}package com.habithatch.demo.data.daos
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import com.habithatch.demo.data.entities.User
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface UserDao {
+    @Query("SELECT * FROM user LIMIT 1")
+    fun getUser(): Flow<User?>
+
+    @Insert()
+    suspend fun insert(user: User)
+
+    @Query("DELETE FROM user")
+    suspend fun delete()
+}
+package com.habithatch.demo.data.db
+
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.habithatch.demo.data.daos.GoalDao
+import com.habithatch.demo.data.daos.UserDao
+import com.habithatch.demo.data.entities.Goal
+import com.habithatch.demo.data.entities.User
+
+@Database(entities = [User::class, Goal::class], version = 5)
+@TypeConverters(Converters::class)
+abstract class AppDatabase : RoomDatabase() {
+    abstract fun userDao(): UserDao
+    abstract fun goalDao(): GoalDao
+}
+
+
+object DatabaseProvider {
+    @Volatile
+    private var INSTANCE: AppDatabase? = null
+
+    fun getDatabase(context: Context): AppDatabase {
+        return INSTANCE ?: synchronized(this) {
+            val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    AppDatabase::class.java,
+                    "app_database"
+            ).fallbackToDestructiveMigration()
+                .build()
+            INSTANCE = instance
+            instance
+        }
+    }
+}package com.habithatch.demo.data.db
+
+import androidx.room.TypeConverter
+import com.habithatch.demo.data.entities.GoalDoneState
+import com.habithatch.demo.data.entities.GoalPriority
+
+class Converters {
+
+    @TypeConverter
+    fun fromGoalPriority(priority: GoalPriority): String {
+        return priority.name
+    }
+
+    @TypeConverter
+    fun toGoalPriority(priority: String): GoalPriority {
+        return GoalPriority.valueOf(priority)
+    }
+
+    @TypeConverter
+    fun fromGoalState(state: GoalDoneState): String {
+        return state.name
+    }
+
+    @TypeConverter
+    fun toGoalState(state: String): GoalDoneState {
+        return GoalDoneState.valueOf(state)
+    }
+}package com.habithatch.demo.data.entities
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+
+@Entity
+data class Goal(
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val title: String,
+    val isDone: GoalDoneState =  GoalDoneState.UNDONE,
+    val priority: GoalPriority = GoalPriority.NORMAL
+) {
+    init {
+        require(title.isNotBlank()) { "Title must not be empty or blank." }
+    }
+}package com.habithatch.demo.data.entities
+
+enum class GoalDoneState{
+    DONE, UNDONE
+}package com.habithatch.demo.data.entities
+
+enum class GoalPriority {
+    NORMAL, HIGH
+}package com.habithatch.demo.data.entities
+
+data class Pet(val name: String, val imageRes: Int)package com.habithatch.demo.data.entities
+
+import java.util.UUID
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
+data class User(
+    @PrimaryKey val uuid: String = UUID.randomUUID().toString(),
+    @Embedded val pet: Pet
+)package com.habithatch.demo.data.models
+
+import com.habithatch.demo.data.entities.GoalDoneState
+import com.habithatch.demo.data.entities.GoalPriority
+
+data class GoalFilter(
+    val priorityVisibleMap: Map<GoalPriority, Boolean>,
+    val doneStateVisibleMap: Map<GoalDoneState, Boolean>,
+    val searchQuery: String?
+) {
+    init {
+        val allPriorities = GoalPriority.entries.toSet()
+        require(priorityVisibleMap.keys == allPriorities) {
+            "priorityVisibleMap must contain all values of GoalPriority exactly once."
+        }
+
+        val allDoneStates = GoalDoneState.entries.toSet()
+        require(doneStateVisibleMap.keys == allDoneStates) {
+            "doneStateVisibleMap must contain all values of GoalDoneState exactly once."
+        }
+    }
+    companion object {
+        fun matchAllFilter(): GoalFilter {
+            return GoalFilter(
+                    priorityVisibleMap = GoalPriority.entries.associateWith { true },
+                    doneStateVisibleMap = GoalDoneState.entries.associateWith { true },
+                    searchQuery = null
+            )
+        }
+    }
+}
+package com.habithatch.demo.data.repositories
+
+import com.habithatch.demo.data.daos.GoalDao
+import com.habithatch.demo.data.entities.Goal
+import com.habithatch.demo.data.entities.GoalDoneState
+import com.habithatch.demo.data.models.GoalFilter
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
+
+
+class GoalRepository(private val goalDao: GoalDao) {
+    fun getAll(): Flow<List<Goal>> = goalDao.getAll()
+
+    suspend fun insert(goal: Goal) = goalDao.insert(goal)
+
+    suspend fun toggleGoalDone(goalId: Int) {
+        goalDao.getGoalById(goalId)?.let {
+            val goal = it.copy(
+                    isDone = if (it.isDone == GoalDoneState.DONE) GoalDoneState.UNDONE else GoalDoneState.DONE
+            )
+            goalDao.update(goal)
+        }
+    }
+
+    fun getFilteredGoals(filter: GoalFilter): Flow<List<Goal>> {
+        return goalDao.getAll().map { allGoals ->
+            allGoals.filter { goal ->
+                val matchesDone = filter.doneStateVisibleMap[goal.isDone] == true
+                val matchesPriority = filter.priorityVisibleMap[goal.priority] == true
+                val matchesSearch = filter.searchQuery.isNullOrBlank() ||
+                        goal.title.contains(filter.searchQuery, ignoreCase = true)
+
+                matchesDone && matchesPriority && matchesSearch
+            }
+        }
+    }
+
+    suspend fun seedDatabase() {
+        if (getAll().firstOrNull().isNullOrEmpty()) {
+            val goals = listOf(
+                    Goal(id = 1, title = "Drink water", isDone = GoalDoneState.UNDONE),
+                    Goal(id = 2, title = "Read a book", isDone = GoalDoneState.UNDONE),
+                    Goal(id = 3, title = "Exercise", isDone = GoalDoneState.DONE)
+            )
+            goals.forEach { insert(it) }
+        }
+    }
+}package com.habithatch.demo.data.repositories
+
+class InvalidUuidFormatException(uuid: String) : IllegalArgumentException(
+        "Invalid UUID format for user ID: $uuid User must be a valid UUID."
+)package com.habithatch.demo.data.repositories
+
+import com.habithatch.demo.data.entities.User
+
+class UserAlreadyExistsException(user: User) : IllegalStateException(
+        "Not possible to add User: ${user.uuid}, because there is already a User in the Database."
+)package com.habithatch.demo.data.repositories
+
+import kotlin.jvm.Throws
+import com.habithatch.demo.core.util.isValidUuid
+import com.habithatch.demo.data.daos.UserDao
+import com.habithatch.demo.data.entities.User
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+
+class UserRepository(private val userDao: UserDao) {
+    fun getUser(): Flow<User?> {
+        return userDao.getUser()
+    }
+
+    @Throws(UserAlreadyExistsException::class, InvalidUuidFormatException::class)
+    suspend fun createUser(user: User): User {
+        val existingUser = this.getUser().first()
+        if (existingUser != null) {
+            throw UserAlreadyExistsException(user)
+        }
+        if (!isValidUuid(user.uuid)) {
+            throw InvalidUuidFormatException(user.uuid)
+        }
+        userDao.insert(user)
+        return user
+    }
+
+
+    suspend fun deleteUser() {
+        userDao.delete()
+    }
+}
+package com.habithatch.demo.features.home
+
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import BottomNavigationBar
+import android.util.Log
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
+import com.habithatch.demo.common.ui.LoadingScreen
+import com.habithatch.demo.common.ui.PetAnimation
+import com.habithatch.demo.common.ui.goals.AddGoalDialog
+import com.habithatch.demo.common.ui.goals.GoalListScreen
+import com.habithatch.demo.core.navigation.Screen
+import com.habithatch.demo.core.navigation.getNavigationItem
+import com.habithatch.demo.data.entities.User
+
+@Composable
+fun HomeScreen(
+    navController: NavHostController,
+    viewModel: HomeViewModel = hiltViewModel()
+) {
+    val user: User? by viewModel.user.collectAsStateWithLifecycle()
+    val goals by viewModel.filteredGoals.collectAsStateWithLifecycle()
+    val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
+    val doneStateVisibleMap by viewModel.doneStateVisibleMap.collectAsStateWithLifecycle()
+    val priorityVisibleMap by viewModel.priorityVisibleMap.collectAsStateWithLifecycle()
+
+    val bottomNavigationItems = viewModel.bottomNavigationItems
+    val showDialog = remember { mutableStateOf(false) }
+    val selectedItem = Screen.Home.getNavigationItem(bottomNavigationItems)
+    Log.d("HomeScreen", "Goals: $goals")
+    Log.d("HomeScreen", "User: $user")
+
+    if (user == null) {
+        LoadingScreen()
+        return
+    }
+
+    if (selectedItem == null) {
+        Log.e("HomeScreen", "Home screen not found in navigation items")
+        Text(
+                text = "Error: Unable to load the Home Screen",
+                modifier = Modifier.fillMaxWidth().padding(16.dp),
+                color = MaterialTheme.colorScheme.error
+        )
+        return
+    }
+    Scaffold(
+            floatingActionButton = {
+                FloatingActionButton(onClick = { showDialog.value = true }) {
+                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add Goal")
+                }
+            },
+            content = { paddingValues ->
+                Column(
+                        modifier = Modifier.padding(paddingValues),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    PetAnimation(
+                            pet = user!!.pet,
+                            modifier = Modifier
+                                .fillMaxWidth(0.5f)
+                    )
+                    Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                    ) {
+                        GoalListScreen(searchQuery = searchQuery.orEmpty(),
+                                visibleDoneStates = doneStateVisibleMap,
+                                visiblePriorities = priorityVisibleMap,
+                                goals = goals,
+                                onToggleDone = { viewModel.toggleGoalDone(it) },
+                                addGoal = { viewModel.addGoal(it) },
+                                onQueryChange = { viewModel.changeSearchQuery(it) },
+                                onDoneStateVisibilityChange = { doneState, visibility ->
+                                    viewModel.setDoneStateVisible(doneState, visibility)
+                                },
+                                onPriorityVisibilityChange = { priority, visibility ->
+                                    viewModel.setPriorityVisibility(priority, visibility)
+                                })
+                    }
+
+
+                }
+
+            },
+            bottomBar = {
+                BottomNavigationBar(
+                        onItemSelected = {
+                            if (it.screen == Screen.Home) return@BottomNavigationBar
+                            navController.navigate(it.screen.route)
+                        },
+                        selectedItem = selectedItem,
+                        navigationItems = bottomNavigationItems
+                )
+            }
+    )
+    if (showDialog.value) {
+        AddGoalDialog(
+                onDismiss = { showDialog.value = false },
+                onAdd = { goalName ->
+                    viewModel.addGoal(goalName)
+                    showDialog.value = false
+                }
+        )
+    }
+}
+package com.habithatch.demo.features.home
+
+import javax.inject.Inject
+import android.util.Log
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.habithatch.demo.core.config.HabitHatchConfig
+import com.habithatch.demo.core.navigation.NavigationItem
+import com.habithatch.demo.data.entities.Goal
+import com.habithatch.demo.data.entities.GoalDoneState
+import com.habithatch.demo.data.entities.GoalPriority
+import com.habithatch.demo.data.entities.User
+import com.habithatch.demo.data.models.GoalFilter
+import com.habithatch.demo.data.repositories.GoalRepository
+import com.habithatch.demo.data.repositories.UserRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+
+
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val userRepository: UserRepository,
+    private val goalRepository: GoalRepository,
+    habitHatchConfig: HabitHatchConfig
+) : ViewModel() {
+
+    private val _user = MutableStateFlow<User?>(null)
+    val user: StateFlow<User?> = _user.asStateFlow()
+
+    private val _filteredGoals = MutableStateFlow<List<Goal>>(emptyList())
+    val filteredGoals = _filteredGoals.asStateFlow()
+
+    private val _searchQuery = MutableStateFlow<String?>(null)
+    val searchQuery = _searchQuery.asStateFlow()
+
+    private val _doneStateVisibleMap =
+        MutableStateFlow(GoalDoneState.entries.associateWith { true })
+    val doneStateVisibleMap = _doneStateVisibleMap.asStateFlow()
+
+
+    private val _priorityVisibleMap = MutableStateFlow(GoalPriority.entries.associateWith { true })
+    val priorityVisibleMap = _priorityVisibleMap.asStateFlow()
+
+    val bottomNavigationItems: List<NavigationItem> = habitHatchConfig.navigationItems
+
+    init {
+        seedGoals()
+        observeUser()
+        observeFilteredGoals()
+    }
+
+    fun addGoal(goalTitle: String) {
+        viewModelScope.launch {
+            val newGoal = Goal(title = goalTitle)
+            goalRepository.insert(newGoal)
+        }
+    }
+
+    fun toggleGoalDone(goal: Goal) {
+        viewModelScope.launch {
+            goalRepository.toggleGoalDone(goal.id)
+        }
+    }
+
+    fun changeSearchQuery(query: String) {
+        _searchQuery.value = query
+    }
+
+    fun setDoneStateVisible(doneState: GoalDoneState, visible: Boolean) {
+        _doneStateVisibleMap.update {
+            it.toMutableMap().apply {
+                this[doneState] = visible
+            }
+        }
+    }
+
+    fun setPriorityVisibility(priority: GoalPriority, visible: Boolean) {
+        _priorityVisibleMap.update {
+            it.toMutableMap().apply {
+                this[priority] = visible
+            }
+        }
+    }
+
+    private fun observeUser() {
+        viewModelScope.launch {
+            userRepository.getUser().collect { user ->
+                Log.d("HomeViewModel", "User emitted: $user")
+                _user.value = user
+            }
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun observeFilteredGoals() {
+        Log.d("HomeViewModel", "observeFilteredGoals called")
+        viewModelScope.launch {
+            combine(
+                    searchQuery,
+                    doneStateVisibleMap,
+                    priorityVisibleMap
+            ) { query, doneMap, priorityMap ->
+                GoalFilter(
+                        searchQuery = query,
+                        doneStateVisibleMap = doneMap,
+                        priorityVisibleMap = priorityMap
+                )
+            }.flatMapLatest { filter ->
+                goalRepository.getFilteredGoals(filter)
+            }.collect {
+                _filteredGoals.value = it
+            }
+        }
+    }
+
+    private fun seedGoals() {
+        viewModelScope.launch {
+            goalRepository.seedDatabase()
+        }
+    }
+}
+package com.habithatch.demo.features.settings
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import com.habithatch.demo.core.navigation.Screen
+
+@Composable
+fun SettingsScreen(navController: NavHostController) {
+    val settingsViewModel: SettingsViewModel = hiltViewModel()
+    Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(text = "Settings")
+        Spacer(modifier = Modifier.height(10.dp))
+        Button(onClick = { settingsViewModel.deleteAccount() }) {
+            Text("Delete Account")
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        Button(onClick = { navController.navigate(Screen.Home.route) }) {
+            Text("Go to Home")
+        }
+    }
+
+}package com.habithatch.demo.features.settings
+
+import javax.inject.Inject
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.habithatch.demo.data.repositories.UserRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
+    private val userRepository: UserRepository,
+) : ViewModel() {
+
+    fun deleteAccount() {
+        viewModelScope.launch {
+            userRepository.deleteUser()
+        }
+    }
+}package com.habithatch.demo.features.signup
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.habithatch.demo.common.ui.PetsGrid
+
+@Composable
+fun InitialLoginScreen() {
+    val viewModel: SignupViewModel = hiltViewModel()
+    val pets = viewModel.pets
+    Column(
+            modifier = Modifier.Companion.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.Companion.CenterHorizontally
+    ) {
+        PetsGrid(pets = pets, onConfirm = {
+            viewModel.signUpUser(it)
+        })
+    }
+}package com.habithatch.demo.features.signup
+
+import javax.inject.Inject
+import android.util.Log
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.habithatch.demo.core.config.HabitHatchConfig
+import com.habithatch.demo.data.entities.Pet
+import com.habithatch.demo.data.entities.User
+import com.habithatch.demo.data.repositories.UserAlreadyExistsException
+import com.habithatch.demo.data.repositories.UserRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+
+enum class SignUpState {
+    SIGNED_UP,
+    NOT_SIGNED_UP,
+    LOADING
+}
+
+@HiltViewModel
+class SignupViewModel @Inject constructor(
+    private val userRepository: UserRepository,
+    habitHatchConfig: HabitHatchConfig
+) : ViewModel() {
+    private val _isSignedUp = MutableStateFlow<SignUpState>(SignUpState.LOADING)
+    val isSignedUp: StateFlow<SignUpState> = _isSignedUp
+
+    val pets: List<Pet> = habitHatchConfig.pets
+
+    init {
+        observeUserSignUpStatus()
+    }
+
+    fun signUpUser(pet: Pet) {
+        viewModelScope.launch {
+            try {
+                val user = User(pet = pet)
+                userRepository.createUser(user)
+            } catch(e: UserAlreadyExistsException) {
+                Log.e("SignupViewModel", "Error signing up user", e)
+                _isSignedUp.value = SignUpState.SIGNED_UP
+            } catch (e: Exception) {
+                Log.e("SignupViewModel", "Error signing up user", e)
+            }
+        }
+    }
+
+    private fun observeUserSignUpStatus() {
+        viewModelScope.launch {
+            userRepository.getUser().collect { user ->
+                _isSignedUp.value = when (user) {
+                    null -> SignUpState.NOT_SIGNED_UP
+                    else -> SignUpState.SIGNED_UP
+                }
+            }
+        }
+    }
+}
