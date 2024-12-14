@@ -1,5 +1,45 @@
 # HabitHatch
 
+## Requirements
+
+### Original
+
+**was wir entwickeln?!**
+
+- Beim Start Auswahl von Tier, 4 werden angezeigt, aber nur 1 kann ausgewählt werden
+- Aktivity Wechsel von Start zu Home
+- Tabelle/Liste an Zielen
+- Tabelle sortieren nach erledigt und Deadline oder Prio
+- Ziel hinzufügen
+- Ziel als erledigt markieren
+- Ziel mit Sprachsteuerung einfügen
+- Animation von einem Tier anzeigen, indem ein Video angezeigt wird; Besteht aus 4 wechselnden Frames
+- Wenn alle Ziele erledigt ist Tier glücklich, das Video bekommt einen hellen Farb filter
+- Wenn nicht alle Ziele erledigt dunkler Farbfilter, Tier ist unglücklich
+- User Settings anzeigen
+
+### Revised 1
+
+- Beim Start Auswahl von Pet, 4 werden angezeigt, aber nur 1 kann ausgewählt werden
+    Nachdem ein Pet ausgewählt wurde ist man angemeldet. Beim nächsten Start ist man automatisch eingeloggt.
+- Es gibt keine Authentifizierung oder Registrierung. Die App ist nur für einen Benutzer. Die App ist offline.
+- Aktivity Wechsel von der HauptAktivität zu einer Aktivität die direkt wieder zur Hauptaktivität wechselt. (Um
+  Anforderung zu erfüllen, hat keinerlei Funktion oder Auswirkung)
+- Tabelle/Liste an Habits auf der Home Seite
+  - Ein Habit hat einen Titel, eine Priorität und einen Status (erledigt oder nicht
+    erledigt)
+- Tabelle filtern nach erledigt und Priorität
+- Es gibt die Prioritäten: Normal und Hoch
+- Man kann einen neuen Habit erstellen: Dabei gibt man den Titel und die Priorität an. Der Status ist immer nicht erledigt
+- Ziel als erledigt markieren, indem man auf eine Checkbox klickt
+- `Ziel mit Sprachsteuerung einfügen` wurde entfernt
+- Animation von einem Pet anzeigen, indem ein Video angezeigt wird; Besteht aus 4 wechselnden Frames
+    Die Animation wird auf der Hauptseite / Home angezeigt
+- Wenn alle Ziele erledigt sind, ist Tier glücklich, das Video bekommt einen hellen Farb filter
+- Wenn nicht alle Ziele erledigt dunkler Farbfilter, Tier ist unglücklich
+- User Settings anzeigen auf der Settings Seite, die Settings haben keine Funktionalitäten.
+
+
 ## Features:
 
 1. **Selection at Start:**
