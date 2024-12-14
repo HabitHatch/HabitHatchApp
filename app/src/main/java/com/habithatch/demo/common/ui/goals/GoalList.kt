@@ -19,8 +19,8 @@ fun GoalList(
 ) {
     LazyColumn(
             modifier = modifier,
-            contentPadding = PaddingValues(5.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+            contentPadding = PaddingValues(4.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         goals.forEach { goal ->
             item {
@@ -34,7 +34,7 @@ fun GoalList(
 @Composable
 fun GoalListPreview() {
     val goals = listOf(
-            Goal(title = "Goal 1", isDone = GoalDoneState.DONE),
+            Goal(title = "Goal 1", doneState = GoalDoneState.DONE),
             Goal(title = "Goal 2"),
             Goal(title = "Goal 3")
     )

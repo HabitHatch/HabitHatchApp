@@ -26,7 +26,7 @@ class SignupViewModel @Inject constructor(
     habitHatchConfig: HabitHatchConfig
 ) : ViewModel() {
     private val _isSignedUp = MutableStateFlow<SignUpState>(SignUpState.LOADING)
-    val isSignedUp: StateFlow<SignUpState> = _isSignedUp
+    val signUpState: StateFlow<SignUpState> = _isSignedUp
 
     val pets: List<Pet> = habitHatchConfig.pets
 

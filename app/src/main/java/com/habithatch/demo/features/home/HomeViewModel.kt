@@ -49,6 +49,7 @@ class HomeViewModel @Inject constructor(
     val priorityVisibleMap = _priorityVisibleMap.asStateFlow()
 
     val bottomNavigationItems: List<NavigationItem> = habitHatchConfig.navigationItems
+    val primaryNavigationItem: NavigationItem = habitHatchConfig.accountItem
 
     init {
         seedGoals()

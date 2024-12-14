@@ -1,4 +1,4 @@
-package com.habithatch.demo.common.ui
+package com.habithatch.demo.common.ui.pets
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState

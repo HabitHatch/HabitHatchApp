@@ -1,4 +1,4 @@
-package com.habithatch.demo.common.ui
+package com.habithatch.demo.common.ui.pets
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*

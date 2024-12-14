@@ -13,11 +13,13 @@ object HabitHatchDevConfig : HabitHatchConfig {
             Pet(name = "Ice Bear", imageRes = R.mipmap.pet_ice_bear)
     )
     override val navigationItems = listOf(
-            NavigationItem(Screen.Home, R.drawable.vuesax_home_2, true),
-            NavigationItem(Screen.Goals, R.drawable.vuesax_flag, false),
-            NavigationItem(Screen.Friends, R.drawable.vuesax_profile_2user, false),
-            NavigationItem(Screen.Pet, R.drawable.vuesax_pet, false),
-            NavigationItem(Screen.Settings, R.drawable.vuesax_menu, true),
+            NavigationItem(Screen.HOME, R.drawable.vuesax_home_2, true),
+            NavigationItem(Screen.GOALS, R.drawable.vuesax_flag, false),
+            NavigationItem(Screen.FRIENDS, R.drawable.vuesax_profile_2user, false),
+            NavigationItem(Screen.PET, R.drawable.vuesax_pet, false),
+            NavigationItem(Screen.SETTINGS, R.drawable.vuesax_menu, true),
+    )
 
-            )
+    override val accountItem =
+        NavigationItem(Screen.SETTINGS, R.drawable.vuesax_profile_circle, true)
 }
