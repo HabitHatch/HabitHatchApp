@@ -42,7 +42,7 @@
 - Wechsel von der Android Hauptaktivität zu einer anderen Android Aktivität und wieder zurück.  
   **Hinweis:** Diese Funktion hat keine Auswirkung und dient nur dazu, die Anforderung zu erfüllen.
 
-> Android recommend only using one Activity, to use Jetpack Navigation instead.
+> Android recommend only using one Activity and to use Jetpack Navigation instead.
   https://developer.android.com/topic/architecture/recommendations
 ---
 
@@ -78,10 +78,10 @@
 
 #### Tierzustand basierend auf Habits
 
-| **Zustand**     | **Beschreibung**                                                                                              |
-|-----------------|---------------------------------------------------------------------------------------------------------------|
-| **Glücklich**   | Wenn alle Ziele erledigt sind: Das Tier wird glücklich, und das Video erhält einen hellen Farbfilter.         |
-| **Unglücklich** | Wenn nicht alle Ziele erledigt sind: Das Tier bleibt unglücklich, und das Video hat einen dunklen Farbfilter. |
+| **Zustand**     | **Beschreibung**                                                                                               |
+|-----------------|----------------------------------------------------------------------------------------------------------------|
+| **Glücklich**   | Wenn alle Habits erledigt sind: Das Tier wird glücklich, und das Video erhält einen hellen Farbfilter.         |
+| **Unglücklich** | Wenn nicht alle Habits erledigt sind: Das Tier bleibt unglücklich, und das Video hat einen dunklen Farbfilter. |
 
 ---
 
