@@ -31,7 +31,7 @@
 | **Automatisches Login** | Nach der Auswahl eines Tiers ist man angemeldet und wird bei jedem Start eingeloggt. |
 
 - Es gibt **keine Authentifizierung** oder Registrierung.  
-  Die App ist für einen einzigen Benutzer und funktioniert offline.
+  Die App ist für einen einzigen Benutzer und alle Daten werden nur lokal gespeichert.
 
 ---
 
@@ -39,9 +39,11 @@
 
 #### Wechsel zwischen Activities
 
-- Wechsel von der Hauptaktivität zu einer anderen Aktivität und wieder zurück.  
-  **Hinweis:** Diese Funktion hat keine Auswirkung und dient nur dazu, Anforderungen zu erfüllen.
+- Wechsel von der Android Hauptaktivität zu einer anderen Android Aktivität und wieder zurück.  
+  **Hinweis:** Diese Funktion hat keine Auswirkung und dient nur dazu, die Anforderung zu erfüllen.
 
+> Android recommend only using one Activity, to use Jetpack Navigation instead.
+  https://developer.android.com/topic/architecture/recommendations
 ---
 
 ### Habits
@@ -97,6 +99,7 @@
 
 - Die Funktion **"Ziel mit Sprachsteuerung einfügen"** wurde entfernt.
 
+---
 ## Tech Stack
 
 - **Kotlin Version**: 2.1.0
