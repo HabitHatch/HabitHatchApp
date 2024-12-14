@@ -1,6 +1,8 @@
 package com.habithatch.demo.data.repositories
 
 import kotlin.jvm.Throws
+import com.habithatch.demo.core.exceptions.InvalidUuidFormatException
+import com.habithatch.demo.core.exceptions.UserAlreadyExistsException
 import com.habithatch.demo.core.util.isValidUuid
 import com.habithatch.demo.data.daos.UserDao
 import com.habithatch.demo.data.entities.User

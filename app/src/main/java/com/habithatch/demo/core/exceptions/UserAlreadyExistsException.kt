@@ -1,4 +1,4 @@
-package com.habithatch.demo.data.repositories
+package com.habithatch.demo.core.exceptions
 
 import com.habithatch.demo.data.entities.User
 

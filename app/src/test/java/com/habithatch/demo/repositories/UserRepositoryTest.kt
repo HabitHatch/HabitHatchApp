@@ -4,8 +4,8 @@ import com.google.common.truth.Truth.assertThat
 import com.habithatch.demo.data.daos.UserDao
 import com.habithatch.demo.data.entities.Pet
 import com.habithatch.demo.data.entities.User
-import com.habithatch.demo.data.repositories.InvalidUuidFormatException
-import com.habithatch.demo.data.repositories.UserAlreadyExistsException
+import com.habithatch.demo.core.exceptions.InvalidUuidFormatException
+import com.habithatch.demo.core.exceptions.UserAlreadyExistsException
 import com.habithatch.demo.data.repositories.UserRepository
 import io.mockk.coEvery
 import io.mockk.coVerify

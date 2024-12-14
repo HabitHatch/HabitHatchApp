@@ -6,7 +6,6 @@ import com.google.common.truth.Truth.assertThat
 import com.habithatch.demo.data.daos.GoalDao
 import com.habithatch.demo.data.db.AppDatabase
 import com.habithatch.demo.data.entities.Goal
-import com.habithatch.demo.data.entities.GoalDoneState
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After

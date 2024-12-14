@@ -2,9 +2,7 @@ package com.habithatch.demo.features.home
 
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -17,18 +15,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.unit.dp
-import java.util.Locale
 import BottomNavigationBar
 import android.util.Log
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.habithatch.demo.common.ui.LoadingScreen
-import com.habithatch.demo.common.ui.TopAppInformationBar
 import com.habithatch.demo.common.ui.goals.AddGoalDialog
-import com.habithatch.demo.common.ui.goals.GoalListScreen
+import com.habithatch.demo.common.ui.goals.FilteredGoalList
+import com.habithatch.demo.common.ui.navigation.TopAppInformationBar
 import com.habithatch.demo.common.ui.pets.PetAnimation
 import com.habithatch.demo.core.navigation.NavigationItem
 import com.habithatch.demo.core.navigation.Screen
@@ -94,26 +90,27 @@ fun HomeScreen(
                 ) {
                     PetAnimation(
                             pet = user!!.pet,
-                            modifier = Modifier.fillMaxWidth(0.5f).padding(top=8.dp)
+                            modifier = Modifier
+                                .fillMaxWidth(0.4f)
+                                .padding(top = 8.dp)
                     )
-                    Column(
+                    FilteredGoalList(
+                            goals = goals,
                             modifier = Modifier
                                 .fillMaxWidth()
-                    ) {
-                        GoalListScreen(searchQuery = searchQuery.orEmpty(),
-                                visibleDoneStates = doneStateVisibleMap,
-                                visiblePriorities = priorityVisibleMap,
-                                goals = goals,
-                                onToggleDone = { viewModel.toggleGoalDone(it) },
-                                addGoal = { viewModel.addGoal(it) },
-                                onQueryChange = { viewModel.changeSearchQuery(it) },
-                                onDoneStateVisibilityChange = { doneState, visibility ->
-                                    viewModel.setDoneStateVisible(doneState, visibility)
-                                },
-                                onPriorityVisibilityChange = { priority, visibility ->
-                                    viewModel.setPriorityVisibility(priority, visibility)
-                                })
-                    }
+                                .padding(horizontal = 16.dp, vertical = 8.dp),
+                            searchQuery = searchQuery.orEmpty(),
+                            visibleDoneStates = doneStateVisibleMap,
+                            visiblePriorities = priorityVisibleMap,
+                            onToggleGoalStatus = { viewModel.toggleGoalDone(it) },
+                            onQueryChange = { viewModel.changeSearchQuery(it) },
+                            onDoneStateVisibilityChange = { doneState, visibility ->
+                                viewModel.setDoneStateVisible(doneState, visibility)
+                            },
+                            onPriorityVisibilityChange = { priority, visibility ->
+                                viewModel.setPriorityVisibility(priority, visibility)
+                            }
+                    )
                 }
 
             }
@@ -121,8 +118,8 @@ fun HomeScreen(
     if (showDialog.value) {
         AddGoalDialog(
                 onDismiss = { showDialog.value = false },
-                onAdd = { goalName ->
-                    viewModel.addGoal(goalName)
+                onAdd = { goalName, priority ->
+                    viewModel.addGoal(goalName, priority)
                     showDialog.value = false
                 }
         )

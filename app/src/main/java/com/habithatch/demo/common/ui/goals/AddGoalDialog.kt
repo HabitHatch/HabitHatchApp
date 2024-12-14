@@ -1,60 +1,122 @@
 package com.habithatch.demo.common.ui.goals
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import com.habithatch.demo.data.entities.GoalPriority
 
 @Composable
 fun AddGoalDialog(
+    preselectedGoalName: String = "",
+    preselectedPriority: GoalPriority = GoalPriority.NORMAL,
+    dialogTitle: String = "Add Goal",
+    blankGoalSubmissionErrorMessage: String = "Goal name cannot be empty",
     onDismiss: () -> Unit,
-    onAdd: (String) -> Unit
+    onAdd: (String, GoalPriority) -> Unit
 ) {
-    var goalName = remember { mutableStateOf("") }
+    var goalName by remember { mutableStateOf(preselectedGoalName) }
+    var selectedPriority by remember { mutableStateOf(preselectedPriority) }
+    var addedBlankGoal by remember { mutableStateOf(false) }
 
-    AlertDialog(
-            onDismissRequest = onDismiss,
-            title = { Text(text = "Add Goal") },
-            text = {
-                Column {
-                    Text("Enter goal name:")
-                    OutlinedTextField(
-                            value = goalName.value,
-                            onValueChange = { goalName.value = it },
-                            modifier = Modifier.fillMaxWidth()
+    Dialog(onDismissRequest = onDismiss) {
+        Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .background(
+                            color = MaterialTheme.colorScheme.surface,
+                            shape = MaterialTheme.shapes.large
+                    )
+                    .padding(top = 16.dp, start = 24.dp, end = 24.dp, bottom = 8.dp),
+        ) {
+            Column {
+                Text(
+                        text = dialogTitle,
+                        style = MaterialTheme.typography.headlineSmall,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                )
+                if (addedBlankGoal) {
+                    Text(
+                            text = blankGoalSubmissionErrorMessage,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.padding(bottom = 4.dp)
                     )
                 }
-            },
-            confirmButton = {
-                Button(
-                        onClick = {
-                            if (goalName.value.isNotBlank()) {
-                                onAdd(goalName.value)
-                                goalName.value = ""
-                            }
-                        }
+                Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Add")
+                    OutlinedTextField(
+                            value = goalName,
+                            onValueChange = {
+                                goalName = it
+                                addedBlankGoal = false
+                            },
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(end = 4.dp),
+                            shape = MaterialTheme.shapes.medium,
+                            isError = addedBlankGoal
+                    )
+                    IconButton(
+                            onClick = {
+                                selectedPriority = selectedPriority.getHigherPriorityOrLowest()
+                            },
+                            modifier = Modifier.size(36.dp)
+                    ) {
+                        Icon(
+                                painter = painterResource(id = selectedPriority.iconResourceId),
+                                contentDescription = selectedPriority.label,
+                                tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
                 }
-            },
-            dismissButton = {
-                Button(onClick = onDismiss) {
-                    Text("Cancel")
+                Spacer(modifier = Modifier.height(16.dp))
+                Row(
+                        horizontalArrangement = Arrangement.End,
+                        modifier = Modifier.fillMaxWidth()
+                ) {
+                    TextButton(onClick = onDismiss) {
+                        Text("Cancel")
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    TextButton(
+                            onClick = {
+                                if (goalName.isNotBlank()) {
+                                    onAdd(goalName, selectedPriority)
+                                    return@TextButton
+                                }
+                                addedBlankGoal = true
+                            }
+                    ) {
+                        Text("Add")
+                    }
                 }
             }
-    )
+        }
+    }
 }
-
 
 @Preview(showBackground = true)
 @Composable
 fun AddGoalDialogPreview() {
-    AddGoalDialog(onDismiss = {}, onAdd = {})
+    AddGoalDialog(
+            onDismiss = {},
+            onAdd = { name, priority -> },
+            preselectedGoalName = "My Goal",
+            preselectedPriority = GoalPriority.HIGH
+    )
 }

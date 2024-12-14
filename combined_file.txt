@@ -135,7 +135,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.habithatch.demo.data.entities.GoalDoneState
+import com.habithatch.demo.data.entities.GoalStatus
 import com.habithatch.demo.data.entities.GoalPriority
 
 @Composable
@@ -229,7 +229,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.data.entities.Goal
-import com.habithatch.demo.data.entities.GoalDoneState
+import com.habithatch.demo.data.entities.GoalStatus
 
 @Composable
 fun GoalItem(
@@ -305,7 +305,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.data.entities.Goal
-import com.habithatch.demo.data.entities.GoalDoneState
+import com.habithatch.demo.data.entities.GoalStatus
 
 @Composable
 fun GoalList(
@@ -344,7 +344,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.data.entities.Goal
-import com.habithatch.demo.data.entities.GoalDoneState
+import com.habithatch.demo.data.entities.GoalStatus
 import com.habithatch.demo.data.entities.GoalPriority
 
 @Composable
@@ -986,7 +986,7 @@ object DatabaseProvider {
 }package com.habithatch.demo.data.db
 
 import androidx.room.TypeConverter
-import com.habithatch.demo.data.entities.GoalDoneState
+import com.habithatch.demo.data.entities.GoalStatus
 import com.habithatch.demo.data.entities.GoalPriority
 
 class Converters {
@@ -1049,7 +1049,7 @@ data class User(
     @Embedded val pet: Pet
 )package com.habithatch.demo.data.models
 
-import com.habithatch.demo.data.entities.GoalDoneState
+import com.habithatch.demo.data.entities.GoalStatus
 import com.habithatch.demo.data.entities.GoalPriority
 
 data class GoalFilter(
@@ -1082,7 +1082,7 @@ package com.habithatch.demo.data.repositories
 
 import com.habithatch.demo.data.daos.GoalDao
 import com.habithatch.demo.data.entities.Goal
-import com.habithatch.demo.data.entities.GoalDoneState
+import com.habithatch.demo.data.entities.GoalStatus
 import com.habithatch.demo.data.models.GoalFilter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
@@ -1301,7 +1301,7 @@ import androidx.lifecycle.viewModelScope
 import com.habithatch.demo.core.config.HabitHatchConfig
 import com.habithatch.demo.core.navigation.NavigationItem
 import com.habithatch.demo.data.entities.Goal
-import com.habithatch.demo.data.entities.GoalDoneState
+import com.habithatch.demo.data.entities.GoalStatus
 import com.habithatch.demo.data.entities.GoalPriority
 import com.habithatch.demo.data.entities.User
 import com.habithatch.demo.data.models.GoalFilter

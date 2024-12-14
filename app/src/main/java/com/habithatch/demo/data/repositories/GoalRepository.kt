@@ -2,7 +2,7 @@ package com.habithatch.demo.data.repositories
 
 import com.habithatch.demo.data.daos.GoalDao
 import com.habithatch.demo.data.entities.Goal
-import com.habithatch.demo.data.entities.GoalDoneState
+import com.habithatch.demo.data.entities.GoalStatus
 import com.habithatch.demo.data.models.GoalFilter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
@@ -17,7 +17,7 @@ class GoalRepository(private val goalDao: GoalDao) {
     suspend fun toggleGoalDone(goalId: Int) {
         goalDao.getGoalById(goalId)?.let {
             val goal = it.copy(
-                    doneState = if (it.doneState == GoalDoneState.DONE) GoalDoneState.UNDONE else GoalDoneState.DONE
+                    doneState = if (it.doneState == GoalStatus.DONE) GoalStatus.UNDONE else GoalStatus.DONE
             )
             goalDao.update(goal)
         }
@@ -39,9 +39,9 @@ class GoalRepository(private val goalDao: GoalDao) {
     suspend fun seedDatabase() {
         if (getAll().firstOrNull().isNullOrEmpty()) {
             val goals = listOf(
-                    Goal(id = 1, title = "Drink water", doneState = GoalDoneState.UNDONE),
-                    Goal(id = 2, title = "Read a book", doneState = GoalDoneState.UNDONE),
-                    Goal(id = 3, title = "Exercise", doneState = GoalDoneState.DONE)
+                    Goal(id = 1, title = "Drink water", doneState = GoalStatus.UNDONE),
+                    Goal(id = 2, title = "Read a book", doneState = GoalStatus.UNDONE),
+                    Goal(id = 3, title = "Exercise", doneState = GoalStatus.DONE)
             )
             goals.forEach { insert(it) }
         }

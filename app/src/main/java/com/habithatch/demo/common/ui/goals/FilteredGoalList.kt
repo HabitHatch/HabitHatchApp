@@ -2,29 +2,31 @@ package com.habithatch.demo.common.ui.goals
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.data.entities.Goal
-import com.habithatch.demo.data.entities.GoalDoneState
+import com.habithatch.demo.data.entities.GoalStatus
 import com.habithatch.demo.data.entities.GoalPriority
 
 @Composable
-fun GoalListScreen(
+fun FilteredGoalList(
     goals: List<Goal>,
-    searchQuery: String,
-    visibleDoneStates: Map<GoalDoneState, Boolean>,
+    modifier: Modifier = Modifier.padding(4.dp).fillMaxWidth(),
+    searchQuery: String= "",
+    visibleDoneStates: Map<GoalStatus, Boolean>,
     visiblePriorities: Map<GoalPriority, Boolean>,
-    onToggleDone: (Goal) -> Unit,
-    addGoal: (String) -> Unit,
-    onQueryChange: (String) -> Unit,
-    onDoneStateVisibilityChange: (GoalDoneState, Boolean) -> Unit,
-    onPriorityVisibilityChange: (GoalPriority, Boolean) -> Unit,
+    onToggleGoalStatus: (Goal) -> Unit = {},
+    onGoalClicked: (Goal) -> Unit = {},
+    onQueryChange: (String) -> Unit = {},
+    onDoneStateVisibilityChange: (GoalStatus, Boolean) -> Unit = {state, visible -> },
+    onPriorityVisibilityChange: (GoalPriority, Boolean) -> Unit = {priority, visible -> },
 ) {
 
     Column(
-            modifier = Modifier.padding(4.dp)
+            modifier = modifier
     ) {
         GoalFilterBar(
                 searchQuery = searchQuery,
@@ -36,10 +38,9 @@ fun GoalListScreen(
         )
         GoalList(
                 goals = goals,
-                onToggleDone = onToggleDone,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(4.dp)
+                modifier = Modifier.fillMaxSize(),
+                onToggleGoalStatus = onToggleGoalStatus,
+                onGoalClicked = onGoalClicked
         )
     }
 }
