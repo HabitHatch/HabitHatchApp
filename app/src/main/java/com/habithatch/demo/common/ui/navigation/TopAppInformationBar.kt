@@ -1,6 +1,5 @@
-package com.habithatch.demo.common.ui
+package com.habithatch.demo.common.ui.navigation
 
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -18,7 +17,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.navigation.NavigationItem
-import com.habithatch.demo.core.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,7 +33,8 @@ fun TopAppInformationBar(
             title = {
                 Text(
                         text = title,
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(vertical = 8.dp)
                 )
             },
             actions = {
@@ -43,8 +42,8 @@ fun TopAppInformationBar(
                     IconButton(
                             onClick = onPrimaryNavigationItemClick,
                             modifier = Modifier
-                                .size(28.dp)
-                                .padding(4.dp)
+                                .size(36.dp)
+                                .padding(end = 4.dp),
 
                     ) {
                         Icon(
@@ -55,7 +54,7 @@ fun TopAppInformationBar(
                     }
                 }
             },
-            modifier = Modifier.height(60.dp)
+            modifier = Modifier.height(64.dp)
     )
 }
 

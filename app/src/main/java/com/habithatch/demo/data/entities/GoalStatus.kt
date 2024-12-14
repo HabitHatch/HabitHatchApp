@@ -1,5 +1,5 @@
 package com.habithatch.demo.data.entities
 
-enum class GoalDoneState{
+enum class GoalStatus{
     DONE, UNDONE
 }

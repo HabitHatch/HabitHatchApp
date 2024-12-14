@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.habithatch.demo.core.config.HabitHatchConfig
 import com.habithatch.demo.data.entities.Pet
 import com.habithatch.demo.data.entities.User
-import com.habithatch.demo.data.repositories.UserAlreadyExistsException
+import com.habithatch.demo.core.exceptions.UserAlreadyExistsException
 import com.habithatch.demo.data.repositories.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

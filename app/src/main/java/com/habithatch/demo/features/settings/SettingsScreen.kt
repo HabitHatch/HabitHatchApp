@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import BottomNavigationBar
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.habithatch.demo.ConfirmationDialog
+import com.habithatch.demo.common.ui.ConfirmationDialog
 import com.habithatch.demo.core.navigation.NavigationItem
 
 data class DialogState(

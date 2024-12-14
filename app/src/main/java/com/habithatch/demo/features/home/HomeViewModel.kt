@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.habithatch.demo.core.config.HabitHatchConfig
 import com.habithatch.demo.core.navigation.NavigationItem
 import com.habithatch.demo.data.entities.Goal
-import com.habithatch.demo.data.entities.GoalDoneState
+import com.habithatch.demo.data.entities.GoalStatus
 import com.habithatch.demo.data.entities.GoalPriority
 import com.habithatch.demo.data.entities.User
 import com.habithatch.demo.data.models.GoalFilter
@@ -41,7 +41,7 @@ class HomeViewModel @Inject constructor(
     val searchQuery = _searchQuery.asStateFlow()
 
     private val _doneStateVisibleMap =
-        MutableStateFlow(GoalDoneState.entries.associateWith { true })
+        MutableStateFlow(GoalStatus.entries.associateWith { true })
     val doneStateVisibleMap = _doneStateVisibleMap.asStateFlow()
 
 
@@ -57,9 +57,9 @@ class HomeViewModel @Inject constructor(
         observeFilteredGoals()
     }
 
-    fun addGoal(goalTitle: String) {
+    fun addGoal(goalTitle: String, goalPriority: GoalPriority) {
         viewModelScope.launch {
-            val newGoal = Goal(title = goalTitle)
+            val newGoal = Goal(title = goalTitle, priority = goalPriority)
             goalRepository.insert(newGoal)
         }
     }
@@ -74,7 +74,7 @@ class HomeViewModel @Inject constructor(
         _searchQuery.value = query
     }
 
-    fun setDoneStateVisible(doneState: GoalDoneState, visible: Boolean) {
+    fun setDoneStateVisible(doneState: GoalStatus, visible: Boolean) {
         _doneStateVisibleMap.update {
             it.toMutableMap().apply {
                 this[doneState] = visible

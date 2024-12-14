@@ -3,7 +3,7 @@ package com.habithatch.demo.repositories
 import com.google.common.truth.Truth.assertThat
 import com.habithatch.demo.data.daos.GoalDao
 import com.habithatch.demo.data.entities.Goal
-import com.habithatch.demo.data.entities.GoalDoneState
+import com.habithatch.demo.data.entities.GoalStatus
 import com.habithatch.demo.data.entities.GoalPriority
 import com.habithatch.demo.data.models.GoalFilter
 import com.habithatch.demo.data.repositories.GoalRepository
@@ -48,7 +48,7 @@ class GoalRepositoryTest {
     fun `toggleGoalDone() should mark goal as done when goal not done`() {
         runBlocking {
             // Arrange
-            val goal = Goal(title = "goal", doneState = GoalDoneState.UNDONE)
+            val goal = Goal(title = "goal", doneState = GoalStatus.UNDONE)
 
             coEvery { goalDao.getGoalById(goal.id) } returns goal
 
@@ -56,7 +56,7 @@ class GoalRepositoryTest {
             goalRepository.toggleGoalDone(goal.id)
 
             // Assert
-            val updatedGoal = goal.copy(doneState = GoalDoneState.DONE)
+            val updatedGoal = goal.copy(doneState = GoalStatus.DONE)
             coVerify { goalDao.update(updatedGoal) }
         }
     }
@@ -65,14 +65,14 @@ class GoalRepositoryTest {
     fun `toggleGoalDone() should mark goal as not done when goal done`() {
         runBlocking {
             // Arrange
-            val goal = Goal(title = "goal", doneState = GoalDoneState.DONE)
+            val goal = Goal(title = "goal", doneState = GoalStatus.DONE)
             coEvery { goalDao.getGoalById(goal.id) } returns goal
 
             // Act
             goalRepository.toggleGoalDone(goal.id)
 
             // Assert
-            val updatedGoal = goal.copy(doneState = GoalDoneState.UNDONE)
+            val updatedGoal = goal.copy(doneState = GoalStatus.UNDONE)
             coVerify { goalDao.update(updatedGoal) }
         }
     }
