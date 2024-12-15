@@ -4,8 +4,7 @@ import androidx.room.TypeConverter
 import com.habithatch.demo.data.entities.GoalStatus
 import com.habithatch.demo.data.entities.GoalPriority
 
-class Converters {
-
+class EnumConverters {
     @TypeConverter
     fun fromGoalPriority(priority: GoalPriority): String {
         return priority.name

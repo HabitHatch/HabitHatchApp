@@ -1,4 +1,4 @@
-package com.habithatch.demo.common.ui.navigation
+package com.habithatch.demo.ui.navigation
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding

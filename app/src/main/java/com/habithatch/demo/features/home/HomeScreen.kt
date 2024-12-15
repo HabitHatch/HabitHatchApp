@@ -22,10 +22,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.habithatch.demo.common.ui.LoadingScreen
-import com.habithatch.demo.common.ui.goals.AddGoalDialog
-import com.habithatch.demo.common.ui.goals.FilteredGoalList
-import com.habithatch.demo.common.ui.navigation.TopAppInformationBar
-import com.habithatch.demo.common.ui.pets.PetAnimation
+import com.habithatch.demo.ui.goals.AddGoalDialog
+import com.habithatch.demo.ui.goals.FilteredGoalList
+import com.habithatch.demo.ui.navigation.TopAppInformationBar
+import com.habithatch.demo.ui.pets.PetAnimation
 import com.habithatch.demo.core.navigation.NavigationItem
 import com.habithatch.demo.core.navigation.Screen
 import com.habithatch.demo.data.entities.User

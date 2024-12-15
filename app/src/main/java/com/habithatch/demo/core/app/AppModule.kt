@@ -1,4 +1,4 @@
-package com.habithatch.demo.core
+package com.habithatch.demo.core.app
 
 import javax.inject.Singleton
 import android.content.Context

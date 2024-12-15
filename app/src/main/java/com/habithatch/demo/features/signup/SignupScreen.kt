@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.habithatch.demo.common.ui.pets.PetsGrid
+import com.habithatch.demo.ui.pets.PetsGrid
 
 @Composable
 fun SignupScreen() {

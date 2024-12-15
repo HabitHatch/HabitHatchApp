@@ -1,8 +1,7 @@
-package com.habithatch.demo.core
+package com.habithatch.demo.core.app
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class HabitHatchApp : Application() {
-}
+class HabitHatchApp : Application()

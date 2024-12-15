@@ -1,4 +1,4 @@
-package com.habithatch.demo.core
+package com.habithatch.demo.core.app
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
