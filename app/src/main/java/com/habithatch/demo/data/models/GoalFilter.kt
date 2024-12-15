@@ -1,29 +1,40 @@
 package com.habithatch.demo.data.models
 
-import com.habithatch.demo.data.entities.GoalStatus
+
+import java.util.EnumMap
+import kotlin.enums.EnumEntries
 import com.habithatch.demo.data.entities.GoalPriority
+import com.habithatch.demo.data.entities.GoalStatus
 
 data class GoalFilter(
-    val priorityVisibleMap: Map<GoalPriority, Boolean>,
-    val doneStateVisibleMap: Map<GoalStatus, Boolean>,
+    val priorityVisibleMap: EnumMap<GoalPriority, Boolean>,
+    val doneStateVisibleMap: EnumMap<GoalStatus, Boolean>,
     val searchQuery: String?
 ) {
     init {
-        val allPriorities = GoalPriority.entries.toSet()
-        require(priorityVisibleMap.keys == allPriorities) {
-            "priorityVisibleMap must contain all values of GoalPriority exactly once."
-        }
+        validateMap(priorityVisibleMap, GoalPriority.entries, ::priorityVisibleMap.name)
+        validateMap(doneStateVisibleMap, GoalStatus.entries, ::doneStateVisibleMap.name)
+    }
 
-        val allDoneStates = GoalStatus.entries.toSet()
-        require(doneStateVisibleMap.keys == allDoneStates) {
-            "doneStateVisibleMap must contain all values of GoalStatus exactly once."
+    private inline fun <reified E : Enum<E>> validateMap(
+        map: EnumMap<E, Boolean>,
+        validKeys: EnumEntries<E>,
+        mapName: String
+    ) {
+        val missingKeys = validKeys.toSet() - map.keys
+        require(missingKeys.isEmpty()) {
+            """
+                $mapName must contain all values of ${E::class.simpleName}:
+                Missing keys: $missingKeys.
+            """.trimIndent()
         }
     }
+
     companion object {
         fun matchAllFilter(): GoalFilter {
             return GoalFilter(
-                    priorityVisibleMap = GoalPriority.entries.associateWith { true },
-                    doneStateVisibleMap = GoalStatus.entries.associateWith { true },
+                    priorityVisibleMap = EnumMap(GoalPriority.entries.associateWith { true }),
+                    doneStateVisibleMap = EnumMap(GoalStatus.entries.associateWith { true }),
                     searchQuery = null
             )
         }

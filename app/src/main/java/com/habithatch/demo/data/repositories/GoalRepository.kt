@@ -14,10 +14,12 @@ class GoalRepository(private val goalDao: GoalDao) {
 
     suspend fun insert(goal: Goal) = goalDao.insert(goal)
 
+    suspend fun deleteAll() = goalDao.deleteAll()
+
     suspend fun toggleGoalDone(goalId: Int) {
         goalDao.getGoalById(goalId)?.let {
             val goal = it.copy(
-                    doneState = if (it.doneState == GoalStatus.DONE) GoalStatus.UNDONE else GoalStatus.DONE
+                    status = if (it.status == GoalStatus.DONE) GoalStatus.UNDONE else GoalStatus.DONE
             )
             goalDao.update(goal)
         }
@@ -26,7 +28,7 @@ class GoalRepository(private val goalDao: GoalDao) {
     fun getFilteredGoals(filter: GoalFilter): Flow<List<Goal>> {
         return goalDao.getAll().map { allGoals ->
             allGoals.filter { goal ->
-                val matchesDone = filter.doneStateVisibleMap[goal.doneState] == true
+                val matchesDone = filter.doneStateVisibleMap[goal.status] == true
                 val matchesPriority = filter.priorityVisibleMap[goal.priority] == true
                 val matchesSearch = filter.searchQuery.isNullOrBlank() ||
                         goal.title.contains(filter.searchQuery, ignoreCase = true)
@@ -39,9 +41,9 @@ class GoalRepository(private val goalDao: GoalDao) {
     suspend fun seedDatabase() {
         if (getAll().firstOrNull().isNullOrEmpty()) {
             val goals = listOf(
-                    Goal(id = 1, title = "Drink water", doneState = GoalStatus.UNDONE),
-                    Goal(id = 2, title = "Read a book", doneState = GoalStatus.UNDONE),
-                    Goal(id = 3, title = "Exercise", doneState = GoalStatus.DONE)
+                    Goal(id = 1, title = "Drink water", status = GoalStatus.UNDONE),
+                    Goal(id = 2, title = "Read a book", status = GoalStatus.UNDONE),
+                    Goal(id = 3, title = "Exercise", status = GoalStatus.DONE)
             )
             goals.forEach { insert(it) }
         }

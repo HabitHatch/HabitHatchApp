@@ -42,16 +42,16 @@ fun GoalList(
 @Composable
 fun GoalListPreview() {
     val goals = listOf(
-            Goal(title = "Done Goal", doneState = GoalStatus.DONE),
-            Goal(title = "Undone Goal", doneState = GoalStatus.UNDONE),
+            Goal(title = "Done Goal", status = GoalStatus.DONE),
+            Goal(title = "Undone Goal", status = GoalStatus.UNDONE),
             Goal(
                     title = "Important Done Goal",
-                    doneState = GoalStatus.DONE,
+                    status = GoalStatus.DONE,
                     priority = GoalPriority.HIGH
             ),
             Goal(
                     title = "Important Undone Goal",
-                    doneState = GoalStatus.UNDONE,
+                    status = GoalStatus.UNDONE,
                     priority = GoalPriority.HIGH
             ),
     )

@@ -21,4 +21,7 @@ interface GoalDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(goal: Goal)
+
+    @Query("DELETE FROM goal")
+    suspend fun deleteAll()
 }
