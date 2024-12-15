@@ -22,16 +22,19 @@ import androidx.compose.ui.unit.dp
 import java.util.EnumMap
 import com.habithatch.demo.data.entities.GoalPriority
 import com.habithatch.demo.data.entities.GoalStatus
+import com.habithatch.demo.data.models.GoalFilter
 
 @Composable
 fun GoalFilterBar(
-    searchQuery: String,
-    visibleDoneStates: EnumMap<GoalStatus, Boolean>,
-    visiblePriorities: EnumMap<GoalPriority, Boolean>,
+    goalFilter: GoalFilter,
     onQueryChange: (String) -> Unit,
-    onDoneStateVisibleChange: (GoalStatus, Boolean) -> Unit,
+    onGoalStateVisibleChange: (GoalStatus, Boolean) -> Unit,
     onPriorityVisibilityChange: (GoalPriority, Boolean) -> Unit,
 ) {
+    val searchQuery = goalFilter.searchQuery.orEmpty()
+    val visibleGoalStatuses = goalFilter.goalStatusVisibleMap
+    val visibleGoalPriorities = goalFilter.goalPriorityVisibleMap
+
     Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -40,18 +43,20 @@ fun GoalFilterBar(
         CustomSearchView(
                 searchQuery = searchQuery,
                 onQueryChange = onQueryChange,
-                modifier = Modifier.weight(0.6f).padding(end = 8.dp) // Compact size and spacing
+                modifier = Modifier.weight(0.6f).padding(end = 8.dp)
         )
         StatusDropdown(
-                visibleDoneStates = visibleDoneStates,
-                onDoneStateVisibleChange = onDoneStateVisibleChange
+                visibleGoalStatuses = visibleGoalStatuses,
+                onDoneStateVisibleChange = onGoalStateVisibleChange
         )
         PriorityDropdown(
-                visiblePriorities = visiblePriorities,
+                visiblePriorities = visibleGoalPriorities,
                 onPriorityVisibilityChange = onPriorityVisibilityChange
         )
     }
 }
+
+// TODO: move to separate file
 @Composable
 fun CustomSearchView(
     searchQuery: String,
@@ -82,7 +87,7 @@ fun CustomSearchView(
         )
         Spacer(modifier = Modifier.width(8.dp))
         Box(
-                contentAlignment = Alignment.CenterStart, // Vertically centers the text
+                contentAlignment = Alignment.CenterStart,
                 modifier = Modifier
                     .fillMaxHeight()
                     .weight(1f)
@@ -95,15 +100,16 @@ fun CustomSearchView(
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 4.dp) // Optional padding inside text field
+                        .padding(horizontal = 4.dp)
             )
         }
     }
 }
+// TODO: move to separate file
 
 @Composable
 fun StatusDropdown(
-    visibleDoneStates: EnumMap<GoalStatus, Boolean>,
+    visibleGoalStatuses: EnumMap<GoalStatus, Boolean>,
     onDoneStateVisibleChange: (GoalStatus, Boolean) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -124,22 +130,23 @@ fun StatusDropdown(
                                     verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Checkbox(
-                                        checked = visibleDoneStates[doneState] == true,
+                                        checked = visibleGoalStatuses[doneState] == true,
                                         onCheckedChange = {
                                             onDoneStateVisibleChange(doneState, it)
-                                            expanded = false // Close dropdown after selection
+                                            expanded = false
                                         }
                                 )
                                 Text(doneState.name)
                             }
                         },
-                        onClick = {} // Handled by Checkbox onCheckedChange
+                        onClick = {}
                 )
             }
         }
     }
 }
 
+// TODO: move to separate file
 @Composable
 fun PriorityDropdown(
     visiblePriorities: EnumMap<GoalPriority, Boolean>,
@@ -166,13 +173,13 @@ fun PriorityDropdown(
                                         checked = visiblePriorities[priority] == true,
                                         onCheckedChange = {
                                             onPriorityVisibilityChange(priority, it)
-                                            expanded = false // Close dropdown after selection
+                                            expanded = false
                                         }
                                 )
                                 Text(priority.label)
                             }
                         },
-                        onClick = {} // Handled by Checkbox onCheckedChange
+                        onClick = {}
                 )
             }
         }

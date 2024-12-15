@@ -28,8 +28,8 @@ class GoalRepository(private val goalDao: GoalDao) {
     fun getFilteredGoals(filter: GoalFilter): Flow<List<Goal>> {
         return goalDao.getAll().map { allGoals ->
             allGoals.filter { goal ->
-                val matchesDone = filter.doneStateVisibleMap[goal.status] == true
-                val matchesPriority = filter.priorityVisibleMap[goal.priority] == true
+                val matchesDone = filter.goalStatusVisibleMap[goal.status] == true
+                val matchesPriority = filter.goalPriorityVisibleMap[goal.priority] == true
                 val matchesSearch = filter.searchQuery.isNullOrBlank() ||
                         goal.title.contains(filter.searchQuery, ignoreCase = true)
 

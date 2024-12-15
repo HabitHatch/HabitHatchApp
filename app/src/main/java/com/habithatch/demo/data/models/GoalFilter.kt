@@ -9,18 +9,18 @@ import com.habithatch.demo.data.entities.GoalStatus
 /**
  * Filters goals based on priority and status.
  *
- * @param priorityVisibleMap Maps each priority to its visibility.
- * @param doneStateVisibleMap Maps each status to its visibility.
+ * @param goalPriorityVisibleMap Maps each priority to its visibility.
+ * @param goalStatusVisibleMap Maps each status to its visibility.
  * @param searchQuery Optional search term for filtering goals.
  */
 data class GoalFilter(
-    val priorityVisibleMap: EnumMap<GoalPriority, Boolean>,
-    val doneStateVisibleMap: EnumMap<GoalStatus, Boolean>,
+    val goalPriorityVisibleMap: EnumMap<GoalPriority, Boolean>,
+    val goalStatusVisibleMap: EnumMap<GoalStatus, Boolean>,
     val searchQuery: String?
 ) {
     init {
-        validateMap(priorityVisibleMap, GoalPriority.entries, ::priorityVisibleMap.name)
-        validateMap(doneStateVisibleMap, GoalStatus.entries, ::doneStateVisibleMap.name)
+        validateMap(goalPriorityVisibleMap, GoalPriority.entries, ::goalPriorityVisibleMap.name)
+        validateMap(goalStatusVisibleMap, GoalStatus.entries, ::goalStatusVisibleMap.name)
     }
 
     private inline fun <reified E : Enum<E>> validateMap(
@@ -38,10 +38,10 @@ data class GoalFilter(
     }
 
     companion object {
-        fun matchAllFilter(): GoalFilter {
+        fun createMatchAllFilter(): GoalFilter {
             return GoalFilter(
-                    priorityVisibleMap = EnumMap(GoalPriority.entries.associateWith { true }),
-                    doneStateVisibleMap = EnumMap(GoalStatus.entries.associateWith { true }),
+                    goalPriorityVisibleMap = EnumMap(GoalPriority.entries.associateWith { true }),
+                    goalStatusVisibleMap = EnumMap(GoalStatus.entries.associateWith { true }),
                     searchQuery = null
             )
         }
