@@ -1,4 +1,4 @@
-package com.habithatch.demo.common.ui.goals
+package com.habithatch.demo.ui.goals
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable

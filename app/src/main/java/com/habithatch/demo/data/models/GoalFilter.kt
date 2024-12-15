@@ -6,6 +6,13 @@ import kotlin.enums.EnumEntries
 import com.habithatch.demo.data.entities.GoalPriority
 import com.habithatch.demo.data.entities.GoalStatus
 
+/**
+ * Filters goals based on priority and status.
+ *
+ * @param priorityVisibleMap Maps each priority to its visibility.
+ * @param doneStateVisibleMap Maps each status to its visibility.
+ * @param searchQuery Optional search term for filtering goals.
+ */
 data class GoalFilter(
     val priorityVisibleMap: EnumMap<GoalPriority, Boolean>,
     val doneStateVisibleMap: EnumMap<GoalStatus, Boolean>,

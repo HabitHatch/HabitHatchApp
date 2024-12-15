@@ -1,4 +1,4 @@
-package com.habithatch.demo.common.ui
+package com.habithatch.demo.ui.common
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme

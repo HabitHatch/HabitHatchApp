@@ -1,4 +1,4 @@
-package com.habithatch.demo.core
+package com.habithatch.demo.core.activities
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.habithatch.demo.core.app.HabitHatchAppTheme
 import com.habithatch.demo.core.navigation.AppNavigation
 import dagger.hilt.android.AndroidEntryPoint
 
