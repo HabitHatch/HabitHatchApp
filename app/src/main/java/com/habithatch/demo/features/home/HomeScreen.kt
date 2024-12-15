@@ -21,7 +21,6 @@ import android.util.Log
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.habithatch.demo.common.ui.LoadingScreen
 import com.habithatch.demo.ui.goals.AddGoalDialog
 import com.habithatch.demo.ui.goals.FilteredGoalList
 import com.habithatch.demo.ui.navigation.TopAppInformationBar
@@ -54,7 +53,6 @@ fun HomeScreen(
     Log.d("HomeScreen", "User: $user")
 
     if (user == null) {
-        LoadingScreen()
         return
     }
     Scaffold(
