@@ -19,14 +19,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import java.util.EnumMap
 import com.habithatch.demo.data.entities.GoalPriority
 import com.habithatch.demo.data.entities.GoalStatus
 
 @Composable
 fun GoalFilterBar(
     searchQuery: String,
-    visibleDoneStates: Map<GoalStatus, Boolean>,
-    visiblePriorities: Map<GoalPriority, Boolean>,
+    visibleDoneStates: EnumMap<GoalStatus, Boolean>,
+    visiblePriorities: EnumMap<GoalPriority, Boolean>,
     onQueryChange: (String) -> Unit,
     onDoneStateVisibleChange: (GoalStatus, Boolean) -> Unit,
     onPriorityVisibilityChange: (GoalPriority, Boolean) -> Unit,
@@ -102,7 +103,7 @@ fun CustomSearchView(
 
 @Composable
 fun StatusDropdown(
-    visibleDoneStates: Map<GoalStatus, Boolean>,
+    visibleDoneStates: EnumMap<GoalStatus, Boolean>,
     onDoneStateVisibleChange: (GoalStatus, Boolean) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -141,7 +142,7 @@ fun StatusDropdown(
 
 @Composable
 fun PriorityDropdown(
-    visiblePriorities: Map<GoalPriority, Boolean>,
+    visiblePriorities: EnumMap<GoalPriority, Boolean>,
     onPriorityVisibilityChange: (GoalPriority, Boolean) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }

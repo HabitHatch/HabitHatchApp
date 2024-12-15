@@ -1,5 +1,6 @@
 package com.habithatch.demo.features.home
 
+import java.util.EnumMap
 import javax.inject.Inject
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -7,8 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.habithatch.demo.core.config.HabitHatchConfig
 import com.habithatch.demo.core.navigation.NavigationItem
 import com.habithatch.demo.data.entities.Goal
-import com.habithatch.demo.data.entities.GoalStatus
 import com.habithatch.demo.data.entities.GoalPriority
+import com.habithatch.demo.data.entities.GoalStatus
 import com.habithatch.demo.data.entities.User
 import com.habithatch.demo.data.models.GoalFilter
 import com.habithatch.demo.data.repositories.GoalRepository
@@ -40,12 +41,13 @@ class HomeViewModel @Inject constructor(
     private val _searchQuery = MutableStateFlow<String?>(null)
     val searchQuery = _searchQuery.asStateFlow()
 
-    private val _doneStateVisibleMap =
-        MutableStateFlow(GoalStatus.entries.associateWith { true })
-    val doneStateVisibleMap = _doneStateVisibleMap.asStateFlow()
+    private val stateVisibleMap =
+        MutableStateFlow(EnumMap(GoalStatus.entries.associateWith { true }))
+    val doneStateVisibleMap = stateVisibleMap.asStateFlow()
 
 
-    private val _priorityVisibleMap = MutableStateFlow(GoalPriority.entries.associateWith { true })
+    private val _priorityVisibleMap =
+        MutableStateFlow(EnumMap(GoalPriority.entries.associateWith { true }))
     val priorityVisibleMap = _priorityVisibleMap.asStateFlow()
 
     val bottomNavigationItems: List<NavigationItem> = habitHatchConfig.navigationItems
@@ -75,18 +77,18 @@ class HomeViewModel @Inject constructor(
     }
 
     fun setDoneStateVisible(doneState: GoalStatus, visible: Boolean) {
-        _doneStateVisibleMap.update {
-            it.toMutableMap().apply {
+        stateVisibleMap.update {
+            EnumMap(it.toMutableMap().apply {
                 this[doneState] = visible
-            }
+            })
         }
     }
 
     fun setPriorityVisibility(priority: GoalPriority, visible: Boolean) {
         _priorityVisibleMap.update {
-            it.toMutableMap().apply {
+            EnumMap(it.toMutableMap().apply {
                 this[priority] = visible
-            }
+            })
         }
     }
 

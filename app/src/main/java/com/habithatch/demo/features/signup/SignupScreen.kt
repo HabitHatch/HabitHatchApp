@@ -10,7 +10,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.habithatch.demo.common.ui.pets.PetsGrid
 
 @Composable
-fun InitialLoginScreen() {
+fun SignupScreen() {
     val viewModel: SignupViewModel = hiltViewModel()
     val pets = viewModel.pets
     Column(

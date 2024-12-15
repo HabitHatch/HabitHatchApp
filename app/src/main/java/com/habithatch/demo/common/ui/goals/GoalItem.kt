@@ -51,7 +51,7 @@ fun GoalItem(
                 )
                 .clickable(onClick = onGoalClicked),
             colors = CardDefaults.cardColors(
-                    containerColor = when (goal.doneState) {
+                    containerColor = when (goal.status) {
                         GoalStatus.DONE -> MaterialTheme.colorScheme.secondaryContainer
                         GoalStatus.UNDONE -> MaterialTheme.colorScheme.primaryContainer
                     },
@@ -65,7 +65,7 @@ fun GoalItem(
                 verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
-                    checked = goal.doneState == GoalStatus.DONE,
+                    checked = goal.status == GoalStatus.DONE,
                     onCheckedChange = {onToggleGoalStatus()},
                     modifier = Modifier.padding(checkBoxPadding)
             )
@@ -75,12 +75,12 @@ fun GoalItem(
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.titleMedium.copy(
-                            textDecoration = when (goal.doneState) {
+                            textDecoration = when (goal.status) {
                                 GoalStatus.DONE -> TextDecoration.LineThrough
                                 GoalStatus.UNDONE -> TextDecoration.None
                             },
 
-                            color = when (goal.doneState) {
+                            color = when (goal.status) {
                                 GoalStatus.DONE -> MaterialTheme.colorScheme.secondary
                                 GoalStatus.UNDONE -> MaterialTheme.colorScheme.onPrimaryContainer
                             }
@@ -121,12 +121,12 @@ fun GoalItemPreview() {
                 goal = Goal(title = "Important Goal", priority = GoalPriority.HIGH),
         )
         GoalItem(
-                goal = Goal(title = "Finished Goal", doneState = GoalStatus.DONE),
+                goal = Goal(title = "Finished Goal", status = GoalStatus.DONE),
         )
         GoalItem(
                 goal = Goal(
                         title = "Important Finished Goal",
-                        doneState = GoalStatus.DONE,
+                        status = GoalStatus.DONE,
                         priority = GoalPriority.HIGH
                 ),
         )
@@ -134,7 +134,7 @@ fun GoalItemPreview() {
                 goal = Goal(
                         title = "Test Goal 2, long long goal text that " +
                                 "should wrap and be displayed nicely",
-                        doneState = GoalStatus.DONE
+                        status = GoalStatus.DONE
                 ),
         )
         GoalItem(
@@ -144,7 +144,7 @@ fun GoalItemPreview() {
                                 "my long goal is an example goal. this Goal just tests how a long " +
                                 "goal will be shown. Maybe need to prevent extremely long goal " +
                                 "? I don't know. I'm just typing to make this long.",
-                        doneState = GoalStatus.DONE
+                        status = GoalStatus.DONE
                 ),
         )
     }

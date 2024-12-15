@@ -34,7 +34,7 @@ fun TopAppInformationBar(
                 Text(
                         text = title,
                         style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(vertical = 8.dp)
+                        modifier = Modifier.padding(vertical = 12.dp)
                 )
             },
             actions = {
@@ -42,8 +42,7 @@ fun TopAppInformationBar(
                     IconButton(
                             onClick = onPrimaryNavigationItemClick,
                             modifier = Modifier
-                                .size(36.dp)
-                                .padding(end = 4.dp),
+                                .size(36.dp),
 
                     ) {
                         Icon(
@@ -54,7 +53,7 @@ fun TopAppInformationBar(
                     }
                 }
             },
-            modifier = Modifier.height(64.dp)
+            modifier = Modifier.height(48.dp)
     )
 }
 
@@ -67,5 +66,4 @@ fun TopAppInformationBarPreview() {
             primaryNavigationItem = primaryNavigationItem,
             onPrimaryNavigationItemClick = {}
     )
-
 }

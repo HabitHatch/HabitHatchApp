@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import java.util.EnumMap
 import com.habithatch.demo.data.entities.Goal
 import com.habithatch.demo.data.entities.GoalStatus
 import com.habithatch.demo.data.entities.GoalPriority
@@ -16,8 +17,8 @@ fun FilteredGoalList(
     goals: List<Goal>,
     modifier: Modifier = Modifier.padding(4.dp).fillMaxWidth(),
     searchQuery: String= "",
-    visibleDoneStates: Map<GoalStatus, Boolean>,
-    visiblePriorities: Map<GoalPriority, Boolean>,
+    visibleDoneStates: EnumMap<GoalStatus, Boolean>,
+    visiblePriorities: EnumMap<GoalPriority, Boolean>,
     onToggleGoalStatus: (Goal) -> Unit = {},
     onGoalClicked: (Goal) -> Unit = {},
     onQueryChange: (String) -> Unit = {},

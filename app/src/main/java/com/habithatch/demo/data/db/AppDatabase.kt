@@ -10,7 +10,7 @@ import com.habithatch.demo.data.daos.UserDao
 import com.habithatch.demo.data.entities.Goal
 import com.habithatch.demo.data.entities.User
 
-@Database(entities = [User::class, Goal::class], version = 6)
+@Database(entities = [User::class, Goal::class], version = 7)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
@@ -24,11 +24,13 @@ object DatabaseProvider {
 
     fun getDatabase(context: Context): AppDatabase {
         return INSTANCE ?: synchronized(this) {
-            val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    AppDatabase::class.java,
-                    "app_database"
-            ).fallbackToDestructiveMigration()
+            val instance = Room
+                .databaseBuilder(
+                        context.applicationContext,
+                        AppDatabase::class.java,
+                        "app_database"
+                )
+                .fallbackToDestructiveMigration()
                 .build()
             INSTANCE = instance
             instance
