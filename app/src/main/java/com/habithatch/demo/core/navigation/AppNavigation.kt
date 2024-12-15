@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.habithatch.demo.features.home.HomeScreen
+import com.habithatch.demo.features.settings.SettingsScreen
 import com.habithatch.demo.features.signup.SignupScreen
 import com.habithatch.demo.features.signup.SignUpState
 import com.habithatch.demo.features.signup.SignupViewModel
@@ -42,6 +43,9 @@ fun AppNavigation() {
         }
         composable(Screen.HOME.route) {
             HomeScreen(navController = navController)
+        }
+        composable(Screen.SETTINGS.route) {
+            SettingsScreen(navController = navController)
         }
     }
 }
