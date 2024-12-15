@@ -19,7 +19,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -38,17 +37,9 @@ class HomeViewModel @Inject constructor(
     private val _filteredGoals = MutableStateFlow<List<Goal>>(emptyList())
     val filteredGoals = _filteredGoals.asStateFlow()
 
-    private val _searchQuery = MutableStateFlow<String?>(null)
-    val searchQuery = _searchQuery.asStateFlow()
-
-    private val stateVisibleMap =
-        MutableStateFlow(EnumMap(GoalStatus.entries.associateWith { true }))
-    val doneStateVisibleMap = stateVisibleMap.asStateFlow()
-
-
-    private val _priorityVisibleMap =
-        MutableStateFlow(EnumMap(GoalPriority.entries.associateWith { true }))
-    val priorityVisibleMap = _priorityVisibleMap.asStateFlow()
+    // Combine all filter attributes into a single MutableStateFlow for GoalFilter
+    private val _goalFilter = MutableStateFlow(GoalFilter.createMatchAllFilter())
+    val goalFilter = _goalFilter.asStateFlow()
 
     val bottomNavigationItems: List<NavigationItem> = habitHatchConfig.navigationItems
     val primaryNavigationItem: NavigationItem = habitHatchConfig.accountItem
@@ -73,22 +64,28 @@ class HomeViewModel @Inject constructor(
     }
 
     fun changeSearchQuery(query: String) {
-        _searchQuery.value = query
+        _goalFilter.update { current ->
+            current.copy(searchQuery = query)
+        }
     }
 
     fun setDoneStateVisible(doneState: GoalStatus, visible: Boolean) {
-        stateVisibleMap.update {
-            EnumMap(it.toMutableMap().apply {
-                this[doneState] = visible
-            })
+        _goalFilter.update { current ->
+            current.copy(
+                    goalStatusVisibleMap = EnumMap(current.goalStatusVisibleMap).apply {
+                        this[doneState] = visible
+                    }
+            )
         }
     }
 
     fun setPriorityVisibility(priority: GoalPriority, visible: Boolean) {
-        _priorityVisibleMap.update {
-            EnumMap(it.toMutableMap().apply {
-                this[priority] = visible
-            })
+        _goalFilter.update { current ->
+            current.copy(
+                    goalPriorityVisibleMap = EnumMap(current.goalPriorityVisibleMap).apply {
+                        this[priority] = visible
+                    }
+            )
         }
     }
 
@@ -105,20 +102,10 @@ class HomeViewModel @Inject constructor(
     private fun observeFilteredGoals() {
         Log.d("HomeViewModel", "observeFilteredGoals called")
         viewModelScope.launch {
-            combine(
-                    searchQuery,
-                    doneStateVisibleMap,
-                    priorityVisibleMap
-            ) { query, doneMap, priorityMap ->
-                GoalFilter(
-                        searchQuery = query,
-                        doneStateVisibleMap = doneMap,
-                        priorityVisibleMap = priorityMap
-                )
-            }.flatMapLatest { filter ->
+            _goalFilter.flatMapLatest { filter ->
                 goalRepository.getFilteredGoals(filter)
-            }.collect {
-                _filteredGoals.value = it
+            }.collect { goals ->
+                _filteredGoals.value = goals
             }
         }
     }

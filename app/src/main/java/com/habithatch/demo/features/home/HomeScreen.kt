@@ -36,9 +36,7 @@ fun HomeScreen(
 ) {
     val user: User? by viewModel.user.collectAsStateWithLifecycle()
     val goals by viewModel.filteredGoals.collectAsStateWithLifecycle()
-    val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
-    val doneStateVisibleMap by viewModel.doneStateVisibleMap.collectAsStateWithLifecycle()
-    val priorityVisibleMap by viewModel.priorityVisibleMap.collectAsStateWithLifecycle()
+    val goalFilter by viewModel.goalFilter.collectAsStateWithLifecycle()
 
     val bottomNavigationItems = viewModel.bottomNavigationItems
     val primaryNavigationItem = viewModel.primaryNavigationItem
@@ -97,12 +95,10 @@ fun HomeScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 16.dp, vertical = 8.dp),
-                            searchQuery = searchQuery.orEmpty(),
-                            visibleDoneStates = doneStateVisibleMap,
-                            visiblePriorities = priorityVisibleMap,
+                            goalFilter = goalFilter,
                             onToggleGoalStatus = { viewModel.toggleGoalDone(it) },
                             onQueryChange = { viewModel.changeSearchQuery(it) },
-                            onDoneStateVisibilityChange = { doneState, visibility ->
+                            onGoalStateVisibilityChange = { doneState, visibility ->
                                 viewModel.setDoneStateVisible(doneState, visibility)
                             },
                             onPriorityVisibilityChange = { priority, visibility ->

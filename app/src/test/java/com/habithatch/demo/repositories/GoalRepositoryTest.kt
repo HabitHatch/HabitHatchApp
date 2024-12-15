@@ -90,8 +90,8 @@ class GoalRepositoryTest {
                     Goal(title = "not matching", priority = GoalPriority.HIGH),
             )
 
-            val filter = GoalFilter.matchAllFilter().copy(
-                    priorityVisibleMap = mapOf(
+            val filter = GoalFilter.createMatchAllFilter().copy(
+                    goalPriorityVisibleMap = mapOf(
                             GoalPriority.NORMAL to true,
                             GoalPriority.HIGH to false,
                     )
@@ -111,7 +111,7 @@ class GoalRepositoryTest {
                     Goal(title = "Goal 2"),
                     Goal(title = "Goal 3")
             )
-            val filter = GoalFilter.matchAllFilter()
+            val filter = GoalFilter.createMatchAllFilter()
 
             // Act & Assert
             assertThatGoalFilterMatches(matchingGoals, emptyList(), filter)
@@ -130,7 +130,7 @@ class GoalRepositoryTest {
             val notMatchingGoals = listOf(
                     Goal(id = 2, title = "not matching"),
             )
-            val filter = GoalFilter.matchAllFilter().copy(
+            val filter = GoalFilter.createMatchAllFilter().copy(
                     searchQuery = "Goal"
             )
 
@@ -149,7 +149,7 @@ class GoalRepositoryTest {
             )
             coEvery { goalDao.getAll() } returns flowOf(notMatchingGoals)
 
-            val filter = GoalFilter.matchAllFilter().copy(
+            val filter = GoalFilter.createMatchAllFilter().copy(
                     searchQuery = "not matching query"
             )
 
