@@ -1,10 +1,11 @@
 package com.habithatch.demo.repositories
 
+import java.util.EnumMap
 import com.google.common.truth.Truth.assertThat
 import com.habithatch.demo.data.daos.GoalDao
 import com.habithatch.demo.data.entities.Goal
-import com.habithatch.demo.data.entities.GoalStatus
 import com.habithatch.demo.data.entities.GoalPriority
+import com.habithatch.demo.data.entities.GoalStatus
 import com.habithatch.demo.data.models.GoalFilter
 import com.habithatch.demo.data.repositories.GoalRepository
 import io.mockk.coEvery
@@ -91,9 +92,11 @@ class GoalRepositoryTest {
             )
 
             val filter = GoalFilter.createMatchAllFilter().copy(
-                    goalPriorityVisibleMap = mapOf(
-                            GoalPriority.NORMAL to true,
-                            GoalPriority.HIGH to false,
+                    goalPriorityVisibleMap = EnumMap(
+                            mapOf(
+                                    GoalPriority.NORMAL to true,
+                                    GoalPriority.HIGH to false,
+                            )
                     )
             )
 
@@ -144,7 +147,7 @@ class GoalRepositoryTest {
         runBlocking {
             // Arrange
             val notMatchingGoals = listOf(
-                    Goal(title = "Read book",),
+                    Goal(title = "Read book"),
                     Goal(title = "Write book")
             )
             coEvery { goalDao.getAll() } returns flowOf(notMatchingGoals)

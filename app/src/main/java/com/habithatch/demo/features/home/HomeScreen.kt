@@ -37,6 +37,7 @@ fun HomeScreen(
     val user: User? by viewModel.user.collectAsStateWithLifecycle()
     val goals by viewModel.filteredGoals.collectAsStateWithLifecycle()
     val goalFilter by viewModel.goalFilter.collectAsStateWithLifecycle()
+    val allGoalsDone by viewModel.allGoalsDone.collectAsStateWithLifecycle()
 
     val bottomNavigationItems = viewModel.bottomNavigationItems
     val primaryNavigationItem = viewModel.primaryNavigationItem
@@ -86,6 +87,7 @@ fun HomeScreen(
                 ) {
                     PetAnimation(
                             pet = user!!.pet,
+                            isPetHappy = allGoalsDone,
                             modifier = Modifier
                                 .fillMaxWidth(0.4f)
                                 .padding(top = 8.dp)

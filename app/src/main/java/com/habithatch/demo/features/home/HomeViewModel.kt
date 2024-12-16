@@ -37,9 +37,11 @@ class HomeViewModel @Inject constructor(
     private val _filteredGoals = MutableStateFlow<List<Goal>>(emptyList())
     val filteredGoals = _filteredGoals.asStateFlow()
 
-    // Combine all filter attributes into a single MutableStateFlow for GoalFilter
     private val _goalFilter = MutableStateFlow(GoalFilter.createMatchAllFilter())
     val goalFilter = _goalFilter.asStateFlow()
+
+    private val _allGoalsDone = MutableStateFlow(false)
+    val allGoalsDone = _allGoalsDone.asStateFlow()
 
     val bottomNavigationItems: List<NavigationItem> = habitHatchConfig.navigationItems
     val primaryNavigationItem: NavigationItem = habitHatchConfig.accountItem
@@ -48,6 +50,7 @@ class HomeViewModel @Inject constructor(
         seedGoals()
         observeUser()
         observeFilteredGoals()
+        observeAllGoalsDone()
     }
 
     fun addGoal(goalTitle: String, goalPriority: GoalPriority) {
@@ -94,6 +97,14 @@ class HomeViewModel @Inject constructor(
             userRepository.getUser().collect { user ->
                 Log.d("HomeViewModel", "User emitted: $user")
                 _user.value = user
+            }
+        }
+    }
+
+    private fun observeAllGoalsDone() {
+        viewModelScope.launch {
+            goalRepository.getAll().collect { goals ->
+                _allGoalsDone.value = goals.all { it.status == GoalStatus.DONE }
             }
         }
     }
