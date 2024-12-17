@@ -49,7 +49,7 @@ class GoalRepositoryTest {
     fun `toggleGoalDone() should mark goal as done when goal not done`() {
         runBlocking {
             // Arrange
-            val goal = Goal(title = "goal", status = GoalStatus.UNDONE)
+            val goal = Goal(title = "goal", status = GoalStatus.IN_PROGRESS)
 
             coEvery { goalDao.getGoalById(goal.id) } returns goal
 
@@ -73,7 +73,7 @@ class GoalRepositoryTest {
             goalRepository.toggleGoalDone(goal.id)
 
             // Assert
-            val updatedGoal = goal.copy(status = GoalStatus.UNDONE)
+            val updatedGoal = goal.copy(status = GoalStatus.IN_PROGRESS)
             coVerify { goalDao.update(updatedGoal) }
         }
     }

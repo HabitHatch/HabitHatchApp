@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.habithatch.demo.core.config.HabitHatchConfig
 import com.habithatch.demo.core.navigation.NavigationItem
+import com.habithatch.demo.core.util.GoalSortOptionState
 import com.habithatch.demo.data.entities.Goal
 import com.habithatch.demo.data.entities.GoalPriority
 import com.habithatch.demo.data.entities.GoalStatus
@@ -44,11 +45,12 @@ class HomeViewModel @Inject constructor(
 
     val bottomNavigationItems: List<NavigationItem> = habitHatchConfig.navigationItems
     val primaryNavigationItem: NavigationItem = habitHatchConfig.accountItem
+    val priorities: List<GoalPriority> = habitHatchConfig.priorities
 
     init {
         seedGoals()
         observeUser()
-        observeFilteredGoals()
+        observeQueriedGoals()
         observeAllGoalsDone()
     }
 
@@ -94,6 +96,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun toggleSortOptionState(sortOptionState: GoalSortOptionState) {
+        // TODO: Implement
+    }
+
     private fun observeUser() {
         viewModelScope.launch {
             userRepository.getUser().collect { user ->
@@ -112,7 +118,7 @@ class HomeViewModel @Inject constructor(
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private fun observeFilteredGoals() {
+    private fun observeQueriedGoals() {
         Log.d("HomeViewModel", "observeFilteredGoals called")
         viewModelScope.launch {
             _goalQuery.flatMapLatest { query ->

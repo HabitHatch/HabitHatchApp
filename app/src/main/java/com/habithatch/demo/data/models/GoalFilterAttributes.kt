@@ -38,7 +38,7 @@ data class GoalFilterAttributes(
 
     companion object {
         fun createMatchAllInProgressFilter(): GoalFilterAttributes {
-            val goalStatusVisibleMap = EnumMap(GoalStatus.entries.associateWith { it == GoalStatus.UNDONE })
+            val goalStatusVisibleMap = EnumMap(GoalStatus.entries.associateWith { it == GoalStatus.IN_PROGRESS })
 
             return GoalFilterAttributes(
                     goalPriorityVisibleMap = EnumMap(GoalPriority.entries.associateWith { true }),

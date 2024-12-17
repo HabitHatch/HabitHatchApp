@@ -1,11 +1,14 @@
 package com.habithatch.demo.core.config
 
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
 import com.habithatch.demo.R
 import com.habithatch.demo.core.navigation.NavigationItem
 import com.habithatch.demo.core.navigation.Screen
 import com.habithatch.demo.core.util.SortConfig
-import com.habithatch.demo.core.util.SortDirection
 import com.habithatch.demo.data.entities.Goal
+import com.habithatch.demo.data.entities.GoalPriority
+import com.habithatch.demo.data.entities.GoalStatus
 import com.habithatch.demo.data.entities.Pet
 import com.habithatch.demo.data.models.GoalFilterAttributes
 import com.habithatch.demo.data.models.GoalQuery
@@ -27,12 +30,32 @@ object HabitHatchDevConfig : HabitHatchConfig {
 
     override val accountItem =
         NavigationItem(Screen.SETTINGS, R.drawable.vuesax_profile_circle, enabled = true)
+
     override val defaultGoalQuery = GoalQuery(
             filterConfig = GoalFilterAttributes.createMatchAllInProgressFilter(),
             sortConfig = SortConfig(
-                    attribute = Goal::priority,
                     comparator = compareBy { it.priority.importance },
-                    direction = SortDirection.DESC
+                    isAscending = false
             )
+    )
+    override val priorities = listOf(
+            GoalPriority(
+                    label = "Normal",
+                    importance = 10,
+                    iconResourceId = R.drawable.vuesax_bookmark,
+                    getColor = @Composable { MaterialTheme.colorScheme.secondary }
+            ),
+            GoalPriority(
+                    label = "High",
+                    importance = 20,
+                    iconResourceId = R.drawable.vuesax_crown,
+                    getColor = @Composable { MaterialTheme.colorScheme.primary }
+            )
+    )
+
+    override val exampleGoals = listOf(
+            Goal(title = "Drink water"),
+            Goal(title = "Read a book", priority = priorities.filter { it.label == "High" }.first()),
+            Goal(title = "Exercise", status = GoalStatus.DONE)
     )
 }

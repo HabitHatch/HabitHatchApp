@@ -20,7 +20,7 @@ class GoalRepository(private val goalDao: GoalDao) {
     suspend fun toggleGoalDone(goalId: Int) {
         goalDao.getGoalById(goalId)?.let {
             val goal = it.copy(
-                    status = if (it.status == GoalStatus.DONE) GoalStatus.UNDONE else GoalStatus.DONE
+                    status = if (it.status == GoalStatus.DONE) GoalStatus.IN_PROGRESS else GoalStatus.DONE
             )
             goalDao.update(goal)
         }
@@ -49,11 +49,7 @@ class GoalRepository(private val goalDao: GoalDao) {
 
     suspend fun seedDatabase() {
         if (getAll().firstOrNull().isNullOrEmpty()) {
-            val goals = listOf(
-                    Goal(id = 1, title = "Drink water", status = GoalStatus.UNDONE),
-                    Goal(id = 2, title = "Read a book", status = GoalStatus.UNDONE),
-                    Goal(id = 3, title = "Exercise", status = GoalStatus.DONE)
-            )
+
             goals.forEach { insert(it) }
         }
     }

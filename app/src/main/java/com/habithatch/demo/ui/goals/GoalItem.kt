@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.data.entities.Goal
 import com.habithatch.demo.data.entities.GoalPriority
 import com.habithatch.demo.data.entities.GoalStatus
@@ -39,21 +40,17 @@ fun GoalItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .then(
-                        if (goal.priority == GoalPriority.HIGH) {
-                            Modifier.border(
-                                    width = 1.dp,
-                                    color = goal.priority.getColor(),
-                                    shape = cardShape
-                            )
-                        } else {
-                            Modifier
-                        }
+                        Modifier.border(
+                                width = 1.dp,
+                                color = goal.priority.getColor(),
+                                shape = cardShape
+                        )
                 )
                 .clickable(onClick = onGoalClicked),
             colors = CardDefaults.cardColors(
                     containerColor = when (goal.status) {
                         GoalStatus.DONE -> MaterialTheme.colorScheme.secondaryContainer
-                        GoalStatus.UNDONE -> MaterialTheme.colorScheme.primaryContainer
+                        GoalStatus.IN_PROGRESS -> MaterialTheme.colorScheme.primaryContainer
                     },
             ),
             shape = cardShape
@@ -77,12 +74,12 @@ fun GoalItem(
                     style = MaterialTheme.typography.titleMedium.copy(
                             textDecoration = when (goal.status) {
                                 GoalStatus.DONE -> TextDecoration.LineThrough
-                                GoalStatus.UNDONE -> TextDecoration.None
+                                GoalStatus.IN_PROGRESS -> TextDecoration.None
                             },
 
                             color = when (goal.status) {
                                 GoalStatus.DONE -> MaterialTheme.colorScheme.secondary
-                                GoalStatus.UNDONE -> MaterialTheme.colorScheme.onPrimaryContainer
+                                GoalStatus.IN_PROGRESS -> MaterialTheme.colorScheme.onPrimaryContainer
                             }
                     ),
                     modifier = Modifier.weight(1f)
@@ -91,10 +88,7 @@ fun GoalItem(
                     modifier = Modifier.weight(0.25f),
                     painter = painterResource(goal.priority.iconResourceId),
                     contentDescription = goal.priority.label,
-                    tint = when (goal.priority) {
-                        GoalPriority.HIGH -> MaterialTheme.colorScheme.primary
-                        GoalPriority.NORMAL -> MaterialTheme.colorScheme.secondary
-                    },
+                    tint = goal.priority.getColor()
             )
         }
     }
@@ -104,6 +98,7 @@ fun GoalItem(
 @Preview(showBackground = true)
 @Composable
 fun GoalItemPreview() {
+    val highPriority = HabitHatchDevConfig.priorities[1]
     Column {
         Text(text = "GoalItem Preview")
         Spacer(modifier = Modifier.padding(4.dp))
@@ -118,7 +113,7 @@ fun GoalItemPreview() {
                 goal = Goal(title = "Test Goal"),
         )
         GoalItem(
-                goal = Goal(title = "Important Goal", priority = GoalPriority.HIGH),
+                goal = Goal(title = "Important Goal", priority = highPriority),
         )
         GoalItem(
                 goal = Goal(title = "Finished Goal", status = GoalStatus.DONE),
@@ -127,7 +122,7 @@ fun GoalItemPreview() {
                 goal = Goal(
                         title = "Important Finished Goal",
                         status = GoalStatus.DONE,
-                        priority = GoalPriority.HIGH
+                        priority = highPriority
                 ),
         )
         GoalItem(

@@ -20,8 +20,11 @@ import com.habithatch.demo.data.entities.GoalStatus
 import com.habithatch.demo.data.models.GoalFilterAttributes
 import com.habithatch.demo.ui.common.SearchField
 
+// TODO: group the filterbar state into a single data class
+// TODO: group the event handlers into a single event handler data class
 @Composable
 fun GoalFilterBar(
+    priorities: List<GoalPriority>,
     goalFilterAttributes: GoalFilterAttributes,
     onQueryChange: (String) -> Unit,
     onGoalStateVisibleChange: (GoalStatus, Boolean) -> Unit,
@@ -46,6 +49,7 @@ fun GoalFilterBar(
                 onDoneStateVisibleChange = onGoalStateVisibleChange
         )
         PriorityDropdown(
+                priorities = priorities,
                 visiblePriorities = visibleGoalPriorities,
                 onPriorityVisibilityChange = onPriorityVisibilityChange
         )
@@ -93,7 +97,8 @@ fun StatusDropdown(
 
 @Composable
 fun PriorityDropdown(
-    visiblePriorities: EnumMap<GoalPriority, Boolean>,
+    priorities: List<GoalPriority>,
+    visiblePriorities: Map<GoalPriority, Boolean>,
     onPriorityVisibilityChange: (GoalPriority, Boolean) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -107,7 +112,7 @@ fun PriorityDropdown(
                 expanded = expanded,
                 onDismissRequest = { expanded = false }
         ) {
-            GoalPriority.entries.forEach { priority ->
+            priorities.forEach { priority ->
                 DropdownMenuItem(
                         text = {
                             Row(

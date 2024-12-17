@@ -35,8 +35,7 @@ package Model{
 
     Goal *- Priority
     User *-- Pet
-    User *.. Goal
-    User *-- UserSettings
+    User *.. Goal: "indirectly"
     Pet o-- Image
     Pet o-- Animation
     Animation o-- Image
@@ -75,9 +74,6 @@ package Repository{
         getUser()
         saveUser()
     }
-    class PetRepository{
-        getAll()
-    }
 
     class GoalRepository {
         getGoals()
@@ -102,7 +98,6 @@ HomeView .down.> HomeViewModel
 SettingsView .down.> SettingsViewModel
 
 InitialLoginViewModel .down..> UserRepository
-InitialLoginViewModel .down..> PetRepository
 
 HomeViewModel .down> GoalRepository
 HomeViewModel .down> UserRepository
@@ -112,7 +107,6 @@ SettingsViewModel .down.> UserRepository
 
 UserRepository ..down> UserDAO
 GoalRepository ..down> GoalDAO
-PetRepository ..down> AppConfig
 
 
 UserDAO -down-> User

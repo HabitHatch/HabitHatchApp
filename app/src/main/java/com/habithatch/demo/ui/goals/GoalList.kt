@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.data.entities.Goal
 import com.habithatch.demo.data.entities.GoalPriority
 import com.habithatch.demo.data.entities.GoalStatus
@@ -41,18 +42,19 @@ fun GoalList(
 @Preview(showBackground = true)
 @Composable
 fun GoalListPreview() {
+    val highPriority = HabitHatchDevConfig.priorities[1]
     val goals = listOf(
             Goal(title = "Done Goal", status = GoalStatus.DONE),
-            Goal(title = "Undone Goal", status = GoalStatus.UNDONE),
+            Goal(title = "Undone Goal", status = GoalStatus.IN_PROGRESS),
             Goal(
                     title = "Important Done Goal",
                     status = GoalStatus.DONE,
-                    priority = GoalPriority.HIGH
+                    priority = highPriority
             ),
             Goal(
                     title = "Important Undone Goal",
-                    status = GoalStatus.UNDONE,
-                    priority = GoalPriority.HIGH
+                    status = GoalStatus.IN_PROGRESS,
+                    priority = highPriority
             ),
     )
     GoalList(goals = goals)

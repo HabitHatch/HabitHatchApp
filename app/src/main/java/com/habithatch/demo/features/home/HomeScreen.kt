@@ -41,6 +41,8 @@ fun HomeScreen(
 
     val bottomNavigationItems = viewModel.bottomNavigationItems
     val primaryNavigationItem = viewModel.primaryNavigationItem
+    val priorities = viewModel.priorities
+
     val showDialog = remember { mutableStateOf(false) }
     val currentRoute = navController.currentBackStackEntry?.destination?.route
     val screen = Screen.fromRoute(currentRoute)
@@ -94,6 +96,7 @@ fun HomeScreen(
                     )
                     GoalQueryTable(
                             goals = goals,
+                            priorities = priorities,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 16.dp, vertical = 8.dp),
@@ -105,7 +108,8 @@ fun HomeScreen(
                             },
                             onPriorityVisibilityChange = { priority, visibility ->
                                 viewModel.setPriorityVisible(priority, visibility)
-                            }
+                            },
+                            sortOptionStateClicked = { viewModel.toggleSortOptionState(it) }
                     )
                 }
             }

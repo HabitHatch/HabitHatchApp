@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class Goal(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val title: String,
-    val status: GoalStatus =  GoalStatus.UNDONE,
+    val status: GoalStatus =  GoalStatus.IN_PROGRESS,
     val priority: GoalPriority = GoalPriority.NORMAL
 ) {
     init {
