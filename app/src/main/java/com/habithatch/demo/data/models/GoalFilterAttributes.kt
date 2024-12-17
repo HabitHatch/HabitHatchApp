@@ -2,7 +2,7 @@ package com.habithatch.demo.data.models
 
 
 import java.util.EnumMap
-import kotlin.enums.EnumEntries
+import kotlin.enums.enumEntries
 import com.habithatch.demo.data.entities.GoalPriority
 import com.habithatch.demo.data.entities.GoalStatus
 
@@ -13,22 +13,21 @@ import com.habithatch.demo.data.entities.GoalStatus
  * @param goalStatusVisibleMap Maps each status to its visibility.
  * @param searchQuery Optional search term for filtering goals.
  */
-data class GoalFilter(
+data class GoalFilterAttributes(
     val goalPriorityVisibleMap: EnumMap<GoalPriority, Boolean>,
     val goalStatusVisibleMap: EnumMap<GoalStatus, Boolean>,
     val searchQuery: String?
 ) {
     init {
-        validateMap(goalPriorityVisibleMap, GoalPriority.entries, ::goalPriorityVisibleMap.name)
-        validateMap(goalStatusVisibleMap, GoalStatus.entries, ::goalStatusVisibleMap.name)
+        validateMap(goalPriorityVisibleMap, ::goalPriorityVisibleMap.name)
+        validateMap(goalStatusVisibleMap, ::goalStatusVisibleMap.name)
     }
 
     private inline fun <reified E : Enum<E>> validateMap(
         map: EnumMap<E, Boolean>,
-        validKeys: EnumEntries<E>,
         mapName: String
     ) {
-        val missingKeys = validKeys.toSet() - map.keys
+        val missingKeys = enumEntries<E>() - map.keys
         require(missingKeys.isEmpty()) {
             """
                 $mapName must contain all values of ${E::class.simpleName}:
@@ -38,8 +37,18 @@ data class GoalFilter(
     }
 
     companion object {
-        fun createMatchAllFilter(): GoalFilter {
-            return GoalFilter(
+        fun createMatchAllInProgressFilter(): GoalFilterAttributes {
+            val goalStatusVisibleMap = EnumMap(GoalStatus.entries.associateWith { it == GoalStatus.UNDONE })
+
+            return GoalFilterAttributes(
+                    goalPriorityVisibleMap = EnumMap(GoalPriority.entries.associateWith { true }),
+                    goalStatusVisibleMap = goalStatusVisibleMap,
+                    searchQuery = null
+            )
+        }
+
+        fun createMatchAllFilter(): GoalFilterAttributes {
+            return GoalFilterAttributes(
                     goalPriorityVisibleMap = EnumMap(GoalPriority.entries.associateWith { true }),
                     goalStatusVisibleMap = EnumMap(GoalStatus.entries.associateWith { true }),
                     searchQuery = null

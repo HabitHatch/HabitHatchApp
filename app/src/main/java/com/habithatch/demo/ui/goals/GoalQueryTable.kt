@@ -10,13 +10,14 @@ import androidx.compose.ui.unit.dp
 import com.habithatch.demo.data.entities.Goal
 import com.habithatch.demo.data.entities.GoalStatus
 import com.habithatch.demo.data.entities.GoalPriority
-import com.habithatch.demo.data.models.GoalFilter
+import com.habithatch.demo.data.models.GoalFilterAttributes
+import com.habithatch.demo.data.models.GoalQuery
 
 @Composable
-fun FilteredGoalList(
+fun GoalQueryTable(
     goals: List<Goal>,
     modifier: Modifier = Modifier.padding(4.dp).fillMaxWidth(),
-    goalFilter: GoalFilter = GoalFilter.createMatchAllFilter(),
+    goalQuery: GoalQuery,
     onToggleGoalStatus: (Goal) -> Unit = {},
     onGoalClicked: (Goal) -> Unit = {},
     onQueryChange: (String) -> Unit = {},
@@ -27,7 +28,7 @@ fun FilteredGoalList(
             modifier = modifier
     ) {
         GoalFilterBar(
-                goalFilter = goalFilter,
+                goalFilterAttributes = goalQuery.filterConfig,
                 onQueryChange = onQueryChange,
                 onGoalStateVisibleChange = onGoalStateVisibilityChange,
                 onPriorityVisibilityChange = onPriorityVisibilityChange

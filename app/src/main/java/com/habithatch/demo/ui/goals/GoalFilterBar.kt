@@ -17,19 +17,19 @@ import androidx.compose.ui.unit.dp
 import java.util.EnumMap
 import com.habithatch.demo.data.entities.GoalPriority
 import com.habithatch.demo.data.entities.GoalStatus
-import com.habithatch.demo.data.models.GoalFilter
+import com.habithatch.demo.data.models.GoalFilterAttributes
 import com.habithatch.demo.ui.common.SearchField
 
 @Composable
 fun GoalFilterBar(
-    goalFilter: GoalFilter,
+    goalFilterAttributes: GoalFilterAttributes,
     onQueryChange: (String) -> Unit,
     onGoalStateVisibleChange: (GoalStatus, Boolean) -> Unit,
     onPriorityVisibilityChange: (GoalPriority, Boolean) -> Unit,
 ) {
-    val searchQuery = goalFilter.searchQuery.orEmpty()
-    val visibleGoalStatuses = goalFilter.goalStatusVisibleMap
-    val visibleGoalPriorities = goalFilter.goalPriorityVisibleMap
+    val searchQuery = goalFilterAttributes.searchQuery.orEmpty()
+    val visibleGoalStatuses = goalFilterAttributes.goalStatusVisibleMap
+    val visibleGoalPriorities = goalFilterAttributes.goalPriorityVisibleMap
 
     Row(
             modifier = Modifier.fillMaxWidth(),

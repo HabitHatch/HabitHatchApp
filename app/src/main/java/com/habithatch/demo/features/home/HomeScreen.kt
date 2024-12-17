@@ -21,13 +21,13 @@ import android.util.Log
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.habithatch.demo.ui.goals.AddGoalDialog
-import com.habithatch.demo.ui.goals.FilteredGoalList
-import com.habithatch.demo.ui.navigation.TopAppInformationBar
-import com.habithatch.demo.ui.pets.PetAnimation
 import com.habithatch.demo.core.navigation.NavigationItem
 import com.habithatch.demo.core.navigation.Screen
 import com.habithatch.demo.data.entities.User
+import com.habithatch.demo.ui.goals.AddGoalDialog
+import com.habithatch.demo.ui.goals.GoalQueryTable
+import com.habithatch.demo.ui.navigation.TopAppInformationBar
+import com.habithatch.demo.ui.pets.PetAnimation
 
 @Composable
 fun HomeScreen(
@@ -36,7 +36,7 @@ fun HomeScreen(
 ) {
     val user: User? by viewModel.user.collectAsStateWithLifecycle()
     val goals by viewModel.filteredGoals.collectAsStateWithLifecycle()
-    val goalFilter by viewModel.goalFilter.collectAsStateWithLifecycle()
+    val goalQuery by viewModel.goalQuery.collectAsStateWithLifecycle()
     val allGoalsDone by viewModel.allGoalsDone.collectAsStateWithLifecycle()
 
     val bottomNavigationItems = viewModel.bottomNavigationItems
@@ -92,23 +92,22 @@ fun HomeScreen(
                                 .fillMaxWidth(0.4f)
                                 .padding(top = 8.dp)
                     )
-                    FilteredGoalList(
+                    GoalQueryTable(
                             goals = goals,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 16.dp, vertical = 8.dp),
-                            goalFilter = goalFilter,
+                            goalQuery = goalQuery,
                             onToggleGoalStatus = { viewModel.toggleGoalDone(it) },
                             onQueryChange = { viewModel.changeSearchQuery(it) },
                             onGoalStateVisibilityChange = { doneState, visibility ->
                                 viewModel.setDoneStateVisible(doneState, visibility)
                             },
                             onPriorityVisibilityChange = { priority, visibility ->
-                                viewModel.setPriorityVisibility(priority, visibility)
+                                viewModel.setPriorityVisible(priority, visibility)
                             }
                     )
                 }
-
             }
     )
     if (showDialog.value) {

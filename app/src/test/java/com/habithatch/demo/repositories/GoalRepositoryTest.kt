@@ -6,7 +6,7 @@ import com.habithatch.demo.data.daos.GoalDao
 import com.habithatch.demo.data.entities.Goal
 import com.habithatch.demo.data.entities.GoalPriority
 import com.habithatch.demo.data.entities.GoalStatus
-import com.habithatch.demo.data.models.GoalFilter
+import com.habithatch.demo.data.models.GoalFilterAttributes
 import com.habithatch.demo.data.repositories.GoalRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -32,7 +32,7 @@ class GoalRepositoryTest {
     private suspend fun assertThatGoalFilterMatches(
         matchingGoals: List<Goal>,
         notMatchingGoals: List<Goal>,
-        filter: GoalFilter
+        filter: GoalFilterAttributes
     ) {
         // Arrange
         val goals = matchingGoals + notMatchingGoals
@@ -91,7 +91,7 @@ class GoalRepositoryTest {
                     Goal(title = "not matching", priority = GoalPriority.HIGH),
             )
 
-            val filter = GoalFilter.createMatchAllFilter().copy(
+            val filter = GoalFilterAttributes.createMatchAllFilter().copy(
                     goalPriorityVisibleMap = EnumMap(
                             mapOf(
                                     GoalPriority.NORMAL to true,
@@ -114,7 +114,7 @@ class GoalRepositoryTest {
                     Goal(title = "Goal 2"),
                     Goal(title = "Goal 3")
             )
-            val filter = GoalFilter.createMatchAllFilter()
+            val filter = GoalFilterAttributes.createMatchAllFilter()
 
             // Act & Assert
             assertThatGoalFilterMatches(matchingGoals, emptyList(), filter)
@@ -133,7 +133,7 @@ class GoalRepositoryTest {
             val notMatchingGoals = listOf(
                     Goal(id = 2, title = "not matching"),
             )
-            val filter = GoalFilter.createMatchAllFilter().copy(
+            val filter = GoalFilterAttributes.createMatchAllFilter().copy(
                     searchQuery = "Goal"
             )
 
@@ -152,7 +152,7 @@ class GoalRepositoryTest {
             )
             coEvery { goalDao.getAll() } returns flowOf(notMatchingGoals)
 
-            val filter = GoalFilter.createMatchAllFilter().copy(
+            val filter = GoalFilterAttributes.createMatchAllFilter().copy(
                     searchQuery = "not matching query"
             )
 

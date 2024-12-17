@@ -3,7 +3,8 @@ package com.habithatch.demo.data.repositories
 import com.habithatch.demo.data.daos.GoalDao
 import com.habithatch.demo.data.entities.Goal
 import com.habithatch.demo.data.entities.GoalStatus
-import com.habithatch.demo.data.models.GoalFilter
+import com.habithatch.demo.data.models.GoalFilterAttributes
+import com.habithatch.demo.data.models.GoalQuery
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
@@ -25,16 +26,24 @@ class GoalRepository(private val goalDao: GoalDao) {
         }
     }
 
-    fun getFilteredGoals(filter: GoalFilter): Flow<List<Goal>> {
+    private fun getFilteredGoals(
+        goalFilter: GoalFilterAttributes
+    ): Flow<List<Goal>> {
         return goalDao.getAll().map { allGoals ->
             allGoals.filter { goal ->
-                val matchesDone = filter.goalStatusVisibleMap[goal.status] == true
-                val matchesPriority = filter.goalPriorityVisibleMap[goal.priority] == true
-                val matchesSearch = filter.searchQuery.isNullOrBlank() ||
-                        goal.title.contains(filter.searchQuery, ignoreCase = true)
+                val matchesDone = goalFilter.goalStatusVisibleMap[goal.status] == true
+                val matchesPriority = goalFilter.goalPriorityVisibleMap[goal.priority] == true
+                val matchesSearch = goalFilter.searchQuery.isNullOrBlank() ||
+                        goal.title.contains(goalFilter.searchQuery, ignoreCase = true)
 
                 matchesDone && matchesPriority && matchesSearch
             }
+        }
+    }
+
+    fun getQueriedGoals(goalQuery: GoalQuery): Flow<List<Goal>> {
+        return getFilteredGoals(goalQuery.filterConfig).map { goals ->
+            goals.sortedWith(goalQuery.sortConfig.getEffectiveComparator())
         }
     }
 
