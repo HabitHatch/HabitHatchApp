@@ -25,7 +25,7 @@ fun BottomNavigationBar(
         } else if (item.enabled) {
             MaterialTheme.colorScheme.secondary
         } else {
-            MaterialTheme.colorScheme.secondary
+            MaterialTheme.colorScheme.tertiary
         }
     }
 

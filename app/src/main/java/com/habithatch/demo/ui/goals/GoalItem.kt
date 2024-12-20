@@ -32,7 +32,6 @@ fun GoalItem(
     rowPadding: PaddingValues = PaddingValues(8.dp),
     checkBoxPadding: PaddingValues = PaddingValues(end = 8.dp),
     onToggleGoalStatus: () -> Unit = {},
-    onGoalClicked: () -> Unit = {}
 ) {
     val cardShape = MaterialTheme.shapes.medium
     Card(
@@ -48,8 +47,7 @@ fun GoalItem(
                         } else {
                             Modifier
                         }
-                )
-                .clickable(onClick = onGoalClicked),
+                ),
             colors = CardDefaults.cardColors(
                     containerColor = when (goal.status) {
                         GoalStatus.DONE -> MaterialTheme.colorScheme.secondaryContainer

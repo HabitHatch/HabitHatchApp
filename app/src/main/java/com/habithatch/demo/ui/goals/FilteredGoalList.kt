@@ -18,7 +18,6 @@ fun FilteredGoalList(
     modifier: Modifier = Modifier.padding(4.dp).fillMaxWidth(),
     goalFilter: GoalFilter = GoalFilter.createMatchAllFilter(),
     onToggleGoalStatus: (Goal) -> Unit = {},
-    onGoalClicked: (Goal) -> Unit = {},
     onQueryChange: (String) -> Unit = {},
     onGoalStateVisibilityChange: (GoalStatus, Boolean) -> Unit = { state, visible -> },
     onPriorityVisibilityChange: (GoalPriority, Boolean) -> Unit = {priority, visible -> },
@@ -36,7 +35,6 @@ fun FilteredGoalList(
                 goals = goals,
                 modifier = Modifier.fillMaxSize(),
                 onToggleGoalStatus = onToggleGoalStatus,
-                onGoalClicked = onGoalClicked
         )
     }
 }
