@@ -6,16 +6,6 @@ import com.habithatch.demo.data.entities.GoalPriority
 
 class EnumConverters {
     @TypeConverter
-    fun fromGoalPriority(priority: GoalPriority): String {
-        return priority.name
-    }
-
-    @TypeConverter
-    fun toGoalPriority(priority: String): GoalPriority {
-        return GoalPriority.valueOf(priority)
-    }
-
-    @TypeConverter
     fun fromGoalState(state: GoalStatus): String {
         return state.name
     }

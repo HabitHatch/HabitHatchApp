@@ -1,0 +1,13 @@
+package com.habithatch.demo.data.entities
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+
+@Entity(tableName = "goals")
+data class GoalEntity(
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val title: String,
+    val statusId: String,
+    val priorityId: String
+)
