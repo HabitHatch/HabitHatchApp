@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
     private val _filteredGoals = MutableStateFlow<List<Goal>>(emptyList())
     val filteredGoals = _filteredGoals.asStateFlow()
 
-    private val _goalFilter = MutableStateFlow(GoalFilter.createMatchAllFilter())
+    private val _goalFilter = MutableStateFlow(habitHatchConfig.defaultFilter)
     val goalFilter = _goalFilter.asStateFlow()
 
     private val _allGoalsDone = MutableStateFlow(false)

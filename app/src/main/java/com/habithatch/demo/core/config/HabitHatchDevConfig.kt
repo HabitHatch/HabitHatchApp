@@ -3,7 +3,10 @@ package com.habithatch.demo.core.config
 import com.habithatch.demo.R
 import com.habithatch.demo.core.navigation.NavigationItem
 import com.habithatch.demo.core.navigation.Screen
+import com.habithatch.demo.data.entities.GoalPriority
+import com.habithatch.demo.data.entities.GoalStatus
 import com.habithatch.demo.data.entities.Pet
+import com.habithatch.demo.data.models.GoalFilter
 
 object HabitHatchDevConfig : HabitHatchConfig {
     override val pets = listOf(
@@ -22,4 +25,11 @@ object HabitHatchDevConfig : HabitHatchConfig {
 
     override val accountItem =
         NavigationItem(Screen.SETTINGS, R.drawable.vuesax_profile_circle, true)
+
+    override val defaultFilter = GoalFilter.createMatchAllFilter().copy(
+            goalStatusVisibleMap = GoalFilter.createMatchAllFilter().goalStatusVisibleMap.apply {
+                put(GoalStatus.DONE, false)
+                put(GoalStatus.UNDONE, true)
+            }
+    )
 }
