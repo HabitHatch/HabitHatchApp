@@ -5,12 +5,11 @@ import androidx.compose.runtime.Composable
 import com.habithatch.demo.R
 import com.habithatch.demo.core.navigation.NavigationItem
 import com.habithatch.demo.core.navigation.Screen
+import com.habithatch.demo.core.util.GoalSortOption
 import com.habithatch.demo.core.util.SortConfig
-import com.habithatch.demo.data.entities.GoalPriority
-import com.habithatch.demo.data.entities.GoalStatus
 import com.habithatch.demo.data.entities.Pet
-import com.habithatch.demo.data.models.Goal
 import com.habithatch.demo.data.models.GoalFilterAttributes
+import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.data.models.GoalQuery
 
 object HabitHatchDevConfig : HabitHatchConfig {
@@ -31,37 +30,32 @@ object HabitHatchDevConfig : HabitHatchConfig {
     override val accountItem =
         NavigationItem(Screen.SETTINGS, R.drawable.vuesax_profile_circle, enabled = true)
 
-    override val defaultGoalQuery = GoalQuery(
-            filterConfig = GoalFilterAttributes.createMatchAllInProgressFilter(),
-            sortConfig = SortConfig(
-                    comparator = compareBy { it.priority.importance },
-                    isAscending = false
-            )
-    )
 
     override val statuses = listOf(
-            GoalStatus(
+            GoalModel.Status(
                     id = "IN_PROGRESS",
                     label = "In Progress",
-                    stepNumber = 1
+                    stepNumber = 1,
+                    isDone = false
             ),
-            GoalStatus(
+            GoalModel.Status(
                     id = "DONE",
                     label = "Done",
-                    stepNumber = 2
+                    stepNumber = 2,
+                    isDone = true
             )
     )
     override val defaultStatus = getStatusById("IN_PROGRESS")
 
     override val priorities = listOf(
-            GoalPriority(
+            GoalModel.Priority(
                     id = "NORMAL",
                     label = "Normal",
                     importance = 10,
                     iconResourceId = R.drawable.vuesax_bookmark,
                     getColor = @Composable { MaterialTheme.colorScheme.secondary }
             ),
-            GoalPriority(
+            GoalModel.Priority(
                     id = "HIGH",
                     label = "High",
                     importance = 20,
@@ -69,23 +63,50 @@ object HabitHatchDevConfig : HabitHatchConfig {
                     getColor = @Composable { MaterialTheme.colorScheme.primary }
             )
     )
-    override val defaultPriority = priorities.first()
+    override val defaultPriority = getPriorityById("NORMAL")
 
     override val exampleGoals = listOf(
-            Goal(
+            GoalModel(
+                    id = 1,
                     title = "Drink water",
                     priority = getPriorityById("NORMAL"),
                     status = getStatusById("IN_PROGRESS")
             ),
-            Goal(
+            GoalModel(
+                    id = 2,
                     title = "Read a book",
                     priority = getPriorityById("HIGH"),
                     status = getStatusById("IN_PROGRESS")
             ),
-            Goal(
+            GoalModel(
+                    id = 3,
                     title = "Exercise",
                     priority = getPriorityById("NORMAL"),
                     status = getStatusById("DONE")
+            ),
+            GoalModel(
+                    id = 4,
+                    title = "Meditate",
+                    priority = getPriorityById("HIGH"),
+                    status = getStatusById("DONE")
             )
     )
+    private val defaultGoalQuery: GoalQuery
+    override fun getDefaultGoalQuery(): GoalQuery {
+        return defaultGoalQuery
+    }
+
+    init {
+        val goalFilterAttributeBuilder = GoalFilterAttributes.Builder(this)
+        val goalFilter =
+            goalFilterAttributeBuilder
+                .createMatchAll()
+                .excludeStatus(getStatusById("DONE"))
+                .build()
+        defaultGoalQuery = GoalQuery(
+                filterAttributes = goalFilter,
+                sortConfig = SortConfig(
+                        GoalSortOption.ByPriority.comparator)
+        )
+    }
 }

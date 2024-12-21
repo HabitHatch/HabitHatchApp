@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity(tableName = "goals")
+@Entity(tableName = "goal")
 data class GoalEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val title: String,

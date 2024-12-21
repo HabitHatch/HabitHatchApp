@@ -1,17 +1,22 @@
 package com.habithatch.demo.core.util
 
-import com.habithatch.demo.data.entities.Goal
+import com.habithatch.demo.data.models.GoalModel
+
 
 sealed class GoalSortOption (
     val label: String,
-    val comparator: Comparator<Goal>
+    val comparator: Comparator<GoalModel>
 ){
     object ByPriority : GoalSortOption(
         "Priority",
-        compareByDescending<Goal> { it.priority.importance }
+        compareByDescending<GoalModel> { it.priority.importance }
     )
     object ByTitle : GoalSortOption(
         "Title",
-        compareBy<Goal> { it.title }
+        compareBy<GoalModel> { it.title }
     )
+
+    fun toSortConfig(): SortConfig<GoalModel> {
+        return SortConfig(comparator)
+    }
 }

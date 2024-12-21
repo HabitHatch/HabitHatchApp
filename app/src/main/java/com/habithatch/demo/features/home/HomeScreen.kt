@@ -36,8 +36,9 @@ fun HomeScreen(
 ) {
     val user: User? by viewModel.user.collectAsStateWithLifecycle()
     val goals by viewModel.filteredGoals.collectAsStateWithLifecycle()
-    val goalQuery by viewModel.goalQuery.collectAsStateWithLifecycle()
     val allGoalsDone by viewModel.allGoalsDone.collectAsStateWithLifecycle()
+    val goalQuery by viewModel.goalQuery.collectAsStateWithLifecycle()
+
 
     val bottomNavigationItems = viewModel.bottomNavigationItems
     val primaryNavigationItem = viewModel.primaryNavigationItem
@@ -50,6 +51,8 @@ fun HomeScreen(
             route = currentRoute,
             navigationItems = bottomNavigationItems
     )
+
+
     Log.d("HomeScreen", "Goals: $goals")
     Log.d("HomeScreen", "User: $user")
 
@@ -100,8 +103,7 @@ fun HomeScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 16.dp, vertical = 8.dp),
-                            goalQuery = goalQuery,
-                            onToggleGoalStatus = { viewModel.toggleGoalDone(it) },
+                            onToggleGoalStatus = {},
                             onQueryChange = { viewModel.changeSearchQuery(it) },
                             onGoalStateVisibilityChange = { doneState, visibility ->
                                 viewModel.setDoneStateVisible(doneState, visibility)
@@ -109,7 +111,10 @@ fun HomeScreen(
                             onPriorityVisibilityChange = { priority, visibility ->
                                 viewModel.setPriorityVisible(priority, visibility)
                             },
-                            sortOptionStateClicked = { viewModel.toggleSortOptionState(it) }
+                            sortOptionStateClicked = { viewModel.toggleSortOptionState(it) },
+                            goalQuery = goalQuery,
+                            goalSortOptionStates = emptyList()
+
                     )
                 }
             }
@@ -120,7 +125,8 @@ fun HomeScreen(
                 onAdd = { goalName, priority ->
                     viewModel.addGoal(goalName, priority)
                     showDialog.value = false
-                }
+                },
+                preselectedPriority = viewModel.defaultPriority
         )
     }
 }

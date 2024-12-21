@@ -5,22 +5,22 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.habithatch.demo.data.entities.Goal
+import com.habithatch.demo.data.entities.GoalEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface GoalDao {
     @Query("SELECT * FROM goal WHERE goal.id = :goalId")
-    suspend fun getGoalById(goalId: Int): Goal?
+    suspend fun getGoalById(goalId: Int): GoalEntity?
 
     @Query("SELECT * FROM goal")
-    fun getAll(): Flow<List<Goal>>
+    fun getAll(): Flow<List<GoalEntity>>
 
     @Insert
-    suspend fun insert(goal: Goal)
+    suspend fun insert(goal: GoalEntity)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun update(goal: Goal)
+    suspend fun update(goal: GoalEntity)
 
     @Query("DELETE FROM goal")
     suspend fun deleteAll()

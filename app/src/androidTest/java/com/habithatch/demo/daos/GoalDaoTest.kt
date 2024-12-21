@@ -5,7 +5,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
 import com.habithatch.demo.data.daos.GoalDao
 import com.habithatch.demo.data.db.AppDatabase
-import com.habithatch.demo.data.entities.Goal
+import com.habithatch.demo.data.models.Goal
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -35,7 +35,7 @@ class GoalDaoTest {
     fun getGoalById_shouldGetAGoalById_whenGoalExists() {
         runBlocking {
             // Arrange
-            val goal = Goal(id = 1, title = "Drink water")
+            val goal = Goal(com.habithatch.demo.data.models.Goal.id = 1, title = "Drink water")
             goalDao.insert(goal)
 
             // Act

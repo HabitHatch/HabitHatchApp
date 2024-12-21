@@ -1,31 +1,8 @@
 @startuml
+@startuml
 
 
 package Model{
-    class Image{
-        url: String
-    }
-
-    class Animation{
-        frames: List<Image>
-        duration: Int
-    }
-
-    class User {
-        - pet: Pet
-    }
-
-
-    class Pet {
-        + name: String
-        + animation: Animation?
-        + image: Image
-    }
-
-    enum Priority {
-        NORMAL
-        HIGH
-    }
 
     class Goal {
         + name: String
@@ -33,12 +10,9 @@ package Model{
         + isDone: Boolean
     }
 
-    Goal *- Priority
-    User *-- Pet
-    User *.. Goal: "indirectly"
-    Pet o-- Image
-    Pet o-- Animation
-    Animation o-- Image
+    Goal *- GoalPriority
+
+    Goal *- GoalStatus
 }
 
 package View{
@@ -111,4 +85,6 @@ GoalRepository ..down> GoalDAO
 
 UserDAO -down-> User
 GoalDAO -down-> Goal
+@enduml
+
 @enduml

@@ -1,57 +1,95 @@
 package com.habithatch.demo.data.models
 
+import javax.inject.Inject
+import com.habithatch.demo.core.config.HabitHatchConfig
 
-import java.util.EnumMap
-import kotlin.enums.enumEntries
-import com.habithatch.demo.data.entities.GoalPriority
-import com.habithatch.demo.data.entities.GoalStatus
 
 /**
  * Filters goals based on priority and status.
  *
- * @param goalPriorityVisibleMap Maps each priority to its visibility.
- * @param goalStatusVisibleMap Maps each status to its visibility.
+ * @param priorityVisibleMap Maps each priority to its visibility.
+ * @param statusVisibleMap Maps each status to its visibility.
  * @param searchQuery Optional search term for filtering goals.
  */
-data class GoalFilterAttributes(
-    val goalPriorityVisibleMap: EnumMap<GoalPriority, Boolean>,
-    val goalStatusVisibleMap: EnumMap<GoalStatus, Boolean>,
-    val searchQuery: String?
+@ConsistentCopyVisibility
+data class GoalFilterAttributes private constructor(
+    val priorityVisibleMap: Map<GoalModel.Priority, Boolean>,
+    val statusVisibleMap: Map<GoalModel.Status, Boolean>,
+    val searchQuery: String?,
 ) {
-    init {
-        validateMap(goalPriorityVisibleMap, ::goalPriorityVisibleMap.name)
-        validateMap(goalStatusVisibleMap, ::goalStatusVisibleMap.name)
+    public fun builder(): Builder {
+        return Builder(this)
     }
 
-    private inline fun <reified E : Enum<E>> validateMap(
-        map: EnumMap<E, Boolean>,
-        mapName: String
+    class Builder constructor(
+        goalFilterAttributes: GoalFilterAttributes
     ) {
-        val missingKeys = enumEntries<E>() - map.keys
-        require(missingKeys.isEmpty()) {
-            """
-                $mapName must contain all values of ${E::class.simpleName}:
-                Missing keys: $missingKeys.
-            """.trimIndent()
+        private var priorityVisibleMap = goalFilterAttributes.priorityVisibleMap
+        private var statusVisibleMap = goalFilterAttributes.statusVisibleMap
+        private var searchQuery = goalFilterAttributes.searchQuery
+
+        @Inject
+        constructor(
+            config: HabitHatchConfig
+        ) : this(
+                GoalFilterAttributes(
+                        priorityVisibleMap = config.priorities.associateWith { false },
+                        statusVisibleMap = config.statuses.associateWith { false },
+                        searchQuery = null
+                )
+        )
+
+        fun createMatchAll(): Builder {
+            this.priorityVisibleMap = this.priorityVisibleMap.keys.associateWith { true }
+            this.statusVisibleMap = this.statusVisibleMap.keys.associateWith { true }
+            return this
         }
-    }
 
-    companion object {
-        fun createMatchAllInProgressFilter(): GoalFilterAttributes {
-            val goalStatusVisibleMap = EnumMap(GoalStatus.entries.associateWith { it == GoalStatus.IN_PROGRESS })
-
-            return GoalFilterAttributes(
-                    goalPriorityVisibleMap = EnumMap(GoalPriority.entries.associateWith { true }),
-                    goalStatusVisibleMap = goalStatusVisibleMap,
-                    searchQuery = null
-            )
+        fun includePriority(priority: GoalModel.Priority): Builder {
+            return setPriority(priority, true)
         }
 
-        fun createMatchAllFilter(): GoalFilterAttributes {
+        fun excludePriority(priority: GoalModel.Priority): Builder {
+            return setPriority(priority, false)
+        }
+
+        fun setPriority(priority: GoalModel.Priority, visible: Boolean): Builder {
+            this.priorityVisibleMap = this.priorityVisibleMap.toMutableMap().apply {
+                this[priority] = visible
+            }
+            return this
+        }
+
+        fun setStatus(status: GoalModel.Status, visible: Boolean): Builder {
+            this.statusVisibleMap = this.statusVisibleMap.toMutableMap().apply {
+                this[status] = visible
+            }
+            return this
+        }
+
+        fun excludeStatus(status: GoalModel.Status): Builder {
+            return setStatus(status, false)
+        }
+
+        fun includeStatus(status: GoalModel.Status): Builder {
+            return setStatus(status, true)
+        }
+
+        fun setSearchQuery(searchQuery: String): Builder {
+            this.searchQuery = searchQuery
+            return this
+        }
+
+        fun removeSearchQuery(): Builder {
+            this.searchQuery = null
+            return this
+        }
+
+        fun build(): GoalFilterAttributes {
             return GoalFilterAttributes(
-                    goalPriorityVisibleMap = EnumMap(GoalPriority.entries.associateWith { true }),
-                    goalStatusVisibleMap = EnumMap(GoalStatus.entries.associateWith { true }),
-                    searchQuery = null
+                    priorityVisibleMap = priorityVisibleMap,
+                    statusVisibleMap = statusVisibleMap,
+                    searchQuery = searchQuery,
             )
         }
     }

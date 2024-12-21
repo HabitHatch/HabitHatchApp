@@ -4,14 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
 import com.habithatch.demo.data.daos.GoalDao
 import com.habithatch.demo.data.daos.UserDao
-import com.habithatch.demo.data.entities.Goal
+import com.habithatch.demo.data.entities.GoalEntity
 import com.habithatch.demo.data.entities.User
 
-@Database(entities = [User::class, Goal::class], version = 7)
-@TypeConverters(EnumConverters::class)
+@Database(entities = [User::class, GoalEntity::class], version = 9)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun goalDao(): GoalDao

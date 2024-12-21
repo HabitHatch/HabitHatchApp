@@ -9,18 +9,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.core.config.HabitHatchDevConfig
-import com.habithatch.demo.data.entities.Goal
-import com.habithatch.demo.data.entities.GoalPriority
-import com.habithatch.demo.data.entities.GoalStatus
+import com.habithatch.demo.data.models.GoalModel
 
 @Composable
 fun GoalList(
-    goals: List<Goal>,
+    goals: List<GoalModel>,
     modifier: Modifier = Modifier.fillMaxSize(),
     contentPadding: PaddingValues = PaddingValues(4.dp),
     verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(8.dp),
-    onToggleGoalStatus: (Goal) -> Unit = {},
-    onGoalClicked: (Goal) -> Unit = {},
+    onToggleGoalStatus: (GoalModel) -> Unit = {},
+    onGoalClicked: (GoalModel) -> Unit = {},
 ) {
     LazyColumn(
             modifier = modifier,
@@ -42,20 +40,6 @@ fun GoalList(
 @Preview(showBackground = true)
 @Composable
 fun GoalListPreview() {
-    val highPriority = HabitHatchDevConfig.priorities[1]
-    val goals = listOf(
-            Goal(title = "Done Goal", status = GoalStatus.DONE),
-            Goal(title = "Undone Goal", status = GoalStatus.IN_PROGRESS),
-            Goal(
-                    title = "Important Done Goal",
-                    status = GoalStatus.DONE,
-                    priority = highPriority
-            ),
-            Goal(
-                    title = "Important Undone Goal",
-                    status = GoalStatus.IN_PROGRESS,
-                    priority = highPriority
-            ),
-    )
+    val goals = HabitHatchDevConfig.exampleGoals
     GoalList(goals = goals)
 }

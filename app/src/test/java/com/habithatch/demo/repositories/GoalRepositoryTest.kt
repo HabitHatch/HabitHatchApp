@@ -3,9 +3,9 @@ package com.habithatch.demo.repositories
 import java.util.EnumMap
 import com.google.common.truth.Truth.assertThat
 import com.habithatch.demo.data.daos.GoalDao
-import com.habithatch.demo.data.entities.Goal
-import com.habithatch.demo.data.entities.GoalPriority
-import com.habithatch.demo.data.entities.GoalStatus
+import com.habithatch.demo.data.models.Goal
+import com.habithatch.demo.data.models.GoalPriority
+import com.habithatch.demo.data.models.GoalStatus
 import com.habithatch.demo.data.models.GoalFilterAttributes
 import com.habithatch.demo.data.repositories.GoalRepository
 import io.mockk.coEvery
@@ -54,7 +54,7 @@ class GoalRepositoryTest {
             coEvery { goalDao.getGoalById(goal.id) } returns goal
 
             // Act
-            goalRepository.toggleGoalDone(goal.id)
+            goalRepository.changeGoalStatusToNextInCycle(goal.id)
 
             // Assert
             val updatedGoal = goal.copy(status = GoalStatus.DONE)
@@ -70,7 +70,7 @@ class GoalRepositoryTest {
             coEvery { goalDao.getGoalById(goal.id) } returns goal
 
             // Act
-            goalRepository.toggleGoalDone(goal.id)
+            goalRepository.changeGoalStatusToNextInCycle(goal.id)
 
             // Assert
             val updatedGoal = goal.copy(status = GoalStatus.IN_PROGRESS)

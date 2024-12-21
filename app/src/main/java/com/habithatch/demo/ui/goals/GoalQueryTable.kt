@@ -8,23 +8,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.core.util.GoalSortOptionState
-import com.habithatch.demo.data.entities.Goal
-import com.habithatch.demo.data.entities.GoalStatus
-import com.habithatch.demo.data.entities.GoalPriority
+import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.data.models.GoalQuery
 
 @Composable
 fun GoalQueryTable(
-    goals: List<Goal>,
+    goals: List<GoalModel>,
     goalSortOptionStates: List<GoalSortOptionState>,
-    priorities: List<GoalPriority>,
+    priorities: List<GoalModel.Priority>,
     modifier: Modifier = Modifier.padding(4.dp).fillMaxWidth(),
     goalQuery: GoalQuery,
-    onToggleGoalStatus: (Goal) -> Unit = {},
-    onGoalClicked: (Goal) -> Unit = {},
+    onToggleGoalStatus: (GoalModel) -> Unit = {},
+    onGoalClicked: (GoalModel) -> Unit = {},
     onQueryChange: (String) -> Unit = {},
-    onGoalStateVisibilityChange: (GoalStatus, Boolean) -> Unit = { state, visible -> },
-    onPriorityVisibilityChange: (GoalPriority, Boolean) -> Unit = {priority, visible -> },
+    onGoalStateVisibilityChange: (GoalModel.Status, Boolean) -> Unit = { state, visible -> },
+    onPriorityVisibilityChange: (GoalModel.Priority, Boolean) -> Unit = { priority, visible -> },
     sortOptionStateClicked: (GoalSortOptionState) -> Unit = {}
 ) {
     Column(
@@ -32,7 +30,7 @@ fun GoalQueryTable(
     ) {
         GoalFilterBar(
                 priorities = priorities,
-                goalFilterAttributes = goalQuery.filterConfig,
+                goalFilter = goalQuery.filterAttributes,
                 onQueryChange = onQueryChange,
                 onGoalStateVisibleChange = onGoalStateVisibilityChange,
                 onPriorityVisibilityChange = onPriorityVisibilityChange

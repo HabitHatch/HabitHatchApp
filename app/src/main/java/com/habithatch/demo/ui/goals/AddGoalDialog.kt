@@ -15,17 +15,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.habithatch.demo.data.entities.GoalPriority
+import com.habithatch.demo.core.config.HabitHatchDevConfig
+import com.habithatch.demo.data.models.GoalModel
 
 @Composable
 fun AddGoalDialog(
     preselectedGoalName: String = "",
-    preselectedPriority: GoalPriority = GoalPriority.NORMAL,
+    preselectedPriority: GoalModel.Priority,
     dialogTitle: String = "Add Goal",
     blankGoalSubmissionErrorMessage: String = "Goal name cannot be empty",
     onDismiss: () -> Unit,
-    onAdd: (String, GoalPriority) -> Unit
-) {
+    onAdd: (String, GoalModel.Priority) -> Unit) {
     var goalName by remember { mutableStateOf(preselectedGoalName) }
     var selectedPriority by remember { mutableStateOf(preselectedPriority) }
     var addedBlankGoal by remember { mutableStateOf(false) }
@@ -72,9 +72,7 @@ fun AddGoalDialog(
                             isError = addedBlankGoal
                     )
                     IconButton(
-                            onClick = {
-                                selectedPriority = selectedPriority.getHigherPriorityOrLowest()
-                            },
+                            onClick = {},
                             modifier = Modifier.size(36.dp)
                     ) {
                         Icon(
@@ -117,6 +115,6 @@ fun AddGoalDialogPreview() {
             onDismiss = {},
             onAdd = { name, priority -> },
             preselectedGoalName = "My Goal",
-            preselectedPriority = GoalPriority.HIGH
+            preselectedPriority = HabitHatchDevConfig.priorities[0]
     )
 }

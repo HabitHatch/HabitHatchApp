@@ -7,25 +7,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.habithatch.demo.data.entities.Goal
-import com.habithatch.demo.data.entities.GoalStatus
-import com.habithatch.demo.data.entities.GoalPriority
-import com.habithatch.demo.data.models.GoalFilter
+import com.habithatch.demo.data.models.GoalFilterAttributes
+import com.habithatch.demo.data.models.GoalModel
 
 @Composable
 fun FilteredGoalList(
-    goals: List<Goal>,
+    goals: List<GoalModel>,
     modifier: Modifier = Modifier.padding(4.dp).fillMaxWidth(),
-    goalFilter: GoalFilter = GoalFilter.createMatchAllFilter(),
-    onToggleGoalStatus: (Goal) -> Unit = {},
+    goalFilter: GoalFilterAttributes,
+    onToggleGoalStatus: (GoalModel) -> Unit = {},
     onQueryChange: (String) -> Unit = {},
-    onGoalStateVisibilityChange: (GoalStatus, Boolean) -> Unit = { state, visible -> },
-    onPriorityVisibilityChange: (GoalPriority, Boolean) -> Unit = {priority, visible -> },
+    onGoalStateVisibilityChange: (GoalModel.Status, Boolean) -> Unit = { state, visible -> },
+    onPriorityVisibilityChange: (GoalModel.Priority, Boolean) -> Unit = {priority, visible -> },
 ) {
     Column(
             modifier = modifier
     ) {
         GoalFilterBar(
+                priorities = emptyList<GoalModel.Priority>(),
                 goalFilter = goalFilter,
                 onQueryChange = onQueryChange,
                 onGoalStateVisibleChange = onGoalStateVisibilityChange,
