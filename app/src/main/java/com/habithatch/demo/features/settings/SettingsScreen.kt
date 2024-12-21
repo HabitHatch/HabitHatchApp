@@ -27,6 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.habithatch.demo.ui.common.ConfirmationDialog
 import com.habithatch.demo.core.navigation.NavigationItem
+import com.habithatch.demo.ui.navigation.TopAppInformationBar
 
 data class DialogState(
     val show: Boolean = false,
@@ -128,6 +129,11 @@ fun SettingsScreen(
                         )
                     }
                 }
+            },
+            topBar = {
+                TopAppInformationBar(
+                        title = "Settings",
+                )
             },
 
             bottomBar = {

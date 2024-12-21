@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 7,
-    "identityHash": "486b25cc05f12d334afa4ff72b57ced8",
+    "identityHash": "dc549aafeb720f0860c2fba566069a8c",
     "entities": [
       {
         "tableName": "User",
@@ -38,7 +38,7 @@
       },
       {
         "tableName": "Goal",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `status` TEXT NOT NULL, `priorityId` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `status` TEXT NOT NULL, `priority` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -59,8 +59,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "priorityId",
-            "columnName": "priorityId",
+            "fieldPath": "priority",
+            "columnName": "priority",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -78,7 +78,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '486b25cc05f12d334afa4ff72b57ced8')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'dc549aafeb720f0860c2fba566069a8c')"
     ]
   }
 }

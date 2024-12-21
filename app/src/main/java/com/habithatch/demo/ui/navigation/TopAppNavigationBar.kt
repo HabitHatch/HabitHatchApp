@@ -23,6 +23,7 @@ import com.habithatch.demo.core.navigation.NavigationItem
 fun TopAppInformationBar(
     title: String,
     primaryNavigationItem: NavigationItem? = null,
+    modifier: Modifier = Modifier.height(64.dp),
     onPrimaryNavigationItemClick: () -> Unit = {},
 ) {
     CenterAlignedTopAppBar(
@@ -34,7 +35,7 @@ fun TopAppInformationBar(
                 Text(
                         text = title,
                         style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(vertical = 12.dp)
+                        modifier = Modifier.padding(vertical = 4.dp)
                 )
             },
             actions = {
@@ -53,7 +54,7 @@ fun TopAppInformationBar(
                     }
                 }
             },
-            modifier = Modifier.height(48.dp)
+            modifier = modifier
     )
 }
 
