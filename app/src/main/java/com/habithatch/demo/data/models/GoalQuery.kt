@@ -14,20 +14,36 @@ data class GoalQuery(
     }
 
     fun updateSortOption(selectedOption: GoalSortOption): GoalQuery {
+        if (sortOptions.filter { it == selectedOption }.size != 1) {
+            throw IllegalArgumentException(
+                    "Selected option is not exactly once in the list of sort options"
+            )
+        }
         val updatedOptions = sortOptions.map { option ->
             if (option == selectedOption) {
-                option.apply { cycleState() }
+                option.cycleState()
             } else {
-                option.apply { sortState = SortState.NOT_USED }
+                option.copy(sortState = SortState.NOT_USED)
             }
         }
         return this.copy(sortOptions = updatedOptions)
     }
 
-    fun getSortConfig(): SortConfig<GoalModel> {
-        return sortOptions
+    fun getComparator(): Comparator<GoalModel> {
+        val sortConfig = sortOptions
             .firstOrNull { it.sortState != SortState.NOT_USED }
             ?.toSortConfig()
             ?: defaultSortConfig
+        return sortConfig.getEffectiveComparator().thenBy { it.title.lowercase() }
+    }
+
+    override fun toString(): String {
+        return """
+            GoalQuery(
+                filter=$filter,
+                sortOptions=$sortOptions,
+                defaultSortConfig=$defaultSortConfig
+            )
+        """.trimIndent()
     }
 }

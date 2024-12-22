@@ -19,6 +19,9 @@ interface GoalDao {
     @Insert
     suspend fun insert(goal: GoalEntity)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(goals: Collection<GoalEntity>)
+
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(goal: GoalEntity)
 

@@ -4,59 +4,43 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 data class GoalModel(
-    val id: Int = 0,
+    val id: Int? = null,
     val title: String,
     val status: Status,
     val priority: Priority
 ) {
-    init {
-        require(title.isNotBlank()) { "Goal title must not be blank" }
-    }
 
     fun updateStatus(newStatus: Status): GoalModel {
         return copy(status = newStatus)
     }
 
     data class Priority(
-        val id: String,
         val label: String,
         val importance: Int,
         val iconResourceId: Int,
         val getColor: @Composable () -> Color,
-    ) : Comparable<Priority> {
-        override fun compareTo(other: Priority): Int {
-            return importance.compareTo(other.importance)
-        }
-
+    ){
         override fun equals(other: Any?): Boolean {
-            return other is Priority && other.id == id
+            return other is Priority && other.label == label
         }
 
-        override fun hashCode(): Int {
-            return id.hashCode()
-        }
+        override fun hashCode(): Int = label.hashCode()
     }
 
     data class Status(
-        val id: String,
         val label: String,
         val stepNumber: Int,
-        val isDone: Boolean
-    ) : Comparable<Status> {
-        override fun compareTo(other: Status): Int {
-            return stepNumber.compareTo(other.stepNumber)
-        }
+        val isDone: Boolean = false
+    ){
 
         override fun equals(other: Any?): Boolean {
-            return other is Status && other.id == id
+            return other is Status && other.label == label
         }
 
-        override fun hashCode(): Int {
-            return id.hashCode()
-        }
+        override fun hashCode(): Int = label.hashCode()
     }
 
     fun isDone(): Boolean {
-        return status.isDone
+        return this.status.isDone
     }
 }

@@ -1,7 +1,8 @@
 package com.habithatch.demo.data.models
 
 import javax.inject.Inject
-import com.habithatch.demo.core.config.HabitHatchConfig
+import com.habithatch.demo.core.config.GoalPriorityProvider
+import com.habithatch.demo.core.config.GoalStatusProvider
 import com.habithatch.demo.core.exceptions.InvalidGoalFilterException
 
 
@@ -18,35 +19,7 @@ data class GoalFilter private constructor(
     val statusVisibleMap: Map<GoalModel.Status, Boolean>,
     val searchQuery: String?,
 ) {
-    fun builder(): Builder {
-        return Builder(this)
-    }
 
-    fun isMatch(goal: GoalModel): Boolean {
-        if (statusVisibleMap.containsKey(goal.status).not()) {
-            throw InvalidGoalFilterException(this, "Goal status not found in statusVisibleMap")
-        }
-        if (priorityVisibleMap.containsKey(goal.priority).not()) {
-            throw InvalidGoalFilterException(this, "Goal priority not found in priorityVisibleMap")
-        }
-
-        val matchesDone = statusVisibleMap[goal.status]!!
-        val matchesPriority = priorityVisibleMap[goal.priority]!!
-        val matchesSearch = this.matchesSearchQuery(goal)
-        return matchesDone && matchesPriority && matchesSearch
-    }
-
-    private fun matchesSearchQuery(goal: GoalModel): Boolean {
-        return notHasSearchQuery() || goal.title.contains(searchQuery!!, ignoreCase = true)
-    }
-
-    private fun hasSearchQuery(): Boolean {
-        return searchQuery.isNullOrBlank()
-    }
-
-    private fun notHasSearchQuery(): Boolean {
-        return !hasSearchQuery()
-    }
 
     class Builder(
         goalFilter: GoalFilter
@@ -57,11 +30,12 @@ data class GoalFilter private constructor(
 
         @Inject
         constructor(
-            config: HabitHatchConfig
+            priorityProvider: GoalPriorityProvider,
+            statusProvider: GoalStatusProvider,
         ) : this(
                 GoalFilter(
-                        priorityVisibleMap = config.priorities.associateWith { false },
-                        statusVisibleMap = config.statuses.associateWith { false },
+                        priorityVisibleMap = priorityProvider.priorities.associateWith { false },
+                        statusVisibleMap = statusProvider.statuses.associateWith { false },
                         searchQuery = null
                 )
         )
@@ -95,12 +69,60 @@ data class GoalFilter private constructor(
             return this
         }
 
+        @Throws(InvalidGoalFilterException::class)
         fun build(): GoalFilter {
+            if (priorityVisibleMap.isEmpty()) {
+                throw InvalidGoalFilterException("Priority visible map is empty")
+            }
+
+            if (statusVisibleMap.isEmpty()) {
+                throw InvalidGoalFilterException("Status visible map is empty")
+            }
+
+            if (statusVisibleMap.values.any().not()) {
+                throw InvalidGoalFilterException("At least one status must be visible")
+            }
+
+            if (priorityVisibleMap.values.any().not()) {
+                throw InvalidGoalFilterException("At least one priority must be visible")
+            }
+
             return GoalFilter(
                     priorityVisibleMap = priorityVisibleMap,
                     statusVisibleMap = statusVisibleMap,
                     searchQuery = searchQuery,
             )
         }
+    }
+
+    fun builder(): Builder {
+        return Builder(this)
+    }
+
+    @Throws(InvalidGoalFilterException::class)
+    fun isMatch(goal: GoalModel): Boolean {
+        val matchesStatus = statusVisibleMap[goal.status]
+        if (matchesStatus == null) {
+            throw InvalidGoalFilterException("Goal status not found in statusVisibleMap")
+        }
+        val matchesPriority = priorityVisibleMap[goal.priority]
+        if (matchesPriority == null) {
+            throw InvalidGoalFilterException("Goal priority not found in priorityVisibleMap")
+        }
+
+        return matchesStatus && matchesPriority && matchesSearchQuery(goal)
+    }
+
+    private fun matchesSearchQuery(goal: GoalModel): Boolean {
+        return searchQuery.isNullOrBlank() || goal.title.contains(searchQuery, ignoreCase = true)
+    }
+
+
+    override fun toString(): String {
+        return """GoalFilter (
+                priorityVisibleMap=$priorityVisibleMap,
+                statusVisibleMap=$statusVisibleMap
+                searchQuery=$searchQuery
+                """.trimIndent()
     }
 }

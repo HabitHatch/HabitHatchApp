@@ -9,7 +9,7 @@ import com.habithatch.demo.data.daos.UserDao
 import com.habithatch.demo.data.entities.GoalEntity
 import com.habithatch.demo.data.entities.User
 
-@Database(entities = [User::class, GoalEntity::class], version = 9)
+@Database(entities = [User::class, GoalEntity::class], version = 10)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun goalDao(): GoalDao

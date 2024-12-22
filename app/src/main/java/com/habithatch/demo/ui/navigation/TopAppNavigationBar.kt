@@ -61,10 +61,9 @@ fun TopAppInformationBar(
 @Preview()
 @Composable
 fun TopAppInformationBarPreview() {
-    val primaryNavigationItem = HabitHatchDevConfig.accountItem
     TopAppInformationBar(
             title = "Home",
-            primaryNavigationItem = primaryNavigationItem,
+            primaryNavigationItem = HabitHatchDevConfig.primaryNavigationItem,
             onPrimaryNavigationItemClick = {}
     )
 }

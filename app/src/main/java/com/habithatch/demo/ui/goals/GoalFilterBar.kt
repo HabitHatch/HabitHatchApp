@@ -1,5 +1,7 @@
 package com.habithatch.demo.ui.goals
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.habithatch.demo.data.models.GoalFilter
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.ui.common.SearchField
@@ -32,6 +35,19 @@ fun GoalFilterBar(
             horizontalArrangement = Arrangement.SpaceBetween
     ) {
         SearchField(
+                modifier = Modifier
+                    .height(40.dp)
+                    .weight(1f)
+                    .padding(horizontal = 8.dp)
+                    .background(
+                            color = MaterialTheme.colorScheme.surface,
+                            shape = MaterialTheme.shapes.medium
+                    )
+                    .border(
+                            width = 1.dp,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
+                            shape = MaterialTheme.shapes.medium
+                    ),
                 searchQuery = searchQuery,
                 onQueryChange = {
                     val newGoalFilter = goalFilter
@@ -68,13 +84,14 @@ fun GoalFilterBar(
 
 @Composable
 fun StatusDropdown(
+    modifier: Modifier = Modifier,
     allStatuses: List<GoalModel.Status>,
     visibleGoalStatuses: Map<GoalModel.Status, Boolean>,
     onDoneStateVisibleChange: (GoalModel.Status, Boolean) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
     Box(
-            modifier = Modifier.wrapContentSize(Alignment.TopStart)
+            modifier = modifier
     ) {
         TextButton(onClick = { expanded = true }) {
             Text("Status")
@@ -108,13 +125,14 @@ fun StatusDropdown(
 
 @Composable
 fun PriorityDropdown(
+    modifier: Modifier = Modifier,
     allPriorities: List<GoalModel.Priority>,
     visiblePriorities: Map<GoalModel.Priority, Boolean>,
     onPriorityVisibilityChange: (GoalModel.Priority, Boolean) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
     Box(
-            modifier = Modifier.wrapContentSize(Alignment.TopStart)
+            modifier = modifier
     ) {
         TextButton(onClick = { expanded = true }) {
             Text("Priority")

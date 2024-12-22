@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import BottomNavigationBar
@@ -149,18 +150,16 @@ fun rememberHomeScreenState(
     val goalQuery by viewModel.goalQuery.collectAsStateWithLifecycle()
     var showDialog by remember { mutableStateOf(false) }
 
-    return remember(user, goals, allGoalsDone, goalQuery) {
-        HomeScreenState(
-                user = user,
-                goals = goals,
-                allGoalsDone = allGoalsDone,
-                goalQuery = goalQuery,
-                showDialog = showDialog,
-                onAddGoalClicked = { showDialog = true },
-                onGoalAdded = { viewModel.addGoal(it) },
-                onGoalStatusToggled = { viewModel.toggleGoalStatus(it) },
-                onGoalQueryChange = { viewModel.updateGoalQuery(it) },
-                onGoalDialogDismissed = { showDialog = false }
-        )
-    }
+    return HomeScreenState(
+            user = user,
+            goals = goals,
+            allGoalsDone = allGoalsDone,
+            goalQuery = goalQuery,
+            showDialog = showDialog,
+            onAddGoalClicked = { showDialog = true },
+            onGoalAdded = { viewModel.addGoal(it); showDialog = false },
+            onGoalStatusToggled = { viewModel.toggleGoalStatus(it) },
+            onGoalQueryChange = { viewModel.updateGoalQuery(it) },
+            onGoalDialogDismissed = { showDialog = false }
+    )
 }

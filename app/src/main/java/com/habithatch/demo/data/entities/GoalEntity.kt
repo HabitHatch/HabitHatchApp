@@ -8,6 +8,6 @@ import androidx.room.PrimaryKey
 data class GoalEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val title: String,
-    val statusId: String,
-    val priorityId: String
+    val statusLabel: String,
+    val priorityLabel: String
 )

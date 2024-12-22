@@ -5,7 +5,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
 import com.habithatch.demo.data.daos.GoalDao
 import com.habithatch.demo.data.db.AppDatabase
-import com.habithatch.demo.data.models.Goal
+import com.habithatch.demo.data.entities.GoalEntity
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -35,11 +35,15 @@ class GoalDaoTest {
     fun getGoalById_shouldGetAGoalById_whenGoalExists() {
         runBlocking {
             // Arrange
-            val goal = Goal(com.habithatch.demo.data.models.Goal.id = 1, title = "Drink water")
+            val goal = GoalEntity(
+                    id = 1, title = "Drink water",
+                    statusLabel = "In Progress",
+                    priorityLabel = "Normal"
+            )
             goalDao.insert(goal)
 
             // Act
-            val result = goalDao.getGoalById(goal.id)
+            val result = goalDao.getGoalById(goal.id).first()
 
             // Assert
             assertThat(result).isEqualTo(goal)
@@ -51,8 +55,18 @@ class GoalDaoTest {
         runBlocking {
             // Arrange
             val goals = listOf(
-                    Goal(id = 1, title = "Read book"),
-                    Goal(id = 2, title = "Learn how to code"),
+                    GoalEntity(
+                            id = 1,
+                            title = "Drink water",
+                            statusLabel = "In Progress",
+                            priorityLabel = "Normal"
+                    ),
+                    GoalEntity(
+                            id = 2,
+                            title = "Eat vegetables",
+                            statusLabel = "In Progress",
+                            priorityLabel = "High"
+                    ),
             )
             goals.forEach { goalDao.insert(it) }
 

@@ -42,7 +42,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideGoalMapper(config: HabitHatchConfig): GoalMapper {
-        return GoalMapper(config)
+        return GoalMapper(config, config)
     }
 
     @Provides
@@ -54,7 +54,7 @@ object AppModule {
     ): GoalRepository {
         return GoalRepository(
                 goalDao = goalDao,
-                config = goalConfig,
+                statusesProvider = goalConfig,
                 goalMapper = goalMapper
         )
     }

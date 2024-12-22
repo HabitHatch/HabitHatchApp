@@ -24,21 +24,10 @@ import androidx.compose.ui.unit.dp
 fun SearchField(
     searchQuery: String,
     onQueryChange: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
-            modifier = Modifier
-                .height(40.dp)
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp)
-                .background(
-                        color = MaterialTheme.colorScheme.surface,
-                        shape = MaterialTheme.shapes.medium
-                )
-                .border(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
-                        shape = MaterialTheme.shapes.medium
-                ),
+            modifier = modifier,
             verticalAlignment = Alignment.Companion.CenterVertically
     ) {
         Icon(

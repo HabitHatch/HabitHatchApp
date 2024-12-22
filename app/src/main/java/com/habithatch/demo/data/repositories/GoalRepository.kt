@@ -1,22 +1,26 @@
 package com.habithatch.demo.data.repositories
 
 import javax.inject.Inject
-import com.habithatch.demo.core.config.HabitHatchConfig
+import com.habithatch.demo.core.config.GoalStatusProvider
 import com.habithatch.demo.core.exceptions.GoalNotFoundException
 import com.habithatch.demo.core.util.getNextHigherOrLowest
 import com.habithatch.demo.data.daos.GoalDao
+import com.habithatch.demo.data.entities.GoalEntity
 import com.habithatch.demo.data.mappers.GoalMapper
 import com.habithatch.demo.data.models.GoalFilter
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.data.models.GoalQuery
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 
 class GoalRepository @Inject constructor(
     private val goalDao: GoalDao,
-    private val config: HabitHatchConfig,
+    private val statusesProvider: GoalStatusProvider,
     private val goalMapper: GoalMapper
 ) {
     fun getAll(): Flow<Collection<GoalModel>> {
@@ -33,8 +37,8 @@ class GoalRepository @Inject constructor(
 
     @Throws(GoalNotFoundException::class)
     suspend fun changeGoalStatusToNextInCycle(goalId: Int) {
-       val goalModel = getById(goalId).first()
-        val nextStatusInCycle = config.statuses.getNextHigherOrLowest(
+        val goalModel = getById(goalId).first()
+        val nextStatusInCycle = statusesProvider.statuses.getNextHigherOrLowest(
                 bySelector = { it.stepNumber },
                 element = goalModel.status
         )
@@ -42,16 +46,16 @@ class GoalRepository @Inject constructor(
         this.update(newGoalModel)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun getQueriedGoals(goalQuery: GoalQuery): Flow<List<GoalModel>> {
-        return getFilteredGoals(goalQuery.filter).map { goals ->
-            goals.sortedWith(goalQuery.getSortConfig().comparator)
-        }
+        return getFilteredGoals(goalQuery.filter)
+            .combine(flowOf(goalQuery.getComparator())) { goals, comparator ->
+                goals.sortedWith(comparator)
+            }
     }
 
-    fun insertAll(goals: Collection<GoalModel>) {
-        goals
-            .map(goalMapper::toEntity)
-            .forEach { goalDao::insert }
+    suspend fun insertAll(goals: Collection<GoalModel>) {
+        goalDao.insertAll(goals.map(goalMapper::toEntity))
     }
 
     private suspend fun update(goal: GoalModel) {
@@ -61,13 +65,13 @@ class GoalRepository @Inject constructor(
 
     @Throws(GoalNotFoundException::class)
     private fun getById(goalId: Int): Flow<GoalModel> {
-        return goalDao.getGoalById(goalId)
-            .map { goalEntity ->
-                if (goalEntity == null) {
-                    throw GoalNotFoundException(goalId)
-                }
-                goalMapper.fromEntity(goalEntity)
+        val goalEntityFlow: Flow<GoalEntity?> = goalDao.getGoalById(goalId)
+        return goalEntityFlow.map { goalEntity ->
+            if (goalEntity == null) {
+                throw GoalNotFoundException(goalId)
             }
+            goalMapper.fromEntity(goalEntity)
+        }
     }
 
     private fun getFilteredGoals(goalFilter: GoalFilter): Flow<Collection<GoalModel>> {

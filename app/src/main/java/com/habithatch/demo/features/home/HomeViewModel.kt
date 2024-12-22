@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.habithatch.demo.core.config.HabitHatchConfig
+import com.habithatch.demo.core.exceptions.GoalNotFoundException
 import com.habithatch.demo.data.entities.User
 import com.habithatch.demo.data.models.GoalFilter
 import com.habithatch.demo.data.models.GoalModel
@@ -25,7 +26,7 @@ import kotlinx.coroutines.launch
 class HomeViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val goalRepository: GoalRepository,
-    public val config: HabitHatchConfig
+    val config: HabitHatchConfig
 ) : ViewModel() {
     private val _user = MutableStateFlow<User?>(null)
     val user: StateFlow<User?> = _user.asStateFlow()
@@ -54,7 +55,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    @Throws(GoalNotFoundException::class, IllegalArgumentException::class)
     fun toggleGoalStatus(goal: GoalModel) {
+        if (goal.id == null) {
+            throw IllegalArgumentException("Goal must have an id to toggle status")
+        }
         viewModelScope.launch {
             goalRepository.changeGoalStatusToNextInCycle(goal.id)
         }
