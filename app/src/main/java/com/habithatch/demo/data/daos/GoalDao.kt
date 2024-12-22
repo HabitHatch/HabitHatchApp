@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface GoalDao {
     @Query("SELECT * FROM goal WHERE goal.id = :goalId")
-    suspend fun getGoalById(goalId: Int): GoalEntity?
+    fun getGoalById(goalId: Int): Flow<GoalEntity?>
 
     @Query("SELECT * FROM goal")
     fun getAll(): Flow<List<GoalEntity>>

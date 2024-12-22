@@ -18,7 +18,6 @@ fun GoalList(
     contentPadding: PaddingValues = PaddingValues(4.dp),
     verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(8.dp),
     onToggleGoalStatus: (GoalModel) -> Unit = {},
-    onGoalClicked: (GoalModel) -> Unit = {},
 ) {
     LazyColumn(
             modifier = modifier,
@@ -30,7 +29,6 @@ fun GoalList(
                 GoalItem(
                         goal = goal,
                         onToggleGoalStatus = { onToggleGoalStatus(goal) },
-                        onGoalClicked = { onGoalClicked(goal) }
                 )
             }
         }

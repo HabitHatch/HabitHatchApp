@@ -58,14 +58,14 @@ class UserDaoTest {
     }
 
     @Test
-    fun delete_shouldRemoveAllUsersFromDatabase() {
+    fun delete_All_shouldRemoveAllUsersFromDatabase() {
         runBlocking {
             // Arrange
             userDao.insert(someUser)
             userDao.insert(anotherUser)
 
             // Act
-            userDao.delete()
+            userDao.deleteAll()
 
             // Assert
             val retrievedUser = userDao.getUser().first()

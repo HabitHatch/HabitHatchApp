@@ -12,22 +12,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.data.models.GoalModel
 
 @Composable
 fun AddGoalDialog(
-    preselectedGoalName: String = "",
-    preselectedPriority: GoalModel.Priority,
+    preselectedGoal: GoalModel,
     dialogTitle: String = "Add Goal",
     blankGoalSubmissionErrorMessage: String = "Goal name cannot be empty",
     onDismiss: () -> Unit,
-    onAdd: (String, GoalModel.Priority) -> Unit) {
-    var goalName by remember { mutableStateOf(preselectedGoalName) }
-    var selectedPriority by remember { mutableStateOf(preselectedPriority) }
+    onAdd: (GoalModel) -> Unit
+) {
+    var goal by remember { mutableStateOf(preselectedGoal) }
     var addedBlankGoal by remember { mutableStateOf(false) }
 
     Dialog(onDismissRequest = onDismiss) {
@@ -60,9 +57,9 @@ fun AddGoalDialog(
                         verticalAlignment = Alignment.CenterVertically
                 ) {
                     OutlinedTextField(
-                            value = goalName,
+                            value = goal.title,
                             onValueChange = {
-                                goalName = it
+                                goal = goal.copy(title = it)
                                 addedBlankGoal = false
                             },
                             modifier = Modifier
@@ -76,8 +73,8 @@ fun AddGoalDialog(
                             modifier = Modifier.size(36.dp)
                     ) {
                         Icon(
-                                painter = painterResource(id = selectedPriority.iconResourceId),
-                                contentDescription = selectedPriority.label,
+                                painter = painterResource(id = goal.priority.iconResourceId),
+                                contentDescription = goal.priority.label,
                                 tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
@@ -93,8 +90,8 @@ fun AddGoalDialog(
                     Spacer(modifier = Modifier.width(8.dp))
                     TextButton(
                             onClick = {
-                                if (goalName.isNotBlank()) {
-                                    onAdd(goalName, selectedPriority)
+                                if (goal.title.isNotBlank()) {
+                                    onAdd(goal)
                                     return@TextButton
                                 }
                                 addedBlankGoal = true
@@ -106,15 +103,4 @@ fun AddGoalDialog(
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun AddGoalDialogPreview() {
-    AddGoalDialog(
-            onDismiss = {},
-            onAdd = { name, priority -> },
-            preselectedGoalName = "My Goal",
-            preselectedPriority = HabitHatchDevConfig.priorities[0]
-    )
 }

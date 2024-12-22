@@ -11,6 +11,7 @@ interface HabitHatchConfig {
     val exampleGoals: List<GoalModel>
     val navigationItems: List<NavigationItem>
     val accountItem: NavigationItem
+    val primaryNavigationItem: NavigationItem
     val priorities: List<GoalModel.Priority>
     val defaultPriority: GoalModel.Priority
     val statuses: List<GoalModel.Status>

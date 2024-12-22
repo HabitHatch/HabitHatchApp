@@ -8,7 +8,7 @@ import com.habithatch.demo.core.navigation.Screen
 import com.habithatch.demo.core.util.GoalSortOption
 import com.habithatch.demo.core.util.SortConfig
 import com.habithatch.demo.data.entities.Pet
-import com.habithatch.demo.data.models.GoalFilterAttributes
+import com.habithatch.demo.data.models.GoalFilter
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.data.models.GoalQuery
 
@@ -30,40 +30,44 @@ object HabitHatchDevConfig : HabitHatchConfig {
     override val accountItem =
         NavigationItem(Screen.SETTINGS, R.drawable.vuesax_profile_circle, enabled = true)
 
+    override val primaryNavigationItem = accountItem
 
-    override val statuses = listOf(
-            GoalModel.Status(
-                    id = "IN_PROGRESS",
-                    label = "In Progress",
-                    stepNumber = 1,
-                    isDone = false
-            ),
-            GoalModel.Status(
-                    id = "DONE",
-                    label = "Done",
-                    stepNumber = 2,
-                    isDone = true
-            )
+    private val inProgressState = GoalModel.Status(
+            id = "IN_PROGRESS",
+            label = "In Progress",
+            stepNumber = 1,
+            isDone = false
     )
-    override val defaultStatus = getStatusById("IN_PROGRESS")
 
-    override val priorities = listOf(
-            GoalModel.Priority(
-                    id = "NORMAL",
-                    label = "Normal",
-                    importance = 10,
-                    iconResourceId = R.drawable.vuesax_bookmark,
-                    getColor = @Composable { MaterialTheme.colorScheme.secondary }
-            ),
-            GoalModel.Priority(
-                    id = "HIGH",
-                    label = "High",
-                    importance = 20,
-                    iconResourceId = R.drawable.vuesax_crown,
-                    getColor = @Composable { MaterialTheme.colorScheme.primary }
-            )
+    private val doneState = GoalModel.Status(
+            id = "DONE",
+            label = "Done",
+            stepNumber = 2,
+            isDone = true
     )
-    override val defaultPriority = getPriorityById("NORMAL")
+    override val statuses = listOf(inProgressState, doneState)
+
+    override val defaultStatus = inProgressState
+
+    private val normalPriority = GoalModel.Priority(
+            id = "NORMAL",
+            label = "Normal",
+            importance = 10,
+            iconResourceId = R.drawable.vuesax_bookmark,
+            getColor = @Composable { MaterialTheme.colorScheme.secondary }
+    )
+
+    private val highPriority = GoalModel.Priority(
+            id = "HIGH",
+            label = "High",
+            importance = 20,
+            iconResourceId = R.drawable.vuesax_crown,
+            getColor = @Composable { MaterialTheme.colorScheme.primary }
+    )
+
+    override val priorities = listOf(normalPriority, highPriority)
+
+    override val defaultPriority = normalPriority
 
     override val exampleGoals = listOf(
             GoalModel(
@@ -91,22 +95,29 @@ object HabitHatchDevConfig : HabitHatchConfig {
                     status = getStatusById("DONE")
             )
     )
-    private val defaultGoalQuery: GoalQuery
+
     override fun getDefaultGoalQuery(): GoalQuery {
         return defaultGoalQuery
     }
 
+    private val defaultGoalQuery: GoalQuery
+
     init {
-        val goalFilterAttributeBuilder = GoalFilterAttributes.Builder(this)
+        val goalFilterAttributeBuilder = GoalFilter.Builder(this)
         val goalFilter =
             goalFilterAttributeBuilder
                 .createMatchAll()
                 .excludeStatus(getStatusById("DONE"))
                 .build()
         defaultGoalQuery = GoalQuery(
-                filterAttributes = goalFilter,
-                sortConfig = SortConfig(
-                        GoalSortOption.ByPriority.comparator)
+                filter = goalFilter,
+                sortOptions = listOf(
+                        GoalSortOption.ByPriority
+                ),
+                defaultSortConfig = SortConfig(
+                        comparator = compareBy{ it.priority.importance },
+                        isAscending = false
+                )
         )
     }
 }

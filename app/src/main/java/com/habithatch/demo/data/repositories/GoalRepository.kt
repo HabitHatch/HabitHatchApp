@@ -2,14 +2,15 @@ package com.habithatch.demo.data.repositories
 
 import javax.inject.Inject
 import com.habithatch.demo.core.config.HabitHatchConfig
+import com.habithatch.demo.core.exceptions.GoalNotFoundException
 import com.habithatch.demo.core.util.getNextHigherOrLowest
 import com.habithatch.demo.data.daos.GoalDao
-import com.habithatch.demo.data.db.GoalMapper
-import com.habithatch.demo.data.models.GoalFilterAttributes
+import com.habithatch.demo.data.mappers.GoalMapper
+import com.habithatch.demo.data.models.GoalFilter
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.data.models.GoalQuery
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 
@@ -18,9 +19,9 @@ class GoalRepository @Inject constructor(
     private val config: HabitHatchConfig,
     private val goalMapper: GoalMapper
 ) {
-    fun getAll(): Flow<List<GoalModel>> {
+    fun getAll(): Flow<Collection<GoalModel>> {
         return goalDao.getAll().map { goals ->
-            goals.map { goalMapper.fromEntity(it) }
+            goals.map(goalMapper::fromEntity)
         }
     }
 
@@ -30,53 +31,49 @@ class GoalRepository @Inject constructor(
 
     suspend fun deleteAll() = goalDao.deleteAll()
 
+    @Throws(GoalNotFoundException::class)
     suspend fun changeGoalStatusToNextInCycle(goalId: Int) {
-        goalDao.getGoalById(goalId)?.let { goalEntity ->
-            val goalModel = goalMapper.fromEntity(goalEntity)
-            val nextStatusInCycle = config.statuses.getNextHigherOrLowest(
-                    { a, b -> a.stepNumber.compareTo(b.stepNumber) },
-                    goalModel.status
-            )
-            val newGoalModel = goalModel.copy(
-                    status = nextStatusInCycle
-            )
-            val newGoalEntity = goalMapper.toEntity(newGoalModel)
-            goalDao.update(newGoalEntity)
-        }
-    }
-
-    private fun getFilteredGoals(
-        goalFilter: GoalFilterAttributes
-    ): Flow<List<GoalModel>> {
-        return goalDao.getAll().map { allGoals ->
-            allGoals
-                .map { goalMapper.fromEntity(it) }
-                .filter { goalModel ->
-                    val matchesDone = goalFilter.statusVisibleMap[goalModel.status] == true
-                    val matchesPriority =
-                        goalFilter.priorityVisibleMap[goalModel.priority] == true
-                    val matchesSearch = goalFilter.searchQuery.isNullOrBlank() ||
-                            goalModel.title.contains(
-                                    goalFilter.searchQuery,
-                                    ignoreCase = true
-                            )
-
-                    matchesDone && matchesPriority && matchesSearch
-                }
-        }
+       val goalModel = getById(goalId).first()
+        val nextStatusInCycle = config.statuses.getNextHigherOrLowest(
+                bySelector = { it.stepNumber },
+                element = goalModel.status
+        )
+        val newGoalModel = goalModel.updateStatus(nextStatusInCycle)
+        this.update(newGoalModel)
     }
 
     fun getQueriedGoals(goalQuery: GoalQuery): Flow<List<GoalModel>> {
-        return getFilteredGoals(goalQuery.filterAttributes).map { goals ->
-            goals.sortedWith(goalQuery.sortConfig.getEffectiveComparator())
+        return getFilteredGoals(goalQuery.filter).map { goals ->
+            goals.sortedWith(goalQuery.getSortConfig().comparator)
         }
     }
 
-    suspend fun seedDatabase() {
-        if (getAll().firstOrNull().isNullOrEmpty()) {
-            config.exampleGoals
-                .map { goalMapper.toEntity(it) }
-                .forEach { goalDao.insert(it) }
-        }
+    fun insertAll(goals: Collection<GoalModel>) {
+        goals
+            .map(goalMapper::toEntity)
+            .forEach { goalDao::insert }
+    }
+
+    private suspend fun update(goal: GoalModel) {
+        goalDao.update(goalMapper.toEntity(goal))
+    }
+
+
+    @Throws(GoalNotFoundException::class)
+    private fun getById(goalId: Int): Flow<GoalModel> {
+        return goalDao.getGoalById(goalId)
+            .map { goalEntity ->
+                if (goalEntity == null) {
+                    throw GoalNotFoundException(goalId)
+                }
+                goalMapper.fromEntity(goalEntity)
+            }
+    }
+
+    private fun getFilteredGoals(goalFilter: GoalFilter): Flow<Collection<GoalModel>> {
+        return this.getAll()
+            .map { allGoals ->
+                allGoals.filter(goalFilter::isMatch)
+            }
     }
 }

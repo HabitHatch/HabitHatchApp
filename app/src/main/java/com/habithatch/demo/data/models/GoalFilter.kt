@@ -2,6 +2,7 @@ package com.habithatch.demo.data.models
 
 import javax.inject.Inject
 import com.habithatch.demo.core.config.HabitHatchConfig
+import com.habithatch.demo.core.exceptions.InvalidGoalFilterException
 
 
 /**
@@ -12,27 +13,53 @@ import com.habithatch.demo.core.config.HabitHatchConfig
  * @param searchQuery Optional search term for filtering goals.
  */
 @ConsistentCopyVisibility
-data class GoalFilterAttributes private constructor(
+data class GoalFilter private constructor(
     val priorityVisibleMap: Map<GoalModel.Priority, Boolean>,
     val statusVisibleMap: Map<GoalModel.Status, Boolean>,
     val searchQuery: String?,
 ) {
-    public fun builder(): Builder {
+    fun builder(): Builder {
         return Builder(this)
     }
 
-    class Builder constructor(
-        goalFilterAttributes: GoalFilterAttributes
+    fun isMatch(goal: GoalModel): Boolean {
+        if (statusVisibleMap.containsKey(goal.status).not()) {
+            throw InvalidGoalFilterException(this, "Goal status not found in statusVisibleMap")
+        }
+        if (priorityVisibleMap.containsKey(goal.priority).not()) {
+            throw InvalidGoalFilterException(this, "Goal priority not found in priorityVisibleMap")
+        }
+
+        val matchesDone = statusVisibleMap[goal.status]!!
+        val matchesPriority = priorityVisibleMap[goal.priority]!!
+        val matchesSearch = this.matchesSearchQuery(goal)
+        return matchesDone && matchesPriority && matchesSearch
+    }
+
+    private fun matchesSearchQuery(goal: GoalModel): Boolean {
+        return notHasSearchQuery() || goal.title.contains(searchQuery!!, ignoreCase = true)
+    }
+
+    private fun hasSearchQuery(): Boolean {
+        return searchQuery.isNullOrBlank()
+    }
+
+    private fun notHasSearchQuery(): Boolean {
+        return !hasSearchQuery()
+    }
+
+    class Builder(
+        goalFilter: GoalFilter
     ) {
-        private var priorityVisibleMap = goalFilterAttributes.priorityVisibleMap
-        private var statusVisibleMap = goalFilterAttributes.statusVisibleMap
-        private var searchQuery = goalFilterAttributes.searchQuery
+        private var priorityVisibleMap = goalFilter.priorityVisibleMap
+        private var statusVisibleMap = goalFilter.statusVisibleMap
+        private var searchQuery = goalFilter.searchQuery
 
         @Inject
         constructor(
             config: HabitHatchConfig
         ) : this(
-                GoalFilterAttributes(
+                GoalFilter(
                         priorityVisibleMap = config.priorities.associateWith { false },
                         statusVisibleMap = config.statuses.associateWith { false },
                         searchQuery = null
@@ -45,22 +72,14 @@ data class GoalFilterAttributes private constructor(
             return this
         }
 
-        fun includePriority(priority: GoalModel.Priority): Builder {
-            return setPriority(priority, true)
-        }
-
-        fun excludePriority(priority: GoalModel.Priority): Builder {
-            return setPriority(priority, false)
-        }
-
-        fun setPriority(priority: GoalModel.Priority, visible: Boolean): Builder {
+        fun setPriorityVisibility(priority: GoalModel.Priority, visible: Boolean): Builder {
             this.priorityVisibleMap = this.priorityVisibleMap.toMutableMap().apply {
                 this[priority] = visible
             }
             return this
         }
 
-        fun setStatus(status: GoalModel.Status, visible: Boolean): Builder {
+        fun setStatusVisibility(status: GoalModel.Status, visible: Boolean): Builder {
             this.statusVisibleMap = this.statusVisibleMap.toMutableMap().apply {
                 this[status] = visible
             }
@@ -68,11 +87,7 @@ data class GoalFilterAttributes private constructor(
         }
 
         fun excludeStatus(status: GoalModel.Status): Builder {
-            return setStatus(status, false)
-        }
-
-        fun includeStatus(status: GoalModel.Status): Builder {
-            return setStatus(status, true)
+            return setStatusVisibility(status, false)
         }
 
         fun setSearchQuery(searchQuery: String): Builder {
@@ -80,13 +95,8 @@ data class GoalFilterAttributes private constructor(
             return this
         }
 
-        fun removeSearchQuery(): Builder {
-            this.searchQuery = null
-            return this
-        }
-
-        fun build(): GoalFilterAttributes {
-            return GoalFilterAttributes(
+        fun build(): GoalFilter {
+            return GoalFilter(
                     priorityVisibleMap = priorityVisibleMap,
                     statusVisibleMap = statusVisibleMap,
                     searchQuery = searchQuery,

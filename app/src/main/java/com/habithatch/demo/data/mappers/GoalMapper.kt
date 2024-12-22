@@ -1,4 +1,4 @@
-package com.habithatch.demo.data.db
+package com.habithatch.demo.data.mappers
 
 import javax.inject.Inject
 import com.habithatch.demo.core.config.HabitHatchConfig
@@ -6,7 +6,6 @@ import com.habithatch.demo.data.entities.GoalEntity
 import com.habithatch.demo.data.models.GoalModel
 
 class GoalMapper @Inject constructor(private val config: HabitHatchConfig) {
-
     fun toEntity(goal: GoalModel): GoalEntity {
         return GoalEntity(
                 id = goal.id,

@@ -8,7 +8,7 @@ import com.habithatch.demo.data.daos.GoalDao
 import com.habithatch.demo.data.daos.UserDao
 import com.habithatch.demo.data.db.AppDatabase
 import com.habithatch.demo.data.db.DatabaseProvider
-import com.habithatch.demo.data.db.GoalMapper
+import com.habithatch.demo.data.mappers.GoalMapper
 import com.habithatch.demo.data.repositories.GoalRepository
 import com.habithatch.demo.data.repositories.UserRepository
 import dagger.Module

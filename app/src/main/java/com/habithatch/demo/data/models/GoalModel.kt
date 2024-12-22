@@ -13,6 +13,10 @@ data class GoalModel(
         require(title.isNotBlank()) { "Goal title must not be blank" }
     }
 
+    fun updateStatus(newStatus: Status): GoalModel {
+        return copy(status = newStatus)
+    }
+
     data class Priority(
         val id: String,
         val label: String,

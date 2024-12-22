@@ -5,10 +5,10 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.habithatch.demo.core.config.HabitHatchConfig
-import com.habithatch.demo.core.navigation.NavigationItem
-import com.habithatch.demo.core.util.GoalSortOptionState
 import com.habithatch.demo.data.entities.User
+import com.habithatch.demo.data.models.GoalFilter
 import com.habithatch.demo.data.models.GoalModel
+import com.habithatch.demo.data.models.GoalQuery
 import com.habithatch.demo.data.repositories.GoalRepository
 import com.habithatch.demo.data.repositories.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,9 +25,8 @@ import kotlinx.coroutines.launch
 class HomeViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val goalRepository: GoalRepository,
-    private val config: HabitHatchConfig
+    public val config: HabitHatchConfig
 ) : ViewModel() {
-
     private val _user = MutableStateFlow<User?>(null)
     val user: StateFlow<User?> = _user.asStateFlow()
 
@@ -40,12 +39,6 @@ class HomeViewModel @Inject constructor(
     private val _allGoalsDone = MutableStateFlow(false)
     val allGoalsDone = _allGoalsDone.asStateFlow()
 
-    val bottomNavigationItems = config.navigationItems
-    val primaryNavigationItem = config.accountItem
-    val priorities = config.priorities
-    val defaultPriority = config.defaultPriority
-    val defaultStatus = config.defaultStatus
-
     init {
         seedGoals()
         observeUser()
@@ -54,59 +47,27 @@ class HomeViewModel @Inject constructor(
     }
 
     fun addGoal(
-        goalTitle: String,
-        goalPriority: GoalModel.Priority? = null,
-        goalStatus: GoalModel.Status? = null
+        goal: GoalModel
     ) {
         viewModelScope.launch {
-            val newGoal = GoalModel(
-                    title = goalTitle,
-                    priority = goalPriority ?: config.defaultPriority,
-                    status = goalStatus ?: config.defaultStatus
-            )
-            goalRepository.insert(newGoal)
+            goalRepository.insert(goal)
         }
     }
 
-    fun toggleGoalDone(goal: GoalModel) {
+    fun toggleGoalStatus(goal: GoalModel) {
         viewModelScope.launch {
             goalRepository.changeGoalStatusToNextInCycle(goal.id)
         }
     }
 
-    fun changeSearchQuery(query: String) {
-        _goalQuery.update { current ->
-            current.copy(
-                    filterAttributes = current.filterAttributes
-                        .builder()
-                        .setSearchQuery(query)
-                        .build()
-            )
-        }
+    fun updateGoalQuery(newGoalQuery: GoalQuery) {
+        _goalQuery.value = newGoalQuery
     }
 
-    fun setDoneStateVisible(doneState: GoalModel.Status, visible: Boolean) {
-        val newFilterAttributes = _goalQuery.value.filterAttributes
-            .builder()
-            .setStatus(doneState, visible)
-            .build()
+    private fun updateGoalFilter(goalFilter: GoalFilter) {
         _goalQuery.update { currentGoalQuery ->
-            currentGoalQuery.updateFilterConfig(newFilterAttributes)
+            currentGoalQuery.updateFilterConfig(goalFilter)
         }
-    }
-
-    fun setPriorityVisible(priority: GoalModel.Priority, visible: Boolean) {
-        val newFilterAttributes = _goalQuery.value.filterAttributes
-            .builder()
-            .setPriority(priority, visible)
-            .build()
-        _goalQuery.update { currentGoalQuery ->
-            currentGoalQuery.updateFilterConfig(newFilterAttributes)
-        }
-    }
-
-    fun toggleSortOptionState(sortOptionState: GoalSortOptionState) {
-        // TODO: Implement
     }
 
     private fun observeUser() {
@@ -130,17 +91,19 @@ class HomeViewModel @Inject constructor(
     private fun observeQueriedGoals() {
         Log.d("HomeViewModel", "observeFilteredGoals called")
         viewModelScope.launch {
-            _goalQuery.flatMapLatest { query ->
-                goalRepository.getQueriedGoals(query)
-            }.collect { goals ->
-                _queriedGoals.value = goals
-            }
+            _goalQuery
+                .flatMapLatest { goalQuery ->
+                    goalRepository.getQueriedGoals(goalQuery)
+                }
+                .collect { goals ->
+                    _queriedGoals.value = goals
+                }
         }
     }
 
     private fun seedGoals() {
         viewModelScope.launch {
-            goalRepository.seedDatabase()
+            goalRepository.insertAll(config.exampleGoals)
         }
     }
 }

@@ -24,10 +24,9 @@ import androidx.compose.ui.unit.dp
 fun SearchField(
     searchQuery: String,
     onQueryChange: (String) -> Unit,
-    modifier: Modifier = Modifier.Companion
 ) {
     Row(
-            modifier = modifier
+            modifier = Modifier
                 .height(40.dp)
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp)
@@ -44,14 +43,14 @@ fun SearchField(
     ) {
         Icon(
                 imageVector = Icons.Default.Search,
-                contentDescription = "Search",
+                contentDescription = Icons.Default.Search.name,
                 tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-                modifier = Modifier.Companion.padding(start = 12.dp)
+                modifier = Modifier.padding(start = 12.dp)
         )
-        Spacer(modifier = Modifier.Companion.width(8.dp))
+        Spacer(modifier = Modifier.width(8.dp))
         Box(
                 contentAlignment = Alignment.Companion.CenterStart,
-                modifier = Modifier.Companion
+                modifier = Modifier
                     .fillMaxHeight()
                     .weight(1f)
         ) {
@@ -61,7 +60,7 @@ fun SearchField(
                     textStyle = MaterialTheme.typography.bodySmall.copy(
                             color = MaterialTheme.colorScheme.onSurface
                     ),
-                    modifier = Modifier.Companion
+                    modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 4.dp)
             )

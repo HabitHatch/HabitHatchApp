@@ -1,8 +1,8 @@
 package com.habithatch.demo.data.repositories
 
 import kotlin.jvm.Throws
-import com.habithatch.demo.core.exceptions.InvalidUuidFormatException
-import com.habithatch.demo.core.exceptions.UserAlreadyExistsException
+import com.habithatch.demo.core.exceptions.InvalidUUIdException
+import com.habithatch.demo.core.exceptions.UserExistsException
 import com.habithatch.demo.core.util.isValidUuid
 import com.habithatch.demo.data.daos.UserDao
 import com.habithatch.demo.data.entities.User
@@ -14,14 +14,17 @@ class UserRepository(private val userDao: UserDao) {
         return userDao.getUser()
     }
 
-    @Throws(UserAlreadyExistsException::class, InvalidUuidFormatException::class)
+    suspend fun hasUser(): Boolean {
+        return this.getUser().first() != null
+    }
+
+    @Throws(UserExistsException::class, InvalidUUIdException::class)
     suspend fun createUser(user: User): User {
-        val existingUser = this.getUser().first()
-        if (existingUser != null) {
-            throw UserAlreadyExistsException(user)
+        if (this.hasUser()) {
+            throw UserExistsException(user)
         }
         if (!isValidUuid(user.uuid)) {
-            throw InvalidUuidFormatException(user.uuid)
+            throw InvalidUUIdException(user.uuid)
         }
         userDao.insert(user)
         return user
@@ -29,6 +32,6 @@ class UserRepository(private val userDao: UserDao) {
 
 
     suspend fun deleteUser() {
-        userDao.delete()
+        userDao.deleteAll()
     }
 }

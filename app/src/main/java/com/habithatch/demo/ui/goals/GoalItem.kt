@@ -27,7 +27,6 @@ fun GoalItem(
     rowPadding: PaddingValues = PaddingValues(8.dp),
     checkBoxPadding: PaddingValues = PaddingValues(end = 8.dp),
     onToggleGoalStatus: () -> Unit = {},
-    onGoalClicked: () -> Unit = {}
 ) {
     val cardShape = MaterialTheme.shapes.medium
     Card(
@@ -39,10 +38,11 @@ fun GoalItem(
                                 color = goal.priority.getColor(),
                                 shape = cardShape
                         )
-                )
-                .clickable(onClick = onGoalClicked),
+                ),
             colors = CardDefaults.cardColors(
-                    containerColor = if (goal.isDone()) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.primaryContainer,
+                    containerColor =
+                    if (goal.isDone()) MaterialTheme.colorScheme.secondaryContainer
+                    else MaterialTheme.colorScheme.primaryContainer,
             ),
             shape = cardShape
     ) {
@@ -63,8 +63,12 @@ fun GoalItem(
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.titleMedium.copy(
-                            textDecoration = if (goal.isDone()) TextDecoration.LineThrough else TextDecoration.None,
-                            color = if (goal.isDone()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary
+                            textDecoration =
+                            if (goal.isDone()) TextDecoration.LineThrough
+                            else TextDecoration.None,
+                            color =
+                            if (goal.isDone()) MaterialTheme.colorScheme.onPrimaryContainer
+                            else MaterialTheme.colorScheme.onPrimary
                     ),
                     modifier = Modifier.weight(1f)
             )

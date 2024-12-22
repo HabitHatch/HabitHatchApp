@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.habithatch.demo.core.config.HabitHatchConfig
 import com.habithatch.demo.data.entities.Pet
 import com.habithatch.demo.data.entities.User
-import com.habithatch.demo.core.exceptions.UserAlreadyExistsException
+import com.habithatch.demo.core.exceptions.UserExistsException
 import com.habithatch.demo.data.repositories.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,7 +39,7 @@ class SignupViewModel @Inject constructor(
             try {
                 val user = User(pet = pet)
                 userRepository.createUser(user)
-            } catch(e: UserAlreadyExistsException) {
+            } catch(e: UserExistsException) {
                 Log.e("SignupViewModel", "Error signing up user", e)
                 _isSignedUp.value = SignUpState.SIGNED_UP
             } catch (e: Exception) {

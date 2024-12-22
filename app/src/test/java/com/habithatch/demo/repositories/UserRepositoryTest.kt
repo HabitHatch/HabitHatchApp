@@ -4,8 +4,8 @@ import com.google.common.truth.Truth.assertThat
 import com.habithatch.demo.data.daos.UserDao
 import com.habithatch.demo.data.entities.Pet
 import com.habithatch.demo.data.entities.User
-import com.habithatch.demo.core.exceptions.InvalidUuidFormatException
-import com.habithatch.demo.core.exceptions.UserAlreadyExistsException
+import com.habithatch.demo.core.exceptions.InvalidUUIdException
+import com.habithatch.demo.core.exceptions.UserExistsException
 import com.habithatch.demo.data.repositories.UserRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -58,7 +58,7 @@ class UserRepositoryTest {
             }.exceptionOrNull()
 
             // Assert
-            assertThat(exception).isInstanceOf(UserAlreadyExistsException::class.java)
+            assertThat(exception).isInstanceOf(UserExistsException::class.java)
         }
     }
 
@@ -73,7 +73,7 @@ class UserRepositoryTest {
             val exception = runCatching {
                 userRepository.createUser(user1)
             }.exceptionOrNull()
-            assertThat(exception).isInstanceOf(InvalidUuidFormatException::class.java)
+            assertThat(exception).isInstanceOf(InvalidUUIdException::class.java)
         }
     }
 
@@ -84,13 +84,13 @@ class UserRepositoryTest {
             coEvery { userDao.getUser() } returns flow {
                 emit(User(pet = somePet))
             }
-            coEvery { userDao.delete() } returns Unit
+            coEvery { userDao.deleteAll() } returns Unit
 
             // Act
             userRepository.deleteUser()
 
             // Assert
-            coVerify { userDao.delete() }
+            coVerify { userDao.deleteAll() }
         }
     }
 }

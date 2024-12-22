@@ -13,24 +13,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.habithatch.demo.data.models.GoalFilterAttributes
+import com.habithatch.demo.data.models.GoalFilter
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.ui.common.SearchField
 
-// TODO: group the filterbar state into a single data class
-// TODO: group the event handlers into a single event handler data class
 @Composable
 fun GoalFilterBar(
-    priorities: List<GoalModel.Priority>,
-    goalFilter: GoalFilterAttributes,
-    onQueryChange: (String) -> Unit,
-    onGoalStateVisibleChange: (GoalModel.Status, Boolean) -> Unit,
-    onPriorityVisibilityChange: (GoalModel.Priority, Boolean) -> Unit,
+    allPriorities: List<GoalModel.Priority>,
+    allStatuses: List<GoalModel.Status>,
+    goalFilter: GoalFilter,
+    onGoalFilterChange: (GoalFilter) -> Unit
 ) {
     val searchQuery = goalFilter.searchQuery.orEmpty()
-    val visibleGoalStatuses = goalFilter.statusVisibleMap
-    val visibleGoalPriorities = goalFilter.priorityVisibleMap
 
     Row(
             modifier = Modifier.fillMaxWidth(),
@@ -39,23 +33,42 @@ fun GoalFilterBar(
     ) {
         SearchField(
                 searchQuery = searchQuery,
-                onQueryChange = onQueryChange,
-                modifier = Modifier.weight(0.6f).padding(end = 8.dp)
+                onQueryChange = {
+                    val newGoalFilter = goalFilter
+                        .builder()
+                        .setSearchQuery(it)
+                        .build()
+                    onGoalFilterChange(newGoalFilter)
+                },
         )
         StatusDropdown(
-                visibleGoalStatuses = visibleGoalStatuses,
-                onDoneStateVisibleChange = onGoalStateVisibleChange
+                allStatuses = allStatuses,
+                visibleGoalStatuses = goalFilter.statusVisibleMap,
+                onDoneStateVisibleChange = { goalStatus, isVisible ->
+                    val newGoalFilter = goalFilter
+                        .builder()
+                        .setStatusVisibility(goalStatus, isVisible)
+                        .build()
+                    onGoalFilterChange(newGoalFilter)
+                }
         )
         PriorityDropdown(
-                priorities = priorities,
-                visiblePriorities = visibleGoalPriorities,
-                onPriorityVisibilityChange = onPriorityVisibilityChange
+                allPriorities = allPriorities,
+                visiblePriorities = goalFilter.priorityVisibleMap,
+                onPriorityVisibilityChange = { goalPriority, isVisible ->
+                    val newGoalFilter = goalFilter
+                        .builder()
+                        .setPriorityVisibility(goalPriority, isVisible)
+                        .build()
+                    onGoalFilterChange(newGoalFilter)
+                }
         )
     }
 }
 
 @Composable
 fun StatusDropdown(
+    allStatuses: List<GoalModel.Status>,
     visibleGoalStatuses: Map<GoalModel.Status, Boolean>,
     onDoneStateVisibleChange: (GoalModel.Status, Boolean) -> Unit
 ) {
@@ -70,13 +83,32 @@ fun StatusDropdown(
                 expanded = expanded,
                 onDismissRequest = { expanded = false }
         ) {
+            allStatuses.forEach { priority ->
+                DropdownMenuItem(
+                        text = {
+                            Row(
+                                    verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Checkbox(
+                                        checked = visibleGoalStatuses[priority] == true,
+                                        onCheckedChange = {
+                                            onDoneStateVisibleChange(priority, it)
+                                            expanded = false
+                                        }
+                                )
+                                Text(priority.label)
+                            }
+                        },
+                        onClick = {}
+                )
+            }
         }
     }
 }
 
 @Composable
 fun PriorityDropdown(
-    priorities: List<GoalModel.Priority>,
+    allPriorities: List<GoalModel.Priority>,
     visiblePriorities: Map<GoalModel.Priority, Boolean>,
     onPriorityVisibilityChange: (GoalModel.Priority, Boolean) -> Unit
 ) {
@@ -91,7 +123,7 @@ fun PriorityDropdown(
                 expanded = expanded,
                 onDismissRequest = { expanded = false }
         ) {
-            priorities.forEach { priority ->
+            allPriorities.forEach { priority ->
                 DropdownMenuItem(
                         text = {
                             Row(

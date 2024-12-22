@@ -7,43 +7,42 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.habithatch.demo.core.util.GoalSortOptionState
+import com.habithatch.demo.core.util.GoalSortOption
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.data.models.GoalQuery
 
 @Composable
 fun GoalQueryTable(
     goals: List<GoalModel>,
-    goalSortOptionStates: List<GoalSortOptionState>,
-    priorities: List<GoalModel.Priority>,
-    modifier: Modifier = Modifier.padding(4.dp).fillMaxWidth(),
+    allPriorities: List<GoalModel.Priority>,
+    allStatuses: List<GoalModel.Status>,
+    modifier: Modifier = Modifier
+        .padding(4.dp)
+        .fillMaxWidth(),
     goalQuery: GoalQuery,
     onToggleGoalStatus: (GoalModel) -> Unit = {},
-    onGoalClicked: (GoalModel) -> Unit = {},
-    onQueryChange: (String) -> Unit = {},
-    onGoalStateVisibilityChange: (GoalModel.Status, Boolean) -> Unit = { state, visible -> },
-    onPriorityVisibilityChange: (GoalModel.Priority, Boolean) -> Unit = { priority, visible -> },
-    sortOptionStateClicked: (GoalSortOptionState) -> Unit = {}
+    onGoalQueryChange: (GoalQuery) -> Unit = {},
 ) {
     Column(
             modifier = modifier
     ) {
         GoalFilterBar(
-                priorities = priorities,
-                goalFilter = goalQuery.filterAttributes,
-                onQueryChange = onQueryChange,
-                onGoalStateVisibleChange = onGoalStateVisibilityChange,
-                onPriorityVisibilityChange = onPriorityVisibilityChange
+                allPriorities = allPriorities,
+                allStatuses = allStatuses,
+                goalFilter = goalQuery.filter,
+                onGoalFilterChange = {
+                    val newGoalQuery = goalQuery.updateFilterConfig(it)
+                    onGoalQueryChange(newGoalQuery)
+                }
         )
         GoalSortBar(
-                goalSortOptionStates = goalSortOptionStates,
-                sortOptionStateClicked = sortOptionStateClicked
+                goalQuery = goalQuery,
+                onGoalQueryChange = onGoalQueryChange
         )
         GoalList(
                 goals = goals,
                 modifier = Modifier.fillMaxSize(),
                 onToggleGoalStatus = onToggleGoalStatus,
-                onGoalClicked = onGoalClicked
         )
     }
 }
