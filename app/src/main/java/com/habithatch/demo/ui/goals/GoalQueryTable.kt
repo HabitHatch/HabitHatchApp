@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.habithatch.demo.core.config.HabitHatchDevConfig
+import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.data.models.GoalModel
-import com.habithatch.demo.data.models.GoalQuery
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -26,15 +26,18 @@ fun GoalQueryTable(
         GoalFilterBar(
             allPriorities = allPriorities,
             allStatuses = allStatuses,
-            goalFilter = goalQuery.filter,
+            goalFilterBuilder = goalQuery.getFilterBuilder(),
             onGoalFilterChange = {
                 val newGoalQuery = goalQuery.updateFilterConfig(it)
                 onGoalQueryChange(newGoalQuery)
             },
         )
         GoalSortBar(
-            goalQuery = goalQuery,
-            onGoalQueryChange = onGoalQueryChange,
+            sortOptions = goalQuery.sortOptions,
+            onSortOptionChange = {
+                val newGoalQuery = goalQuery.updateSortOption(it)
+                onGoalQueryChange(newGoalQuery)
+            },
         )
         GoalList(
             goals = goals,

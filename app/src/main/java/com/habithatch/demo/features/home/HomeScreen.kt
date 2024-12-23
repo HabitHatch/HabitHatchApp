@@ -26,9 +26,9 @@ import androidx.navigation.NavHostController
 import com.habithatch.demo.core.config.HabitHatchConfig
 import com.habithatch.demo.core.navigation.NavigationItem
 import com.habithatch.demo.core.navigation.Screen
+import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.data.entities.User
 import com.habithatch.demo.data.models.GoalModel
-import com.habithatch.demo.data.models.GoalQuery
 import com.habithatch.demo.ui.goals.AddGoalDialog
 import com.habithatch.demo.ui.goals.GoalQueryTable
 import com.habithatch.demo.ui.navigation.TopAppInformationBar

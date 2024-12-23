@@ -5,11 +5,12 @@ import androidx.compose.runtime.Composable
 import com.habithatch.demo.R
 import com.habithatch.demo.core.navigation.NavigationItem
 import com.habithatch.demo.core.navigation.Screen
-import com.habithatch.demo.core.sort.GoalSortOption
+import com.habithatch.demo.core.query.GoalFilter
+import com.habithatch.demo.core.query.GoalQuery
+import com.habithatch.demo.core.query.GoalSortOption
+import com.habithatch.demo.core.query.SortState
 import com.habithatch.demo.data.entities.Pet
-import com.habithatch.demo.data.models.GoalFilter
 import com.habithatch.demo.data.models.GoalModel
-import com.habithatch.demo.data.models.GoalQuery
 
 object HabitHatchDevConfig : HabitHatchConfig {
     override val pets =
@@ -82,6 +83,7 @@ object HabitHatchDevConfig : HabitHatchConfig {
         GoalSortOption(
             "Title",
             compareBy<GoalModel> { it.title },
+            sortState = SortState.ASCENDING,
         )
 
     private val sortOptions =
@@ -100,15 +102,18 @@ object HabitHatchDevConfig : HabitHatchConfig {
     init {
         val goalFilter =
             GoalFilter
-                .Builder(this, this)
-                .createMatchAll()
+                .Builder
+                .createMatchAllBuilder(this, this)
                 .excludeStatus(doneStatus)
                 .build()
+
         defaultGoalQuery =
             GoalQuery(
                 filter = goalFilter,
                 sortOptions = this.sortOptions,
                 defaultSortOption = titleSortOption,
+                priorityProvider = this,
+                statusProvider = this,
             )
     }
 }

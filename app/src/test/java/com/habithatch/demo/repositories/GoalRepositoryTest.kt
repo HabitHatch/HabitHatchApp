@@ -4,12 +4,12 @@ import androidx.compose.ui.graphics.Color
 import com.google.common.truth.Truth.assertThat
 import com.habithatch.demo.core.config.GoalPriorityProvider
 import com.habithatch.demo.core.config.GoalStatusProvider
-import com.habithatch.demo.core.sort.GoalSortOption
+import com.habithatch.demo.core.query.GoalFilter
+import com.habithatch.demo.core.query.GoalQuery
+import com.habithatch.demo.core.query.GoalSortOption
 import com.habithatch.demo.data.daos.GoalDao
 import com.habithatch.demo.data.mappers.GoalMapper
-import com.habithatch.demo.data.models.GoalFilter
 import com.habithatch.demo.data.models.GoalModel
-import com.habithatch.demo.data.models.GoalQuery
 import com.habithatch.demo.data.repositories.GoalRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -170,7 +170,7 @@ class GoalRepositoryTest {
             val filter =
                 GoalFilter
                     .Builder(priorityProvider, statusProvider)
-                    .createMatchAll()
+                    .setMatchAll()
                     .build()
 
             // Act & Assert
@@ -194,7 +194,7 @@ class GoalRepositoryTest {
             val filter =
                 GoalFilter
                     .Builder(priorityProvider, statusProvider)
-                    .createMatchAll()
+                    .setMatchAll()
                     .setSearchQuery("Goal")
                     .build()
 
@@ -216,7 +216,7 @@ class GoalRepositoryTest {
             val filter =
                 GoalFilter
                     .Builder(priorityProvider, statusProvider)
-                    .createMatchAll()
+                    .setMatchAll()
                     .setSearchQuery("nothing")
                     .build()
 
@@ -263,7 +263,7 @@ class GoalRepositoryTest {
             val filter =
                 GoalFilter
                     .Builder(priorityProvider, statusProvider)
-                    .createMatchAll()
+                    .setMatchAll()
                     .build()
 
             val goalQuery =
@@ -297,7 +297,7 @@ class GoalRepositoryTest {
             val filter =
                 GoalFilter
                     .Builder(priorityProvider, statusProvider)
-                    .createMatchAll()
+                    .setMatchAll()
                     .build()
 
             val goalQuery =

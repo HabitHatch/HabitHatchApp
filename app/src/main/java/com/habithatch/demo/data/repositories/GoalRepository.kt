@@ -2,13 +2,13 @@ package com.habithatch.demo.data.repositories
 
 import com.habithatch.demo.core.config.GoalStatusProvider
 import com.habithatch.demo.core.exceptions.GoalNotFoundException
+import com.habithatch.demo.core.query.GoalFilter
+import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.core.util.getNextHigherOrLowest
 import com.habithatch.demo.data.daos.GoalDao
 import com.habithatch.demo.data.entities.GoalEntity
 import com.habithatch.demo.data.mappers.GoalMapper
-import com.habithatch.demo.data.models.GoalFilter
 import com.habithatch.demo.data.models.GoalModel
-import com.habithatch.demo.data.models.GoalQuery
 import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow

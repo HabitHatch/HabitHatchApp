@@ -1,9 +1,9 @@
 package com.habithatch.demo.core.config
 
 import com.habithatch.demo.core.navigation.NavigationItem
+import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.data.entities.Pet
 import com.habithatch.demo.data.models.GoalModel
-import com.habithatch.demo.data.models.GoalQuery
 
 interface HabitHatchConfig :
     GoalStatusProvider,

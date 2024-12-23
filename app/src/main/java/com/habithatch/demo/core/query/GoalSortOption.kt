@@ -1,4 +1,4 @@
-package com.habithatch.demo.core.sort
+package com.habithatch.demo.core.query
 
 import com.habithatch.demo.data.models.GoalModel
 
@@ -16,6 +16,10 @@ data class GoalSortOption(
         }
 
     fun cycleState(): GoalSortOption = this.copy(sortState = sortState.nextInCycle())
+
+    override fun equals(other: Any?): Boolean = other is GoalSortOption && other.label == label && other.sortState == sortState
+
+    override fun hashCode(): Int = label.hashCode() + 31 * sortState.hashCode()
 
     override fun toString(): String = "GoalSortOption(label='$label', sortState=$sortState)"
 }

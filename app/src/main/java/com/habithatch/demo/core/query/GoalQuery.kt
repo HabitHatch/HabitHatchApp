@@ -1,40 +1,36 @@
-package com.habithatch.demo.data.models
+package com.habithatch.demo.core.query
 
-import com.habithatch.demo.core.sort.GoalSortOption
-import com.habithatch.demo.core.sort.SortState
+import com.habithatch.demo.core.config.GoalPriorityProvider
+import com.habithatch.demo.core.config.GoalStatusProvider
+import com.habithatch.demo.data.models.GoalModel
 
 data class GoalQuery(
     val filter: GoalFilter,
     val sortOptions: List<GoalSortOption>,
     val defaultSortOption: GoalSortOption,
+    private val priorityProvider: GoalPriorityProvider,
+    private val statusProvider: GoalStatusProvider,
 ) {
     init {
-        require(sortOptions.filter { it.sortState != SortState.NOT_USED }.size != 1) {
-            "There must be exactly one active sort option"
-        }
-        require(sortOptions.toSet().size == sortOptions.size) {
-            "Sort options must be unique"
-        }
-        require(sortOptions.contains(defaultSortOption)) {
-            "Default sort option must be in the list of sort options"
-        }
+        this.checkValidity()
     }
 
     fun updateFilterConfig(newFilterConfig: GoalFilter): GoalQuery = this.copy(filter = newFilterConfig)
 
     @Throws(NoSuchElementException::class, IllegalArgumentException::class)
-    fun updateSortOption(selectedOption: GoalSortOption): GoalQuery {
-        require(sortOptions.filter { it == selectedOption }.size != 1) {
+    fun updateSortOption(option: GoalSortOption): GoalQuery {
+        require(sortOptions.filter { it.label == option.label }.size == 1) {
             "Selected option is not exactly once in the list of sort options"
         }
-        val newOption = selectedOption.cycleState()
-        if (newOption.sortState == SortState.NOT_USED) {
-            return setActiveSortOption(newOption)
+        if (option.sortState != SortState.NOT_USED) {
+            return setActiveSortOption(option)
         }
         return setActiveSortOption(defaultSortOption)
     }
 
     fun getComparator(): Comparator<GoalModel> = getActiveSortOption().getComparator().then(getDefaultSortComparator())
+
+    fun getFilterBuilder(): GoalFilter.Builder = GoalFilter.Builder.createFromFilter(filter, priorityProvider, statusProvider)
 
     private fun getDefaultSortComparator(): Comparator<GoalModel> = defaultSortOption.getComparator()
 
@@ -52,6 +48,24 @@ data class GoalQuery(
 
     @Throws(NoSuchElementException::class)
     private fun getActiveSortOption(): GoalSortOption = sortOptions.first { it.sortState != SortState.NOT_USED }
+
+    private fun checkValidity() {
+        require(sortOptions.filter { it.sortState != SortState.NOT_USED }.size == 1) {
+            "There must be exactly one active sort option"
+        }
+        require(sortOptions.toSet().size == sortOptions.size) {
+            "Sort options must be unique"
+        }
+        require(sortOptions.any { it.label == defaultSortOption.label }) {
+            "Default sort option must be in the list of sort options"
+        }
+        require(filter.priorityVisibleMap.keys == priorityProvider.priorities.toSet()) {
+            "Priority visible map must contain all priorities"
+        }
+        require(filter.statusVisibleMap.keys == statusProvider.statuses.toSet()) {
+            "Status visible map must contain all statuses"
+        }
+    }
 
     override fun toString(): String =
         """

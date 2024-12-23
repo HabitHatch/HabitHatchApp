@@ -16,7 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.habithatch.demo.data.models.GoalFilter
+import com.habithatch.demo.core.query.GoalFilter
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.ui.common.SearchField
 
@@ -25,9 +25,10 @@ import com.habithatch.demo.ui.common.SearchField
 fun GoalFilterBar(
     allPriorities: List<GoalModel.Priority>,
     allStatuses: List<GoalModel.Status>,
-    goalFilter: GoalFilter,
+    goalFilterBuilder: GoalFilter.Builder,
     onGoalFilterChange: (GoalFilter) -> Unit,
 ) {
+    val goalFilter = goalFilterBuilder.build()
     val searchQuery = goalFilter.searchQuery.orEmpty()
 
     Row(
@@ -52,8 +53,7 @@ fun GoalFilterBar(
             searchQuery = searchQuery,
             onQueryChange = {
                 val newGoalFilter =
-                    goalFilter
-                        .builder()
+                    goalFilterBuilder
                         .setSearchQuery(it)
                         .build()
                 onGoalFilterChange(newGoalFilter)
@@ -64,8 +64,7 @@ fun GoalFilterBar(
             visibleGoalStatuses = goalFilter.statusVisibleMap,
             onDoneStateVisibleChange = { goalStatus, isVisible ->
                 val newGoalFilter =
-                    goalFilter
-                        .builder()
+                    goalFilterBuilder
                         .setStatusVisibility(goalStatus, isVisible)
                         .build()
                 onGoalFilterChange(newGoalFilter)
@@ -76,8 +75,7 @@ fun GoalFilterBar(
             visiblePriorities = goalFilter.priorityVisibleMap,
             onPriorityVisibilityChange = { goalPriority, isVisible ->
                 val newGoalFilter =
-                    goalFilter
-                        .builder()
+                    goalFilterBuilder
                         .setPriorityVisibility(goalPriority, isVisible)
                         .build()
                 onGoalFilterChange(newGoalFilter)

@@ -12,14 +12,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.R
-import com.habithatch.demo.core.sort.SortState
-import com.habithatch.demo.data.models.GoalQuery
+import com.habithatch.demo.core.query.GoalQuery
+import com.habithatch.demo.core.query.GoalSortOption
+import com.habithatch.demo.core.query.SortState
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun GoalSortBar(
-    goalQuery: GoalQuery,
-    onGoalQueryChange: (GoalQuery) -> Unit,
+    sortOptions: List<GoalSortOption>,
+    onSortOptionChange: (GoalSortOption) -> Unit,
 ) {
     val upIcon = R.drawable.vuesax_arrow_up_1
     val downIcon = R.drawable.vuesax_arrow_down_1
@@ -30,29 +31,29 @@ fun GoalSortBar(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        goalQuery.sortOptions.forEach { selectedOption ->
+        sortOptions.forEach { sortOption ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier =
                     Modifier
                         .clickable {
-                            val newGoalQuery = goalQuery.updateSortOption(selectedOption)
-                            onGoalQueryChange(newGoalQuery)
+                            val newSortOption = sortOption.cycleState()
+                            onSortOptionChange(newSortOption)
                         }.padding(8.dp),
             ) {
                 Text(
-                    text = selectedOption.label,
+                    text = sortOption.label,
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(end = 8.dp),
                 )
                 Icon(
                     painter =
-                        when (selectedOption.sortState) {
+                        when (sortOption.sortState) {
                             SortState.ASCENDING -> painterResource(upIcon)
                             SortState.DESCENDING -> painterResource(downIcon)
                             SortState.NOT_USED -> painterResource(notSortedIcon)
                         },
-                    contentDescription = selectedOption.sortState.name,
+                    contentDescription = sortOption.sortState.name,
                 )
             }
         }

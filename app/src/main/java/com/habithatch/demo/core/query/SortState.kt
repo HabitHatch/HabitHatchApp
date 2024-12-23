@@ -1,4 +1,4 @@
-package com.habithatch.demo.core.sort
+package com.habithatch.demo.core.query
 
 enum class SortState {
     NOT_USED,
