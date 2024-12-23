@@ -10,10 +10,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.habithatch.demo.features.home.HomeScreen
 import com.habithatch.demo.features.settings.SettingsScreen
-import com.habithatch.demo.features.signup.SignupScreen
 import com.habithatch.demo.features.signup.SignUpState
+import com.habithatch.demo.features.signup.SignupScreen
 import com.habithatch.demo.features.signup.SignupViewModel
 
+@Suppress("ktlint:standard:function-naming")
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
@@ -35,8 +36,8 @@ fun AppNavigation() {
     }
 
     NavHost(
-            navController = navController,
-            startDestination = Screen.HOME.route
+        navController = navController,
+        startDestination = Screen.HOME.route,
     ) {
         composable(Screen.SIGNUP.route) {
             SignupScreen()

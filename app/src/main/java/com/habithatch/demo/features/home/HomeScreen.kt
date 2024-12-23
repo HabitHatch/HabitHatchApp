@@ -1,6 +1,8 @@
 package com.habithatch.demo.features.home
 
+import android.util.Log
 
+import BottomNavigationBar
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,11 +18,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import BottomNavigationBar
-import android.util.Log
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -35,18 +34,20 @@ import com.habithatch.demo.ui.goals.GoalQueryTable
 import com.habithatch.demo.ui.navigation.TopAppInformationBar
 import com.habithatch.demo.ui.pets.PetAnimation
 
+@Suppress("ktlint:standard:function-naming")
 @Composable
 fun HomeScreen(
     navController: NavHostController,
     config: HabitHatchConfig = hiltViewModel<HomeViewModel>().config,
-    state: HomeScreenState = rememberHomeScreenState()
+    state: HomeScreenState = rememberHomeScreenState(),
 ) {
     val currentRoute = navController.currentBackStackEntry?.destination?.route
     val screen = Screen.fromRoute(currentRoute)
-    val activeNavigationItem = NavigationItem.findNavigationItemByRoute(
+    val activeNavigationItem =
+        NavigationItem.findNavigationItemByRoute(
             route = currentRoute,
-            navigationItems = config.navigationItems
-    )
+            navigationItems = config.navigationItems,
+        )
 
     if (state.user == null) {
         Log.w("HomeScreen", "User is null")
@@ -54,77 +55,80 @@ fun HomeScreen(
     }
 
     Scaffold(
-            topBar = {
-                TopAppInformationBar(
-                        title = screen?.title.orEmpty(),
-                        primaryNavigationItem = config.primaryNavigationItem,
-                        onPrimaryNavigationItemClick = {
-                            navController.navigate(config.primaryNavigationItem.screen.route)
-                        }
-                )
-            },
-            bottomBar = {
-                BottomNavigationBar(
-                        onNavigationItemClicked = {
-                            navController.navigate(it.screen.route)
-                        },
-                        activeNavigationItem = activeNavigationItem,
-                        navigationItems = config.navigationItems
-                )
-            },
-            floatingActionButton = {
-                FloatingActionButton(onClick = {
-                    state.onAddGoalClicked()
-                }) {
-                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add Goal")
-                }
-            },
-            content = { paddingValues ->
-                Column(
-                        modifier = Modifier.padding(
-                                paddingValues
-                        ),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    PetAnimation(
-                            pet = state.user.pet,
-                            isPetHappy = state.allGoalsDone,
-                            modifier = Modifier
-                                .fillMaxWidth(0.4f)
-                                .padding(top = 8.dp)
-                    )
-                    GoalQueryTable(
-                            goals = state.goals,
-                            goalQuery = state.goalQuery,
-                            allStatuses = config.statuses,
-                            allPriorities = config.priorities,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp, vertical = 8.dp),
-                            onToggleGoalStatus = { state.onGoalStatusToggled(it) },
-                            onGoalQueryChange = { state.onGoalQueryChange(it) },
-                    )
-                }
+        topBar = {
+            TopAppInformationBar(
+                title = screen?.title.orEmpty(),
+                primaryNavigationItem = config.primaryNavigationItem,
+                onPrimaryNavigationItemClick = {
+                    navController.navigate(config.primaryNavigationItem.screen.route)
+                },
+            )
+        },
+        bottomBar = {
+            BottomNavigationBar(
+                onNavigationItemClicked = {
+                    navController.navigate(it.screen.route)
+                },
+                activeNavigationItem = activeNavigationItem,
+                navigationItems = config.navigationItems,
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = {
+                state.onAddGoalClicked()
+            }) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = "Add Goal")
             }
+        },
+        content = { paddingValues ->
+            Column(
+                modifier =
+                    Modifier.padding(
+                        paddingValues,
+                    ),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                PetAnimation(
+                    pet = state.user.pet,
+                    isPetHappy = state.allGoalsDone,
+                    modifier =
+                        Modifier
+                            .fillMaxWidth(0.4f)
+                            .padding(top = 8.dp),
+                )
+                GoalQueryTable(
+                    goals = state.goals,
+                    goalQuery = state.goalQuery,
+                    allStatuses = config.statuses,
+                    allPriorities = config.priorities,
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                    onToggleGoalStatus = { state.onGoalStatusToggled(it) },
+                    onGoalQueryChange = { state.onGoalQueryChange(it) },
+                )
+            }
+        },
     )
 
     if (state.showDialog) {
         AddGoalDialog(
-                preselectedGoal = GoalModel(
-                        title = "",
-                        priority = config.defaultPriority,
-                        status = config.defaultStatus
+            preselectedGoal =
+                GoalModel(
+                    title = "",
+                    priority = config.defaultPriority,
+                    status = config.defaultStatus,
                 ),
-                onDismiss = {
-                    state.onGoalDialogDismissed()
-                },
-                onAdd = { goal ->
-                    state.onGoalAdded(goal)
-                },
+            onDismiss = {
+                state.onGoalDialogDismissed()
+            },
+            onAdd = { goal ->
+                state.onGoalAdded(goal)
+            },
         )
     }
 }
-
 
 @Stable
 class HomeScreenState(
@@ -140,10 +144,9 @@ class HomeScreenState(
     val onGoalStatusToggled: (GoalModel) -> Unit,
 )
 
+@Suppress("ktlint:standard:function-naming")
 @Composable
-fun rememberHomeScreenState(
-    viewModel: HomeViewModel = hiltViewModel()
-): HomeScreenState {
+fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScreenState {
     val user by viewModel.user.collectAsStateWithLifecycle()
     val goals by viewModel.filteredGoals.collectAsStateWithLifecycle()
     val allGoalsDone by viewModel.allGoalsDone.collectAsStateWithLifecycle()
@@ -151,15 +154,18 @@ fun rememberHomeScreenState(
     var showDialog by remember { mutableStateOf(false) }
 
     return HomeScreenState(
-            user = user,
-            goals = goals,
-            allGoalsDone = allGoalsDone,
-            goalQuery = goalQuery,
-            showDialog = showDialog,
-            onAddGoalClicked = { showDialog = true },
-            onGoalAdded = { viewModel.addGoal(it); showDialog = false },
-            onGoalStatusToggled = { viewModel.toggleGoalStatus(it) },
-            onGoalQueryChange = { viewModel.updateGoalQuery(it) },
-            onGoalDialogDismissed = { showDialog = false }
+        user = user,
+        goals = goals,
+        allGoalsDone = allGoalsDone,
+        goalQuery = goalQuery,
+        showDialog = showDialog,
+        onAddGoalClicked = { showDialog = true },
+        onGoalAdded = {
+            viewModel.addGoal(it)
+            showDialog = false
+        },
+        onGoalStatusToggled = { viewModel.toggleGoalStatus(it) },
+        onGoalQueryChange = { viewModel.updateGoalQuery(it) },
+        onGoalDialogDismissed = { showDialog = false },
     )
 }

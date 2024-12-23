@@ -7,6 +7,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose") version "2.1.0"
     id("com.google.devtools.ksp") version "2.1.0-1.0.29"
     id("com.google.dagger.hilt.android") version "2.53.1"
+    id("io.gitlab.arturbosch.detekt") version ("1.23.7")
 }
 
 room {
@@ -35,7 +36,7 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                getDefaultProguardFile("proguard-android-optimize.txt"),
             )
         }
     }
@@ -110,4 +111,18 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.7.6")
     androidTestImplementation("com.google.truth:truth:1.4.4")
+}
+
+tasks.register("codeQualityCheck") {
+    description = "Runs Lint, and Detekt checks."
+    group = "verification"
+
+    dependsOn("lint", "detekt")
+}
+
+tasks.register("codeQualityFix") {
+    description = "Runs lintFix to auto-fix issues."
+    group = "verification"
+
+    dependsOn("lintFix")
 }

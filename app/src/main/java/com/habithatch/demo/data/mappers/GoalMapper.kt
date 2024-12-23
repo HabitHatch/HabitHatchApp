@@ -1,32 +1,33 @@
 package com.habithatch.demo.data.mappers
 
-import javax.inject.Inject
 import com.habithatch.demo.core.config.GoalPriorityProvider
 import com.habithatch.demo.core.config.GoalStatusProvider
 import com.habithatch.demo.data.entities.GoalEntity
 import com.habithatch.demo.data.models.GoalModel
+import javax.inject.Inject
 
-class GoalMapper @Inject constructor(
-    private val statusProvider: GoalStatusProvider,
-    private val priorityProvider: GoalPriorityProvider
-) {
-    fun toEntity(goal: GoalModel): GoalEntity {
-        return GoalEntity(
+class GoalMapper
+    @Inject
+    constructor(
+        private val statusProvider: GoalStatusProvider,
+        private val priorityProvider: GoalPriorityProvider,
+    ) {
+        fun toEntity(goal: GoalModel): GoalEntity =
+            GoalEntity(
                 id = goal.id ?: 0,
                 title = goal.title,
                 statusLabel = goal.status.label,
-                priorityLabel = goal.priority.label
-        )
-    }
+                priorityLabel = goal.priority.label,
+            )
 
-    fun fromEntity(entity: GoalEntity): GoalModel {
-        val priority = priorityProvider.getPriorityByLabel(entity.priorityLabel)
-        val status = statusProvider.getStatusByLabel(entity.statusLabel)
-        return GoalModel(
+        fun fromEntity(entity: GoalEntity): GoalModel {
+            val priority = priorityProvider.getPriorityByLabel(entity.priorityLabel)
+            val status = statusProvider.getStatusByLabel(entity.statusLabel)
+            return GoalModel(
                 id = entity.id,
                 title = entity.title,
                 status = status,
-                priority = priority
-        )
+                priority = priority,
+            )
+        }
     }
-}

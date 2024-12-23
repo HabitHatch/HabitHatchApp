@@ -1,0 +1,44 @@
+# Root configuration (applies to all files in the project)
+root = true
+
+# Global rules for all files
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# Rules for Kotlin files
+[*.{kt,kts}]
+max_line_length = 120
+continuation_indent_size = 8
+
+ij_kotlin_imports_layout = *,java.**,javax.**,kotlin.**,android.**
+ktlint_standard_no-wildcard-imports = false
+ktlint_standard_property-naming = ^(_)?[a-z][A-Za-z0-9]*$
+
+ij_kotlin_imports_layout=* # alphabetical with capital letters before lower case letters (e.g. Z before a), no blank lines
+ij_kotlin_imports_layout=*,java.**,javax.**,kotlin.**,^ # default IntelliJ IDEA style, same as alphabetical, but with "java", "javax", "kotlin" and alias imports in the end of the imports list
+ij_kotlin_imports_layout=android.**,|,^org.junit.**,kotlin.io.Closeable.*,|,*,^ # custom imports layout
+# Set spacing rules
+ktlint_standard_max-line-length = 120
+ktlint_standard_indent = 4
+ktlint_standard_trailing-comma-on-call-site = true
+ktlint_standard_trailing-comma-on-declaration-site = true
+
+# XML and Gradle files
+[*.xml]
+indent_size = 2
+[*.gradle]
+indent_size = 2
+
+[*.json]
+indent_size = 2
+
+# Markdown files
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = 120
+

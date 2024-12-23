@@ -3,7 +3,6 @@ package com.habithatch.demo.core.app
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -11,81 +10,96 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-
-val CustomTypography = Typography(
-        displayLarge = TextStyle(
+val CustomTypography =
+    Typography(
+        displayLarge =
+            TextStyle(
                 fontFamily = FontFamily.Default,
                 fontWeight = FontWeight.ExtraBold,
-                fontSize = 24.sp
-        ),
-        displayMedium = TextStyle(
+                fontSize = 24.sp,
+            ),
+        displayMedium =
+            TextStyle(
                 fontFamily = FontFamily.Default,
                 fontWeight = FontWeight.ExtraBold,
-                fontSize = 18.sp
-        ),
-        displaySmall = TextStyle(
+                fontSize = 18.sp,
+            ),
+        displaySmall =
+            TextStyle(
                 fontFamily = FontFamily.Default,
                 fontWeight = FontWeight.ExtraBold,
-                fontSize = 16.sp
-        ),
-        headlineLarge = TextStyle(
+                fontSize = 16.sp,
+            ),
+        headlineLarge =
+            TextStyle(
                 fontFamily = FontFamily.Default,
                 fontWeight = FontWeight.Bold,
-                fontSize = 14.sp
-        ),
-        headlineMedium = TextStyle(
+                fontSize = 14.sp,
+            ),
+        headlineMedium =
+            TextStyle(
                 fontFamily = FontFamily.Default,
                 fontWeight = FontWeight.Bold,
-                fontSize = 12.sp
-        ),
-        bodyLarge = TextStyle(
+                fontSize = 12.sp,
+            ),
+        bodyLarge =
+            TextStyle(
                 fontFamily = FontFamily.Default,
                 fontWeight = FontWeight.Normal,
-                fontSize = 18.sp
-        ),
-        bodyMedium = TextStyle(
+                fontSize = 18.sp,
+            ),
+        bodyMedium =
+            TextStyle(
                 fontFamily = FontFamily.Default,
                 fontWeight = FontWeight.Normal,
-                fontSize = 16.sp
-        ),
-        bodySmall = TextStyle(
+                fontSize = 16.sp,
+            ),
+        bodySmall =
+            TextStyle(
                 fontFamily = FontFamily.Default,
                 fontWeight = FontWeight.Normal,
-                fontSize = 14.sp
-        ),
-        labelLarge = TextStyle(
+                fontSize = 14.sp,
+            ),
+        labelLarge =
+            TextStyle(
                 fontFamily = FontFamily.Default,
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 14.sp
-        ),
-        labelMedium = TextStyle(
+                fontSize = 14.sp,
+            ),
+        labelMedium =
+            TextStyle(
                 fontFamily = FontFamily.Default,
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 12.sp
-        ),
-        labelSmall = TextStyle(
+                fontSize = 12.sp,
+            ),
+        labelSmall =
+            TextStyle(
                 fontFamily = FontFamily.Default,
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 10.sp
-        ),
-        titleLarge = TextStyle(
+                fontSize = 10.sp,
+            ),
+        titleLarge =
+            TextStyle(
                 fontFamily = FontFamily.Default,
                 fontWeight = FontWeight.Normal,
-                fontSize = 16.sp
-        ),
-        titleMedium = TextStyle(
+                fontSize = 16.sp,
+            ),
+        titleMedium =
+            TextStyle(
                 fontFamily = FontFamily.Default,
                 fontWeight = FontWeight.Normal,
-                fontSize = 14.sp
-        ),
-        titleSmall = TextStyle(
+                fontSize = 14.sp,
+            ),
+        titleSmall =
+            TextStyle(
                 fontFamily = FontFamily.Default,
                 fontWeight = FontWeight.Medium,
-                fontSize = 10.sp
-        )
-)
+                fontSize = 10.sp,
+            ),
+    )
 
-val CustomColorScheme = ColorScheme(
+val CustomColorScheme =
+    ColorScheme(
         primary = Color(0xFF6200EA),
         onPrimary = Color.White,
         primaryContainer = Color(0xFFBB86FC),
@@ -121,14 +135,15 @@ val CustomColorScheme = ColorScheme(
         surfaceContainerHigh = Color(0xFFEEEEEE),
         surfaceContainerHighest = Color(0xFFE0E0E0),
         surfaceContainerLow = Color.White,
-        surfaceContainerLowest = Color.White
-)
+        surfaceContainerLowest = Color.White,
+    )
 
+@Suppress("ktlint:standard:function-naming")
 @Composable
 fun HabitHatchAppTheme(content: @Composable () -> Unit) {
     MaterialTheme(
-            colorScheme = CustomColorScheme,
-            typography = CustomTypography,
-            content = content
+        colorScheme = CustomColorScheme,
+        typography = CustomTypography,
+        content = content,
     )
 }

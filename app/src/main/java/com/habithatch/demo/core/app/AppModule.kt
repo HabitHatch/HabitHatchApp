@@ -1,7 +1,7 @@
 package com.habithatch.demo.core.app
 
-import javax.inject.Singleton
 import android.content.Context
+
 import com.habithatch.demo.core.config.HabitHatchConfig
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.data.daos.GoalDao
@@ -16,59 +16,47 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+    @Provides
+    @Singleton
+    fun provideConfig(): HabitHatchConfig = HabitHatchDevConfig
 
     @Provides
     @Singleton
-    fun provideConfig(): HabitHatchConfig {
-        return HabitHatchDevConfig
-    }
+    fun provideDatabase(
+        @ApplicationContext context: Context,
+    ): AppDatabase = DatabaseProvider.getDatabase(context)
 
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext context: Context): AppDatabase {
-        return DatabaseProvider.getDatabase(context)
-    }
+    fun provideGoalDao(database: AppDatabase): GoalDao = database.goalDao()
 
     @Provides
     @Singleton
-    fun provideGoalDao(database: AppDatabase): GoalDao {
-        return database.goalDao()
-    }
-
-    @Provides
-    @Singleton
-    fun provideGoalMapper(config: HabitHatchConfig): GoalMapper {
-        return GoalMapper(config, config)
-    }
+    fun provideGoalMapper(config: HabitHatchConfig): GoalMapper = GoalMapper(config, config)
 
     @Provides
     @Singleton
     fun provideGoalRepository(
         goalDao: GoalDao,
         goalConfig: HabitHatchConfig,
-        goalMapper: GoalMapper
-    ): GoalRepository {
-        return GoalRepository(
-                goalDao = goalDao,
-                statusesProvider = goalConfig,
-                goalMapper = goalMapper
+        goalMapper: GoalMapper,
+    ): GoalRepository =
+        GoalRepository(
+            goalDao = goalDao,
+            statusesProvider = goalConfig,
+            goalMapper = goalMapper,
         )
-    }
-
 
     @Provides
     @Singleton
-    fun provideUserDao(database: AppDatabase): UserDao {
-        return database.userDao()
-    }
+    fun provideUserDao(database: AppDatabase): UserDao = database.userDao()
 
     @Provides
     @Singleton
-    fun provideUserRepository(userDao: UserDao): UserRepository {
-        return UserRepository(userDao)
-    }
+    fun provideUserRepository(userDao: UserDao): UserRepository = UserRepository(userDao)
 }

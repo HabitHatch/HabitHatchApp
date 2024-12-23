@@ -1,11 +1,11 @@
 package com.habithatch.demo.repositories
 
 import com.google.common.truth.Truth.assertThat
+import com.habithatch.demo.core.exceptions.InvalidUUIdException
+import com.habithatch.demo.core.exceptions.UserExistsException
 import com.habithatch.demo.data.daos.UserDao
 import com.habithatch.demo.data.entities.Pet
 import com.habithatch.demo.data.entities.User
-import com.habithatch.demo.core.exceptions.InvalidUUIdException
-import com.habithatch.demo.core.exceptions.UserExistsException
 import com.habithatch.demo.data.repositories.UserRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -42,20 +42,21 @@ class UserRepositoryTest {
         }
     }
 
-
     @Test()
     fun `createUser() should throw an IllegalStateException, when a User already exists`() {
         runBlocking {
             // Arrange
-            coEvery { userDao.getUser() } returns flow {
-                emit(User(pet = somePet))
-            }
+            coEvery { userDao.getUser() } returns
+                flow {
+                    emit(User(pet = somePet))
+                }
             val user = User(pet = anotherPet)
 
             // Act
-            val exception = runCatching {
-                userRepository.createUser(user)
-            }.exceptionOrNull()
+            val exception =
+                runCatching {
+                    userRepository.createUser(user)
+                }.exceptionOrNull()
 
             // Assert
             assertThat(exception).isInstanceOf(UserExistsException::class.java)
@@ -70,9 +71,10 @@ class UserRepositoryTest {
             val user1 = User(uuid = "invalid-uid", pet = somePet)
 
             // Act
-            val exception = runCatching {
-                userRepository.createUser(user1)
-            }.exceptionOrNull()
+            val exception =
+                runCatching {
+                    userRepository.createUser(user1)
+                }.exceptionOrNull()
             assertThat(exception).isInstanceOf(InvalidUUIdException::class.java)
         }
     }
@@ -81,9 +83,10 @@ class UserRepositoryTest {
     fun `deleteUser() should remove the User`() {
         runBlocking {
             // Arrange
-            coEvery { userDao.getUser() } returns flow {
-                emit(User(pet = somePet))
-            }
+            coEvery { userDao.getUser() } returns
+                flow {
+                    emit(User(pet = somePet))
+                }
             coEvery { userDao.deleteAll() } returns Unit
 
             // Act

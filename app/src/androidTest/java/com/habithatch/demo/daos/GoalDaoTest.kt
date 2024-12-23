@@ -13,16 +13,17 @@ import org.junit.Before
 import org.junit.Test
 
 class GoalDaoTest {
-
     private lateinit var database: AppDatabase
     private lateinit var goalDao: GoalDao
 
     @Before
     fun setup() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        database = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
-            .allowMainThreadQueries()
-            .build()
+        database =
+            Room
+                .inMemoryDatabaseBuilder(context, AppDatabase::class.java)
+                .allowMainThreadQueries()
+                .build()
         goalDao = database.goalDao()
     }
 
@@ -35,11 +36,13 @@ class GoalDaoTest {
     fun getGoalById_shouldGetAGoalById_whenGoalExists() {
         runBlocking {
             // Arrange
-            val goal = GoalEntity(
-                    id = 1, title = "Drink water",
+            val goal =
+                GoalEntity(
+                    id = 1,
+                    title = "Drink water",
                     statusLabel = "In Progress",
-                    priorityLabel = "Normal"
-            )
+                    priorityLabel = "Normal",
+                )
             goalDao.insert(goal)
 
             // Act
@@ -54,20 +57,21 @@ class GoalDaoTest {
     fun getAll_shouldRetrieveAllGoalsStored() {
         runBlocking {
             // Arrange
-            val goals = listOf(
+            val goals =
+                listOf(
                     GoalEntity(
-                            id = 1,
-                            title = "Drink water",
-                            statusLabel = "In Progress",
-                            priorityLabel = "Normal"
+                        id = 1,
+                        title = "Drink water",
+                        statusLabel = "In Progress",
+                        priorityLabel = "Normal",
                     ),
                     GoalEntity(
-                            id = 2,
-                            title = "Eat vegetables",
-                            statusLabel = "In Progress",
-                            priorityLabel = "High"
+                        id = 2,
+                        title = "Eat vegetables",
+                        statusLabel = "In Progress",
+                        priorityLabel = "High",
                     ),
-            )
+                )
             goals.forEach { goalDao.insert(it) }
 
             // Act

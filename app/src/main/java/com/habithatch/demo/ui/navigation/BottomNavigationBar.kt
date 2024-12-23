@@ -12,66 +12,70 @@ import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.navigation.NavigationItem
 import com.habithatch.demo.core.navigation.Screen
 
+@Suppress("ktlint:standard:function-naming")
 @Composable
 fun BottomNavigationBar(
     navigationItems: List<NavigationItem>,
     activeNavigationItem: NavigationItem?,
-    onNavigationItemClicked: (NavigationItem) -> Unit
+    onNavigationItemClicked: (NavigationItem) -> Unit,
 ) {
+    @Suppress("ktlint:standard:function-naming")
     @Composable
-    fun colorForItem(item: NavigationItem): Color {
-        return if (item == activeNavigationItem) {
+    fun colorForItem(item: NavigationItem): Color =
+        if (item == activeNavigationItem) {
             MaterialTheme.colorScheme.primary
         } else if (item.enabled) {
             MaterialTheme.colorScheme.secondary
         } else {
             MaterialTheme.colorScheme.tertiary
         }
-    }
 
     BottomAppBar(
-            modifier = Modifier.fillMaxWidth().height(64.dp),
-            actions = {
-                navigationItems.forEach { item ->
-                    IconButton(
-                            onClick = {
-                                if (item.enabled && item != activeNavigationItem) {
-                                    onNavigationItemClicked(item)
-                                }
-                            },
-                            modifier = Modifier
-                                .weight(1f)
-                                .size(24.dp),
-                            enabled = item.enabled
-                    ) {
-                        Icon(
-                                painter = painterResource(item.iconResourceId),
-                                contentDescription = item.screen.route,
-                                tint = colorForItem(item),
-                        )
-                    }
+        modifier = Modifier.fillMaxWidth().height(64.dp),
+        actions = {
+            navigationItems.forEach { item ->
+                IconButton(
+                    onClick = {
+                        if (item.enabled && item != activeNavigationItem) {
+                            onNavigationItemClicked(item)
+                        }
+                    },
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .size(24.dp),
+                    enabled = item.enabled,
+                ) {
+                    Icon(
+                        painter = painterResource(item.iconResourceId),
+                        contentDescription = item.screen.route,
+                        tint = colorForItem(item),
+                    )
                 }
             }
+        },
     )
 }
 
 @Preview()
+@Suppress("ktlint:standard:function-naming")
 @Composable
 fun BottomNavigationBarPreview() {
     val navigationItems = HabitHatchDevConfig.navigationItems
 
-    val homeItem = NavigationItem.findNavigationItemByRoute(
+    val homeItem =
+        NavigationItem.findNavigationItemByRoute(
             route = Screen.HOME.route,
-            navigationItems = navigationItems
-    )
+            navigationItems = navigationItems,
+        )
 
     if (homeItem == null) {
         return
     }
 
     BottomNavigationBar(
-            onNavigationItemClicked = {},
-            activeNavigationItem = homeItem,
-            navigationItems = navigationItems
+        onNavigationItemClicked = {},
+        activeNavigationItem = homeItem,
+        navigationItems = navigationItems,
     )
 }

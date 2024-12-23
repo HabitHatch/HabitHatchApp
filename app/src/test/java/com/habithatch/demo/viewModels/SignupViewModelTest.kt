@@ -49,9 +49,10 @@ class SignupViewModelTest {
     fun `isSignedUp() should be SIGNED_UP, when user exists`() {
         runTest {
             // Arrange
-            coEvery { userRepository.getUser() } returns flow {
-                emit(someUser)
-            }
+            coEvery { userRepository.getUser() } returns
+                flow {
+                    emit(someUser)
+                }
             val viewModel = SignupViewModel(userRepository, appConfig)
             val signUpState = viewModel.signUpState
             val actualValues = mutableListOf<SignUpState>()

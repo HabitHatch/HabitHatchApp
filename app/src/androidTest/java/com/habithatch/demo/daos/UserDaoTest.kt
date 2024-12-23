@@ -14,7 +14,6 @@ import org.junit.Before
 import org.junit.Test
 
 class UserDaoTest {
-
     private lateinit var database: AppDatabase
     private lateinit var userDao: UserDao
     private val someUser = User(pet = Pet(name = "Pet 1", imageRes = 1001))
@@ -23,9 +22,11 @@ class UserDaoTest {
     @Before
     fun setup() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        database = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
-            .allowMainThreadQueries()
-            .build()
+        database =
+            Room
+                .inMemoryDatabaseBuilder(context, AppDatabase::class.java)
+                .allowMainThreadQueries()
+                .build()
 
         userDao = database.userDao()
     }
@@ -46,6 +47,7 @@ class UserDaoTest {
             assertThat(retrievedUser).isEqualTo(someUser)
         }
     }
+
     @Test
     fun getUser_shouldEmitNull_whenNoUserExists() {
         runBlocking {

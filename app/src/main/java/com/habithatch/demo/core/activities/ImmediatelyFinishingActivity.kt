@@ -1,6 +1,7 @@
 package com.habithatch.demo.core.activities
 
 import android.os.Bundle
+
 import androidx.activity.ComponentActivity
 
 /**

@@ -1,7 +1,6 @@
 package com.habithatch.demo.ui.goals
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,6 +20,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.data.models.GoalModel
 
+@Suppress("ktlint:standard:function-naming")
 @Composable
 fun GoalItem(
     goal: GoalModel,
@@ -30,53 +30,66 @@ fun GoalItem(
 ) {
     val cardShape = MaterialTheme.shapes.medium
     Card(
-            modifier = Modifier
+        modifier =
+            Modifier
                 .fillMaxWidth()
                 .then(
-                        Modifier.border(
-                                width = 1.dp,
-                                color = goal.priority.getColor(),
-                                shape = cardShape
-                        )
+                    Modifier.border(
+                        width = 1.dp,
+                        color = goal.priority.getColor(),
+                        shape = cardShape,
+                    ),
                 ),
-            colors = CardDefaults.cardColors(
-                    containerColor =
-                    if (goal.isDone()) MaterialTheme.colorScheme.secondaryContainer
-                    else MaterialTheme.colorScheme.primaryContainer,
+        colors =
+            CardDefaults.cardColors(
+                containerColor =
+                    if (goal.isDone()) {
+                        MaterialTheme.colorScheme.secondaryContainer
+                    } else {
+                        MaterialTheme.colorScheme.primaryContainer
+                    },
             ),
-            shape = cardShape
+        shape = cardShape,
     ) {
         Row(
-                modifier = Modifier
+            modifier =
+                Modifier
                     .fillMaxWidth()
                     .padding(rowPadding),
-                verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Checkbox(
-                    checked = goal.isDone(),
-                    onCheckedChange = { onToggleGoalStatus() },
-                    modifier = Modifier.padding(checkBoxPadding)
+                checked = goal.isDone(),
+                onCheckedChange = { onToggleGoalStatus() },
+                modifier = Modifier.padding(checkBoxPadding),
             )
 
             Text(
-                    text = goal.title,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.titleMedium.copy(
-                            textDecoration =
-                            if (goal.isDone()) TextDecoration.LineThrough
-                            else TextDecoration.None,
-                            color =
-                            if (goal.isDone()) MaterialTheme.colorScheme.onPrimaryContainer
-                            else MaterialTheme.colorScheme.onPrimary
+                text = goal.title,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                style =
+                    MaterialTheme.typography.titleMedium.copy(
+                        textDecoration =
+                            if (goal.isDone()) {
+                                TextDecoration.LineThrough
+                            } else {
+                                TextDecoration.None
+                            },
+                        color =
+                            if (goal.isDone()) {
+                                MaterialTheme.colorScheme.onPrimaryContainer
+                            } else {
+                                MaterialTheme.colorScheme.onPrimary
+                            },
                     ),
-                    modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
             Icon(
-                    modifier = Modifier.weight(0.25f),
-                    painter = painterResource(goal.priority.iconResourceId),
-                    contentDescription = goal.priority.label,
-                    tint = goal.priority.getColor()
+                modifier = Modifier.weight(0.25f),
+                painter = painterResource(goal.priority.iconResourceId),
+                contentDescription = goal.priority.label,
+                tint = goal.priority.getColor(),
             )
         }
     }

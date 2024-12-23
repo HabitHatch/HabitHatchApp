@@ -9,14 +9,15 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.habithatch.demo.ui.pets.PetsGrid
 
+@Suppress("ktlint:standard:function-naming")
 @Composable
 fun SignupScreen() {
     val viewModel: SignupViewModel = hiltViewModel()
     val pets = viewModel.pets
     Column(
-            modifier = Modifier.Companion.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.Companion.CenterHorizontally
+        modifier = Modifier.Companion.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.Companion.CenterHorizontally,
     ) {
         PetsGrid(pets = pets, onConfirm = {
             viewModel.signUpUser(it)

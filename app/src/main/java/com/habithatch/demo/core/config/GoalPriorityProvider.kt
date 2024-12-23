@@ -7,7 +7,5 @@ interface GoalPriorityProvider {
     val defaultPriority: GoalModel.Priority
 
     @Throws(NoSuchElementException::class)
-    fun getPriorityByLabel(priorityLabel: String): GoalModel.Priority {
-        return priorities.first { it.label == priorityLabel }
-    }
+    fun getPriorityByLabel(priorityLabel: String): GoalModel.Priority = priorities.first { it.label == priorityLabel }
 }

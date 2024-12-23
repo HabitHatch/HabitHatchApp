@@ -27,62 +27,67 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.data.entities.Pet
 
+@Suppress("ktlint:standard:function-naming")
 @Composable
 fun PetCard(
     pet: Pet,
     isChecked: Boolean,
-    onPetSelected: () -> Unit
+    onPetSelected: () -> Unit,
 ) {
     val indicatorColor by animateColorAsState(
-            targetValue = if (isChecked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
-            label = "indicatorColorAnimation"
+        targetValue = if (isChecked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
+        label = "indicatorColorAnimation",
     )
     val indicatorSize by animateDpAsState(
-            targetValue = if (isChecked) 36.dp else 32.dp,
-            label = "indicatorSizeAnimation"
+        targetValue = if (isChecked) 36.dp else 32.dp,
+        label = "indicatorSizeAnimation",
     )
 
     Column(
-            modifier = Modifier
+        modifier =
+            Modifier
                 .fillMaxWidth()
                 .clickable { onPetSelected() },
-            horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Card(
-                shape = RoundedCornerShape(12.dp),
-                modifier = Modifier
+            shape = RoundedCornerShape(12.dp),
+            modifier =
+                Modifier
                     .fillMaxWidth()
                     .border(
-                            width = if (isChecked) 2.dp else 0.dp,
-                            color = if (isChecked) MaterialTheme.colorScheme.primary else Color.Transparent,
-                            shape = RoundedCornerShape(12.dp)
-                    )
+                        width = if (isChecked) 2.dp else 0.dp,
+                        color = if (isChecked) MaterialTheme.colorScheme.primary else Color.Transparent,
+                        shape = RoundedCornerShape(12.dp),
+                    ),
         ) {
             Box(
-                    modifier = Modifier
+                modifier =
+                    Modifier
                         .aspectRatio(1f)
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
             ) {
                 Image(
-                        painter = painterResource(id = pet.imageRes),
-                        contentDescription = "${pet.name} image",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.clip(RoundedCornerShape(12.dp))
+                    painter = painterResource(id = pet.imageRes),
+                    contentDescription = "${pet.name} image",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.clip(RoundedCornerShape(12.dp)),
                 )
                 Box(
-                        modifier = Modifier
+                    modifier =
+                        Modifier
                             .align(Alignment.BottomEnd)
                             .padding(8.dp)
                             .size(indicatorSize)
                             .clip(CircleShape)
-                            .background(indicatorColor)
+                            .background(indicatorColor),
                 ) {
                     if (isChecked) {
                         Icon(
-                                imageVector = Icons.Default.Check,
-                                contentDescription = "Selected ${pet.name}",
-                                tint = MaterialTheme.colorScheme.onPrimary,
-                                modifier = Modifier.align(Alignment.Center)
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Selected ${pet.name}",
+                            tint = MaterialTheme.colorScheme.onPrimary,
+                            modifier = Modifier.align(Alignment.Center),
                         )
                     }
                 }
@@ -90,11 +95,11 @@ fun PetCard(
         }
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-                text = pet.name,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+            text = pet.name,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurface,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
         )
     }
 }

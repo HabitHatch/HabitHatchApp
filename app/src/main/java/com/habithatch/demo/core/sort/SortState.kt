@@ -1,15 +1,15 @@
-package com.habithatch.demo.core.util
+package com.habithatch.demo.core.sort
 
 enum class SortState {
     NOT_USED,
     ASCENDING,
-    DESCENDING;
+    DESCENDING,
+    ;
 
-    fun nextInCycle(): SortState {
-        return when (this) {
+    fun nextInCycle(): SortState =
+        when (this) {
             NOT_USED -> ASCENDING
             ASCENDING -> DESCENDING
             DESCENDING -> NOT_USED
         }
-    }
 }

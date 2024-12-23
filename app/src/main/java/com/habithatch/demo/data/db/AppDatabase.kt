@@ -1,6 +1,7 @@
 package com.habithatch.demo.data.db
 
 import android.content.Context
+
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -12,26 +13,25 @@ import com.habithatch.demo.data.entities.User
 @Database(entities = [User::class, GoalEntity::class], version = 10)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
+
     abstract fun goalDao(): GoalDao
 }
 
-
 object DatabaseProvider {
     @Volatile
-    private var INSTANCE: AppDatabase? = null
+    private var instance: AppDatabase? = null
 
-    fun getDatabase(context: Context): AppDatabase {
-        return INSTANCE ?: synchronized(this) {
-            val instance = Room
-                .databaseBuilder(
+    fun getDatabase(context: Context): AppDatabase =
+        instance ?: synchronized(this) {
+            val instance =
+                Room
+                    .databaseBuilder(
                         context.applicationContext,
                         AppDatabase::class.java,
-                        "app_database"
-                )
-                .fallbackToDestructiveMigration()
-                .build()
-            INSTANCE = instance
+                        "app_database",
+                    ).fallbackToDestructiveMigration()
+                    .build()
+            this@DatabaseProvider.instance = instance
             instance
         }
-    }
 }
