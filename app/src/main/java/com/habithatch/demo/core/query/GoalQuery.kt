@@ -7,7 +7,7 @@ import com.habithatch.demo.data.models.GoalModel
 data class GoalQuery(
     val filter: GoalFilter,
     val sortOptions: List<GoalSortOption>,
-    val defaultSortOption: GoalSortOption,
+    val defaultComparator: Comparator<GoalModel>,
     private val priorityProvider: GoalPriorityProvider,
     private val statusProvider: GoalStatusProvider,
 ) {
@@ -22,17 +22,17 @@ data class GoalQuery(
         require(sortOptions.filter { it.label == option.label }.size == 1) {
             "Selected option is not exactly once in the list of sort options"
         }
-        if (option.sortState != SortState.NOT_USED) {
-            return setActiveSortOption(option)
-        }
-        return setActiveSortOption(defaultSortOption)
+        return setActiveSortOption(option)
     }
 
-    fun getComparator(): Comparator<GoalModel> = getActiveSortOption().getComparator().then(getDefaultSortComparator())
+    fun getComparator(): Comparator<GoalModel> {
+        if (getActiveSortOption() != null) {
+            return getActiveSortOption()!!.getComparator().then(defaultComparator)
+        }
+        return defaultComparator
+    }
 
     fun getFilterBuilder(): GoalFilter.Builder = GoalFilter.Builder.createFromFilter(filter, priorityProvider, statusProvider)
-
-    private fun getDefaultSortComparator(): Comparator<GoalModel> = defaultSortOption.getComparator()
 
     private fun setActiveSortOption(sortOption: GoalSortOption): GoalQuery {
         val updatedOptions =
@@ -46,18 +46,14 @@ data class GoalQuery(
         return this.copy(sortOptions = updatedOptions)
     }
 
-    @Throws(NoSuchElementException::class)
-    private fun getActiveSortOption(): GoalSortOption = sortOptions.first { it.sortState != SortState.NOT_USED }
+    private fun getActiveSortOption(): GoalSortOption? = sortOptions.firstOrNull { it.sortState != SortState.NOT_USED }
 
     private fun checkValidity() {
-        require(sortOptions.filter { it.sortState != SortState.NOT_USED }.size == 1) {
-            "There must be exactly one active sort option"
+        require(sortOptions.filter { it.sortState != SortState.NOT_USED }.size <= 1) {
+            "There must be no more than one active sortOption"
         }
         require(sortOptions.toSet().size == sortOptions.size) {
             "Sort options must be unique"
-        }
-        require(sortOptions.any { it.label == defaultSortOption.label }) {
-            "Default sort option must be in the list of sort options"
         }
         require(filter.priorityVisibleMap.keys == priorityProvider.priorities.toSet()) {
             "Priority visible map must contain all priorities"
@@ -72,7 +68,6 @@ data class GoalQuery(
         GoalQuery(
             filter=$filter,
             sortOptions=$sortOptions,
-            defaultSortConfig=$defaultSortOption
         )
         """.trimIndent()
 }

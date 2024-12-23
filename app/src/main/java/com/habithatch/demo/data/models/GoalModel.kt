@@ -2,12 +2,14 @@ package com.habithatch.demo.data.models
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import java.util.Date
 
 data class GoalModel(
     val id: Int? = null,
     val title: String,
     val status: Status,
     val priority: Priority,
+    val createdAt: Date,
 ) {
     fun updateStatus(newStatus: Status): GoalModel = copy(status = newStatus)
 

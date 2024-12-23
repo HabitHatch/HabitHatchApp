@@ -1,5 +1,6 @@
 package com.habithatch.demo.ui.navigation
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -36,7 +37,6 @@ fun TopAppInformationBar(
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(vertical = 4.dp),
             )
         },
         actions = {
@@ -45,12 +45,13 @@ fun TopAppInformationBar(
                     onClick = onPrimaryNavigationItemClick,
                     modifier =
                         Modifier
-                            .size(36.dp),
+                            .size(44.dp),
                 ) {
                     Icon(
                         painter = painterResource(primaryNavigationItem.iconResourceId),
                         contentDescription = primaryNavigationItem.screen.route,
                         tint = MaterialTheme.colorScheme.onTertiary,
+                        modifier = Modifier.fillMaxSize().padding(8.dp),
                     )
                 }
             }

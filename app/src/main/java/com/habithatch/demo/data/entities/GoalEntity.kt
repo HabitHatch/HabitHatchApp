@@ -2,6 +2,7 @@ package com.habithatch.demo.data.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.Date
 
 @Entity(tableName = "goal")
 data class GoalEntity(
@@ -9,4 +10,5 @@ data class GoalEntity(
     val title: String,
     val statusLabel: String,
     val priorityLabel: String,
+    val createdAt: Date = Date(),
 )

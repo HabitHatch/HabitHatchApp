@@ -9,8 +9,12 @@ import com.habithatch.demo.core.query.GoalFilter
 import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.core.query.GoalSortOption
 import com.habithatch.demo.core.query.SortState
+import com.habithatch.demo.core.util.createDate
 import com.habithatch.demo.data.entities.Pet
 import com.habithatch.demo.data.models.GoalModel
+import java.time.LocalDate
+import java.util.Calendar
+import java.util.Date
 
 object HabitHatchDevConfig : HabitHatchConfig {
     override val pets =
@@ -70,28 +74,24 @@ object HabitHatchDevConfig : HabitHatchConfig {
     override val priorities = listOf(normalPriority, highPriority)
 
     override val defaultPriority = normalPriority
-
     override val exampleGoals =
         listOf(
-            GoalModel(id = 1, "Drink water", inProgressStatus, normalPriority),
-            GoalModel(id = 2, "Read a book", inProgressStatus, highPriority),
-            GoalModel(id = 3, "Exercise", doneStatus, normalPriority),
-            GoalModel(id = 4, "Meditate", doneStatus, highPriority),
-        )
-
-    private val titleSortOption =
-        GoalSortOption(
-            "Title",
-            compareBy<GoalModel> { it.title },
-            sortState = SortState.ASCENDING,
+            GoalModel(id = 1, "Drink water", inProgressStatus, normalPriority, createDate(2024, 12, 4)),
+            GoalModel(id = 2, "Read a book", inProgressStatus, highPriority, createDate(2024, 12, 8)),
+            GoalModel(id = 3, "Exercise", doneStatus, normalPriority, createDate(2024, 12, 1)),
+            GoalModel(id = 4, "Meditate", doneStatus, highPriority, createDate(2024, 12, 2)),
         )
 
     private val sortOptions =
         listOf(
-            titleSortOption,
+            GoalSortOption(
+                "Created At",
+                compareBy<GoalModel> { it.createdAt },
+            ),
             GoalSortOption(
                 "Priority",
-                compareBy<GoalModel> { it.priority.importance },
+                compareBy<GoalModel>
+                    { it.priority.importance },
             ),
         )
 
@@ -111,7 +111,7 @@ object HabitHatchDevConfig : HabitHatchConfig {
             GoalQuery(
                 filter = goalFilter,
                 sortOptions = this.sortOptions,
-                defaultSortOption = titleSortOption,
+                defaultComparator = compareBy<GoalModel> { it.title },
                 priorityProvider = this,
                 statusProvider = this,
             )

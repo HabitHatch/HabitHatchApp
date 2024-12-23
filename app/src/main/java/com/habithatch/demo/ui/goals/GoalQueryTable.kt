@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.query.GoalQuery
+import com.habithatch.demo.core.util.createDate
 import com.habithatch.demo.data.models.GoalModel
 
 @Suppress("ktlint:standard:function-naming")
@@ -65,18 +66,21 @@ fun GoalQueryTablePreview() {
                     title = "Goal 1",
                     priority = normalPriority,
                     status = inProgressStatus,
+                    createdAt = createDate(2024, 12, 4),
                 ),
                 GoalModel(
                     id = 2,
                     title = "Goal 2",
                     priority = highPriority,
                     status = inProgressStatus,
+                    createdAt = createDate(2024, 12, 4),
                 ),
                 GoalModel(
                     id = 3,
                     title = "Goal 3",
                     priority = normalPriority,
                     status = doneStatus,
+                    createdAt = createDate(2024, 12, 4),
                 ),
             ),
         allPriorities =

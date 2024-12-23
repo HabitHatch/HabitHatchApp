@@ -33,6 +33,7 @@ import com.habithatch.demo.ui.goals.AddGoalDialog
 import com.habithatch.demo.ui.goals.GoalQueryTable
 import com.habithatch.demo.ui.navigation.TopAppInformationBar
 import com.habithatch.demo.ui.pets.PetAnimation
+import java.util.Date
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -113,12 +114,15 @@ fun HomeScreen(
     )
 
     if (state.showDialog) {
+
+        // TODO: pass in GoalModel.Builder instead of preselectedGoal
         AddGoalDialog(
             preselectedGoal =
                 GoalModel(
                     title = "",
                     priority = config.defaultPriority,
                     status = config.defaultStatus,
+                    createdAt = Date(), // TODO: leads to wrong date, as the date is set when the dialog is opened
                 ),
             onDismiss = {
                 state.onGoalDialogDismissed()

@@ -18,6 +18,7 @@ class GoalMapper
                 title = goal.title,
                 statusLabel = goal.status.label,
                 priorityLabel = goal.priority.label,
+                createdAt = goal.createdAt,
             )
 
         fun fromEntity(entity: GoalEntity): GoalModel {
@@ -28,6 +29,7 @@ class GoalMapper
                 title = entity.title,
                 status = status,
                 priority = priority,
+                createdAt = entity.createdAt,
             )
         }
     }
