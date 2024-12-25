@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.habithatch.demo.core.app.HabitHatchAppTheme
+import com.habithatch.demo.core.app.AppTheme
 import com.habithatch.demo.core.navigation.AppNavigation
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
         switchActivityToMeetTheCustomerRequirement()
 
         setContent {
-            HabitHatchAppTheme {
+            AppTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,

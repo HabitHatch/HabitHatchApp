@@ -3,7 +3,6 @@ package com.habithatch.demo.ui.goals
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +17,7 @@ import com.habithatch.demo.core.query.SortState
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun GoalSortBar(
+    modifier: Modifier = Modifier,
     sortOptions: List<GoalSortOption>,
     onSortOptionChange: (GoalSortOption) -> Unit,
 ) {
@@ -26,7 +26,7 @@ fun GoalSortBar(
     val notSortedIcon = R.drawable.vuesax_sort
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
@@ -42,8 +42,7 @@ fun GoalSortBar(
             ) {
                 Text(
                     text = sortOption.label,
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(end = 8.dp),
+                    modifier = Modifier.padding(end = 4.dp),
                 )
                 Icon(
                     painter =
@@ -53,6 +52,7 @@ fun GoalSortBar(
                             SortState.NOT_USED -> painterResource(notSortedIcon)
                         },
                     contentDescription = sortOption.sortState.name,
+                    modifier = Modifier.size(16.dp),
                 )
             }
         }

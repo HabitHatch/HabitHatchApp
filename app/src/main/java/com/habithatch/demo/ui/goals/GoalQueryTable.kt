@@ -1,9 +1,15 @@
 package com.habithatch.demo.ui.goals
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.core.util.createDate
@@ -12,7 +18,6 @@ import com.habithatch.demo.data.models.GoalModel
 @Suppress("ktlint:standard:function-naming", "LocalVariableName")
 @Composable
 fun GoalQueryTable(
-    allPriorities: List<GoalModel.Priority>,
     allStatuses: List<GoalModel.Status>,
     modifier: Modifier = Modifier,
     goalQuery: GoalQuery,
@@ -22,26 +27,33 @@ fun GoalQueryTable(
     Column(
         modifier = modifier,
     ) {
-        GoalFilterBar(
-            allStatuses = allStatuses,
-            goalFilterBuilder = goalQuery.getFilterBuilder(),
-            onGoalFilterChange = {
-                val newGoalQuery = goalQuery.updateFilterConfig(it)
-                onGoalQueryChange(newGoalQuery)
-            },
-        )
-        GoalSortBar(
-            sortOptions = goalQuery.sortOptions,
-            onSortOptionChange = {
-                val newGoalQuery = goalQuery.updateSortOption(it)
-                onGoalQueryChange(newGoalQuery)
-            },
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth().height(40.dp),
+        ) {
+            GoalFilterBar(
+                modifier = Modifier.fillMaxHeight().weight(6f),
+                allStatuses = allStatuses,
+                goalFilterBuilder = goalQuery.getFilterBuilder(),
+                onGoalFilterChange = {
+                    val newGoalQuery = goalQuery.updateFilterConfig(it)
+                    onGoalQueryChange(newGoalQuery)
+                },
+            )
+            Spacer(modifier = Modifier.weight(0.5f))
+            GoalSortBar(
+                modifier = Modifier.fillMaxHeight().weight(5.5f),
+                sortOptions = goalQuery.sortOptions,
+                onSortOptionChange = {
+                    val newGoalQuery = goalQuery.updateSortOption(it)
+                    onGoalQueryChange(newGoalQuery)
+                },
+            )
+        }
         GoalsView()
     }
 }
 
-@Preview(showBackground = true)
+@Preview()
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun GoalQueryTablePreview() {
@@ -52,11 +64,6 @@ fun GoalQueryTablePreview() {
     val inProgressStatus = config.statuses[0]
     val doneStatus = config.statuses[1]
     GoalQueryTable(
-        allPriorities =
-            listOf(
-                normalPriority,
-                highPriority,
-            ),
         allStatuses =
             listOf(
                 inProgressStatus,
@@ -96,17 +103,9 @@ fun GoalQueryTablePreview() {
 @Composable
 fun GoalQueryTableNoGoalsPreview() {
     val config = HabitHatchDevConfig
-    val normalPriority = config.priorities[0]
-    val highPriority = config.priorities[1]
-
     val inProgressStatus = config.statuses[0]
     val doneStatus = config.statuses[1]
     GoalQueryTable(
-        allPriorities =
-            listOf(
-                normalPriority,
-                highPriority,
-            ),
         allStatuses =
             listOf(
                 inProgressStatus,

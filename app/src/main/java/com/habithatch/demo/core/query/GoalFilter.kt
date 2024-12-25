@@ -4,7 +4,6 @@ import com.habithatch.demo.core.config.GoalPriorityProvider
 import com.habithatch.demo.core.config.GoalStatusProvider
 import com.habithatch.demo.core.exceptions.InvalidGoalFilterException
 import com.habithatch.demo.data.models.GoalModel
-import javax.inject.Inject
 
 /**
  * Filters goals based on priority and status.

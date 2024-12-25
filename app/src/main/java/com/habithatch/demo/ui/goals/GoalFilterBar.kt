@@ -1,17 +1,17 @@
 package com.habithatch.demo.ui.goals
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.*
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.habithatch.demo.core.app.ExtendedMaterialTheme
+import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.query.GoalFilter
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.ui.common.SearchField
@@ -19,55 +19,63 @@ import com.habithatch.demo.ui.common.SearchField
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun GoalFilterBar(
+    modifier: Modifier = Modifier,
     allStatuses: List<GoalModel.Status>,
     goalFilterBuilder: GoalFilter.Builder,
     onGoalFilterChange: (GoalFilter) -> Unit,
 ) {
     val goalFilter = goalFilterBuilder.build()
     val searchQuery = goalFilter.searchQuery.orEmpty()
-    val doneState = allStatuses.first { it.isDone }
-    val doneStateVisible = goalFilter.statusVisibleMap.entries.any { (status, visible) -> status.isDone && visible }
-    val buttonText = if (doneStateVisible) "Hide ${doneState.label}" else "Show ${doneState.label}"
+    val isDoneStatusVisible = goalFilter.statusVisibleMap.entries.any { (status, visible) -> status.isDone && visible }
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         SearchField(
-            modifier =
-                Modifier
-                    .height(40.dp)
-                    .weight(1f)
-                    .padding(horizontal = 8.dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.surface,
-                        shape = MaterialTheme.shapes.medium,
-                    ).border(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
-                        shape = MaterialTheme.shapes.medium,
-                    ),
+            modifier = Modifier.height(40.dp).weight(1f),
             searchQuery = searchQuery,
             onQueryChange = {
-                val newGoalFilter =
-                    goalFilterBuilder
-                        .setSearchQuery(it)
-                        .build()
+                val newGoalFilter = goalFilterBuilder.setSearchQuery(it).build()
                 onGoalFilterChange(newGoalFilter)
             },
         )
 
-        TextButton(
-            modifier = Modifier.fillMaxWidth(0.25f),
+        IconButton(
+            modifier = Modifier.width(48.dp),
             onClick = {
                 val newGoalFilter =
                     goalFilterBuilder
-                        .setStatusVisibility(status = allStatuses.first { it.isDone }, !doneStateVisible)
-                        .build()
+                        .setStatusVisibility(
+                            status = allStatuses.first { it.isDone },
+                            !isDoneStatusVisible,
+                        ).build()
                 onGoalFilterChange(newGoalFilter)
             },
         ) {
-            Text(buttonText)
+            Icon(
+                imageVector = Icons.Default.CheckCircle,
+                contentDescription = "Done",
+                tint =
+                    if (isDoneStatusVisible) {
+                        ExtendedMaterialTheme.extendedColors.success.color
+                    } else {
+                        MaterialTheme.colorScheme.outline
+                    },
+                modifier = Modifier.padding(horizontal = 4.dp),
+            )
         }
     }
+}
+
+@Preview
+@Suppress("ktlint:standard:function-naming")
+@Composable
+fun GoalFilterBarPreview() {
+    val allStatuses = HabitHatchDevConfig.statuses
+    GoalFilterBar(
+        allStatuses = allStatuses,
+        goalFilterBuilder = HabitHatchDevConfig.getDefaultGoalQuery().getFilterBuilder(),
+        onGoalFilterChange = {},
+    )
 }

@@ -1,7 +1,6 @@
 package com.habithatch.demo.features.home
 
 import android.util.Log
-
 import BottomNavigationBar
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -94,17 +94,17 @@ fun HomeScreen(
                     isPetHappy = state.allGoalsDone,
                     modifier =
                         Modifier
-                            .fillMaxWidth(0.4f)
+                            .fillMaxWidth(0.6f)
                             .padding(top = 8.dp),
                 )
+                val borderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                 GoalQueryTable(
                     goalQuery = state.goalQuery,
                     allStatuses = config.statuses,
-                    allPriorities = config.priorities,
                     modifier =
                         Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                            .padding(top = 16.dp, start = 8.dp, end = 8.dp),
                     onGoalQueryChange = state.onGoalQueryChange,
                     GoalsView = {
                         GoalsView(
@@ -128,12 +128,8 @@ fun HomeScreen(
                     priority = config.defaultPriority,
                     status = config.defaultStatus,
                 ),
-            onDismiss = {
-                state.onGoalDialogDismissed()
-            },
-            onAdd = { goal ->
-                state.onGoalAdded(goal)
-            },
+            onDismiss = state.onGoalDialogDismissed,
+            onAdd = state.onGoalAdded,
         )
     }
 }

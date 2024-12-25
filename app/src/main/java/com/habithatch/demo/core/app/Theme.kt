@@ -1,149 +1,197 @@
 package com.habithatch.demo.core.app
 
-import androidx.compose.material3.ColorScheme
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Typography
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalContext
 
-val CustomTypography =
-    Typography(
-        displayLarge =
-            TextStyle(
-                fontFamily = FontFamily.Default,
-                fontWeight = FontWeight.ExtraBold,
-                fontSize = 24.sp,
+@Immutable
+data class ColorFamily(
+    val color: Color,
+    val onColor: Color,
+    val container: Color,
+    val onContainer: Color,
+)
+
+@Immutable
+data class ExtendedColorScheme(
+    val highlight: ColorFamily,
+    val success: ColorFamily,
+    val warning: ColorFamily,
+)
+
+private val lightScheme =
+    lightColorScheme(
+        primary = primaryLight,
+        onPrimary = onPrimaryLight,
+        primaryContainer = primaryContainerLight,
+        onPrimaryContainer = onPrimaryContainerLight,
+        secondary = secondaryLight,
+        onSecondary = onSecondaryLight,
+        secondaryContainer = secondaryContainerLight,
+        onSecondaryContainer = onSecondaryContainerLight,
+        tertiary = tertiaryLight,
+        onTertiary = onTertiaryLight,
+        tertiaryContainer = tertiaryContainerLight,
+        onTertiaryContainer = onTertiaryContainerLight,
+        error = errorLight,
+        onError = onErrorLight,
+        errorContainer = errorContainerLight,
+        onErrorContainer = onErrorContainerLight,
+        background = backgroundLight,
+        onBackground = onBackgroundLight,
+        surface = surfaceLight,
+        onSurface = onSurfaceLight,
+        surfaceVariant = surfaceVariantLight,
+        onSurfaceVariant = onSurfaceVariantLight,
+        outline = outlineLight,
+        outlineVariant = outlineVariantLight,
+        scrim = scrimLight,
+        inverseSurface = inverseSurfaceLight,
+        inverseOnSurface = inverseOnSurfaceLight,
+        inversePrimary = inversePrimaryLight,
+        surfaceDim = surfaceDimLight,
+        surfaceBright = surfaceBrightLight,
+        surfaceContainerLowest = surfaceContainerLowestLight,
+        surfaceContainerLow = surfaceContainerLowLight,
+        surfaceContainer = surfaceContainerLight,
+        surfaceContainerHigh = surfaceContainerHighLight,
+        surfaceContainerHighest = surfaceContainerHighestLight,
+    )
+
+private val darkScheme =
+    darkColorScheme(
+        primary = primaryDark,
+        onPrimary = onPrimaryDark,
+        primaryContainer = primaryContainerDark,
+        onPrimaryContainer = onPrimaryContainerDark,
+        secondary = secondaryDark,
+        onSecondary = onSecondaryDark,
+        secondaryContainer = secondaryContainerDark,
+        onSecondaryContainer = onSecondaryContainerDark,
+        tertiary = tertiaryDark,
+        onTertiary = onTertiaryDark,
+        tertiaryContainer = tertiaryContainerDark,
+        onTertiaryContainer = onTertiaryContainerDark,
+        error = errorDark,
+        onError = onErrorDark,
+        errorContainer = errorContainerDark,
+        onErrorContainer = onErrorContainerDark,
+        background = backgroundDark,
+        onBackground = onBackgroundDark,
+        surface = surfaceDark,
+        onSurface = onSurfaceDark,
+        surfaceVariant = surfaceVariantDark,
+        onSurfaceVariant = onSurfaceVariantDark,
+        outline = outlineDark,
+        outlineVariant = outlineVariantDark,
+        scrim = scrimDark,
+        inverseSurface = inverseSurfaceDark,
+        inverseOnSurface = inverseOnSurfaceDark,
+        inversePrimary = inversePrimaryDark,
+        surfaceDim = surfaceDimDark,
+        surfaceBright = surfaceBrightDark,
+        surfaceContainerLowest = surfaceContainerLowestDark,
+        surfaceContainerLow = surfaceContainerLowDark,
+        surfaceContainer = surfaceContainerDark,
+        surfaceContainerHigh = surfaceContainerHighDark,
+        surfaceContainerHighest = surfaceContainerHighestDark,
+    )
+
+val extendedLight =
+    ExtendedColorScheme(
+        highlight =
+            ColorFamily(
+                highlightLight,
+                onHighlightLight,
+                highlightContainerLight,
+                onHighlightContainerLight,
             ),
-        displayMedium =
-            TextStyle(
-                fontFamily = FontFamily.Default,
-                fontWeight = FontWeight.ExtraBold,
-                fontSize = 18.sp,
+        success =
+            ColorFamily(
+                successLight,
+                onSuccessLight,
+                successContainerLight,
+                onSuccessContainerLight,
             ),
-        displaySmall =
-            TextStyle(
-                fontFamily = FontFamily.Default,
-                fontWeight = FontWeight.ExtraBold,
-                fontSize = 16.sp,
-            ),
-        headlineLarge =
-            TextStyle(
-                fontFamily = FontFamily.Default,
-                fontWeight = FontWeight.Bold,
-                fontSize = 14.sp,
-            ),
-        headlineMedium =
-            TextStyle(
-                fontFamily = FontFamily.Default,
-                fontWeight = FontWeight.Bold,
-                fontSize = 12.sp,
-            ),
-        bodyLarge =
-            TextStyle(
-                fontFamily = FontFamily.Default,
-                fontWeight = FontWeight.Normal,
-                fontSize = 18.sp,
-            ),
-        bodyMedium =
-            TextStyle(
-                fontFamily = FontFamily.Default,
-                fontWeight = FontWeight.Normal,
-                fontSize = 16.sp,
-            ),
-        bodySmall =
-            TextStyle(
-                fontFamily = FontFamily.Default,
-                fontWeight = FontWeight.Normal,
-                fontSize = 14.sp,
-            ),
-        labelLarge =
-            TextStyle(
-                fontFamily = FontFamily.Default,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 14.sp,
-            ),
-        labelMedium =
-            TextStyle(
-                fontFamily = FontFamily.Default,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 12.sp,
-            ),
-        labelSmall =
-            TextStyle(
-                fontFamily = FontFamily.Default,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 10.sp,
-            ),
-        titleLarge =
-            TextStyle(
-                fontFamily = FontFamily.Default,
-                fontWeight = FontWeight.Normal,
-                fontSize = 16.sp,
-            ),
-        titleMedium =
-            TextStyle(
-                fontFamily = FontFamily.Default,
-                fontWeight = FontWeight.Normal,
-                fontSize = 14.sp,
-            ),
-        titleSmall =
-            TextStyle(
-                fontFamily = FontFamily.Default,
-                fontWeight = FontWeight.Medium,
-                fontSize = 10.sp,
+        warning =
+            ColorFamily(
+                warningLight,
+                onWarningLight,
+                warningContainerLight,
+                onWarningContainerLight,
             ),
     )
 
-val CustomColorScheme =
-    ColorScheme(
-        primary = Color(0xFF6200EA),
-        onPrimary = Color.White,
-        primaryContainer = Color(0xFFBB86FC),
-        onPrimaryContainer = Color.White,
-        inversePrimary = Color(0xFF3700B3),
-        secondary = Color(0xFF03DAC6),
-        onSecondary = Color.Black,
-        secondaryContainer = Color(0xFF018786),
-        onSecondaryContainer = Color.White,
-        tertiary = Color(0xFF03A9F4),
-        onTertiary = Color.White,
-        tertiaryContainer = Color(0xFFB3E5FC),
-        onTertiaryContainer = Color.Black,
-        background = Color.White,
-        onBackground = Color.Black,
-        surface = Color.White,
-        onSurface = Color.Black,
-        surfaceVariant = Color(0xFFE0E0E0),
-        onSurfaceVariant = Color.Black,
-        surfaceTint = Color(0xFF6200EA),
-        inverseSurface = Color.Black,
-        inverseOnSurface = Color.White,
-        error = Color(0xFFB00020),
-        onError = Color.White,
-        errorContainer = Color(0xFFFFDAD4),
-        onErrorContainer = Color.Black,
-        outline = Color(0xFFBDBDBD),
-        outlineVariant = Color(0xFF757575),
-        scrim = Color(0x66000000),
-        surfaceBright = Color.White,
-        surfaceDim = Color(0xFFE0E0E0),
-        surfaceContainer = Color.White,
-        surfaceContainerHigh = Color(0xFFEEEEEE),
-        surfaceContainerHighest = Color(0xFFE0E0E0),
-        surfaceContainerLow = Color.White,
-        surfaceContainerLowest = Color.White,
+val extendedDark =
+    ExtendedColorScheme(
+        highlight =
+            ColorFamily(
+                highlightDark,
+                onHighlightDark,
+                highlightContainerDark,
+                onHighlightContainerDark,
+            ),
+        success =
+            ColorFamily(
+                successDark,
+                onSuccessDark,
+                successContainerDark,
+                onSuccessContainerDark,
+            ),
+        warning =
+            ColorFamily(
+                warningDark,
+                onWarningDark,
+                warningContainerDark,
+                onWarningContainerDark,
+            ),
     )
+
+// Composition Local for Extended Colors
+val LocalExtendedColors = staticCompositionLocalOf { extendedLight }
+
+object ExtendedMaterialTheme {
+    val extendedColors: ExtendedColorScheme
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalExtendedColors.current
+}
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun HabitHatchAppTheme(content: @Composable () -> Unit) {
-    MaterialTheme(
-        colorScheme = CustomColorScheme,
-        typography = CustomTypography,
-        content = content,
-    )
+fun AppTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    dynamicColor: Boolean = false,
+    content: @Composable () -> Unit,
+) {
+    val colorScheme =
+        when {
+            dynamicColor -> {
+                val context = LocalContext.current
+                if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            }
+
+            darkTheme -> darkColorScheme()
+            else -> lightColorScheme()
+        }
+
+    val extendedColors = if (darkTheme) extendedDark else extendedLight
+
+    CompositionLocalProvider(LocalExtendedColors provides extendedColors) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography(),
+            content = content,
+        )
+    }
 }

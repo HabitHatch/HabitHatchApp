@@ -56,7 +56,7 @@ object HabitHatchDevConfig : HabitHatchConfig {
             label = "Normal",
             importance = 10,
             iconResourceId = R.drawable.vuesax_bookmark,
-            getColor = @Composable { MaterialTheme.colorScheme.secondary },
+            getColor = @Composable { MaterialTheme.colorScheme.tertiary },
         )
 
     private val highPriority =
@@ -64,7 +64,7 @@ object HabitHatchDevConfig : HabitHatchConfig {
             label = "High",
             importance = 20,
             iconResourceId = R.drawable.vuesax_crown,
-            getColor = @Composable { MaterialTheme.colorScheme.primary },
+            getColor = @Composable { MaterialTheme.colorScheme.error },
         )
 
     override val priorities = listOf(normalPriority, highPriority)
@@ -113,7 +113,7 @@ object HabitHatchDevConfig : HabitHatchConfig {
     private val sortOptions =
         listOf(
             GoalSortOption(
-                "Created At",
+                "Date",
                 compareBy<GoalModel> { it.createdAt },
             ),
             GoalSortOption(

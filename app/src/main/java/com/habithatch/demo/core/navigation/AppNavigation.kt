@@ -21,6 +21,8 @@ fun AppNavigation() {
     val signupViewModel: SignupViewModel = hiltViewModel()
     val signUpState by signupViewModel.signUpState.collectAsStateWithLifecycle()
 
+    val currentRoute = navController.currentBackStackEntry?.destination?.route
+    val screen = Screen.fromRoute(currentRoute)
     LaunchedEffect(signUpState) {
         when (signUpState) {
             SignUpState.NOT_SIGNED_UP -> {
@@ -31,7 +33,7 @@ fun AppNavigation() {
             SignUpState.SIGNED_UP -> {
                 navController.navigate(Screen.HOME.route)
             }
-            else -> Unit // No navigation for LOADING
+            else -> Unit // No navigation for LOADING, should load less than 100ms
         }
     }
 
