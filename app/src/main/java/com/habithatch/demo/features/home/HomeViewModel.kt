@@ -17,7 +17,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 
@@ -68,20 +67,19 @@ class HomeViewModel
             _goalQuery.value = newGoalQuery
         }
 
+        @Throws(IllegalStateException::class)
         fun seedGoals() {
             viewModelScope.launch {
-                if (goalRepository.getAll().first().isEmpty()) {
-                    goalRepository.insertAll(config.exampleGoals)
-                } else {
-                    Log.w("HomeViewModel", "Goals already seeded")
+                check(hasAnyGoals.value.not()) {
+                    "Cannot seed goals when there are already goals in the database"
                 }
+                goalRepository.insertAll(config.exampleGoals)
             }
         }
 
         private fun observeUser() {
             viewModelScope.launch {
                 userRepository.getUser().collect { user ->
-                    Log.d("HomeViewModel", "User emitted: $user")
                     _user.value = user
                 }
             }
@@ -97,7 +95,6 @@ class HomeViewModel
 
         @OptIn(ExperimentalCoroutinesApi::class)
         private fun observeQueriedGoals() {
-            Log.d("HomeViewModel", "observeFilteredGoals called")
             viewModelScope.launch {
                 _goalQuery
                     .flatMapLatest { goalQuery ->

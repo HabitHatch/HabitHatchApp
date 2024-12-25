@@ -31,6 +31,7 @@ import com.habithatch.demo.data.entities.User
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.ui.goals.AddGoalDialog
 import com.habithatch.demo.ui.goals.GoalQueryTable
+import com.habithatch.demo.ui.goals.GoalsView
 import com.habithatch.demo.ui.navigation.TopAppInformationBar
 import com.habithatch.demo.ui.pets.PetAnimation
 
@@ -97,7 +98,6 @@ fun HomeScreen(
                             .padding(top = 8.dp),
                 )
                 GoalQueryTable(
-                    goals = state.goals,
                     goalQuery = state.goalQuery,
                     allStatuses = config.statuses,
                     allPriorities = config.priorities,
@@ -105,11 +105,14 @@ fun HomeScreen(
                         Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp, vertical = 8.dp),
-                    showCreateExampleGoalsButton = !state.hasAnyGoals,
-                    onToggleGoalStatus = { state.onGoalStatusToggled(it) },
-                    onGoalQueryChange = { state.onGoalQueryChange(it) },
-                    onCreateExampleGoalsClicked = {
-                        state.onCreateExampleGoalsClicked()
+                    onGoalQueryChange = state.onGoalQueryChange,
+                    GoalsView = {
+                        GoalsView(
+                            goals = state.goals,
+                            onToggleGoalStatus = state.onToggleGoalStatus,
+                            showCreateExampleGoalsButton = !state.hasAnyGoals,
+                            onCreateExampleGoalsClicked = state.onCreateExampleGoalsClicked,
+                        )
                     },
                 )
             }
@@ -148,7 +151,7 @@ class HomeScreenState(
     val onGoalDialogDismissed: () -> Unit,
     val onGoalAdded: (GoalModel) -> Unit,
     val onGoalQueryChange: (GoalQuery) -> Unit,
-    val onGoalStatusToggled: (GoalModel) -> Unit,
+    val onToggleGoalStatus: (GoalModel) -> Unit,
 )
 
 @Suppress("ktlint:standard:function-naming")
@@ -173,7 +176,7 @@ fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScr
                 viewModel.addGoal(it)
                 showDialog = false
             },
-            onGoalStatusToggled = { viewModel.toggleGoalStatus(it) },
+            onToggleGoalStatus = { viewModel.toggleGoalStatus(it) },
             onGoalQueryChange = { viewModel.updateGoalQuery(it) },
             onGoalDialogDismissed = { showDialog = false },
             onCreateExampleGoalsClicked = { viewModel.seedGoals() },

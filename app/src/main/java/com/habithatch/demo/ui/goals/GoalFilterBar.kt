@@ -9,10 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -23,14 +19,15 @@ import com.habithatch.demo.ui.common.SearchField
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun GoalFilterBar(
-    allPriorities: List<GoalModel.Priority>,
     allStatuses: List<GoalModel.Status>,
     goalFilterBuilder: GoalFilter.Builder,
     onGoalFilterChange: (GoalFilter) -> Unit,
 ) {
     val goalFilter = goalFilterBuilder.build()
     val searchQuery = goalFilter.searchQuery.orEmpty()
-
+    val doneState = allStatuses.first { it.isDone }
+    val doneStateVisible = goalFilter.statusVisibleMap.entries.any { (status, visible) -> status.isDone && visible }
+    val buttonText = if (doneStateVisible) "Hide ${doneState.label}" else "Show ${doneState.label}"
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -59,111 +56,18 @@ fun GoalFilterBar(
                 onGoalFilterChange(newGoalFilter)
             },
         )
-        StatusDropdown(
-            allStatuses = allStatuses,
-            visibleGoalStatuses = goalFilter.statusVisibleMap,
-            onDoneStateVisibleChange = { goalStatus, isVisible ->
+
+        TextButton(
+            modifier = Modifier.fillMaxWidth(0.25f),
+            onClick = {
                 val newGoalFilter =
                     goalFilterBuilder
-                        .setStatusVisibility(goalStatus, isVisible)
+                        .setStatusVisibility(status = allStatuses.first { it.isDone }, !doneStateVisible)
                         .build()
                 onGoalFilterChange(newGoalFilter)
             },
-        )
-        PriorityDropdown(
-            allPriorities = allPriorities,
-            visiblePriorities = goalFilter.priorityVisibleMap,
-            onPriorityVisibilityChange = { goalPriority, isVisible ->
-                val newGoalFilter =
-                    goalFilterBuilder
-                        .setPriorityVisibility(goalPriority, isVisible)
-                        .build()
-                onGoalFilterChange(newGoalFilter)
-            },
-        )
-    }
-}
-
-@Suppress("ktlint:standard:function-naming")
-@Composable
-fun StatusDropdown(
-    modifier: Modifier = Modifier,
-    allStatuses: List<GoalModel.Status>,
-    visibleGoalStatuses: Map<GoalModel.Status, Boolean>,
-    onDoneStateVisibleChange: (GoalModel.Status, Boolean) -> Unit,
-) {
-    var expanded by remember { mutableStateOf(false) }
-    Box(
-        modifier = modifier,
-    ) {
-        TextButton(onClick = { expanded = true }) {
-            Text("Status")
-        }
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
         ) {
-            allStatuses.forEach { priority ->
-                DropdownMenuItem(
-                    text = {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Checkbox(
-                                checked = visibleGoalStatuses[priority] == true,
-                                onCheckedChange = {
-                                    onDoneStateVisibleChange(priority, it)
-                                    expanded = false
-                                },
-                            )
-                            Text(priority.label)
-                        }
-                    },
-                    onClick = {},
-                )
-            }
-        }
-    }
-}
-
-@Suppress("ktlint:standard:function-naming")
-@Composable
-fun PriorityDropdown(
-    modifier: Modifier = Modifier,
-    allPriorities: List<GoalModel.Priority>,
-    visiblePriorities: Map<GoalModel.Priority, Boolean>,
-    onPriorityVisibilityChange: (GoalModel.Priority, Boolean) -> Unit,
-) {
-    var expanded by remember { mutableStateOf(false) }
-    Box(
-        modifier = modifier,
-    ) {
-        TextButton(onClick = { expanded = true }) {
-            Text("Priority")
-        }
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-        ) {
-            allPriorities.forEach { priority ->
-                DropdownMenuItem(
-                    text = {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Checkbox(
-                                checked = visiblePriorities[priority] == true,
-                                onCheckedChange = {
-                                    onPriorityVisibilityChange(priority, it)
-                                    expanded = false
-                                },
-                            )
-                            Text(priority.label)
-                        }
-                    },
-                    onClick = {},
-                )
-            }
+            Text(buttonText)
         }
     }
 }

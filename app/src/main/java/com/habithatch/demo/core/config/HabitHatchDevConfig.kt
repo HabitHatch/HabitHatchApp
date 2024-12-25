@@ -85,6 +85,18 @@ object HabitHatchDevConfig : HabitHatchConfig {
                 createdAt = createDate(2024, 12, 8),
             ),
             GoalModel(
+                title = "Learn Math",
+                status = inProgressStatus,
+                priority = normalPriority,
+                createdAt = createDate(2024, 12, 9),
+            ),
+            GoalModel(
+                title = "Learn Spanish",
+                status = inProgressStatus,
+                priority = highPriority,
+                createdAt = createDate(2024, 12, 11),
+            ),
+            GoalModel(
                 title = "Exercise",
                 status = doneStatus,
                 priority = normalPriority,
