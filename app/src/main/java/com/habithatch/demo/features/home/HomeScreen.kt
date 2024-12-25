@@ -33,7 +33,6 @@ import com.habithatch.demo.ui.goals.AddGoalDialog
 import com.habithatch.demo.ui.goals.GoalQueryTable
 import com.habithatch.demo.ui.navigation.TopAppInformationBar
 import com.habithatch.demo.ui.pets.PetAnimation
-import java.util.Date
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -106,23 +105,25 @@ fun HomeScreen(
                         Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp, vertical = 8.dp),
+                    showCreateExampleGoalsButton = !state.hasAnyGoals,
                     onToggleGoalStatus = { state.onGoalStatusToggled(it) },
                     onGoalQueryChange = { state.onGoalQueryChange(it) },
+                    onCreateExampleGoalsClicked = {
+                        state.onCreateExampleGoalsClicked()
+                    },
                 )
             }
         },
     )
 
     if (state.showDialog) {
-
-        // TODO: pass in GoalModel.Builder instead of preselectedGoal
         AddGoalDialog(
+            allPriorities = config.priorities,
             preselectedGoal =
                 GoalModel(
                     title = "",
                     priority = config.defaultPriority,
                     status = config.defaultStatus,
-                    createdAt = Date(), // TODO: leads to wrong date, as the date is set when the dialog is opened
                 ),
             onDismiss = {
                 state.onGoalDialogDismissed()
@@ -141,6 +142,8 @@ class HomeScreenState(
     val allGoalsDone: Boolean,
     val goalQuery: GoalQuery,
     val showDialog: Boolean,
+    val hasAnyGoals: Boolean,
+    val onCreateExampleGoalsClicked: () -> Unit = {},
     val onAddGoalClicked: () -> Unit,
     val onGoalDialogDismissed: () -> Unit,
     val onGoalAdded: (GoalModel) -> Unit,
@@ -152,24 +155,28 @@ class HomeScreenState(
 @Composable
 fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScreenState {
     val user by viewModel.user.collectAsStateWithLifecycle()
-    val goals by viewModel.filteredGoals.collectAsStateWithLifecycle()
+    val goals by viewModel.queriedGoals.collectAsStateWithLifecycle()
     val allGoalsDone by viewModel.allGoalsDone.collectAsStateWithLifecycle()
     val goalQuery by viewModel.goalQuery.collectAsStateWithLifecycle()
+    val hasAnyGoals by viewModel.hasAnyGoals.collectAsStateWithLifecycle()
     var showDialog by remember { mutableStateOf(false) }
-
-    return HomeScreenState(
-        user = user,
-        goals = goals,
-        allGoalsDone = allGoalsDone,
-        goalQuery = goalQuery,
-        showDialog = showDialog,
-        onAddGoalClicked = { showDialog = true },
-        onGoalAdded = {
-            viewModel.addGoal(it)
-            showDialog = false
-        },
-        onGoalStatusToggled = { viewModel.toggleGoalStatus(it) },
-        onGoalQueryChange = { viewModel.updateGoalQuery(it) },
-        onGoalDialogDismissed = { showDialog = false },
-    )
+    return remember(user, goals, allGoalsDone, goalQuery, showDialog, hasAnyGoals) {
+        HomeScreenState(
+            user = user,
+            goals = goals,
+            allGoalsDone = allGoalsDone,
+            goalQuery = goalQuery,
+            showDialog = showDialog,
+            hasAnyGoals = hasAnyGoals,
+            onAddGoalClicked = { showDialog = true },
+            onGoalAdded = {
+                viewModel.addGoal(it)
+                showDialog = false
+            },
+            onGoalStatusToggled = { viewModel.toggleGoalStatus(it) },
+            onGoalQueryChange = { viewModel.updateGoalQuery(it) },
+            onGoalDialogDismissed = { showDialog = false },
+            onCreateExampleGoalsClicked = { viewModel.seedGoals() },
+        )
+    }
 }

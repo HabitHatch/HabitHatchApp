@@ -5,14 +5,12 @@ import androidx.compose.ui.graphics.Color
 import java.util.Date
 
 data class GoalModel(
-    val id: Int? = null,
+    val id: Int = 0,
     val title: String,
     val status: Status,
     val priority: Priority,
-    val createdAt: Date,
+    val createdAt: Date? = null,
 ) {
-    fun updateStatus(newStatus: Status): GoalModel = copy(status = newStatus)
-
     data class Priority(
         val label: String,
         val importance: Int,

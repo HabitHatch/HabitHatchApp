@@ -13,12 +13,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.habithatch.demo.core.util.getNextHigherOrLowest
 import com.habithatch.demo.data.models.GoalModel
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun AddGoalDialog(
     preselectedGoal: GoalModel,
+    allPriorities: List<GoalModel.Priority>,
     dialogTitle: String = "Add Goal",
     blankGoalSubmissionErrorMessage: String = "Goal name cannot be empty",
     onDismiss: () -> Unit,
@@ -70,7 +72,14 @@ fun AddGoalDialog(
                         isError = addedBlankGoal,
                     )
                     IconButton(
-                        onClick = {},
+                        onClick = {
+                            val newPriority: GoalModel.Priority =
+                                allPriorities.getNextHigherOrLowest(
+                                    { it.importance },
+                                    goal.priority,
+                                )
+                            goal = goal.copy(priority = newPriority)
+                        },
                         modifier = Modifier.size(36.dp),
                     ) {
                         Icon(

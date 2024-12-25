@@ -8,13 +8,9 @@ import com.habithatch.demo.core.navigation.Screen
 import com.habithatch.demo.core.query.GoalFilter
 import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.core.query.GoalSortOption
-import com.habithatch.demo.core.query.SortState
 import com.habithatch.demo.core.util.createDate
 import com.habithatch.demo.data.entities.Pet
 import com.habithatch.demo.data.models.GoalModel
-import java.time.LocalDate
-import java.util.Calendar
-import java.util.Date
 
 object HabitHatchDevConfig : HabitHatchConfig {
     override val pets =
@@ -76,10 +72,30 @@ object HabitHatchDevConfig : HabitHatchConfig {
     override val defaultPriority = normalPriority
     override val exampleGoals =
         listOf(
-            GoalModel(id = 1, "Drink water", inProgressStatus, normalPriority, createDate(2024, 12, 4)),
-            GoalModel(id = 2, "Read a book", inProgressStatus, highPriority, createDate(2024, 12, 8)),
-            GoalModel(id = 3, "Exercise", doneStatus, normalPriority, createDate(2024, 12, 1)),
-            GoalModel(id = 4, "Meditate", doneStatus, highPriority, createDate(2024, 12, 2)),
+            GoalModel(
+                title = "Drink water",
+                status = inProgressStatus,
+                priority = normalPriority,
+                createdAt = createDate(2024, 12, 4),
+            ),
+            GoalModel(
+                title = "Read a book",
+                status = inProgressStatus,
+                priority = highPriority,
+                createdAt = createDate(2024, 12, 8),
+            ),
+            GoalModel(
+                title = "Exercise",
+                status = doneStatus,
+                priority = normalPriority,
+                createdAt = createDate(2024, 12, 1),
+            ),
+            GoalModel(
+                title = "Meditate",
+                status = doneStatus,
+                priority = highPriority,
+                createdAt = createDate(2024, 12, 2),
+            ),
         )
 
     private val sortOptions =

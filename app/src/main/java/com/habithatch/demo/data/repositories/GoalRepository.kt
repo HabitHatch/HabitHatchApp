@@ -43,7 +43,7 @@ class GoalRepository
                     bySelector = { it.stepNumber },
                     element = goalModel.status,
                 )
-            val newGoalModel = goalModel.updateStatus(nextStatusInCycle)
+            val newGoalModel = goalModel.copy(status = nextStatusInCycle)
             this.update(newGoalModel)
         }
 
@@ -59,7 +59,13 @@ class GoalRepository
         }
 
         private suspend fun update(goal: GoalModel) {
-            goalDao.update(goalMapper.toEntity(goal))
+            val goalEntity = goalMapper.toEntity(goal)
+            goalDao.update(
+                id = goalEntity.id,
+                title = goalEntity.title,
+                statusLabel = goalEntity.statusLabel,
+                priorityLabel = goalEntity.priorityLabel,
+            )
         }
 
         @Throws(GoalNotFoundException::class)

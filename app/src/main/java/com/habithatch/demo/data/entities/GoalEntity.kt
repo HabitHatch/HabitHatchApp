@@ -10,5 +10,5 @@ data class GoalEntity(
     val title: String,
     val statusLabel: String,
     val priorityLabel: String,
-    val createdAt: Date = Date(),
+    val createdAt: Date,
 )

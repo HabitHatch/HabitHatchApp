@@ -2,9 +2,7 @@ package com.habithatch.demo.data.daos
 
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
 import com.habithatch.demo.data.entities.GoalEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -19,11 +17,24 @@ interface GoalDao {
     @Insert
     suspend fun insert(goal: GoalEntity)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert()
     suspend fun insertAll(goals: Collection<GoalEntity>)
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun update(goal: GoalEntity)
+    @Query(
+        """
+        UPDATE goal
+        SET title = :title,
+            statusLabel = :statusLabel,
+            priorityLabel = :priorityLabel
+        WHERE id = :id
+    """,
+    )
+    suspend fun update(
+        id: Int,
+        title: String,
+        statusLabel: String,
+        priorityLabel: String,
+    )
 
     @Query("DELETE FROM goal")
     suspend fun deleteAll()

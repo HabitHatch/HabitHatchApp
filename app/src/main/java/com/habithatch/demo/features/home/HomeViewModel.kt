@@ -17,6 +17,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 
@@ -32,7 +33,7 @@ class HomeViewModel
         val user: StateFlow<User?> = _user.asStateFlow()
 
         private val _queriedGoals = MutableStateFlow<List<GoalModel>>(emptyList())
-        val filteredGoals = _queriedGoals.asStateFlow()
+        val queriedGoals = _queriedGoals.asStateFlow()
 
         private val _goalQuery = MutableStateFlow(config.getDefaultGoalQuery())
         val goalQuery = _goalQuery.asStateFlow()
@@ -40,8 +41,11 @@ class HomeViewModel
         private val _allGoalsDone = MutableStateFlow(false)
         val allGoalsDone = _allGoalsDone.asStateFlow()
 
+        private val _hasAnyGoals = MutableStateFlow(false)
+        val hasAnyGoals = _hasAnyGoals.asStateFlow()
+
         init {
-            seedGoals()
+            observeHasAnyGoals()
             observeUser()
             observeQueriedGoals()
             observeAllGoalsDone()
@@ -55,9 +59,6 @@ class HomeViewModel
 
         @Throws(GoalNotFoundException::class, IllegalArgumentException::class)
         fun toggleGoalStatus(goal: GoalModel) {
-            if (goal.id == null) {
-                throw IllegalArgumentException("Goal must have an id to toggle status")
-            }
             viewModelScope.launch {
                 goalRepository.changeGoalStatusToNextInCycle(goal.id)
             }
@@ -65,6 +66,16 @@ class HomeViewModel
 
         fun updateGoalQuery(newGoalQuery: GoalQuery) {
             _goalQuery.value = newGoalQuery
+        }
+
+        fun seedGoals() {
+            viewModelScope.launch {
+                if (goalRepository.getAll().first().isEmpty()) {
+                    goalRepository.insertAll(config.exampleGoals)
+                } else {
+                    Log.w("HomeViewModel", "Goals already seeded")
+                }
+            }
         }
 
         private fun observeUser() {
@@ -97,9 +108,12 @@ class HomeViewModel
             }
         }
 
-        private fun seedGoals() {
+        private fun observeHasAnyGoals() =
             viewModelScope.launch {
-                goalRepository.insertAll(config.exampleGoals)
+                goalRepository
+                    .getAll()
+                    .collect { goals ->
+                        _hasAnyGoals.value = goals.isEmpty().not()
+                    }
             }
-        }
     }

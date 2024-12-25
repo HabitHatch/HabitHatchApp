@@ -11,7 +11,7 @@ import com.habithatch.demo.data.daos.UserDao
 import com.habithatch.demo.data.entities.GoalEntity
 import com.habithatch.demo.data.entities.User
 
-@Database(entities = [User::class, GoalEntity::class], version = 11)
+@Database(entities = [User::class, GoalEntity::class], version = 13)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao

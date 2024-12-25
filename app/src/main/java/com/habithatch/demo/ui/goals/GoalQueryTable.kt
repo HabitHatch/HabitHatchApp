@@ -2,9 +2,13 @@ package com.habithatch.demo.ui.goals
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.core.util.createDate
@@ -16,10 +20,12 @@ fun GoalQueryTable(
     goals: List<GoalModel>,
     allPriorities: List<GoalModel.Priority>,
     allStatuses: List<GoalModel.Status>,
+    showCreateExampleGoalsButton: Boolean = false,
     modifier: Modifier = Modifier,
     goalQuery: GoalQuery,
     onToggleGoalStatus: (GoalModel) -> Unit = {},
     onGoalQueryChange: (GoalQuery) -> Unit = {},
+    onCreateExampleGoalsClicked: () -> Unit = {},
 ) {
     Column(
         modifier = modifier,
@@ -40,6 +46,17 @@ fun GoalQueryTable(
                 onGoalQueryChange(newGoalQuery)
             },
         )
+        if(showCreateExampleGoalsButton) {
+            Column(
+                modifier = Modifier.fillMaxSize().padding(16.dp),
+            ) {
+                Button(
+                    onClick = onCreateExampleGoalsClicked,
+                ) {
+                    Text("Create Example Goals")
+                }
+            }
+        }
         GoalList(
             goals = goals,
             modifier = Modifier.fillMaxSize(),
@@ -62,21 +79,18 @@ fun GoalQueryTablePreview() {
         goals =
             listOf(
                 GoalModel(
-                    id = 1,
                     title = "Goal 1",
                     priority = normalPriority,
                     status = inProgressStatus,
                     createdAt = createDate(2024, 12, 4),
                 ),
                 GoalModel(
-                    id = 2,
                     title = "Goal 2",
                     priority = highPriority,
                     status = inProgressStatus,
                     createdAt = createDate(2024, 12, 4),
                 ),
                 GoalModel(
-                    id = 3,
                     title = "Goal 3",
                     priority = normalPriority,
                     status = doneStatus,
