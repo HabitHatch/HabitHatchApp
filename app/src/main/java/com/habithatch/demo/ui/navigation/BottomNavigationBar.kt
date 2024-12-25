@@ -9,19 +9,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.core.config.HabitHatchDevConfig
-import com.habithatch.demo.core.navigation.NavigationItem
 import com.habithatch.demo.core.navigation.Screen
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun BottomNavigationBar(
-    navigationItems: List<NavigationItem>,
-    activeNavigationItem: NavigationItem?,
-    onNavigationItemClicked: (NavigationItem) -> Unit,
+    navigationItems: List<Screen>,
+    activeNavigationItem: Screen?,
+    onNavigationItemClicked: (Screen) -> Unit,
 ) {
     @Suppress("ktlint:standard:function-naming")
     @Composable
-    fun colorForItem(item: NavigationItem): Color =
+    fun colorForItem(item: Screen): Color =
         if (item == activeNavigationItem) {
             MaterialTheme.colorScheme.primary
         } else if (item.enabled) {
@@ -64,7 +63,7 @@ fun BottomNavigationBarPreview() {
     val navigationItems = HabitHatchDevConfig.navigationItems
 
     val homeItem =
-        NavigationItem.findNavigationItemByRoute(
+        Screen.findNavigationItemByRoute(
             route = Screen.HOME.route,
             navigationItems = navigationItems,
         )

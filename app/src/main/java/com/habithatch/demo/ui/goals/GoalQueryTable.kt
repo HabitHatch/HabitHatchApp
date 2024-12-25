@@ -21,7 +21,7 @@ fun GoalQueryTable(
     allStatuses: List<GoalModel.Status>,
     modifier: Modifier = Modifier,
     goalQuery: GoalQuery,
-    GoalsView: @Composable () -> Unit,
+    goalsContent: @Composable () -> Unit,
     onGoalQueryChange: (GoalQuery) -> Unit = {},
 ) {
     Column(
@@ -34,22 +34,16 @@ fun GoalQueryTable(
                 modifier = Modifier.fillMaxHeight().weight(6f),
                 allStatuses = allStatuses,
                 goalFilterBuilder = goalQuery.getFilterBuilder(),
-                onGoalFilterChange = {
-                    val newGoalQuery = goalQuery.updateFilterConfig(it)
-                    onGoalQueryChange(newGoalQuery)
-                },
+                onGoalFilterChange = { onGoalQueryChange(goalQuery.copy(filter = it)) },
             )
             Spacer(modifier = Modifier.weight(0.5f))
             GoalSortBar(
                 modifier = Modifier.fillMaxHeight().weight(5.5f),
                 sortOptions = goalQuery.sortOptions,
-                onSortOptionChange = {
-                    val newGoalQuery = goalQuery.updateSortOption(it)
-                    onGoalQueryChange(newGoalQuery)
-                },
+                onSortOptionChange = { onGoalQueryChange(goalQuery.copy(it)) },
             )
         }
-        GoalsView()
+        goalsContent()
     }
 }
 
@@ -69,7 +63,7 @@ fun GoalQueryTablePreview() {
                 inProgressStatus,
                 doneStatus,
             ),
-        GoalsView = {
+        goalsContent = {
             GoalsView(
                 goals =
                     listOf(
@@ -112,7 +106,7 @@ fun GoalQueryTableNoGoalsPreview() {
                 doneStatus,
             ),
         goalQuery = config.getDefaultGoalQuery(),
-        GoalsView = {
+        goalsContent = {
             GoalsView(
                 goals = emptyList(),
                 showCreateExampleGoalsButton = true,

@@ -11,6 +11,16 @@ data class GoalModel(
     val priority: Priority,
     val createdAt: Date? = null,
 ) {
+    constructor(
+        status: Status,
+        priority: Priority,
+    ) : this(
+        id = 0,
+        title = "",
+        status = status,
+        priority = priority,
+    )
+
     data class Priority(
         val label: String,
         val importance: Int,

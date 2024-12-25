@@ -3,7 +3,6 @@ package com.habithatch.demo.core.config
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import com.habithatch.demo.R
-import com.habithatch.demo.core.navigation.NavigationItem
 import com.habithatch.demo.core.navigation.Screen
 import com.habithatch.demo.core.query.GoalFilter
 import com.habithatch.demo.core.query.GoalQuery
@@ -20,19 +19,20 @@ object HabitHatchDevConfig : HabitHatchConfig {
             Pet(name = "Rabbit", imageRes = R.mipmap.pet_rabbit),
             Pet(name = "Ice Bear", imageRes = R.mipmap.pet_ice_bear),
         )
+
+    override val signUpNavigationItem = Screen("sign_up", R.drawable.vuesax_profile_circle)
+    override val homeNavigationItem = Screen("home", R.drawable.vuesax_home_2)
+    override val settingsNavigationItem = Screen("settings", R.drawable.vuesax_menu)
     override val navigationItems =
         listOf(
-            NavigationItem(Screen.HOME, R.drawable.vuesax_home_2, enabled = true),
-            NavigationItem(Screen.GOALS, R.drawable.vuesax_flag, enabled = false),
-            NavigationItem(Screen.FRIENDS, R.drawable.vuesax_profile_2user, enabled = false),
-            NavigationItem(Screen.PET, R.drawable.vuesax_pet, enabled = false),
-            NavigationItem(Screen.SETTINGS, R.drawable.vuesax_menu, enabled = true),
+            homeNavigationItem,
+            Screen("goals", R.drawable.vuesax_flag, enabled = false),
+            Screen("friends", R.drawable.vuesax_profile_2user, enabled = false),
+            Screen("pet", R.drawable.vuesax_pet, enabled = false),
+            settingsNavigationItem,
         )
 
-    private val accountItem =
-        NavigationItem(Screen.SETTINGS, R.drawable.vuesax_profile_circle, enabled = true)
-
-    override val primaryNavigationItem = accountItem
+    override val primaryNavigationItem = settingsNavigationItem
 
     private val inProgressStatus =
         GoalModel.Status(

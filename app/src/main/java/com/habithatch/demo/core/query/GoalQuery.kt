@@ -15,14 +15,12 @@ data class GoalQuery(
         this.checkValidity()
     }
 
-    fun updateFilterConfig(newFilterConfig: GoalFilter): GoalQuery = this.copy(filter = newFilterConfig)
-
     @Throws(NoSuchElementException::class, IllegalArgumentException::class)
-    fun updateSortOption(option: GoalSortOption): GoalQuery {
-        require(sortOptions.filter { it.label == option.label }.size == 1) {
+    fun copy(sortOption: GoalSortOption): GoalQuery {
+        require(sortOptions.filter { it.label == sortOption.label }.size == 1) {
             "Selected option is not exactly once in the list of sort options"
         }
-        return setActiveSortOption(option)
+        return setActiveSortOption(sortOption)
     }
 
     fun getComparator(): Comparator<GoalModel> {
@@ -48,17 +46,18 @@ data class GoalQuery(
 
     private fun getActiveSortOption(): GoalSortOption? = sortOptions.firstOrNull { it.sortState != SortState.NOT_USED }
 
+    @Throws(IllegalStateException::class)
     private fun checkValidity() {
-        require(sortOptions.filter { it.sortState != SortState.NOT_USED }.size <= 1) {
+        check(sortOptions.filter { it.sortState != SortState.NOT_USED }.size <= 1) {
             "There must be no more than one active sortOption"
         }
-        require(sortOptions.toSet().size == sortOptions.size) {
+        check(sortOptions.toSet().size == sortOptions.size) {
             "Sort options must be unique"
         }
-        require(filter.priorityVisibleMap.keys == priorityProvider.priorities.toSet()) {
+        check(filter.priorityVisibleMap.keys == priorityProvider.priorities.toSet()) {
             "Priority visible map must contain all priorities"
         }
-        require(filter.statusVisibleMap.keys == statusProvider.statuses.toSet()) {
+        check(filter.statusVisibleMap.keys == statusProvider.statuses.toSet()) {
             "Status visible map must contain all statuses"
         }
     }

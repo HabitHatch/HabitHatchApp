@@ -10,9 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.habithatch.demo.R
 import com.habithatch.demo.core.query.GoalSortOption
-import com.habithatch.demo.core.query.SortState
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -21,10 +19,6 @@ fun GoalSortBar(
     sortOptions: List<GoalSortOption>,
     onSortOptionChange: (GoalSortOption) -> Unit,
 ) {
-    val upIcon = R.drawable.vuesax_arrow_up_1
-    val downIcon = R.drawable.vuesax_arrow_down_1
-    val notSortedIcon = R.drawable.vuesax_sort
-
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
@@ -45,12 +39,7 @@ fun GoalSortBar(
                     modifier = Modifier.padding(end = 4.dp),
                 )
                 Icon(
-                    painter =
-                        when (sortOption.sortState) {
-                            SortState.ASCENDING -> painterResource(upIcon)
-                            SortState.DESCENDING -> painterResource(downIcon)
-                            SortState.NOT_USED -> painterResource(notSortedIcon)
-                        },
+                    painter = painterResource(id = sortOption.sortState.iconId),
                     contentDescription = sortOption.sortState.name,
                     modifier = Modifier.size(16.dp),
                 )

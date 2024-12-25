@@ -2,7 +2,6 @@ package com.habithatch.demo.ui.navigation
 
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,14 +16,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.core.config.HabitHatchDevConfig
-import com.habithatch.demo.core.navigation.NavigationItem
+import com.habithatch.demo.core.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun TopAppInformationBar(
     title: String,
-    primaryNavigationItem: NavigationItem? = null,
+    primaryNavigationItem: Screen? = null,
     modifier: Modifier = Modifier,
     iconButtonModifier: Modifier = Modifier.fillMaxHeight().width(60.dp),
     iconModifier: Modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),

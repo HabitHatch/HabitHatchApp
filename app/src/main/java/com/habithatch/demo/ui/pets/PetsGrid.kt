@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,18 +41,20 @@ fun PetsGrid(
             horizontalArrangement = Arrangement.spacedBy(spaceBetween),
             verticalArrangement = Arrangement.spacedBy(spaceBetween),
         ) {
-            itemsIndexed(pets) { _, pet ->
-                PetCard(
-                    pet = pet,
-                    isChecked = currentPet.value == pet,
-                    onPetSelected = {
-                        if (currentPet.value == pet) {
-                            currentPet.value = null
-                        } else {
-                            currentPet.value = pet
-                        }
-                    },
-                )
+            pets.forEach { pet ->
+                item {
+                    PetCard(
+                        pet = pet,
+                        isChecked = currentPet.value == pet,
+                        onPetSelected = {
+                            if (currentPet.value == pet) {
+                                currentPet.value = null
+                            } else {
+                                currentPet.value = pet
+                            }
+                        },
+                    )
+                }
             }
         }
 

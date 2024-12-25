@@ -1,6 +1,5 @@
 package com.habithatch.demo.features.settings
 
-import BottomNavigationBar
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -24,10 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import com.habithatch.demo.core.navigation.NavigationItem
 import com.habithatch.demo.ui.common.ConfirmationDialog
-import com.habithatch.demo.ui.navigation.TopAppInformationBar
 
 data class DialogState(
     val show: Boolean = false,
@@ -39,15 +35,10 @@ data class DialogState(
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun SettingsScreen(
-    navController: NavHostController,
+    topAppInformationBar: @Composable () -> Unit,
+    bottomNavigationBar: @Composable () -> Unit,
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
-    val bottomNavigationItems = viewModel.bottomNavigationItems
-    val selectedItem: NavigationItem? =
-        NavigationItem.findNavigationItemByRoute(
-            route = navController.currentBackStackEntry?.destination?.route,
-            navigationItems = bottomNavigationItems,
-        )
     var dialogState by remember { mutableStateOf(DialogState()) }
 
     Scaffold(
@@ -134,19 +125,7 @@ fun SettingsScreen(
                 }
             }
         },
-        topBar = {
-            TopAppInformationBar(
-                title = "Settings",
-            )
-        },
-        bottomBar = {
-            BottomNavigationBar(
-                navigationItems = bottomNavigationItems,
-                activeNavigationItem = selectedItem,
-                onNavigationItemClicked = {
-                    navController.navigate(it.screen.route)
-                },
-            )
-        },
+        topBar = topAppInformationBar,
+        bottomBar = bottomNavigationBar,
     )
 }

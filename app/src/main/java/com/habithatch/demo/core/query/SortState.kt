@@ -1,9 +1,14 @@
 package com.habithatch.demo.core.query
 
-enum class SortState {
-    NOT_USED,
-    ASCENDING,
-    DESCENDING,
+import com.habithatch.demo.R
+
+enum class SortState(
+    val label: String,
+    val iconId: Int,
+) {
+    NOT_USED("Not sorted", R.drawable.vuesax_sort),
+    ASCENDING("Ascending", R.drawable.vuesax_arrow_up_1),
+    DESCENDING("Descending", R.drawable.vuesax_arrow_down_1),
     ;
 
     fun nextInCycle(): SortState =

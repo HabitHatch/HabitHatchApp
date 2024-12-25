@@ -3,7 +3,7 @@ package com.habithatch.demo.features.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.habithatch.demo.core.config.HabitHatchConfig
-import com.habithatch.demo.core.navigation.NavigationItem
+import com.habithatch.demo.core.navigation.Screen
 import com.habithatch.demo.data.repositories.GoalRepository
 import com.habithatch.demo.data.repositories.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +18,7 @@ class SettingsViewModel
         private val goalRepository: GoalRepository,
         habitHatchConfig: HabitHatchConfig,
     ) : ViewModel() {
-        val bottomNavigationItems: List<NavigationItem> = habitHatchConfig.navigationItems
+        val bottomNavigationItems: List<Screen> = habitHatchConfig.navigationItems
 
         fun deleteAccount() {
             viewModelScope.launch {

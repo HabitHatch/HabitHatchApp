@@ -1,8 +1,11 @@
 package com.habithatch.demo.ui.goals
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,6 +18,8 @@ import com.habithatch.demo.data.models.GoalModel
 @Composable
 fun GoalsView(
     goals: List<GoalModel>,
+    contentPadding: PaddingValues = PaddingValues(4.dp),
+    verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(8.dp),
     showCreateExampleGoalsButton: Boolean = false,
     onCreateExampleGoalsClicked: () -> Unit = {},
     onToggleGoalStatus: (GoalModel) -> Unit = {},
@@ -31,9 +36,18 @@ fun GoalsView(
             }
         }
     }
-    GoalList(
-        goals = goals,
+    LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        onToggleGoalStatus = onToggleGoalStatus,
-    )
+        contentPadding = contentPadding,
+        verticalArrangement = verticalArrangement,
+    ) {
+        goals.forEach { goal ->
+            item {
+                GoalItem(
+                    goal = goal,
+                    onToggleGoalStatus = { onToggleGoalStatus(goal) },
+                )
+            }
+        }
+    }
 }
