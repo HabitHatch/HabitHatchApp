@@ -3,7 +3,6 @@ package com.habithatch.demo.ui.pets
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -23,13 +22,13 @@ fun PetAnimation(
 ) {
     val borderColor =
         if (isPetHappy) {
-            MaterialTheme.colorScheme.tertiary.copy()
+            MaterialTheme.colorScheme.tertiary
         } else {
-            MaterialTheme.colorScheme.error.copy()
+            MaterialTheme.colorScheme.error
         }
+
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.Center,
     ) {
         Card(
             shape = MaterialTheme.shapes.medium,

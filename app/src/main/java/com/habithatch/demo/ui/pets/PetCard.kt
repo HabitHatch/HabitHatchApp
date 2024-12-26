@@ -8,7 +8,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Card
@@ -23,7 +22,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.data.entities.Pet
 
@@ -35,7 +33,12 @@ fun PetCard(
     onPetSelected: () -> Unit,
 ) {
     val indicatorColor by animateColorAsState(
-        targetValue = if (isChecked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
+        targetValue =
+            if (isChecked) {
+                MaterialTheme.colorScheme.primary
+            } else {
+                MaterialTheme.colorScheme.surface
+            },
         label = "indicatorColorAnimation",
     )
     val indicatorSize by animateDpAsState(
@@ -51,14 +54,14 @@ fun PetCard(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Card(
-            shape = RoundedCornerShape(12.dp),
+            shape = MaterialTheme.shapes.large,
             modifier =
                 Modifier
                     .fillMaxWidth()
                     .border(
                         width = if (isChecked) 2.dp else 0.dp,
                         color = if (isChecked) MaterialTheme.colorScheme.primary else Color.Transparent,
-                        shape = RoundedCornerShape(12.dp),
+                        shape = MaterialTheme.shapes.large,
                     ),
         ) {
             Box(
@@ -69,9 +72,9 @@ fun PetCard(
             ) {
                 Image(
                     painter = painterResource(id = pet.imageRes),
-                    contentDescription = "${pet.name} image",
+                    contentDescription = pet.name,
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier.clip(RoundedCornerShape(12.dp)),
+                    modifier = Modifier.clip(MaterialTheme.shapes.large),
                 )
                 Box(
                     modifier =
@@ -99,7 +102,6 @@ fun PetCard(
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurface,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
         )
     }
 }

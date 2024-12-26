@@ -1,6 +1,6 @@
 package com.habithatch.demo.core.navigation
 
-import BottomNavigationBar
+import BottomNavBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -15,7 +15,7 @@ import com.habithatch.demo.features.settings.SettingsScreen
 import com.habithatch.demo.features.signup.SignUpState
 import com.habithatch.demo.features.signup.SignupScreen
 import com.habithatch.demo.features.signup.SignupViewModel
-import com.habithatch.demo.ui.navigation.TopAppInformationBar
+import com.habithatch.demo.ui.navigation.TopNavBar
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -26,8 +26,6 @@ fun AppNavigation(
     val signupViewModel: SignupViewModel = hiltViewModel()
     val signUpState by signupViewModel.signUpState.collectAsStateWithLifecycle()
 
-    val currentRoute = navController.currentDestination?.route
-    val activeNavigationItem = config.navigationItems.first { it.route == currentRoute }
     LaunchedEffect(signUpState) {
         when (signUpState) {
             SignUpState.NOT_SIGNED_UP -> {
@@ -42,7 +40,9 @@ fun AppNavigation(
     }
 
     val bottomNavigationBar = @Composable {
-        BottomNavigationBar(
+        val currentRoute = navController.currentDestination?.route
+        val activeNavigationItem = config.navigationItems.first { it.route == currentRoute }
+        BottomNavBar(
             onNavigationItemClicked = {
                 navController.navigate(it.route)
             },
@@ -61,12 +61,10 @@ fun AppNavigation(
         composable(config.homeNavigationItem.route) {
             HomeScreen(
                 topAppInformationBar = {
-                    TopAppInformationBar(
-                        title = activeNavigationItem.title,
+                    TopNavBar(
+                        title = config.settingsNavigationItem.title,
                         primaryNavigationItem = config.primaryNavigationItem,
-                        onPrimaryNavigationItemClick = {
-                            navController.navigate(config.primaryNavigationItem.route)
-                        },
+                        onPrimaryNavigationItemClick = { navController.navigate(config.primaryNavigationItem.route) },
                     )
                 },
                 bottomNavigationBar = bottomNavigationBar,
@@ -75,12 +73,8 @@ fun AppNavigation(
         composable(config.settingsNavigationItem.route) {
             SettingsScreen(
                 topAppInformationBar = {
-                    TopAppInformationBar(
-                        title = activeNavigationItem.title,
-                        primaryNavigationItem = config.primaryNavigationItem,
-                        onPrimaryNavigationItemClick = {
-                            navController.navigate(config.primaryNavigationItem.route)
-                        },
+                    TopNavBar(
+                        title = config.settingsNavigationItem.title,
                     )
                 },
                 bottomNavigationBar = bottomNavigationBar,

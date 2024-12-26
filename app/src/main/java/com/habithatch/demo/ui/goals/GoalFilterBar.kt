@@ -10,9 +10,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.habithatch.demo.core.app.ExtendedMaterialTheme
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.query.GoalFilter
+import com.habithatch.demo.core.query.GoalQuery
+import com.habithatch.demo.core.theme.success
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.ui.common.SearchField
 
@@ -58,7 +59,7 @@ fun GoalFilterBar(
                 contentDescription = "Done",
                 tint =
                     if (isDoneStatusVisible) {
-                        ExtendedMaterialTheme.extendedColors.success.color
+                        MaterialTheme.colorScheme.success
                     } else {
                         MaterialTheme.colorScheme.outline
                     },
@@ -66,16 +67,4 @@ fun GoalFilterBar(
             )
         }
     }
-}
-
-@Preview
-@Suppress("ktlint:standard:function-naming")
-@Composable
-fun GoalFilterBarPreview() {
-    val allStatuses = HabitHatchDevConfig.statuses
-    GoalFilterBar(
-        allStatuses = allStatuses,
-        goalFilterBuilder = HabitHatchDevConfig.getDefaultGoalQuery().getFilterBuilder(),
-        onGoalFilterChange = {},
-    )
 }

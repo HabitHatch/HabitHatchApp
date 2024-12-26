@@ -1,7 +1,5 @@
 package com.habithatch.demo.features.home
 
-import android.util.Log
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.habithatch.demo.core.config.HabitHatchConfig
@@ -59,7 +57,8 @@ class HomeViewModel
         @Throws(GoalNotFoundException::class, IllegalArgumentException::class)
         fun toggleGoalStatus(goal: GoalModel) {
             viewModelScope.launch {
-                goalRepository.changeGoalStatusToNextInCycle(goal.id)
+
+                goalRepository.cycleGoalStatus(goal)
             }
         }
 

@@ -6,6 +6,7 @@ import com.google.common.truth.Truth.assertThat
 import com.habithatch.demo.data.daos.GoalDao
 import com.habithatch.demo.data.db.AppDatabase
 import com.habithatch.demo.data.entities.GoalEntity
+import java.util.Date
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -42,6 +43,7 @@ class GoalDaoTest {
                     title = "Drink water",
                     statusLabel = "In Progress",
                     priorityLabel = "Normal",
+                    createdAt = Date(),
                 )
             goalDao.insert(goal)
 
@@ -64,12 +66,14 @@ class GoalDaoTest {
                         title = "Drink water",
                         statusLabel = "In Progress",
                         priorityLabel = "Normal",
+                        createdAt = Date(),
                     ),
                     GoalEntity(
                         id = 2,
                         title = "Eat vegetables",
                         statusLabel = "In Progress",
                         priorityLabel = "High",
+                        createdAt = Date(),
                     ),
                 )
             goals.forEach { goalDao.insert(it) }

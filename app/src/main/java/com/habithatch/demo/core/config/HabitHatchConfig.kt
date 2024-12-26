@@ -1,5 +1,7 @@
 package com.habithatch.demo.core.config
 
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.googlefonts.GoogleFont
 import com.habithatch.demo.core.navigation.Screen
 import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.data.entities.Pet
@@ -15,6 +17,10 @@ interface HabitHatchConfig :
     val settingsNavigationItem: Screen
     val navigationItems: List<Screen>
     val primaryNavigationItem: Screen
+
+    val displayFontFamily: FontFamily
+
+    val bodyFontFamily: FontFamily
 
     fun getDefaultGoalQuery(): GoalQuery
 }

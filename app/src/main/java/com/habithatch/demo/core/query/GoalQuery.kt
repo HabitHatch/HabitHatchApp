@@ -4,7 +4,7 @@ import com.habithatch.demo.core.config.GoalPriorityProvider
 import com.habithatch.demo.core.config.GoalStatusProvider
 import com.habithatch.demo.data.models.GoalModel
 
-data class GoalQuery(
+data class GoalQuery constructor(
     val filter: GoalFilter,
     val sortOptions: List<GoalSortOption>,
     val defaultComparator: Comparator<GoalModel>,
@@ -24,8 +24,10 @@ data class GoalQuery(
     }
 
     fun getComparator(): Comparator<GoalModel> {
-        if (getActiveSortOption() != null) {
-            return getActiveSortOption()!!.getComparator().then(defaultComparator)
+        val activeSortOption = getActiveSortOption()
+
+        if (activeSortOption != null) {
+            return activeSortOption.getComparator().then(defaultComparator)
         }
         return defaultComparator
     }

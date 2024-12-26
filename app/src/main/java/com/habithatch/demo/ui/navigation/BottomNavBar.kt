@@ -8,12 +8,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.habithatch.demo.core.app.AppModule
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.navigation.Screen
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun BottomNavigationBar(
+fun BottomNavBar(
     navigationItems: List<Screen>,
     activeNavigationItem: Screen?,
     onNavigationItemClicked: (Screen) -> Unit,
@@ -39,15 +40,12 @@ fun BottomNavigationBar(
                             onNavigationItemClicked(item)
                         }
                     },
-                    modifier =
-                        Modifier
-                            .weight(1f)
-                            .size(24.dp),
+                    modifier = Modifier.size(24.dp).weight(1f),
                     enabled = item.enabled,
                 ) {
                     Icon(
                         painter = painterResource(item.iconResourceId),
-                        contentDescription = item.screen.route,
+                        contentDescription = item.route,
                         tint = colorForItem(item),
                     )
                 }
@@ -60,19 +58,13 @@ fun BottomNavigationBar(
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun BottomNavigationBarPreview() {
-    val navigationItems = HabitHatchDevConfig.navigationItems
+    val config = HabitHatchDevConfig(AppModule.provideGoogleFontProvider())
+    val navigationItems = config.navigationItems
 
     val homeItem =
-        Screen.findNavigationItemByRoute(
-            route = Screen.HOME.route,
-            navigationItems = navigationItems,
-        )
+        config.homeNavigationItem
 
-    if (homeItem == null) {
-        return
-    }
-
-    BottomNavigationBar(
+    BottomNavBar(
         onNavigationItemClicked = {},
         activeNavigationItem = homeItem,
         navigationItems = navigationItems,

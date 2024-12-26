@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.habithatch.demo.core.app.AppModule
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.core.util.createDate
@@ -51,7 +52,7 @@ fun GoalQueryTable(
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun GoalQueryTablePreview() {
-    val config = HabitHatchDevConfig
+    val config = HabitHatchDevConfig(AppModule.provideGoogleFontProvider())
     val normalPriority = config.priorities[0]
     val highPriority = config.priorities[1]
 
@@ -96,7 +97,7 @@ fun GoalQueryTablePreview() {
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun GoalQueryTableNoGoalsPreview() {
-    val config = HabitHatchDevConfig
+    val config = HabitHatchDevConfig(AppModule.provideGoogleFontProvider())
     val inProgressStatus = config.statuses[0]
     val doneStatus = config.statuses[1]
     GoalQueryTable(

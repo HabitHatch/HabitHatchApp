@@ -2,8 +2,11 @@ package com.habithatch.demo.core.app
 
 import android.content.Context
 
+import androidx.compose.ui.text.googlefonts.GoogleFont
+import com.habithatch.demo.R
 import com.habithatch.demo.core.config.HabitHatchConfig
 import com.habithatch.demo.core.config.HabitHatchDevConfig
+import com.habithatch.demo.core.theme.TypographyFactory
 import com.habithatch.demo.data.daos.GoalDao
 import com.habithatch.demo.data.daos.UserDao
 import com.habithatch.demo.data.db.AppDatabase
@@ -23,7 +26,7 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
-    fun provideConfig(): HabitHatchConfig = HabitHatchDevConfig
+    fun provideConfig(googleFontProvider: GoogleFont.Provider): HabitHatchConfig = HabitHatchDevConfig(googleFontProvider)
 
     @Provides
     @Singleton
@@ -59,4 +62,17 @@ object AppModule {
     @Provides
     @Singleton
     fun provideUserRepository(userDao: UserDao): UserRepository = UserRepository(userDao)
+
+    @Provides
+    @Singleton
+    fun provideTypographyFactory(config: HabitHatchConfig) = TypographyFactory(config)
+
+    @Provides
+    @Singleton
+    fun provideGoogleFontProvider(): GoogleFont.Provider =
+        GoogleFont.Provider(
+            providerAuthority = "com.google.android.gms.fonts",
+            providerPackage = "com.google.android.gms",
+            certificates = R.array.com_google_android_gms_fonts_certs,
+        )
 }

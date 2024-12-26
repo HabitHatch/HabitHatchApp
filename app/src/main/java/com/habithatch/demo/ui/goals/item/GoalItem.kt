@@ -1,4 +1,4 @@
-package com.habithatch.demo.ui.goals
+package com.habithatch.demo.ui.goals.item
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.PaddingValues
@@ -28,27 +28,18 @@ fun GoalItem(
     checkBoxPadding: PaddingValues = PaddingValues(end = 8.dp),
     onToggleGoalStatus: () -> Unit = {},
 ) {
-    val cardShape = MaterialTheme.shapes.medium
+    val goalStyle = goal.getGoalStyle()
+    val cardShape = goalStyle.cardShape
     Card(
         modifier =
             Modifier
                 .fillMaxWidth()
-                .then(
-                    Modifier.border(
-                        width = 1.dp,
-                        color = goal.priority.getColor(),
-                        shape = cardShape,
-                    ),
+                .border(
+                    width = 1.dp,
+                    color = goalStyle.borderColor,
+                    shape = cardShape,
                 ),
-        colors =
-            CardDefaults.cardColors(
-                containerColor =
-                    if (goal.isDone()) {
-                        MaterialTheme.colorScheme.secondaryContainer
-                    } else {
-                        MaterialTheme.colorScheme.primaryContainer
-                    },
-            ),
+        colors = goalStyle.cardColors,
         shape = cardShape,
     ) {
         Row(
@@ -68,28 +59,14 @@ fun GoalItem(
                 text = goal.title,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                style =
-                    MaterialTheme.typography.titleMedium.copy(
-                        textDecoration =
-                            if (goal.isDone()) {
-                                TextDecoration.LineThrough
-                            } else {
-                                TextDecoration.None
-                            },
-                        color =
-                            if (goal.isDone()) {
-                                MaterialTheme.colorScheme.onPrimaryContainer
-                            } else {
-                                MaterialTheme.colorScheme.onPrimary
-                            },
-                    ),
+                style = goalStyle.textStyle,
                 modifier = Modifier.weight(1f),
             )
             Icon(
                 modifier = Modifier.weight(0.25f),
                 painter = painterResource(goal.priority.iconResourceId),
                 contentDescription = goal.priority.label,
-                tint = goal.priority.getColor(),
+                tint = goalStyle.iconColor,
             )
         }
     }

@@ -15,13 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.habithatch.demo.core.app.AppModule
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun TopAppInformationBar(
+fun TopNavBar(
     title: String,
     primaryNavigationItem: Screen? = null,
     modifier: Modifier = Modifier,
@@ -51,7 +52,7 @@ fun TopAppInformationBar(
                 ) {
                     Icon(
                         painter = painterResource(primaryNavigationItem.iconResourceId),
-                        contentDescription = primaryNavigationItem.screen.route,
+                        contentDescription = primaryNavigationItem.route,
                         tint = MaterialTheme.colorScheme.onTertiary,
                         modifier = iconModifier,
                     )
@@ -65,9 +66,9 @@ fun TopAppInformationBar(
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun TopAppInformationBarPreview() {
-    TopAppInformationBar(
+    TopNavBar(
         title = "Home",
-        primaryNavigationItem = HabitHatchDevConfig.primaryNavigationItem,
+        primaryNavigationItem = HabitHatchDevConfig(AppModule.provideGoogleFontProvider()).primaryNavigationItem,
         onPrimaryNavigationItemClick = {},
     )
 }

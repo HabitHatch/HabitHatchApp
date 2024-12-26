@@ -1,19 +1,16 @@
 package com.habithatch.demo.data.repositories
 
 import com.habithatch.demo.core.config.GoalStatusProvider
-import com.habithatch.demo.core.exceptions.GoalNotFoundException
 import com.habithatch.demo.core.query.GoalFilter
 import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.core.util.getNextHigherOrLowest
 import com.habithatch.demo.data.daos.GoalDao
-import com.habithatch.demo.data.entities.GoalEntity
 import com.habithatch.demo.data.mappers.GoalMapper
 import com.habithatch.demo.data.models.GoalModel
 import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
@@ -35,16 +32,13 @@ class GoalRepository
 
         suspend fun deleteAll() = goalDao.deleteAll()
 
-        @Throws(GoalNotFoundException::class)
-        suspend fun changeGoalStatusToNextInCycle(goalId: Int) {
-            val goalModel = getById(goalId).first()
+        suspend fun cycleGoalStatus(goalModel: GoalModel) {
             val nextStatusInCycle =
                 statusesProvider.statuses.getNextHigherOrLowest(
                     bySelector = { it.stepNumber },
                     element = goalModel.status,
                 )
-            val newGoalModel = goalModel.copy(status = nextStatusInCycle)
-            this.update(newGoalModel)
+            this.update(goalModel.copy(status = nextStatusInCycle))
         }
 
         @OptIn(ExperimentalCoroutinesApi::class)
@@ -66,17 +60,6 @@ class GoalRepository
                 statusLabel = goalEntity.statusLabel,
                 priorityLabel = goalEntity.priorityLabel,
             )
-        }
-
-        @Throws(GoalNotFoundException::class)
-        private fun getById(goalId: Int): Flow<GoalModel> {
-            val goalEntityFlow: Flow<GoalEntity?> = goalDao.getGoalById(goalId)
-            return goalEntityFlow.map { goalEntity ->
-                if (goalEntity == null) {
-                    throw GoalNotFoundException(goalId)
-                }
-                goalMapper.fromEntity(goalEntity)
-            }
         }
 
         private fun getFilteredGoals(goalFilter: GoalFilter): Flow<Collection<GoalModel>> =

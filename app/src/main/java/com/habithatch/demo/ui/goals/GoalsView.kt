@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.data.models.GoalModel
+import com.habithatch.demo.ui.goals.item.GoalItem
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -44,8 +45,8 @@ fun GoalsView(
         goals.forEach { goal ->
             item {
                 GoalItem(
-                    goal = goal,
-                    onToggleGoalStatus = { onToggleGoalStatus(goal) },
+                        goal = goal,
+                        onToggleGoalStatus = { onToggleGoalStatus(goal) },
                 )
             }
         }
