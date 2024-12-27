@@ -1,12 +1,15 @@
 package com.habithatch.demo.core.query
 
+import androidx.compose.runtime.Immutable
 import com.habithatch.demo.core.config.GoalPriorityProvider
 import com.habithatch.demo.core.config.GoalStatusProvider
 import com.habithatch.demo.data.models.GoalModel
+import java.util.SortedSet
 
-data class GoalQuery constructor(
+@Immutable
+data class GoalQuery(
     val filter: GoalFilter,
-    val sortOptions: List<GoalSortOption>,
+    val sortOptions: SortedSet<GoalSortOption>,
     val defaultComparator: Comparator<GoalModel>,
     private val priorityProvider: GoalPriorityProvider,
     private val statusProvider: GoalStatusProvider,
@@ -32,17 +35,18 @@ data class GoalQuery constructor(
         return defaultComparator
     }
 
-    fun getFilterBuilder(): GoalFilter.Builder = GoalFilter.Builder.createFromFilter(filter, priorityProvider, statusProvider)
+    fun getFilterBuilder() = GoalFilter.Builder.createFromFilter(filter, priorityProvider, statusProvider)
 
     private fun setActiveSortOption(sortOption: GoalSortOption): GoalQuery {
         val updatedOptions =
-            sortOptions.map { option ->
-                if (option.label == sortOption.label) {
-                    sortOption
-                } else {
-                    option.copy(sortState = SortState.NOT_USED)
-                }
-            }
+            sortOptions
+                .map { option ->
+                    if (option.label == sortOption.label) {
+                        sortOption
+                    } else {
+                        option.copy(sortState = SortState.NOT_USED)
+                    }
+                }.toSortedSet()
         return this.copy(sortOptions = updatedOptions)
     }
 
@@ -53,13 +57,10 @@ data class GoalQuery constructor(
         check(sortOptions.filter { it.sortState != SortState.NOT_USED }.size <= 1) {
             "There must be no more than one active sortOption"
         }
-        check(sortOptions.toSet().size == sortOptions.size) {
-            "Sort options must be unique"
-        }
-        check(filter.priorityVisibleMap.keys == priorityProvider.priorities.toSet()) {
+        check(filter.priorityVisibility.keys == priorityProvider.priorities.toSet()) {
             "Priority visible map must contain all priorities"
         }
-        check(filter.statusVisibleMap.keys == statusProvider.statuses.toSet()) {
+        check(filter.statusVisibility.keys == statusProvider.statuses.toSet()) {
             "Status visible map must contain all statuses"
         }
     }

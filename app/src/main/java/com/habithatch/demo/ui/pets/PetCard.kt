@@ -25,27 +25,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.data.entities.Pet
 
-@Suppress("ktlint:standard:function-naming")
+@Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun PetCard(
     pet: Pet,
     isChecked: Boolean,
     onPetSelected: () -> Unit,
 ) {
-    val indicatorColor by animateColorAsState(
-        targetValue =
-            if (isChecked) {
-                MaterialTheme.colorScheme.primary
-            } else {
-                MaterialTheme.colorScheme.surface
-            },
-        label = "indicatorColorAnimation",
-    )
-    val indicatorSize by animateDpAsState(
-        targetValue = if (isChecked) 36.dp else 32.dp,
-        label = "indicatorSizeAnimation",
-    )
-
     Column(
         modifier =
             Modifier
@@ -53,55 +39,83 @@ fun PetCard(
                 .clickable { onPetSelected() },
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Card(
-            shape = MaterialTheme.shapes.large,
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .border(
-                        width = if (isChecked) 2.dp else 0.dp,
-                        color = if (isChecked) MaterialTheme.colorScheme.primary else Color.Transparent,
-                        shape = MaterialTheme.shapes.large,
-                    ),
-        ) {
-            Box(
+        PetImageBox(pet = pet, isChecked = isChecked)
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(pet.name, style = MaterialTheme.typography.bodyLarge)
+    }
+}
+
+@Suppress("ktlint:standard:function-naming", "FunctionNaming")
+@Composable
+fun PetImageBox(
+    pet: Pet,
+    isChecked: Boolean,
+) {
+    val borderColor by animateColorAsState(
+        targetValue = if (isChecked) MaterialTheme.colorScheme.primary else Color.Transparent,
+        label = "borderAnimation",
+    )
+
+    Card(
+        shape = MaterialTheme.shapes.large,
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .border(
+                    width = if (isChecked) 2.dp else 0.dp,
+                    color = borderColor,
+                    shape = MaterialTheme.shapes.large,
+                ),
+    ) {
+        Box(modifier = Modifier.aspectRatio(1f)) {
+            Image(
+                painter = painterResource(id = pet.imageRes),
+                contentDescription = pet.name,
+                contentScale = ContentScale.Crop,
                 modifier =
                     Modifier
-                        .aspectRatio(1f)
-                        .fillMaxWidth(),
-            ) {
-                Image(
-                    painter = painterResource(id = pet.imageRes),
-                    contentDescription = pet.name,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.clip(MaterialTheme.shapes.large),
-                )
-                Box(
-                    modifier =
-                        Modifier
-                            .align(Alignment.BottomEnd)
-                            .padding(8.dp)
-                            .size(indicatorSize)
-                            .clip(CircleShape)
-                            .background(indicatorColor),
-                ) {
-                    if (isChecked) {
-                        Icon(
-                            imageVector = Icons.Default.Check,
-                            contentDescription = "Selected ${pet.name}",
-                            tint = MaterialTheme.colorScheme.onPrimary,
-                            modifier = Modifier.align(Alignment.Center),
-                        )
-                    }
-                }
-            }
+                        .fillMaxSize()
+                        .clip(MaterialTheme.shapes.large),
+            )
+            PetSelectionIndicator(
+                modifier =
+                    Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(8.dp)
+                        .clip(CircleShape),
+                isChecked = isChecked,
+                petName = pet.name,
+            )
         }
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = pet.name,
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurface,
-            maxLines = 1,
-        )
+    }
+}
+
+@Suppress("ktlint:standard:function-naming", "FunctionNaming")
+@Composable
+fun PetSelectionIndicator(
+    modifier: Modifier = Modifier,
+    isChecked: Boolean,
+    petName: String,
+) {
+    val indicatorColor by animateColorAsState(
+        targetValue = if (isChecked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
+        label = "indicatorColorAnimation",
+    )
+    val indicatorSize by animateDpAsState(
+        targetValue = if (isChecked) 36.dp else 32.dp,
+        label = "indicatorSizeAnimation",
+    )
+
+    Box(
+        modifier = modifier.size(indicatorSize).background(indicatorColor, CircleShape),
+    ) {
+        if (isChecked) {
+            Icon(
+                imageVector = Icons.Default.Check,
+                contentDescription = "Selected $petName",
+                tint = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier.align(Alignment.Center),
+            )
+        }
     }
 }

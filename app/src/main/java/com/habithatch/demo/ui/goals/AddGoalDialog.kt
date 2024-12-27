@@ -1,116 +1,109 @@
 package com.habithatch.demo.ui.goals
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import com.habithatch.demo.core.util.getNextHigherOrLowest
 import com.habithatch.demo.data.models.GoalModel
 
-@Suppress("ktlint:standard:function-naming")
+@Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun AddGoalDialog(
-    preselectedGoal: GoalModel,
-    allPriorities: List<GoalModel.Priority>,
+    state: AddGoalDialogState,
     dialogTitle: String = "Add Goal",
-    blankGoalSubmissionErrorMessage: String = "Goal name cannot be empty",
-    onDismiss: () -> Unit,
-    onAdd: (GoalModel) -> Unit,
 ) {
-    var goal by remember { mutableStateOf(preselectedGoal) }
-    var addedBlankGoal by remember { mutableStateOf(false) }
-
-    Dialog(onDismissRequest = onDismiss) {
-        Box(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .background(
-                        color = MaterialTheme.colorScheme.surface,
-                        shape = MaterialTheme.shapes.large,
-                    ).padding(top = 16.dp, start = 24.dp, end = 24.dp, bottom = 8.dp),
-        ) {
-            Column {
-                Text(
-                    text = dialogTitle,
-                    style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(bottom = 16.dp),
-                )
-                if (addedBlankGoal) {
-                    Text(
-                        text = blankGoalSubmissionErrorMessage,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.error,
-                        modifier = Modifier.padding(bottom = 4.dp),
-                    )
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
+    if (state.showDialog) {
+        AlertDialog(
+            onDismissRequest = state::dismiss,
+            title = {
+                Text(text = dialogTitle, style = MaterialTheme.typography.headlineSmall)
+            },
+            text = {
+                Column {
                     OutlinedTextField(
-                        value = goal.title,
-                        onValueChange = {
-                            goal = goal.copy(title = it)
-                            addedBlankGoal = false
-                        },
-                        modifier =
-                            Modifier
-                                .weight(1f)
-                                .padding(end = 4.dp),
-                        shape = MaterialTheme.shapes.medium,
-                        isError = addedBlankGoal,
-                    )
-                    IconButton(
-                        onClick = {
-                            val newPriority: GoalModel.Priority =
-                                allPriorities.getNextHigherOrLowest(
-                                    { it.importance },
-                                    goal.priority,
+                        value = state.goalTitle,
+                        onValueChange = state::onTitleChange,
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text("Goal Name") },
+                        isError = state.addedBlankGoal,
+                        supportingText = {
+                            if (state.addedBlankGoal) {
+                                Text(
+                                    text = state.blankGoalSubmissionErrorMessage,
+                                    color = MaterialTheme.colorScheme.error,
                                 )
-                            goal = goal.copy(priority = newPriority)
-                        },
-                        modifier = Modifier.size(36.dp),
-                    ) {
-                        Icon(
-                            painter = painterResource(id = goal.priority.iconResourceId),
-                            contentDescription = goal.priority.label,
-                            tint = MaterialTheme.colorScheme.onSurface,
-                        )
-                    }
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                Row(
-                    horizontalArrangement = Arrangement.End,
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    TextButton(onClick = onDismiss) {
-                        Text("Cancel")
-                    }
-                    Spacer(modifier = Modifier.width(8.dp))
-                    TextButton(
-                        onClick = {
-                            if (goal.title.isNotBlank()) {
-                                onAdd(goal)
-                                return@TextButton
                             }
-                            addedBlankGoal = true
                         },
-                    ) {
-                        Text("Add")
-                    }
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    PriorityToggle(
+                        priority = state.goal.priority,
+                        onPriorityToggle = state::togglePriority,
+                    )
                 }
-            }
+            },
+            confirmButton = {
+                TextButton(onClick = state::addGoalIfValid) {
+                    Text("Add")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = state::dismiss) {
+                    Text("Cancel")
+                }
+            },
+        )
+    }
+}
+
+data class AddGoalDialogState(
+    val showDialog: Boolean,
+    val goal: GoalModel,
+    val allPriorities: Set<GoalModel.Priority>,
+    val onAddGoal: (GoalModel) -> Unit = {},
+    val onDismiss: () -> Unit = {},
+) {
+    var goalTitle by mutableStateOf(goal.title)
+    var addedBlankGoal by mutableStateOf(false)
+    val blankGoalSubmissionErrorMessage = "Goal name cannot be empty"
+
+    fun onTitleChange(newTitle: String) {
+        goalTitle = newTitle
+        addedBlankGoal = false
+    }
+
+    fun togglePriority() {
+        val newPriority =
+            allPriorities.getNextHigherOrLowest(
+                bySelector = { it.importance },
+                element = goal.priority,
+            )
+        updateGoal(priority = newPriority)
+    }
+
+    fun addGoalIfValid() {
+        if (goalTitle.isNotBlank()) {
+            onAddGoal(goal.copy(title = goalTitle))
+        } else {
+            addedBlankGoal = true
+        }
+    }
+
+    fun dismiss() {
+        onDismiss()
+    }
+
+    private fun updateGoal(
+        title: String = goalTitle,
+        priority: GoalModel.Priority = goal.priority,
+    ) {
+        goal.copy(title = title, priority = priority).also {
+            goalTitle = it.title
         }
     }
 }

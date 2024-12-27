@@ -3,7 +3,7 @@ package com.habithatch.demo.core.config
 import com.habithatch.demo.data.models.GoalModel
 
 interface GoalPriorityProvider {
-    val priorities: List<GoalModel.Priority>
+    val priorities: Set<GoalModel.Priority>
     val defaultPriority: GoalModel.Priority
 
     @Throws(NoSuchElementException::class)

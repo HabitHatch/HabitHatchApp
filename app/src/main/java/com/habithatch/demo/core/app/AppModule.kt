@@ -24,9 +24,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+    @Suppress("ktlint:standard:function-expression-body")
     @Provides
     @Singleton
-    fun provideConfig(googleFontProvider: GoogleFont.Provider): HabitHatchConfig = HabitHatchDevConfig(googleFontProvider)
+    fun provideConfig(googleFontProvider: GoogleFont.Provider): HabitHatchConfig {
+        return HabitHatchDevConfig(googleFontProvider)
+    }
 
     @Provides
     @Singleton

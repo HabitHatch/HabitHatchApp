@@ -1,4 +1,4 @@
-package com.habithatch.demo.ui.goals
+package com.habithatch.demo.ui.goals.table
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,11 +15,12 @@ import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.core.util.createDate
 import com.habithatch.demo.data.models.GoalModel
+import com.habithatch.demo.ui.goals.GoalsView
+import com.habithatch.demo.ui.goals.GoalsViewState
 
-@Suppress("ktlint:standard:function-naming", "LocalVariableName")
+@Suppress("ktlint:standard:function-naming","FunctionNaming")
 @Composable
 fun GoalQueryTable(
-    allStatuses: List<GoalModel.Status>,
     modifier: Modifier = Modifier,
     goalQuery: GoalQuery,
     goalsContent: @Composable () -> Unit,
@@ -33,7 +34,6 @@ fun GoalQueryTable(
         ) {
             GoalFilterBar(
                 modifier = Modifier.fillMaxHeight().weight(6f),
-                allStatuses = allStatuses,
                 goalFilterBuilder = goalQuery.getFilterBuilder(),
                 onGoalFilterChange = { onGoalQueryChange(goalQuery.copy(filter = it)) },
             )
@@ -49,43 +49,42 @@ fun GoalQueryTable(
 }
 
 @Preview()
-@Suppress("ktlint:standard:function-naming")
+@Suppress("ktlint:standard:function-naming","FunctionNaming")
 @Composable
 fun GoalQueryTablePreview() {
     val config = HabitHatchDevConfig(AppModule.provideGoogleFontProvider())
-    val normalPriority = config.priorities[0]
-    val highPriority = config.priorities[1]
+    val normalPriority = config.priorities.toList()[0]
+    val highPriority = config.priorities.toList()[1]
 
-    val inProgressStatus = config.statuses[0]
-    val doneStatus = config.statuses[1]
+    val inProgressStatus = GoalModel.Status("in Progress", 10)
+    val doneStatus = GoalModel.Status("in Progress", 20, true)
     GoalQueryTable(
-        allStatuses =
-            listOf(
-                inProgressStatus,
-                doneStatus,
-            ),
         goalsContent = {
             GoalsView(
-                goals =
-                    listOf(
-                        GoalModel(
-                            title = "Goal 1",
-                            priority = normalPriority,
-                            status = inProgressStatus,
-                            createdAt = createDate(2024, 12, 4),
-                        ),
-                        GoalModel(
-                            title = "Goal 2",
-                            priority = highPriority,
-                            status = inProgressStatus,
-                            createdAt = createDate(2024, 12, 4),
-                        ),
-                        GoalModel(
-                            title = "Goal 3",
-                            priority = normalPriority,
-                            status = doneStatus,
-                            createdAt = createDate(2024, 12, 4),
-                        ),
+                state =
+                    GoalsViewState(
+                        goals =
+                            listOf(
+                                GoalModel(
+                                    title = "Goal 1",
+                                    priority = normalPriority,
+                                    status = inProgressStatus,
+                                    createdAt = createDate(2024, 12, 4),
+                                ),
+                                GoalModel(
+                                    title = "Goal 2",
+                                    priority = highPriority,
+                                    status = inProgressStatus,
+                                    createdAt = createDate(2024, 12, 4),
+                                ),
+                                GoalModel(
+                                    title = "Goal 3",
+                                    priority = normalPriority,
+                                    status = doneStatus,
+                                    createdAt = createDate(2024, 12, 4),
+                                ),
+                            ),
+                        showCreateExampleGoals = false,
                     ),
             )
         },
@@ -94,23 +93,19 @@ fun GoalQueryTablePreview() {
 }
 
 @Preview(showBackground = true)
-@Suppress("ktlint:standard:function-naming")
+@Suppress("ktlint:standard:function-naming","FunctionNaming")
 @Composable
 fun GoalQueryTableNoGoalsPreview() {
     val config = HabitHatchDevConfig(AppModule.provideGoogleFontProvider())
-    val inProgressStatus = config.statuses[0]
-    val doneStatus = config.statuses[1]
     GoalQueryTable(
-        allStatuses =
-            listOf(
-                inProgressStatus,
-                doneStatus,
-            ),
         goalQuery = config.getDefaultGoalQuery(),
         goalsContent = {
             GoalsView(
-                goals = emptyList(),
-                showCreateExampleGoalsButton = true,
+                state =
+                    GoalsViewState(
+                        goals = emptyList(),
+                        showCreateExampleGoals = true,
+                    ),
             )
         },
     )

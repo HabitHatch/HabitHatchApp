@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-@Suppress("ktlint:standard:function-naming")
+@Suppress("ktlint:standard:function-naming","FunctionNaming")
 @Composable
 fun SearchField(
     searchQuery: String,
@@ -51,7 +51,7 @@ fun SearchField(
     }
 }
 
-@Suppress("ktlint:standard:function-naming")
+@Suppress("ktlint:standard:function-naming","FunctionNaming")
 @Preview(showBackground = true)
 @Composable
 fun SearchFieldPreview() {

@@ -12,14 +12,14 @@ import com.habithatch.demo.core.app.AppModule
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.navigation.Screen
 
-@Suppress("ktlint:standard:function-naming")
+@Suppress("ktlint:standard:function-naming","FunctionNaming")
 @Composable
 fun BottomNavBar(
     navigationItems: List<Screen>,
     activeNavigationItem: Screen?,
     onNavigationItemClicked: (Screen) -> Unit,
 ) {
-    @Suppress("ktlint:standard:function-naming")
+    @Suppress("ktlint:standard:function-naming","FunctionNaming")
     @Composable
     fun colorForItem(item: Screen): Color =
         if (item == activeNavigationItem) {
@@ -55,7 +55,7 @@ fun BottomNavBar(
 }
 
 @Preview()
-@Suppress("ktlint:standard:function-naming")
+@Suppress("ktlint:standard:function-naming","FunctionNaming")
 @Composable
 fun BottomNavigationBarPreview() {
     val config = HabitHatchDevConfig(AppModule.provideGoogleFontProvider())

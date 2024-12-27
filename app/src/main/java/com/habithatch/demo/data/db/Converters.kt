@@ -1,12 +1,27 @@
 package com.habithatch.demo.data.db
 
 import androidx.room.TypeConverter
-import java.util.Date
+import com.habithatch.demo.core.exceptions.InvalidUUIdException
+import java.time.Instant
+import java.util.UUID
 
 class Converters {
     @TypeConverter
-    fun fromTimestamp(value: Long?): Date? = value?.let { Date(it) }
+    fun toInstant(value: String): Instant = Instant.parse(value)
 
     @TypeConverter
-    fun dateToTimestamp(date: Date?): Long? = date?.time?.toLong()
+    fun fromInstant(instant: Instant): String = instant.toString()
+
+    @TypeConverter
+    @Throws(InvalidUUIdException::class)
+    fun toUUID(value: String): UUID {
+        try {
+            return UUID.fromString(value)
+        } catch (e: IllegalArgumentException) {
+            throw InvalidUUIdException(value, e)
+        }
+    }
+
+    @TypeConverter
+    fun fromUUID(uuid: UUID): String = uuid.toString()
 }

@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.data.entities.Pet
 
-@Suppress("ktlint:standard:function-naming")
+@Suppress("ktlint:standard:function-naming","FunctionNaming")
 @Composable
 fun PetsGrid(
     pets: List<Pet>,

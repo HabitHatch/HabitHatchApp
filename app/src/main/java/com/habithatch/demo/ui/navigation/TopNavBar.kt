@@ -20,15 +20,15 @@ import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Suppress("ktlint:standard:function-naming")
+@Suppress("ktlint:standard:function-naming","FunctionNaming", "LongParameterList")
 @Composable
 fun TopNavBar(
     title: String,
-    primaryNavigationItem: Screen? = null,
+    primaryNavItem: Screen? = null,
     modifier: Modifier = Modifier,
     iconButtonModifier: Modifier = Modifier.fillMaxHeight().width(60.dp),
     iconModifier: Modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
-    onPrimaryNavigationItemClick: () -> Unit = {},
+    onPrimaryNavItemClicked: () -> Unit = {},
 ) {
     CenterAlignedTopAppBar(
         modifier = modifier,
@@ -45,30 +45,29 @@ fun TopNavBar(
             )
         },
         actions = {
-            if (primaryNavigationItem != null) {
-                IconButton(
-                    onClick = onPrimaryNavigationItemClick,
-                    modifier = iconButtonModifier,
-                ) {
-                    Icon(
-                        painter = painterResource(primaryNavigationItem.iconResourceId),
-                        contentDescription = primaryNavigationItem.route,
-                        tint = MaterialTheme.colorScheme.onTertiary,
-                        modifier = iconModifier,
-                    )
-                }
+            if (primaryNavItem == null) return@CenterAlignedTopAppBar
+            IconButton(
+                onClick = onPrimaryNavItemClicked,
+                modifier = iconButtonModifier,
+            ) {
+                Icon(
+                    painter = painterResource(primaryNavItem.iconResourceId),
+                    contentDescription = primaryNavItem.route,
+                    tint = MaterialTheme.colorScheme.onTertiary,
+                    modifier = iconModifier,
+                )
             }
         },
     )
 }
 
 @Preview()
-@Suppress("ktlint:standard:function-naming")
+@Suppress("ktlint:standard:function-naming","FunctionNaming")
 @Composable
 fun TopAppInformationBarPreview() {
     TopNavBar(
         title = "Home",
-        primaryNavigationItem = HabitHatchDevConfig(AppModule.provideGoogleFontProvider()).primaryNavigationItem,
-        onPrimaryNavigationItemClick = {},
+        primaryNavItem = HabitHatchDevConfig(AppModule.provideGoogleFontProvider()).primaryNavigationItem,
+        onPrimaryNavItemClicked = {},
     )
 }

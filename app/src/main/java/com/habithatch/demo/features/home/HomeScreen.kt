@@ -24,27 +24,28 @@ import com.habithatch.demo.core.theme.AppTheme
 import com.habithatch.demo.data.entities.User
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.ui.goals.AddGoalDialog
-import com.habithatch.demo.ui.goals.GoalQueryTable
+import com.habithatch.demo.ui.goals.AddGoalDialogState
 import com.habithatch.demo.ui.goals.GoalsView
+import com.habithatch.demo.ui.goals.GoalsViewState
+import com.habithatch.demo.ui.goals.table.GoalQueryTable
 import com.habithatch.demo.ui.navigation.TopNavBar
 import com.habithatch.demo.ui.pets.PetAnimation
-import java.util.UUID
 
-@Suppress("ktlint:standard:function-naming")
+@Suppress("ktlint:standard:function-naming","FunctionNaming")
 @Composable
 fun HomeScreen(
-    topAppInformationBar: @Composable () -> Unit,
-    bottomNavigationBar: @Composable () -> Unit,
+    topNavBar: @Composable () -> Unit,
+    bottomNavBar: @Composable () -> Unit,
     config: HabitHatchConfig = hiltViewModel<HomeViewModel>().config,
     state: HomeScreenState = rememberHomeScreenState(),
 ) {
-    if (state.user == null) return
+    if (state.homeState.user == null) return
 
     Scaffold(
-        topBar = topAppInformationBar,
-        bottomBar = bottomNavigationBar,
+        topBar = topNavBar,
+        bottomBar = bottomNavBar,
         floatingActionButton = {
-            FloatingActionButton(onClick = state.onAddGoalClicked) {
+            FloatingActionButton(onClick = state.homeState.onAddGoalClicked) {
                 Icon(Icons.Default.Add, "Add Goal")
             }
         },
@@ -53,8 +54,8 @@ fun HomeScreen(
             modifier = Modifier.padding(paddingValues),
         ) {
             PetAnimation(
-                pet = state.user.pet,
-                isPetHappy = state.allGoalsDone,
+                pet = state.homeState.user.pet,
+                isPetHappy = state.homeState.allGoalsDone,
                 modifier =
                     Modifier
                         .fillMaxWidth(0.6f)
@@ -62,38 +63,29 @@ fun HomeScreen(
                         .align(Alignment.CenterHorizontally),
             )
             GoalQueryTable(
-                goalQuery = state.goalQuery,
-                allStatuses = config.statuses,
+                goalQuery = state.homeState.goalQuery,
                 modifier =
                     Modifier
                         .fillMaxWidth()
                         .padding(top = 16.dp, start = 8.dp, end = 8.dp),
-                onGoalQueryChange = state.onGoalQueryChange,
+                onGoalQueryChange = state.homeState.onGoalQueryChange,
                 goalsContent = {
-                    GoalsView(
-                        goals = state.goals,
-                        onToggleGoalStatus = state.onToggleGoalStatus,
-                        showCreateExampleGoalsButton = !state.hasAnyGoals,
-                        onCreateExampleGoalsClicked = state.onCreateExampleGoalsClicked,
-                    )
+                    GoalsView(state = state.goalsViewState)
                 },
             )
         }
     }
 
-    if (state.showDialog) {
+    if (state.addGoalDialogState.showDialog) {
         AddGoalDialog(
-            allPriorities = config.priorities,
-            preselectedGoal = GoalModel(config.defaultStatus, config.defaultPriority),
-            onDismiss = state.onGoalDialogDismissed,
-            onAdd = state.onGoalAdded,
+            state = state.addGoalDialogState,
         )
     }
 }
 
-@Suppress("ktlint:standard:function-naming")
+@Suppress("ktlint:standard:function-naming","FunctionNaming")
 @Preview(wallpaper = Wallpapers.RED_DOMINATED_EXAMPLE, showBackground = true, showSystemUi = true)
-@Preview(wallpaper = Wallpapers.NONE, showBackground = true, showSystemUi = true, device = "id:pixel_7")
+@Preview(wallpaper = Wallpapers.NONE, showBackground = true, showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
     val config = HabitHatchDevConfig(AppModule.provideGoogleFontProvider())
@@ -103,13 +95,13 @@ fun HomeScreenPreview() {
         darkTheme = true,
     ) {
         HomeScreen(
-            topAppInformationBar = {
+            topNavBar = {
                 TopNavBar(
                     title = "HabitHatch",
-                    primaryNavigationItem = config.primaryNavigationItem,
+                    primaryNavItem = config.primaryNavigationItem,
                 )
             },
-            bottomNavigationBar = {
+            bottomNavBar = {
                 BottomNavBar(
                     navigationItems = config.navigationItems,
                     activeNavigationItem = config.homeNavigationItem,
@@ -118,21 +110,29 @@ fun HomeScreenPreview() {
             config = config,
             state =
                 HomeScreenState(
-                    user =
-                        User(
-                            uuid = UUID.randomUUID().toString(),
-                            pet = config.pets[0],
+                    homeState =
+                        HomeState(
+                            allGoalsDone = false,
+                            user = User(pet = config.pets[0]),
+                            goalQuery = config.getDefaultGoalQuery(),
+                            onAddGoalClicked = { },
+                            onGoalQueryChange = { },
                         ),
-                    goals = config.exampleGoals,
-                    allGoalsDone = false,
-                    goalQuery = config.getDefaultGoalQuery(),
-                    showDialog = false,
-                    hasAnyGoals = true,
-                    onAddGoalClicked = {},
-                    onGoalDialogDismissed = {},
-                    onGoalAdded = {},
-                    onGoalQueryChange = {},
-                    onToggleGoalStatus = {},
+                    goalsViewState =
+                        GoalsViewState(
+                            goals = emptyList(),
+                            showCreateExampleGoals = true,
+                            onToggleGoalStatus = { },
+                            onCreateExampleGoals = { },
+                        ),
+                    addGoalDialogState =
+                        AddGoalDialogState(
+                            showDialog = false,
+                            goal = GoalModel(config.defaultStatus, config.defaultPriority),
+                            allPriorities = config.priorities,
+                            onAddGoal = { },
+                            onDismiss = { },
+                        ),
                 ),
         )
     }

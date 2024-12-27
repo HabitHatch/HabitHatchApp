@@ -1,4 +1,4 @@
-package com.habithatch.demo.ui.goals
+package com.habithatch.demo.ui.goals.table
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,12 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.core.query.GoalSortOption
+import java.util.SortedSet
 
-@Suppress("ktlint:standard:function-naming")
+@Suppress("ktlint:standard:function-naming","FunctionNaming")
 @Composable
 fun GoalSortBar(
     modifier: Modifier = Modifier,
-    sortOptions: List<GoalSortOption>,
+    sortOptions: SortedSet<GoalSortOption>,
     onSortOptionChange: (GoalSortOption) -> Unit,
 ) {
     Row(

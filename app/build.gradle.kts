@@ -78,12 +78,12 @@ dependencies {
     implementation("com.squareup:javapoet:1.13.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
-    implementation("com.google.dagger:hilt-android:2.53.1")
-    ksp("com.google.dagger:hilt-compiler:2.53.1")
+    implementation("com.google.dagger:hilt-android:2.54")
+    ksp("com.google.dagger:hilt-compiler:2.54")
 
     // Testing Dependencies
-    testImplementation("com.google.dagger:hilt-android-testing:2.53.1")
-    kspTest("com.google.dagger:hilt-compiler:2.53.1")
+    testImplementation("com.google.dagger:hilt-android-testing:2.54")
+    kspTest("com.google.dagger:hilt-compiler:2.54")
 
     // UI
     implementation("androidx.core:core-ktx:1.15.0")
@@ -103,10 +103,10 @@ dependencies {
 
     // Testing
     testImplementation("junit:junit:4.13.2")
-    testImplementation("io.mockk:mockk:1.13.8")
+    testImplementation("io.mockk:mockk:1.13.14")
     testImplementation("com.google.truth:truth:1.4.4")
     testImplementation("androidx.room:room-testing:2.6.1")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.1")
     testImplementation("androidx.arch.core:core-testing:2.2.0")
 
     androidTestImplementation("androidx.test.ext:junit:1.2.1")

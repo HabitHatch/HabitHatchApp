@@ -17,7 +17,7 @@ import com.habithatch.demo.features.signup.SignupScreen
 import com.habithatch.demo.features.signup.SignupViewModel
 import com.habithatch.demo.ui.navigation.TopNavBar
 
-@Suppress("ktlint:standard:function-naming")
+@Suppress("ktlint:standard:function-naming","FunctionNaming")
 @Composable
 fun AppNavigation(
     config: HabitHatchConfig,
@@ -43,9 +43,7 @@ fun AppNavigation(
         val currentRoute = navController.currentDestination?.route
         val activeNavigationItem = config.navigationItems.first { it.route == currentRoute }
         BottomNavBar(
-            onNavigationItemClicked = {
-                navController.navigate(it.route)
-            },
+            onNavigationItemClicked = { navController.navigate(it.route) },
             activeNavigationItem = activeNavigationItem,
             navigationItems = config.navigationItems,
         )
@@ -60,14 +58,14 @@ fun AppNavigation(
         }
         composable(config.homeNavigationItem.route) {
             HomeScreen(
-                topAppInformationBar = {
+                topNavBar = {
                     TopNavBar(
                         title = config.settingsNavigationItem.title,
-                        primaryNavigationItem = config.primaryNavigationItem,
-                        onPrimaryNavigationItemClick = { navController.navigate(config.primaryNavigationItem.route) },
+                        primaryNavItem = config.primaryNavigationItem,
+                        onPrimaryNavItemClicked = { navController.navigate(config.primaryNavigationItem.route) },
                     )
                 },
-                bottomNavigationBar = bottomNavigationBar,
+                bottomNavBar = bottomNavigationBar,
             )
         }
         composable(config.settingsNavigationItem.route) {

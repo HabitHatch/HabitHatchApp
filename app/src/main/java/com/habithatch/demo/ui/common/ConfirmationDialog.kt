@@ -7,27 +7,25 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 
-@Suppress("ktlint:standard:function-naming")
+@Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun ConfirmationDialog(
-    title: String,
-    message: String,
+    state: DialogState,
     confirmButtonText: String = "Confirm",
     dismissButtonText: String = "Cancel",
-    onConfirm: () -> Unit,
-    onDismiss: () -> Unit,
 ) {
+    if (!state.show) return
     AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text(text = title, style = MaterialTheme.typography.titleLarge) },
-        text = { Text(text = message, style = MaterialTheme.typography.bodyMedium) },
+        onDismissRequest = state.onDismiss,
+        title = { Text(text = state.title, style = MaterialTheme.typography.titleLarge) },
+        text = { Text(text = state.message, style = MaterialTheme.typography.bodyMedium) },
         confirmButton = {
-            TextButton(onClick = onConfirm) {
+            TextButton(onClick = state.onConfirm) {
                 Text(text = confirmButtonText)
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
+            TextButton(onClick = state.onDismiss) {
                 Text(text = dismissButtonText)
             }
         },
@@ -35,13 +33,16 @@ fun ConfirmationDialog(
 }
 
 @Preview(showBackground = true)
-@Suppress("ktlint:standard:function-naming")
+@Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun ConfirmationDialogPreview() {
     ConfirmationDialog(
-        title = "Delete Goal",
-        message = "Are you sure you want to delete this goal?",
-        onConfirm = {},
-        onDismiss = {},
+        state =
+            DialogState(
+                title = "Delete Goal",
+                message = "Are you sure you want to delete this goal?",
+                onConfirm = {},
+                onDismiss = {},
+            ),
     )
 }

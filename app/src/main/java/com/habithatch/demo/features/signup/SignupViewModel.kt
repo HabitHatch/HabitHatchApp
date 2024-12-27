@@ -45,8 +45,6 @@ class SignupViewModel
                 } catch (e: UserExistsException) {
                     Log.e("SignupViewModel", "Error signing up user", e)
                     _isSignedUp.value = SignUpState.SIGNED_UP
-                } catch (e: Exception) {
-                    Log.e("SignupViewModel", "Error signing up user", e)
                 }
             }
         }

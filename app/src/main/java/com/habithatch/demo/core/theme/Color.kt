@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber")
+
 package com.habithatch.demo.core.theme
 
 import androidx.compose.ui.graphics.Color

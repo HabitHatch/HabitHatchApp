@@ -2,8 +2,10 @@ package com.habithatch.demo.core.util
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
+@Immutable
 data class SchemeColor(
     private val lightColor: Color,
     private val darkColor: Color,

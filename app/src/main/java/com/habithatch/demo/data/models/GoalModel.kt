@@ -2,17 +2,19 @@ package com.habithatch.demo.data.models
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextDecoration
 import com.habithatch.demo.ui.goals.item.GoalStyle
-import java.util.Date
+import java.time.Instant
 
+@Immutable
 data class GoalModel(
     val id: Int = 0,
     val title: String,
     val status: Status,
     val priority: Priority,
-    val createdAt: Date? = null,
+    val createdAt: Instant? = null,
 ) {
     constructor(
         status: Status,
@@ -24,6 +26,7 @@ data class GoalModel(
         priority = priority,
     )
 
+    @Immutable
     data class Priority(
         val label: String,
         val importance: Int,
@@ -44,6 +47,7 @@ data class GoalModel(
         override fun hashCode(): Int = label.hashCode()
     }
 
+    @Immutable
     data class Status(
         val label: String,
         val stepNumber: Int,
@@ -56,7 +60,6 @@ data class GoalModel(
 
     @Composable
     fun getGoalStyle(): GoalStyle =
-
         GoalStyle(
             borderColor = MaterialTheme.colorScheme.outline,
             containerColor =

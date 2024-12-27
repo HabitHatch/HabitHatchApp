@@ -4,6 +4,7 @@ import com.habithatch.demo.core.config.GoalPriorityProvider
 import com.habithatch.demo.core.config.GoalStatusProvider
 import com.habithatch.demo.data.entities.GoalEntity
 import com.habithatch.demo.data.models.GoalModel
+import java.time.Instant
 import java.util.Date
 import javax.inject.Inject
 
@@ -19,7 +20,7 @@ class GoalMapper
                 title = goal.title,
                 statusLabel = goal.status.label,
                 priorityLabel = goal.priority.label,
-                createdAt = goal.createdAt ?: Date(),
+                createdAt = goal.createdAt ?: Instant.now(),
             )
 
         fun fromEntity(entity: GoalEntity): GoalModel {

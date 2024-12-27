@@ -10,8 +10,8 @@ import com.habithatch.demo.core.navigation.Screen
 import com.habithatch.demo.core.query.GoalFilter
 import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.core.query.GoalSortOption
-import com.habithatch.demo.core.util.createDate
 import com.habithatch.demo.data.entities.Pet
+import com.habithatch.demo.data.models.ExampleGoalFactory
 import com.habithatch.demo.data.models.GoalModel
 import javax.inject.Inject
 
@@ -69,7 +69,7 @@ class HabitHatchDevConfig
                 stepNumber = 2,
                 isDone = true,
             )
-        override val statuses = listOf(inProgressStatus, doneStatus)
+        override val statuses = setOf(inProgressStatus, doneStatus)
 
         override val defaultStatus = inProgressStatus
 
@@ -89,58 +89,22 @@ class HabitHatchDevConfig
                 getColor = @Composable { MaterialTheme.colorScheme.error },
             )
 
-        override val priorities = listOf(normalPriority, highPriority)
+        override val priorities = setOf(normalPriority, highPriority)
 
         override val defaultPriority = normalPriority
-        override val exampleGoals =
-            listOf(
-                GoalModel(
-                    title = "Drink water",
-                    status = inProgressStatus,
-                    priority = normalPriority,
-                    createdAt = createDate(2024, 12, 4),
-                ),
-                GoalModel(
-                    title = "Read a book",
-                    status = inProgressStatus,
-                    priority = highPriority,
-                    createdAt = createDate(2024, 12, 8),
-                ),
-                GoalModel(
-                    title = "Learn Math",
-                    status = inProgressStatus,
-                    priority = normalPriority,
-                    createdAt = createDate(2024, 12, 9),
-                ),
-                GoalModel(
-                    title = "Learn Spanish",
-                    status = inProgressStatus,
-                    priority = highPriority,
-                    createdAt = createDate(2024, 12, 11),
-                ),
-                GoalModel(
-                    title = "Exercise",
-                    status = doneStatus,
-                    priority = normalPriority,
-                    createdAt = createDate(2024, 12, 1),
-                ),
-                GoalModel(
-                    title = "Meditate",
-                    status = doneStatus,
-                    priority = highPriority,
-                    createdAt = createDate(2024, 12, 2),
-                ),
-            )
+        override val exampleGoals = (1..10).map { ExampleGoalFactory(this, this).createGoalModel() }.toSet()
 
         private val sortOptions =
-            listOf(
+            sortedSetOf(
                 GoalSortOption(
                     "Date",
                     compareBy { it.createdAt },
+                    uiIndex = 1,
                 ),
                 GoalSortOption(
                     "Priority",
                     compareBy { it.priority.importance },
+                    uiIndex = 2,
                 ),
             )
 
