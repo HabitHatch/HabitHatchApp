@@ -1,0 +1,8 @@
+style:
+    WildcardImport:
+        active: true
+        excludeImports:
+            - "androidx.compose.foundation.layout.*"
+            - "androidx.compose.material3.*"
+output-reports:
+    active: true

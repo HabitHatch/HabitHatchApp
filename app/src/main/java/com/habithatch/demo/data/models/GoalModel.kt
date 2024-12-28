@@ -1,11 +1,8 @@
 package com.habithatch.demo.data.models
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextDecoration
-import com.habithatch.demo.ui.goals.item.GoalStyle
 import java.time.Instant
 
 @Immutable
@@ -33,14 +30,8 @@ data class GoalModel(
         val iconResourceId: Int,
         val getColor: @Composable () -> Color,
     ) {
-        fun getAlphaFactor(): Float =
-            if (importance >= 20) {
-                4f
-            } else if (importance >= 10) {
-                2f
-            } else {
-                1f
-            }
+        @Suppress("MagicNumber")
+        fun hasHighImportance(): Boolean = importance >= 20
 
         override fun equals(other: Any?): Boolean = other is Priority && other.label == label
 
@@ -57,21 +48,6 @@ data class GoalModel(
 
         override fun hashCode(): Int = label.hashCode()
     }
-
-    @Composable
-    fun getGoalStyle(): GoalStyle =
-        GoalStyle(
-            borderColor = MaterialTheme.colorScheme.outline,
-            containerColor =
-                if (isDone()) {
-                    MaterialTheme.colorScheme.secondary.copy(alpha = 0.05f * priority.getAlphaFactor())
-                } else {
-                    MaterialTheme.colorScheme.primary.copy(alpha = 0.1f * priority.getAlphaFactor())
-                },
-            textDecoration = if (isDone()) TextDecoration.LineThrough else TextDecoration.None,
-            iconColor = priority.getColor(),
-            cardShape = MaterialTheme.shapes.large,
-        )
 
     fun isDone(): Boolean = this.status.isDone
 }

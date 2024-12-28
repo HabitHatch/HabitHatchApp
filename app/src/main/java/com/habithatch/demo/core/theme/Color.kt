@@ -3,7 +3,6 @@
 package com.habithatch.demo.core.theme
 
 import androidx.compose.ui.graphics.Color
-import com.habithatch.demo.core.util.SchemeColor
 import com.habithatch.demo.core.util.darken
 import com.habithatch.demo.core.util.lighten
 

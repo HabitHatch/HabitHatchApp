@@ -68,6 +68,10 @@ android {
     }
 }
 
+detekt {
+    config.setFrom("detekt.yml")
+}
+
 configurations.all {
     resolutionStrategy {
         force("com.squareup:javapoet:1.13.0")

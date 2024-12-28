@@ -31,6 +31,9 @@ class HabitHatchDevConfig
         override val signUpNavigationItem = Screen("sign_up", R.drawable.vuesax_profile_circle)
         override val homeNavigationItem = Screen("home", R.drawable.vuesax_home_2)
         override val settingsNavigationItem = Screen("settings", R.drawable.vuesax_profile_circle)
+
+        override val aiNavItem = Screen("ai", R.drawable.vuesax_microphone_2)
+
         override val navigationItems =
             listOf(
                 homeNavigationItem,
@@ -38,9 +41,10 @@ class HabitHatchDevConfig
                 Screen("friends", R.drawable.vuesax_profile_2user, enabled = false),
                 Screen("pet", R.drawable.vuesax_pet, enabled = false),
                 settingsNavigationItem,
+                aiNavItem,
             )
-
-        override val primaryNavigationItem = settingsNavigationItem
+        override val topLeftNavItem = aiNavItem
+        override val topRightNavItem = settingsNavigationItem
         override val displayFontFamily: FontFamily =
             FontFamily(
                 Font(
@@ -92,7 +96,11 @@ class HabitHatchDevConfig
         override val priorities = setOf(normalPriority, highPriority)
 
         override val defaultPriority = normalPriority
-        override val exampleGoals = (1..10).map { ExampleGoalFactory(this, this).createGoalModel() }.toSet()
+        val numberExampleGoals = 12
+        override val exampleGoals =
+            ExampleGoalFactory(this, this)
+                .createExampleGoals(numberExampleGoals, uniqueTitle = true)
+                .toSet()
 
         private val sortOptions =
             sortedSetOf(

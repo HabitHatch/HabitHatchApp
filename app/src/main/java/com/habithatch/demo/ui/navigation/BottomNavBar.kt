@@ -5,24 +5,24 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.core.app.AppModule
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.navigation.Screen
+import com.habithatch.demo.ui.navigation.NavItem
 
-@Suppress("ktlint:standard:function-naming","FunctionNaming")
+@Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun BottomNavBar(
     navigationItems: List<Screen>,
-    activeNavigationItem: Screen?,
+    activeNavScreen: Screen?,
     onNavigationItemClicked: (Screen) -> Unit,
 ) {
-    @Suppress("ktlint:standard:function-naming","FunctionNaming")
+    @Suppress("ktlint:standard:function-naming", "FunctionNaming")
     @Composable
     fun colorForItem(item: Screen): Color =
-        if (item == activeNavigationItem) {
+        if (item == activeNavScreen) {
             MaterialTheme.colorScheme.primary
         } else if (item.enabled) {
             MaterialTheme.colorScheme.secondary
@@ -33,29 +33,23 @@ fun BottomNavBar(
     BottomAppBar(
         modifier = Modifier.fillMaxWidth().height(64.dp),
         actions = {
-            navigationItems.forEach { item ->
-                IconButton(
-                    onClick = {
-                        if (item.enabled && item != activeNavigationItem) {
-                            onNavigationItemClicked(item)
-                        }
-                    },
+            navigationItems.forEach { navScreen ->
+                NavItem(
                     modifier = Modifier.size(24.dp).weight(1f),
-                    enabled = item.enabled,
-                ) {
-                    Icon(
-                        painter = painterResource(item.iconResourceId),
-                        contentDescription = item.route,
-                        tint = colorForItem(item),
-                    )
-                }
+                    navScreen = navScreen,
+                    isActive = navScreen == activeNavScreen,
+                    iconColor = colorForItem(navScreen),
+                    onNavigationItemClicked = {
+                        onNavigationItemClicked(navScreen)
+                    },
+                )
             }
         },
     )
 }
 
 @Preview()
-@Suppress("ktlint:standard:function-naming","FunctionNaming")
+@Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun BottomNavigationBarPreview() {
     val config = HabitHatchDevConfig(AppModule.provideGoogleFontProvider())
@@ -66,7 +60,7 @@ fun BottomNavigationBarPreview() {
 
     BottomNavBar(
         onNavigationItemClicked = {},
-        activeNavigationItem = homeItem,
+        activeNavScreen = homeItem,
         navigationItems = navigationItems,
     )
 }

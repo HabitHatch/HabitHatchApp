@@ -29,7 +29,7 @@ class HomeScreenState(
     val homeState: HomeState,
 )
 
-@Suppress("ktlint:standard:function-naming","FunctionNaming")
+@Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScreenState {
     val user by viewModel.user.collectAsStateWithLifecycle()
@@ -48,7 +48,7 @@ fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScr
                         priority = viewModel.config.defaultPriority,
                         status = viewModel.config.defaultStatus,
                     ),
-                    allPriorities = viewModel.config.priorities,
+                allPriorities = viewModel.config.priorities,
                 onAddGoal = {
                     viewModel.addGoal(it)
                     showDialog = false
@@ -58,16 +58,16 @@ fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScr
         }
 
     val goalsViewState =
-        remember {
+        remember(goals, hasAnyGoals) {
             GoalsViewState(
                 goals = goals,
-                showCreateExampleGoals = hasAnyGoals,
+                showCreateExampleGoals = !hasAnyGoals,
                 onCreateExampleGoals = viewModel::seedGoals,
                 onToggleGoalStatus = viewModel::toggleGoalStatus,
             )
         }
     val homeState =
-        remember(user, allGoalsDone, goalQuery) {
+        remember(user, allGoalsDone, goalQuery, showDialog) {
             HomeState(
                 user = user,
                 allGoalsDone = allGoalsDone,

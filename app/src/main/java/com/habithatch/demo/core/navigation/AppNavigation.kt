@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.habithatch.demo.core.config.HabitHatchConfig
+import com.habithatch.demo.features.ai.AIScreen
 import com.habithatch.demo.features.home.HomeScreen
 import com.habithatch.demo.features.settings.SettingsScreen
 import com.habithatch.demo.features.signup.SignUpState
@@ -17,7 +18,7 @@ import com.habithatch.demo.features.signup.SignupScreen
 import com.habithatch.demo.features.signup.SignupViewModel
 import com.habithatch.demo.ui.navigation.TopNavBar
 
-@Suppress("ktlint:standard:function-naming","FunctionNaming")
+@Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun AppNavigation(
     config: HabitHatchConfig,
@@ -39,12 +40,25 @@ fun AppNavigation(
         }
     }
 
-    val bottomNavigationBar = @Composable {
+    val topNavBar = @Composable {
+        TopNavBar(
+            title = config.settingsNavigationItem.title,
+            rightNavItem = config.topRightNavItem,
+            onRightNavItemClicked = { navController.navigate(config.topRightNavItem.route) },
+            leftNavItem = config.topLeftNavItem,
+            onLeftNavItemClicked = { navController.navigate(config.topLeftNavItem.route) },
+        )
+    }
+
+    val bottomNavBar = @Composable {
         val currentRoute = navController.currentDestination?.route
-        val activeNavigationItem = config.navigationItems.first { it.route == currentRoute }
+        val activeNavigationItem = config.navigationItems.firstOrNull { it.route == currentRoute }
+        check(activeNavigationItem != null) {
+            "Current route $currentRoute is not in the list of navigation items"
+        }
         BottomNavBar(
             onNavigationItemClicked = { navController.navigate(it.route) },
-            activeNavigationItem = activeNavigationItem,
+            activeNavScreen = activeNavigationItem,
             navigationItems = config.navigationItems,
         )
     }
@@ -58,24 +72,20 @@ fun AppNavigation(
         }
         composable(config.homeNavigationItem.route) {
             HomeScreen(
-                topNavBar = {
-                    TopNavBar(
-                        title = config.settingsNavigationItem.title,
-                        primaryNavItem = config.primaryNavigationItem,
-                        onPrimaryNavItemClicked = { navController.navigate(config.primaryNavigationItem.route) },
-                    )
-                },
-                bottomNavBar = bottomNavigationBar,
+                topNavBar = topNavBar,
+                bottomNavBar = bottomNavBar,
             )
         }
         composable(config.settingsNavigationItem.route) {
             SettingsScreen(
-                topAppInformationBar = {
-                    TopNavBar(
-                        title = config.settingsNavigationItem.title,
-                    )
-                },
-                bottomNavigationBar = bottomNavigationBar,
+                topNavBar = topNavBar,
+                bottomNavBar = bottomNavBar,
+            )
+        }
+        composable(config.aiNavItem.route) {
+            AIScreen(
+                topNavBar = topNavBar,
+                bottomNavBar = bottomNavBar,
             )
         }
     }

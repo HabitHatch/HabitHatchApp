@@ -23,8 +23,8 @@ import com.habithatch.demo.ui.settings.AccountSettings
 @Suppress("ktlint:standard:function-naming","FunctionNaming")
 @Composable
 fun SettingsScreen(
-    topAppInformationBar: @Composable () -> Unit,
-    bottomNavigationBar: @Composable () -> Unit,
+    topNavBar: @Composable () -> Unit,
+    bottomNavBar: @Composable () -> Unit,
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     Scaffold(
@@ -75,7 +75,7 @@ fun SettingsScreen(
                 }
             }
         },
-        topBar = topAppInformationBar,
-        bottomBar = bottomNavigationBar,
+        topBar = topNavBar,
+        bottomBar = bottomNavBar,
     )
 }

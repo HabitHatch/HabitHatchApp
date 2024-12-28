@@ -9,14 +9,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.ui.goals.item.GoalItem
 
-@Suppress("ktlint:standard:function-naming","FunctionNaming")
+@Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun GoalsView(
     state: GoalsViewState,
@@ -51,10 +49,3 @@ fun GoalsView(
     }
 }
 
-@Immutable
-data class GoalsViewState(
-    val goals: List<GoalModel>,
-    val showCreateExampleGoals: Boolean,
-    val onCreateExampleGoals: () -> Unit = {},
-    val onToggleGoalStatus: (GoalModel) -> Unit = {},
-)

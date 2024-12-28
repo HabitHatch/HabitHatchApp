@@ -32,8 +32,8 @@ data class GoalFilter private constructor(
     ) {
         fun setMatchAll(): Builder =
             this.copy(
-                priorityVisibility = priorityVisibility.keys.associateWith { true },
-                statusVisibility = statusVisibility.keys.associateWith { true },
+                priorityVisibility = priorityProvider.priorities.associateWith { true },
+                statusVisibility = statusProvider.statuses.associateWith { true },
             )
 
         @Suppress("ktlint:standard:function-expression-body")

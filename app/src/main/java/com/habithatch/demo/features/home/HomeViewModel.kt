@@ -1,5 +1,7 @@
 package com.habithatch.demo.features.home
 
+import android.util.Log
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.habithatch.demo.core.config.HabitHatchConfig
@@ -57,7 +59,6 @@ class HomeViewModel
         @Throws(GoalNotFoundException::class, IllegalArgumentException::class)
         fun toggleGoalStatus(goal: GoalModel) {
             viewModelScope.launch {
-
                 goalRepository.cycleGoalStatus(goal)
             }
         }
@@ -69,8 +70,8 @@ class HomeViewModel
         @Throws(IllegalStateException::class)
         fun seedGoals() {
             viewModelScope.launch {
-                check(hasAnyGoals.value.not()) {
-                    "Cannot seed goals when there are already goals in the database"
+                if (hasAnyGoals.value) {
+                    Log.e("HomeScreen", "Cannot seed goals when there are already goals in the database")
                 }
                 goalRepository.insertAll(config.exampleGoals)
             }

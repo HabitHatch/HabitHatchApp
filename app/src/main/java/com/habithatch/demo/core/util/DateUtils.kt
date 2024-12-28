@@ -3,8 +3,15 @@ package com.habithatch.demo.core.util
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
-import java.time.temporal.ChronoUnit.YEARS
 import kotlin.random.Random
+
+fun Instant.minusYears(
+    years: Long,
+): Instant =
+    this
+        .atZone(ZoneId.systemDefault())
+        .minusYears(years)
+        .toInstant()
 
 fun createDate(
     year: Int,
@@ -15,7 +22,8 @@ fun createDate(
     return localDate.atStartOfDay(ZoneId.systemDefault()).toInstant()
 }
 
-fun createRandomDate(): Instant {
-    val randomSeconds = Random.nextLong(Instant.now().minus(3, YEARS).epochSecond, Instant.now().epochSecond)
+fun createRandomDate(pastYears: Long): Instant {
+    val now = Instant.now()
+    val randomSeconds = Random.nextLong(now.minusYears(pastYears).epochSecond, now.epochSecond)
     return Instant.ofEpochSecond(randomSeconds)
 }

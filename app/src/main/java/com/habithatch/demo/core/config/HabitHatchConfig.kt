@@ -15,7 +15,9 @@ interface HabitHatchConfig :
     val homeNavigationItem: Screen
     val settingsNavigationItem: Screen
     val navigationItems: List<Screen>
-    val primaryNavigationItem: Screen
+    val topRightNavItem: Screen
+    val topLeftNavItem: Screen
+    val aiNavItem: Screen
 
     val displayFontFamily: FontFamily
 

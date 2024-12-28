@@ -16,9 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.Wallpapers
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.habithatch.demo.core.app.AppModule
-import com.habithatch.demo.core.config.HabitHatchConfig
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.theme.AppTheme
 import com.habithatch.demo.data.entities.User
@@ -31,12 +29,11 @@ import com.habithatch.demo.ui.goals.table.GoalQueryTable
 import com.habithatch.demo.ui.navigation.TopNavBar
 import com.habithatch.demo.ui.pets.PetAnimation
 
-@Suppress("ktlint:standard:function-naming","FunctionNaming")
+@Suppress("ktlint:standard:function-naming", "FunctionNaming", "MagicNumber")
 @Composable
 fun HomeScreen(
     topNavBar: @Composable () -> Unit,
     bottomNavBar: @Composable () -> Unit,
-    config: HabitHatchConfig = hiltViewModel<HomeViewModel>().config,
     state: HomeScreenState = rememberHomeScreenState(),
 ) {
     if (state.homeState.user == null) return
@@ -83,7 +80,7 @@ fun HomeScreen(
     }
 }
 
-@Suppress("ktlint:standard:function-naming","FunctionNaming")
+@Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Preview(wallpaper = Wallpapers.RED_DOMINATED_EXAMPLE, showBackground = true, showSystemUi = true)
 @Preview(wallpaper = Wallpapers.NONE, showBackground = true, showSystemUi = true)
 @Composable
@@ -98,16 +95,15 @@ fun HomeScreenPreview() {
             topNavBar = {
                 TopNavBar(
                     title = "HabitHatch",
-                    primaryNavItem = config.primaryNavigationItem,
+                    rightNavItem = config.topRightNavItem,
                 )
             },
             bottomNavBar = {
                 BottomNavBar(
                     navigationItems = config.navigationItems,
-                    activeNavigationItem = config.homeNavigationItem,
+                    activeNavScreen = config.homeNavigationItem,
                 ) { }
             },
-            config = config,
             state =
                 HomeScreenState(
                     homeState =

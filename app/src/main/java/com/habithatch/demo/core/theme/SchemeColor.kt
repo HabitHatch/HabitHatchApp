@@ -1,4 +1,4 @@
-package com.habithatch.demo.core.util
+package com.habithatch.demo.core.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
