@@ -16,8 +16,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.habithatch.demo.ui.common.ConfirmationDialog
-import com.habithatch.demo.ui.common.DialogState
+import com.habithatch.demo.ui.common.dialogs.ConfirmationDialog
+import com.habithatch.demo.ui.common.dialogs.DialogState
 
 @Suppress("ktlint:standard:function-naming","FunctionNaming")
 @Composable

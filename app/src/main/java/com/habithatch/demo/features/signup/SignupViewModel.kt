@@ -15,12 +15,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-enum class SignUpState {
-    SIGNED_UP,
-    NOT_SIGNED_UP,
-    LOADING,
-}
-
 @HiltViewModel
 class SignupViewModel
     @Inject
@@ -28,8 +22,8 @@ class SignupViewModel
         private val userRepository: UserRepository,
         habitHatchConfig: HabitHatchConfig,
     ) : ViewModel() {
-        private val _isSignedUp = MutableStateFlow<SignUpState>(SignUpState.LOADING)
-        val signUpState: StateFlow<SignUpState> = _isSignedUp
+        private val _signUpState = MutableStateFlow<SignUpState>(SignUpState.LOADING)
+        val signUpState: StateFlow<SignUpState> = _signUpState
 
         val pets: List<Pet> = habitHatchConfig.pets
 
@@ -37,14 +31,13 @@ class SignupViewModel
             observeUserSignUpStatus()
         }
 
-        fun signUpUser(pet: Pet) {
+        fun signUpUser(user: User) {
             viewModelScope.launch {
                 try {
-                    val user = User(pet = pet)
                     userRepository.createUser(user)
                 } catch (e: UserExistsException) {
                     Log.e("SignupViewModel", "Error signing up user", e)
-                    _isSignedUp.value = SignUpState.SIGNED_UP
+                    _signUpState.value = SignUpState.SIGNED_UP
                 }
             }
         }
@@ -52,7 +45,7 @@ class SignupViewModel
         private fun observeUserSignUpStatus() {
             viewModelScope.launch {
                 userRepository.getUser().collect { user ->
-                    _isSignedUp.value =
+                    _signUpState.value =
                         when (user) {
                             null -> SignUpState.NOT_SIGNED_UP
                             else -> SignUpState.SIGNED_UP

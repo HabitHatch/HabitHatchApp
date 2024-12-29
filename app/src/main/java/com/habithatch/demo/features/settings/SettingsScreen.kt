@@ -17,15 +17,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.habithatch.demo.ui.settings.AccountSettings
 
-@Suppress("ktlint:standard:function-naming","FunctionNaming")
+@Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun SettingsScreen(
     topNavBar: @Composable () -> Unit,
     bottomNavBar: @Composable () -> Unit,
-    viewModel: SettingsViewModel = hiltViewModel(),
+    state: SettingsScreenState = rememberSettingsScreenState(),
 ) {
     Scaffold(
         content = { paddingValues ->
@@ -33,7 +32,7 @@ fun SettingsScreen(
                 modifier = Modifier.padding(paddingValues),
             ) {
                 AccountSettings(
-                    onDeleteAccount = viewModel::deleteAccount,
+                    onDeleteAccount = state.onDeleteAccount,
                 )
                 HorizontalDivider()
 

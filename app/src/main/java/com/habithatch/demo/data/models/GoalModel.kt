@@ -4,23 +4,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import java.time.Instant
+import java.util.UUID
 
 @Immutable
 data class GoalModel(
     val id: Int = 0,
+    val userId: UUID? = null,
     val title: String,
     val status: Status,
     val priority: Priority,
-    val createdAt: Instant? = null,
+    val createdAt: Instant?,
 ) {
     constructor(
         status: Status,
         priority: Priority,
     ) : this(
         id = 0,
+        userId = null,
         title = "",
         status = status,
         priority = priority,
+        createdAt = null,
     )
 
     @Immutable

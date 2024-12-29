@@ -1,4 +1,4 @@
-package com.habithatch.demo.ui.pets
+package com.habithatch.demo.ui.common
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,24 +11,26 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.habithatch.demo.data.entities.Pet
 
-@Suppress("ktlint:standard:function-naming","FunctionNaming")
+@Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
-fun PetsGrid(
-    pets: List<Pet>,
+fun <T> SelectionGrid(
+    elements: List<T>,
     columns: Int = 2,
     outSidePadding: Dp = 50.dp,
     spaceBetween: Dp = 30.dp,
-    onConfirm: (Pet) -> Unit,
+    onConfirm: (T) -> Unit,
+    card: @Composable (T, Boolean, () -> Unit) -> Unit,
 ) {
-    val currentPet = remember { mutableStateOf<Pet?>(null) }
+    var currentElement by remember { mutableStateOf<T?>(null) }
 
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -41,19 +43,9 @@ fun PetsGrid(
             horizontalArrangement = Arrangement.spacedBy(spaceBetween),
             verticalArrangement = Arrangement.spacedBy(spaceBetween),
         ) {
-            pets.forEach { pet ->
+            elements.forEach { pet ->
                 item {
-                    PetCard(
-                        pet = pet,
-                        isChecked = currentPet.value == pet,
-                        onPetSelected = {
-                            if (currentPet.value == pet) {
-                                currentPet.value = null
-                            } else {
-                                currentPet.value = pet
-                            }
-                        },
-                    )
+                    card(pet, currentElement == pet, { currentElement = if (currentElement == pet) null else pet })
                 }
             }
         }
@@ -61,8 +53,8 @@ fun PetsGrid(
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = { currentPet.value?.let { onConfirm(it) } },
-            enabled = currentPet.value != null,
+            onClick = { currentElement?.let { onConfirm(it) } },
+            enabled = currentElement != null,
         ) {
             Text(text = "Confirm Selection")
         }

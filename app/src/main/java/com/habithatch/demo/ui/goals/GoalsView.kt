@@ -25,6 +25,17 @@ fun GoalsView(
         Column(
             modifier = Modifier.fillMaxSize(),
         ) {
+            Text(
+                text =
+                    """
+                    You don't have any goals yet. Would you like to create some example goals?
+                    Or you can create your own goals by clicking the "+" button.
+                    """.trimIndent(),
+                modifier =
+                    Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(32.dp),
+            )
             Button(
                 onClick = state.onCreateExampleGoals,
                 modifier = Modifier.align(Alignment.CenterHorizontally).padding(vertical = 32.dp),
@@ -48,4 +59,3 @@ fun GoalsView(
         }
     }
 }
-

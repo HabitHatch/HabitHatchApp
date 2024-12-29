@@ -1,4 +1,4 @@
-package com.habithatch.demo.ui.common
+package com.habithatch.demo.ui.common.dialogs
 
 data class DialogState(
     val show: Boolean = false,

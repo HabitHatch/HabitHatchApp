@@ -5,7 +5,7 @@ import com.habithatch.demo.core.config.GoalStatusProvider
 import com.habithatch.demo.data.entities.GoalEntity
 import com.habithatch.demo.data.models.GoalModel
 import java.time.Instant
-import java.util.Date
+import java.util.UUID
 import javax.inject.Inject
 
 class GoalMapper
@@ -17,6 +17,7 @@ class GoalMapper
         fun toEntity(goal: GoalModel): GoalEntity =
             GoalEntity(
                 id = goal.id,
+                userId = goal.userId ?: UUID.randomUUID(),
                 title = goal.title,
                 statusLabel = goal.status.label,
                 priorityLabel = goal.priority.label,
@@ -28,6 +29,7 @@ class GoalMapper
             val status = statusProvider.getStatusByLabel(entity.statusLabel)
             return GoalModel(
                 id = entity.id,
+                userId = entity.userId,
                 title = entity.title,
                 status = status,
                 priority = priority,

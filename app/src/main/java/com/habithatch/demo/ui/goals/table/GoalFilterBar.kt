@@ -1,9 +1,8 @@
 package com.habithatch.demo.ui.goals.table
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -11,9 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.core.query.GoalFilter
 import com.habithatch.demo.core.theme.success
-import com.habithatch.demo.ui.common.SearchField
+import com.habithatch.demo.ui.common.forms.IconToggle
+import com.habithatch.demo.ui.common.forms.SearchField
 
-@Suppress("ktlint:standard:function-naming","FunctionNaming")
+@Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun GoalFilterBar(
     modifier: Modifier = Modifier,
@@ -22,42 +22,35 @@ fun GoalFilterBar(
 ) {
     val goalFilter = goalFilterBuilder.build()
     val searchQuery = goalFilter.searchQuery.orEmpty()
-    val isDoneStatusVisible = goalFilter.statusVisibility.entries.any { (status, visible) -> status.isDone && visible }
+    val isDoneStatusVisible = goalFilter.isDoneVisible()
+    val doneIconColor =
+        if (isDoneStatusVisible) {
+            MaterialTheme.colorScheme.success
+        } else {
+            MaterialTheme.colorScheme.outline
+        }
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.SpaceEvenly,
     ) {
         SearchField(
-            modifier = Modifier.height(40.dp).weight(1f),
+            modifier =
+                Modifier
+                    .align(Alignment.CenterVertically)
+                    .heightIn(max = 34.dp)
+                    .weight(1f),
             searchQuery = searchQuery,
             onQueryChange = {
                 val newGoalFilter = goalFilterBuilder.setSearchQuery(it).build()
                 onGoalFilterChange(newGoalFilter)
             },
         )
-
-        IconButton(
-            modifier = Modifier.width(48.dp),
-            onClick = {
-                val newGoalFilter =
-                    goalFilterBuilder
-                        .setDoneStatusVisibility(!isDoneStatusVisible)
-                        .build()
-                onGoalFilterChange(newGoalFilter)
-            },
-        ) {
-            Icon(
-                imageVector = Icons.Default.CheckCircle,
-                contentDescription = "Done",
-                tint =
-                    if (isDoneStatusVisible) {
-                        MaterialTheme.colorScheme.success
-                    } else {
-                        MaterialTheme.colorScheme.outline
-                    },
-                modifier = Modifier.padding(horizontal = 4.dp),
-            )
-        }
+        IconToggle(
+            modifier = Modifier.fillMaxHeight().width(48.dp),
+            iconColor = doneIconColor,
+            goalFilterBuilder = goalFilterBuilder,
+            onGoalFilterChange = onGoalFilterChange,
+        )
     }
 }

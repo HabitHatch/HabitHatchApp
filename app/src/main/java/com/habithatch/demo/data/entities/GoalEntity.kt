@@ -4,12 +4,14 @@ import androidx.compose.runtime.Immutable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.time.Instant
+import java.util.UUID
 
 @Immutable
 @Entity(tableName = "goal")
 data class GoalEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val title: String,
+    val userId: UUID,
     val statusLabel: String,
     val priorityLabel: String,
     val createdAt: Instant,

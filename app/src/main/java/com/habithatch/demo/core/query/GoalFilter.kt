@@ -129,6 +129,8 @@ data class GoalFilter private constructor(
 
     private fun matchesSearchQuery(goal: GoalModel) = notHasSearchQuery() || titleContains(goal)
 
+    fun isDoneVisible(): Boolean = statusVisibility.entries.any { (priority, visible) -> priority.isDone && visible }
+
     override fun toString(): String =
         """
         ${this.javaClass.simpleName} (

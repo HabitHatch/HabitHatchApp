@@ -8,7 +8,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.habithatch.demo.core.query.GoalFilter
 import com.habithatch.demo.core.query.GoalQuery
+import com.habithatch.demo.core.query.GoalSortOption
 import com.habithatch.demo.data.entities.User
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.ui.goals.AddGoalDialogState
@@ -18,8 +20,9 @@ data class HomeState(
     val user: User?,
     val goalQuery: GoalQuery,
     val allGoalsDone: Boolean,
-    val onAddGoalClicked: () -> Unit,
-    val onGoalQueryChange: (GoalQuery) -> Unit,
+    val onAddGoalClicked: () -> Unit = {},
+    val onFilterChange: (GoalFilter) -> Unit = {},
+    val onSortOptionChange: (GoalSortOption) -> Unit = {},
 )
 
 @Stable
@@ -72,7 +75,8 @@ fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScr
                 user = user,
                 allGoalsDone = allGoalsDone,
                 goalQuery = goalQuery,
-                onGoalQueryChange = viewModel::updateGoalQuery,
+                onFilterChange = viewModel::updateGoalFilter,
+                onSortOptionChange = viewModel::updateGoalSortOption,
                 onAddGoalClicked = { showDialog = true },
             )
         }

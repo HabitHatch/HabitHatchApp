@@ -19,7 +19,7 @@ data class GoalQuery(
     }
 
     @Throws(NoSuchElementException::class, IllegalArgumentException::class)
-    fun copy(sortOption: GoalSortOption): GoalQuery {
+    fun updateSortOption(sortOption: GoalSortOption): GoalQuery {
         require(sortOptions.filter { it.label == sortOption.label }.size == 1) {
             "Selected option is not exactly once in the list of sort options"
         }

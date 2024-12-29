@@ -25,9 +25,6 @@ class AIAssistantViewModel
         private val _isListening = MutableStateFlow(false)
         val isListening: StateFlow<Boolean> = _isListening
 
-        private val _hasRecordAudioPermission = MutableStateFlow(hasRecordAudioPermission())
-        val hasRecordAudioPermission: StateFlow<Boolean> = _hasRecordAudioPermission
-
         private val _showPermissionDialog = MutableStateFlow(false)
         val showPermissionDialog: StateFlow<Boolean> = _showPermissionDialog
 

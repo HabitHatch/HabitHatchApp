@@ -78,3 +78,15 @@ class ExampleGoalFactory(
         return generatedGoals
     }
 }
+
+// create a class Person
+class Person {
+    // create a companion object
+    companion object {
+        // create a function sayHello
+        fun sayHello() {
+            // print the string "Hello, World!"
+            println("Hello, World!")
+        }
+    }
+}

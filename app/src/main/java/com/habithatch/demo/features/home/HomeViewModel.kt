@@ -5,8 +5,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.habithatch.demo.core.config.HabitHatchConfig
-import com.habithatch.demo.core.exceptions.GoalNotFoundException
+import com.habithatch.demo.core.query.GoalFilter
 import com.habithatch.demo.core.query.GoalQuery
+import com.habithatch.demo.core.query.GoalSortOption
 import com.habithatch.demo.data.entities.User
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.data.repositories.GoalRepository
@@ -56,18 +57,25 @@ class HomeViewModel
             }
         }
 
-        @Throws(GoalNotFoundException::class, IllegalArgumentException::class)
+        @Throws(IllegalArgumentException::class)
         fun toggleGoalStatus(goal: GoalModel) {
             viewModelScope.launch {
                 goalRepository.cycleGoalStatus(goal)
             }
         }
 
+        fun updateGoalFilter(newGoalFilter: GoalFilter) {
+            _goalQuery.value = _goalQuery.value.copy(filter = newGoalFilter)
+        }
+
+        fun updateGoalSortOption(newGoalSortOption: GoalSortOption) {
+            _goalQuery.value = _goalQuery.value.updateSortOption(newGoalSortOption)
+        }
+
         fun updateGoalQuery(newGoalQuery: GoalQuery) {
             _goalQuery.value = newGoalQuery
         }
 
-        @Throws(IllegalStateException::class)
         fun seedGoals() {
             viewModelScope.launch {
                 if (hasAnyGoals.value) {

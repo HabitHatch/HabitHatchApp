@@ -32,6 +32,7 @@ class GoalRepository
 
         suspend fun deleteAll() = goalDao.deleteAll()
 
+        @Throws(IllegalArgumentException::class)
         suspend fun cycleGoalStatus(goalModel: GoalModel) {
             val nextStatusInCycle =
                 statusesProvider.statuses.getNextHigherOrLowest(
