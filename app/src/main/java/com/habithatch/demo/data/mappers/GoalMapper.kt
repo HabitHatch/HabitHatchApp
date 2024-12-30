@@ -13,27 +13,30 @@ class GoalMapper
     constructor(
         private val statusProvider: GoalStatusProvider,
         private val priorityProvider: GoalPriorityProvider,
+        private val goalModelFactory: GoalModel.Factory,
     ) {
-        fun toEntity(goal: GoalModel): GoalEntity =
-            GoalEntity(
-                id = goal.id,
-                userId = goal.userId ?: UUID.randomUUID(),
+        @Throws(IllegalArgumentException::class)
+        fun asEntity(
+            goal: GoalModel,
+            userId: UUID,
+        ): GoalEntity {
+            require(goal.isDraft || goal.createdAt != null) {
+                "createdAt must not be null for non-draft goals"
+            }
+            return GoalEntity(
+                id = goal.getUniqueId(),
+                userId = userId,
                 title = goal.title,
                 statusLabel = goal.status.label,
                 priorityLabel = goal.priority.label,
                 createdAt = goal.createdAt ?: Instant.now(),
             )
-
-        fun fromEntity(entity: GoalEntity): GoalModel {
-            val priority = priorityProvider.getPriorityByLabel(entity.priorityLabel)
-            val status = statusProvider.getStatusByLabel(entity.statusLabel)
-            return GoalModel(
-                id = entity.id,
-                userId = entity.userId,
-                title = entity.title,
-                status = status,
-                priority = priority,
-                createdAt = entity.createdAt,
-            )
         }
+
+        fun asModel(entity: GoalEntity): GoalModel =
+            goalModelFactory.createFromEntity(
+                entity = entity,
+                status = statusProvider.getStatusByLabel(entity.statusLabel),
+                priority = priorityProvider.getPriorityByLabel(entity.priorityLabel),
+            )
     }

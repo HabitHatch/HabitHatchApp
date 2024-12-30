@@ -6,13 +6,17 @@ import com.habithatch.demo.core.config.GoalPriorityProvider
 import com.habithatch.demo.core.config.GoalStatusProvider
 import com.habithatch.demo.core.query.GoalFilter
 import com.habithatch.demo.core.query.GoalQuery
+import com.habithatch.demo.core.query.GoalSortOption
 import com.habithatch.demo.data.daos.GoalDao
+import com.habithatch.demo.data.entities.GoalEntity
 import com.habithatch.demo.data.mappers.GoalMapper
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.data.repositories.GoalRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import java.util.UUID
+import javax.inject.Inject
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
@@ -26,17 +30,19 @@ class GoalRepositoryTest {
     private lateinit var goalRepository: GoalRepository
     private lateinit var goalMapper: GoalMapper
 
+    private val matchAllBuilder = GoalFilter.Builder.matchAllBuilder(priorityProvider, statusProvider)
+
     private val normalPriority =
         GoalModel.Priority(
             label = "Normal",
-            importance = 10,
+            importance = GoalModel.Priority.Importance.Normal,
             iconResourceId = 1,
             getColor = { Color.Green },
         )
-    private val highPriority: GoalModel.Priority =
+    private val highPriority =
         GoalModel.Priority(
             label = "High",
-            importance = 20,
+            importance = GoalModel.Priority.Importance.High,
             iconResourceId = 2,
             getColor = { Color.Red },
         )
@@ -46,12 +52,16 @@ class GoalRepositoryTest {
             stepNumber = 10,
             isDone = false,
         )
-    private val doneStatus: GoalModel.Status =
+    private val doneStatus =
         GoalModel.Status(
             label = "Done",
             stepNumber = 20,
             isDone = true,
         )
+    private val userId = UUID.randomUUID()
+
+    @Inject
+    lateinit var goalFactory: GoalModel.Factory
 
     @Before
     fun setup() {
@@ -59,20 +69,17 @@ class GoalRepositoryTest {
 
         statusProvider =
             object : GoalStatusProvider {
-                override val statuses = listOf(inProgressStatus, doneStatus)
+                override val statuses = setOf(inProgressStatus, doneStatus)
                 override val defaultStatus = inProgressStatus
-
-                override fun getStatusByLabel(label: String) = statuses.first { it.label == label }
             }
 
         priorityProvider =
             object : GoalPriorityProvider {
-                override val priorities = listOf(normalPriority, highPriority)
+                override val priorities = setOf(normalPriority, highPriority)
                 override val defaultPriority = normalPriority
-
-                override fun getPriorityByLabel(label: String) = priorities.first { it.label == label }
             }
-        goalMapper = GoalMapper(statusProvider, priorityProvider)
+
+        goalMapper = GoalMapper(statusProvider, priorityProvider, goalFactory)
 
         goalRepository =
             GoalRepository(
@@ -83,31 +90,33 @@ class GoalRepositoryTest {
         coEvery { goalDao.update(any(), any(), any(), any()) } returns Unit
     }
 
-    private suspend fun assertThatGoalFilterMatches(
-        matchingGoals: List<GoalModel>,
-        notMatchingGoals: List<GoalModel>,
+    private fun asEntity(goal: GoalModel): GoalEntity = goalMapper.asEntity(goal, userId)
+
+    private suspend fun assertFilterMatches(
+        matching: Collection<GoalModel>,
+        notMatching: Collection<GoalModel>,
         filter: GoalFilter,
     ) {
         val goalQuery =
             GoalQuery(
                 filter = filter,
-                sortOptions = emptyList(),
+                sortOptions = emptySet<GoalSortOption>().toSortedSet(),
                 statusProvider = statusProvider,
                 priorityProvider = priorityProvider,
                 defaultComparator = compareBy { it.title.lowercase() },
             )
-        val goalEntities = (matchingGoals + notMatchingGoals).map(goalMapper::toEntity)
+        val goalEntities = (matching + notMatching).map(::asEntity)
         coEvery { goalDao.getAll() } returns flowOf(goalEntities)
 
         val result: List<GoalModel> = goalRepository.getQueriedGoals(goalQuery).first()
-        assertThat(result).containsExactlyElementsIn(matchingGoals)
+        assertThat(result).containsExactlyElementsIn(matching)
     }
 
     private suspend fun getQueriedGoals(
         goals: List<GoalModel>,
         goalQuery: GoalQuery,
     ): List<GoalModel> {
-        val goalEntities = goals.map(goalMapper::toEntity)
+        val goalEntities = goals.map(::asEntity)
         coEvery { goalDao.getAll() } returns flowOf(goalEntities)
 
         return goalRepository.getQueriedGoals(goalQuery).first()
@@ -118,13 +127,11 @@ class GoalRepositoryTest {
         runBlocking {
             // Arrange
             val goalModel =
-                GoalModel(
-                    id = 1,
-                    title = "goal",
+                goalFactory.createDraft(
                     status = inProgressStatus,
                     priority = normalPriority,
                 )
-            val beforeGoalEntity = goalMapper.toEntity(goalModel)
+            val beforeGoalEntity = asEntity(goalModel)
             coEvery { goalDao.getGoalById(beforeGoalEntity.id) } returns flowOf(beforeGoalEntity)
 
             // Act
@@ -134,7 +141,7 @@ class GoalRepositoryTest {
             // Assert
 
             val updatedGoalModel = goalModel.copy(status = doneStatus)
-            val goalEntity = goalMapper.toEntity(updatedGoalModel)
+            val goalEntity = asEntity(updatedGoalModel)
             coVerify {
                 goalDao.update(
                     goalEntity.id,
@@ -146,19 +153,18 @@ class GoalRepositoryTest {
         }
 
     @Test
-    fun `changeGoalStatusToNextInCycle should mark goal as not done if done`() =
+    fun `cycleGoalStatus should mark goal as not done if done`() =
         runBlocking {
             // Arrange
-            val goalModel = GoalModel(id = 1, "goal", doneStatus, normalPriority)
-            val goalEntity = goalMapper.toEntity(goalModel)
+            val goalModel = goalFactory.createDraft("goal", doneStatus, normalPriority)
+            val goalEntity = asEntity(goalModel)
             coEvery { goalDao.getGoalById(goalEntity.id) } returns flowOf(goalEntity)
 
             // Act
             goalRepository.cycleGoalStatus(goalModel)
 
             // Assert
-            val updatedGoalModel = goalModel.copy(status = inProgressStatus)
-            val updatedGoalEntity = goalMapper.toEntity(updatedGoalModel)
+            val updatedGoalEntity = asEntity(goalModel.copy(status = inProgressStatus))
             coVerify {
                 goalDao.update(
                     updatedGoalEntity.id,
@@ -175,17 +181,14 @@ class GoalRepositoryTest {
             // Arrange
             val matchingGoals =
                 listOf(
-                    GoalModel(1, "Goal match 1", inProgressStatus, normalPriority),
-                    GoalModel(2, "Goal match 2", inProgressStatus, normalPriority),
-                    GoalModel(3, "Goal match 3", doneStatus, normalPriority),
+                    goalFactory.createDraft("match 1", inProgressStatus, normalPriority),
+                    goalFactory.createDraft("match 2", inProgressStatus, normalPriority),
+                    goalFactory.createDraft("match 3", doneStatus, normalPriority),
                 )
-            val filter =
-                GoalFilter.Builder
-                    .createMatchAllBuilder(priorityProvider, statusProvider)
-                    .build()
+            val filter = matchAllBuilder.build()
 
             // Act & Assert
-            assertThatGoalFilterMatches(matchingGoals, emptyList(), filter)
+            assertFilterMatches(matching = matchingGoals, notMatching = emptyList(), filter)
         }
     }
 
@@ -195,22 +198,20 @@ class GoalRepositoryTest {
             // Arrange
             val matchingGoals =
                 listOf(
-                    GoalModel(id = 1, "Goal match 1", inProgressStatus, normalPriority),
-                    GoalModel(id = 2, "Goal match 2", inProgressStatus, normalPriority),
+                    goalFactory.createDraft("match 1", inProgressStatus, normalPriority),
+                    goalFactory.createDraft("match 2", inProgressStatus, normalPriority),
                 )
             val notMatchingGoals =
                 listOf(
-                    GoalModel(id = 2, "not matching", inProgressStatus, normalPriority),
+                    goalFactory.createDraft("not matching", inProgressStatus, normalPriority),
                 )
             val filter =
-                GoalFilter
-                    .Builder
-                    .createMatchAllBuilder(priorityProvider, statusProvider)
+                matchAllBuilder
                     .setSearchQuery("Goal")
                     .build()
 
             // Act & Assert
-            assertThatGoalFilterMatches(matchingGoals, notMatchingGoals, filter)
+            assertFilterMatches(matchingGoals, notMatchingGoals, filter)
         }
     }
 
@@ -220,19 +221,17 @@ class GoalRepositoryTest {
             // Arrange
             val notMatchingGoals =
                 listOf(
-                    GoalModel(id = 1, "not matching 1", inProgressStatus, normalPriority),
-                    GoalModel(id = 2, "not matching 2", inProgressStatus, normalPriority),
+                    goalFactory.createDraft("not matching 1", inProgressStatus, normalPriority),
+                    goalFactory.createDraft("not matching 2", inProgressStatus, normalPriority),
                 )
 
             val filter =
-                GoalFilter
-                    .Builder
-                    .createMatchAllBuilder(priorityProvider, statusProvider)
+                matchAllBuilder
                     .setSearchQuery("nothing")
                     .build()
 
             // Act & Assert
-            assertThatGoalFilterMatches(emptyList(), notMatchingGoals, filter)
+            assertFilterMatches(emptyList(), notMatchingGoals, filter)
         }
     }
 
@@ -242,24 +241,18 @@ class GoalRepositoryTest {
             // Arrange
             val matchingGoals =
                 listOf(
-                    GoalModel(id = 1, "Goal 1", inProgressStatus, normalPriority),
-                    GoalModel(id = 2, "Goal 2", doneStatus, normalPriority),
+                    goalFactory.createDraft("Goal 1", inProgressStatus, normalPriority),
+                    goalFactory.createDraft("Goal 2", doneStatus, normalPriority),
                 )
-            val notMatchingGoals =
-                listOf(
-                    GoalModel(id = 3, "Not Matching", inProgressStatus, highPriority),
-                )
+            val notMatchingGoals = listOf(goalFactory.createDraft("Not Matching", inProgressStatus, highPriority))
 
             val filter =
-                GoalFilter
-                    .Builder
-                    .createMatchAllBuilder(priorityProvider, statusProvider)
+                matchAllBuilder
                     .setPriorityVisibility(highPriority, false)
-                    .setStatusVisibility(doneStatus, true)
                     .build()
 
             // Act & Assert
-            assertThatGoalFilterMatches(matchingGoals, notMatchingGoals, filter)
+            assertFilterMatches(matchingGoals, notMatchingGoals, filter)
         }
 
     @Test
@@ -268,21 +261,15 @@ class GoalRepositoryTest {
             // Arrange
             val goals =
                 listOf(
-                    GoalModel(id = 1, "A Goal", inProgressStatus, normalPriority),
-                    GoalModel(id = 2, "B Goal", inProgressStatus, highPriority),
-                    GoalModel(id = 3, "C Goal", inProgressStatus, normalPriority),
+                    goalFactory.createDraft("A Goal", inProgressStatus, normalPriority),
+                    goalFactory.createDraft("B Goal", inProgressStatus, highPriority),
+                    goalFactory.createDraft("C Goal", inProgressStatus, normalPriority),
                 )
-
-            val filter =
-                GoalFilter
-                    .Builder
-                    .createMatchAllBuilder(priorityProvider, statusProvider)
-                    .build()
 
             val goalQuery =
                 GoalQuery(
-                    filter = filter,
-                    sortOptions = emptyList(),
+                    filter = matchAllBuilder.build(),
+                    sortOptions = emptySet<GoalSortOption>().toSortedSet(),
                     priorityProvider = priorityProvider,
                     statusProvider = statusProvider,
                     defaultComparator = compareBy { it.priority.importance },
@@ -307,19 +294,19 @@ class GoalRepositoryTest {
             // Arrange
             val matchingGoals =
                 listOf(
-                    GoalModel(id = 1, "A Goal 1", inProgressStatus, normalPriority),
-                    GoalModel(id = 2, "B Goal 2", inProgressStatus, highPriority),
+                    goalFactory.createDraft("A Goal 1", inProgressStatus, normalPriority),
+                    goalFactory.createDraft("B Goal 2", inProgressStatus, highPriority),
                 )
 
             val notMatchingGoals =
                 listOf(
-                    GoalModel(id = 3, "Goal 3", doneStatus, normalPriority),
+                    goalFactory.createDraft("Goal 3", doneStatus, normalPriority),
                 )
 
             val filter =
                 GoalFilter
                     .Builder
-                    .createMatchAllBuilder(priorityProvider, statusProvider)
+                    .matchAllBuilder(priorityProvider, statusProvider)
                     .setStatusVisibility(doneStatus, false)
                     .build()
 

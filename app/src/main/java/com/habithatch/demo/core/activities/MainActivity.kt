@@ -19,14 +19,13 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @Inject
-    lateinit var habitHatchConfig: HabitHatchConfig
+    lateinit var config: HabitHatchConfig
 
     @Inject
     lateinit var typographyFactory: TypographyFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        startActivity(Intent(this, ImmediatelyFinishingActivity::class.java))
 
         setContent {
             AppTheme(
@@ -37,7 +36,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background,
                 ) {
                     AppNavigation(
-                        config = habitHatchConfig,
+                        config = config,
                     )
                 }
             }

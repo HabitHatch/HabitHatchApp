@@ -9,7 +9,7 @@ import java.util.UUID
 @Immutable
 @Entity(tableName = "goal")
 data class GoalEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey val id: Int,
     val title: String,
     val userId: UUID,
     val statusLabel: String,

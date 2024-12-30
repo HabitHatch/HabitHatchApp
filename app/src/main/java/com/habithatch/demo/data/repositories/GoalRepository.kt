@@ -5,12 +5,14 @@ import com.habithatch.demo.core.query.GoalFilter
 import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.core.util.getNextHigherOrLowest
 import com.habithatch.demo.data.daos.GoalDao
+import com.habithatch.demo.data.entities.GoalEntity
 import com.habithatch.demo.data.mappers.GoalMapper
 import com.habithatch.demo.data.models.GoalModel
 import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
@@ -20,14 +22,23 @@ class GoalRepository
         private val goalDao: GoalDao,
         private val statusesProvider: GoalStatusProvider,
         private val goalMapper: GoalMapper,
+        userRepository: UserRepository,
     ) {
+        private val currentUserFlow = userRepository.getUser()
+
+        private suspend fun asEntity(goalModel: GoalModel): GoalEntity {
+            val currentUser = currentUserFlow.firstOrNull()
+            checkNotNull(currentUser) { "User must be created before inserting goals" }
+            return goalMapper.asEntity(goalModel, currentUser.uuid)
+        }
+
         fun getAll(): Flow<Collection<GoalModel>> =
             goalDao.getAll().map { goals ->
-                goals.map(goalMapper::fromEntity)
+                goals.map(goalMapper::asModel)
             }
 
         suspend fun insert(goal: GoalModel) {
-            goalDao.insert(this.goalMapper.toEntity(goal))
+            goalDao.insert(asEntity(goal))
         }
 
         suspend fun deleteAll() = goalDao.deleteAll()
@@ -50,11 +61,15 @@ class GoalRepository
                 }
 
         suspend fun insertAll(goals: Collection<GoalModel>) {
-            goalDao.insertAll(goals.map(goalMapper::toEntity))
+            goalDao.insertAll(
+                goals.map {
+                    asEntity(it)
+                },
+            )
         }
 
         private suspend fun update(goal: GoalModel) {
-            val goalEntity = goalMapper.toEntity(goal)
+            val goalEntity = asEntity(goal)
             goalDao.update(
                 id = goalEntity.id,
                 title = goalEntity.title,

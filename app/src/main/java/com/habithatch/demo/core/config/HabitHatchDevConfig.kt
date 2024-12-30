@@ -19,6 +19,7 @@ class HabitHatchDevConfig
     @Inject
     constructor(
         googleFontProvider: GoogleFont.Provider,
+        goalModelFactory: GoalModel.Factory,
     ) : HabitHatchConfig {
         override val pets =
             listOf(
@@ -65,6 +66,7 @@ class HabitHatchDevConfig
             GoalModel.Status(
                 label = "In Progress",
                 stepNumber = 1,
+                    isDone = false,
             )
 
         private val doneStatus =
@@ -80,7 +82,7 @@ class HabitHatchDevConfig
         private val normalPriority =
             GoalModel.Priority(
                 label = "Normal",
-                importance = 10,
+                importance = GoalModel.Priority.Importance.Normal,
                 iconResourceId = R.drawable.vuesax_minus_cirlce,
                 getColor = @Composable { MaterialTheme.colorScheme.tertiary },
             )
@@ -88,7 +90,7 @@ class HabitHatchDevConfig
         private val highPriority =
             GoalModel.Priority(
                 label = "High",
-                importance = 20,
+                importance = GoalModel.Priority.Importance.High,
                 iconResourceId = R.drawable.vuesax_warning_2,
                 getColor = @Composable { MaterialTheme.colorScheme.error },
             )
@@ -98,8 +100,8 @@ class HabitHatchDevConfig
         override val defaultPriority = normalPriority
         val numberExampleGoals = 12
         override val exampleGoals =
-            ExampleGoalFactory(this, this)
-                .createExampleGoals(numberExampleGoals, uniqueTitle = true)
+            ExampleGoalFactory(this, this, goalModelFactory)
+                .createExampleGoals(numberExampleGoals, uniqueTitles = true)
                 .toSet()
 
         private val sortOptions =
@@ -124,7 +126,7 @@ class HabitHatchDevConfig
             val goalFilter =
                 GoalFilter
                     .Builder
-                    .createMatchAllBuilder(this, this)
+                    .matchAllBuilder(this, this)
                     .excludeStatus(doneStatus)
                     .build()
 

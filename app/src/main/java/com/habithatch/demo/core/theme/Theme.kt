@@ -28,7 +28,7 @@ val ColorScheme.onSuccessContainer: Color
     @Composable
     get() = onSuccessContainerScheme.color
 
-@Suppress("ktlint:standard:function-naming","FunctionNaming")
+@Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun AppTheme(
     typography: Typography,

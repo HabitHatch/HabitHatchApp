@@ -95,7 +95,11 @@ fun HomeScreen(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
-    val config = HabitHatchDevConfig(AppModule.provideGoogleFontProvider())
+    val config =
+        HabitHatchDevConfig(
+            AppModule().provideGoogleFontProvider(),
+            GoalModel.Factory(),
+        )
 
     AppTheme(
         typography = MaterialTheme.typography,
@@ -130,7 +134,10 @@ fun HomeScreenPreview() {
                     addGoalDialogState =
                         AddGoalDialogState(
                             showDialog = false,
-                            goal = GoalModel(config.defaultStatus, config.defaultPriority),
+                            goal =
+                                GoalModel
+                                    .Factory()
+                                    .createDraft(config.defaultStatus, config.defaultPriority),
                             allPriorities = config.priorities,
                         ),
                 ),

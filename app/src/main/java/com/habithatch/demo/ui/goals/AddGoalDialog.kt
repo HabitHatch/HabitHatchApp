@@ -5,8 +5,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.core.util.getNextHigherOrLowest
 import com.habithatch.demo.data.models.GoalModel
@@ -17,38 +19,41 @@ fun AddGoalDialog(
     state: AddGoalDialogState,
     dialogTitle: String = "Add Goal",
 ) {
+    var goal by remember { mutableStateOf(state.goal) }
     if (state.showDialog) {
         AlertDialog(
-            onDismissRequest = state::dismiss,
+            onDismissRequest = { state.onDismiss() },
             title = {
                 Text(text = dialogTitle, style = MaterialTheme.typography.headlineSmall)
             },
             text = {
                 Column {
                     OutlinedTextField(
-                        value = state.goalTitle,
-                        onValueChange = state::onTitleChange,
+                        value = goal.title,
+                        onValueChange = { goal = goal.copy(title = it) },
                         modifier = Modifier.fillMaxWidth(),
                         label = { Text("Goal Name") },
-                        isError = state.addedBlankGoal,
-                        supportingText = {
-                            if (state.addedBlankGoal) {
-                                Text(
-                                    text = state.blankGoalSubmissionErrorMessage,
-                                    color = MaterialTheme.colorScheme.error,
-                                )
-                            }
-                        },
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    PriorityToggle(
-                        priority = state.goal.priority,
-                        onPriorityToggle = state::togglePriority,
+                    IconToggle(
+                        label = goal.priority.label,
+                        color = goal.priority.getColor(),
+                        painter = painterResource(id = goal.priority.iconResourceId),
+                        onToggle = {
+                            val newPriority =
+                                state.allPriorities.getNextHigherOrLowest(
+                                    bySelector = { it.importance.value },
+                                    element = goal.priority,
+                                )
+                            goal = goal.copy(priority = newPriority)
+                        },
                     )
                 }
             },
             confirmButton = {
-                TextButton(onClick = state::addGoalIfValid) {
+                TextButton(onClick = {
+                    state.onAddGoal(state.goal)
+                }) {
                     Text("Add")
                 }
             },
@@ -65,45 +70,12 @@ data class AddGoalDialogState(
     val showDialog: Boolean,
     val goal: GoalModel,
     val allPriorities: Set<GoalModel.Priority>,
+    val togglePriority: () -> Unit = {},
     val onAddGoal: (GoalModel) -> Unit = {},
     val onDismiss: () -> Unit = {},
+    val onGoalChange: (GoalModel) -> Unit = {},
 ) {
-    var goalTitle by mutableStateOf(goal.title)
-    var addedBlankGoal by mutableStateOf(false)
-    val blankGoalSubmissionErrorMessage = "Goal name cannot be empty"
-
-    fun onTitleChange(newTitle: String) {
-        goalTitle = newTitle
-        addedBlankGoal = false
-    }
-
-    fun togglePriority() {
-        val newPriority =
-            allPriorities.getNextHigherOrLowest(
-                bySelector = { it.importance },
-                element = goal.priority,
-            )
-        updateGoal(priority = newPriority)
-    }
-
-    fun addGoalIfValid() {
-        if (goalTitle.isNotBlank()) {
-            onAddGoal(goal.copy(title = goalTitle))
-        } else {
-            addedBlankGoal = true
-        }
-    }
-
     fun dismiss() {
         onDismiss()
-    }
-
-    private fun updateGoal(
-        title: String = goalTitle,
-        priority: GoalModel.Priority = goal.priority,
-    ) {
-        goal.copy(title = title, priority = priority).also {
-            goalTitle = it.title
-        }
     }
 }

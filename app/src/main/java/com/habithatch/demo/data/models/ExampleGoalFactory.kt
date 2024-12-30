@@ -41,6 +41,7 @@ val habitNames =
 class ExampleGoalFactory(
     private val priorityProvider: GoalPriorityProvider,
     private val statusProvider: GoalStatusProvider,
+    private val goalModelFactory: GoalModel.Factory,
 ) {
     fun randomPriority() = priorityProvider.priorities.random()
 
@@ -49,7 +50,7 @@ class ExampleGoalFactory(
     fun createExampleGoal(
         pastYears: Long = 1,
     ): GoalModel =
-        GoalModel(
+        goalModelFactory.createExample(
             title = habitNames.random(),
             status = randomStatus(),
             priority = randomPriority(),
@@ -59,34 +60,22 @@ class ExampleGoalFactory(
     fun createExampleGoals(
         count: Int,
         pastYears: Long = 1,
-        uniqueTitle: Boolean = false,
+        uniqueTitles: Boolean = false,
     ): Collection<GoalModel> {
         val generatedGoals = mutableSetOf<GoalModel>()
-        val usedTitles = mutableSetOf<String>()
-        require(!uniqueTitle || count <= habitNames.size) {
+        val getUsedTitles = { generatedGoals.map { it.title }.toSet() }
+        require(!uniqueTitles || count <= habitNames.size) {
             "Cannot generate more goals than there are unique habit names"
         }
 
         repeat(count) {
             var goal = createExampleGoal(pastYears)
 
-            while (uniqueTitle && usedTitles.contains(goal.title)) {
+            while (uniqueTitles && getUsedTitles().contains(goal.title)) {
                 goal = createExampleGoal(pastYears)
             }
             generatedGoals.add(goal)
         }
         return generatedGoals
-    }
-}
-
-// create a class Person
-class Person {
-    // create a companion object
-    companion object {
-        // create a function sayHello
-        fun sayHello() {
-            // print the string "Hello, World!"
-            println("Hello, World!")
-        }
     }
 }

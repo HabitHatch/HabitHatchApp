@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.habithatch.demo.R
 import com.habithatch.demo.core.app.AppModule
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.navigation.Screen
@@ -75,7 +76,6 @@ fun TopNavBar(
 fun TopAppInformationBarPreview() {
     TopNavBar(
         title = "Home",
-        rightNavItem = HabitHatchDevConfig(AppModule.provideGoogleFontProvider()).topRightNavItem,
-        onRightNavItemClicked = {},
+        rightNavItem = Screen("settings", R.drawable.vuesax_profile_circle),
     )
 }

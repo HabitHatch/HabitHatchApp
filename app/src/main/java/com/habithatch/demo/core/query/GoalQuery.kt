@@ -3,6 +3,9 @@ package com.habithatch.demo.core.query
 import androidx.compose.runtime.Immutable
 import com.habithatch.demo.core.config.GoalPriorityProvider
 import com.habithatch.demo.core.config.GoalStatusProvider
+import com.habithatch.demo.core.util.disableAll
+import com.habithatch.demo.core.util.getUsed
+import com.habithatch.demo.core.util.removeByLabel
 import com.habithatch.demo.data.models.GoalModel
 import java.util.SortedSet
 
@@ -26,35 +29,20 @@ data class GoalQuery(
         return setActiveSortOption(sortOption)
     }
 
-    fun getComparator(): Comparator<GoalModel> {
-        val activeSortOption = getActiveSortOption()
-
-        if (activeSortOption != null) {
-            return activeSortOption.getComparator().then(defaultComparator)
-        }
-        return defaultComparator
-    }
+    fun getComparator() = (getActiveComparator() ?: compareBy { 0 }).then(defaultComparator)
 
     fun getFilterBuilder() = GoalFilter.Builder.createFromFilter(filter, priorityProvider, statusProvider)
 
     private fun setActiveSortOption(sortOption: GoalSortOption): GoalQuery {
-        val updatedOptions =
-            sortOptions
-                .map { option ->
-                    if (option.label == sortOption.label) {
-                        sortOption
-                    } else {
-                        option.copy(sortState = SortState.NOT_USED)
-                    }
-                }.toSortedSet()
-        return this.copy(sortOptions = updatedOptions)
+        val disabledOptions = sortOptions.removeByLabel(sortOption.label).disableAll()
+        return this.copy(sortOptions = (disabledOptions + sortOption).toSortedSet())
     }
 
-    private fun getActiveSortOption(): GoalSortOption? = sortOptions.firstOrNull { it.sortState != SortState.NOT_USED }
+    private fun getActiveComparator() = sortOptions.getUsed().firstOrNull()?.comparator
 
     @Throws(IllegalStateException::class)
     private fun checkValidity() {
-        check(sortOptions.filter { it.sortState != SortState.NOT_USED }.size <= 1) {
+        check(sortOptions.getUsed().size <= 1) {
             "There must be no more than one active sortOption"
         }
         check(filter.priorityVisibility.keys == priorityProvider.priorities.toSet()) {

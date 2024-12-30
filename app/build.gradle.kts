@@ -115,6 +115,7 @@ dependencies {
 
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.7.6")
+    androidTestImplementation("androidx.compose.ui:ui-test-manifest:1.7.6")
     androidTestImplementation("com.google.truth:truth:1.4.4")
 }
 

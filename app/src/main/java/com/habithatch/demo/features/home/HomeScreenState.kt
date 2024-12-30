@@ -32,7 +32,6 @@ class HomeScreenState(
     val homeState: HomeState,
 )
 
-@Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScreenState {
     val user by viewModel.user.collectAsStateWithLifecycle()
@@ -40,6 +39,7 @@ fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScr
     val allGoalsDone by viewModel.allGoalsDone.collectAsStateWithLifecycle()
     val goalQuery by viewModel.goalQuery.collectAsStateWithLifecycle()
     val hasAnyGoals by viewModel.hasAnyGoals.collectAsStateWithLifecycle()
+
     var showDialog by remember { mutableStateOf(false) }
 
     val addGoalDialogState =
@@ -47,7 +47,7 @@ fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScr
             AddGoalDialogState(
                 showDialog = showDialog,
                 goal =
-                    GoalModel(
+                    GoalModel.Factory().createDraft(
                         priority = viewModel.config.defaultPriority,
                         status = viewModel.config.defaultStatus,
                     ),
@@ -56,7 +56,6 @@ fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScr
                     viewModel.addGoal(it)
                     showDialog = false
                 },
-                onDismiss = { showDialog = false },
             )
         }
 
@@ -69,6 +68,7 @@ fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScr
                 onToggleGoalStatus = viewModel::toggleGoalStatus,
             )
         }
+
     val homeState =
         remember(user, allGoalsDone, goalQuery, showDialog) {
             HomeState(
@@ -80,6 +80,7 @@ fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScr
                 onAddGoalClicked = { showDialog = true },
             )
         }
+
     return remember(homeState, goalsViewState, addGoalDialogState) {
         HomeScreenState(
             addGoalDialogState = addGoalDialogState,

@@ -6,19 +6,21 @@ import com.habithatch.demo.data.models.GoalModel
 @Immutable
 data class GoalSortOption(
     val label: String,
-    private val comparator: Comparator<GoalModel>,
+    private val _comparator: Comparator<GoalModel>,
     val sortState: SortState = SortState.NOT_USED,
     private val uiIndex: Int,
 ) : Comparable<GoalSortOption> {
-    @Throws(IllegalStateException::class)
-    fun getComparator(): Comparator<GoalModel> =
-        when (sortState) {
-            SortState.ASCENDING -> comparator
-            SortState.DESCENDING -> comparator.reversed()
-            else -> error("Sort state is not used")
-        }
+    val comparator: Comparator<GoalModel>
+        get() =
+            when (sortState) {
+                SortState.ASCENDING -> _comparator
+                SortState.DESCENDING -> _comparator.reversed()
+                else -> error("Sort state is not used")
+            }
 
     fun cycleState(): GoalSortOption = this.copy(sortState = sortState.nextInCycle())
+
+    fun isUsed(): Boolean = sortState != SortState.NOT_USED
 
     override fun equals(other: Any?) = other is GoalSortOption && other.label == label && other.sortState == sortState
 

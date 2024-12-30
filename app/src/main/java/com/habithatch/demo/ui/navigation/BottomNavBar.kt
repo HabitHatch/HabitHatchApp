@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import com.habithatch.demo.core.app.AppModule
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.navigation.Screen
+import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.ui.navigation.NavItem
 
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
@@ -52,7 +53,11 @@ fun BottomNavBar(
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun BottomNavigationBarPreview() {
-    val config = HabitHatchDevConfig(AppModule.provideGoogleFontProvider())
+    val config =
+        HabitHatchDevConfig(
+            AppModule().provideGoogleFontProvider(),
+            GoalModel.Factory(),
+        )
     val navigationItems = config.navigationItems
 
     val homeItem =

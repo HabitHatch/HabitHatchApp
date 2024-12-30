@@ -90,20 +90,19 @@ data class GoalFilter private constructor(
         }
 
         companion object {
-            fun createMatchAllBuilder(
+            fun matchAllBuilder(
                 priorityProvider: GoalPriorityProvider,
                 statusProvider: GoalStatusProvider,
-            ): Builder = Builder(priorityProvider, statusProvider).setMatchAll()
+            ) = Builder(priorityProvider, statusProvider).setMatchAll()
 
             fun createFromFilter(
                 goalFilter: GoalFilter,
                 priorityProvider: GoalPriorityProvider,
                 statusProvider: GoalStatusProvider,
-            ): Builder =
-                Builder(priorityProvider, statusProvider)
-                    .setPriorityVisibility(goalFilter.priorityVisibility)
-                    .setStatusVisibility(goalFilter.statusVisibility)
-                    .setSearchQuery(goalFilter.searchQuery)
+            ) = Builder(priorityProvider, statusProvider)
+                .setPriorityVisibility(goalFilter.priorityVisibility)
+                .setStatusVisibility(goalFilter.statusVisibility)
+                .setSearchQuery(goalFilter.searchQuery)
         }
     }
 
