@@ -7,45 +7,51 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.habithatch.demo.R
 import com.habithatch.demo.core.util.getNextHigherOrLowest
 import com.habithatch.demo.data.models.GoalModel
+import com.habithatch.demo.ui.common.forms.SimpleIconButton
 
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun AddGoalDialog(
     state: AddGoalDialogState,
-    dialogTitle: String = "Add Goal",
 ) {
     var goal by remember { mutableStateOf(state.goal) }
     if (state.showDialog) {
         AlertDialog(
             onDismissRequest = { state.onDismiss() },
             title = {
-                Text(text = dialogTitle, style = MaterialTheme.typography.headlineSmall)
+                Text(text = stringResource(R.string.add_goal), style = MaterialTheme.typography.headlineSmall)
             },
             text = {
-                Column {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
                     OutlinedTextField(
                         value = goal.title,
                         onValueChange = { goal = goal.copy(title = it) },
                         modifier = Modifier.fillMaxWidth(),
-                        label = { Text("Goal Name") },
+                        label = { Text(stringResource(R.string.goal_dialog_text_label)) },
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    IconToggle(
-                        label = goal.priority.label,
+                    SimpleIconButton(
+                        labelRes = R.string.priority_toggle_label,
                         color = goal.priority.getColor(),
                         painter = painterResource(id = goal.priority.iconResourceId),
-                        onToggle = {
-                            val newPriority =
-                                state.allPriorities.getNextHigherOrLowest(
-                                    bySelector = { it.importance.value },
-                                    element = goal.priority,
+                        onClick = {
+                            goal =
+                                goal.copy(
+                                    priority =
+                                        state.allPriorities.getNextHigherOrLowest(
+                                            bySelector = { it.importance.value },
+                                            element = goal.priority,
+                                        ),
                                 )
-                            goal = goal.copy(priority = newPriority)
                         },
                     )
                 }
@@ -54,12 +60,12 @@ fun AddGoalDialog(
                 TextButton(onClick = {
                     state.onAddGoal(state.goal)
                 }) {
-                    Text("Add")
+                    Text(stringResource(R.string.confirm_add_goal))
                 }
             },
             dismissButton = {
-                TextButton(onClick = state::dismiss) {
-                    Text("Cancel")
+                TextButton(onClick = state.onDismiss) {
+                    Text(stringResource(R.string.cancel_add_goal))
                 }
             },
         )
@@ -67,15 +73,9 @@ fun AddGoalDialog(
 }
 
 data class AddGoalDialogState(
-    val showDialog: Boolean,
+    val showDialog: Boolean = false,
     val goal: GoalModel,
     val allPriorities: Set<GoalModel.Priority>,
-    val togglePriority: () -> Unit = {},
     val onAddGoal: (GoalModel) -> Unit = {},
     val onDismiss: () -> Unit = {},
-    val onGoalChange: (GoalModel) -> Unit = {},
-) {
-    fun dismiss() {
-        onDismiss()
-    }
-}
+)

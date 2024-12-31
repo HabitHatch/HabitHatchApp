@@ -10,8 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.habithatch.demo.R
+import com.habithatch.demo.core.theme.success
 import com.habithatch.demo.data.entities.Pet
+
+@Composable
+fun borderColor(isPetHappy: Boolean) = if (isPetHappy) MaterialTheme.colorScheme.success else MaterialTheme.colorScheme.error
 
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
@@ -20,32 +26,26 @@ fun PetAnimation(
     isPetHappy: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    val borderColor =
-        if (isPetHappy) {
-            MaterialTheme.colorScheme.tertiary
-        } else {
-            MaterialTheme.colorScheme.error
-        }
+    val imageShape = MaterialTheme.shapes.medium
 
     Row(
         modifier = modifier,
     ) {
         Card(
-            shape = MaterialTheme.shapes.medium,
+            shape = imageShape,
             modifier =
                 Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f)
-                    .border(4.dp, borderColor, MaterialTheme.shapes.medium),
+                    .border(4.dp, borderColor(isPetHappy), imageShape),
         ) {
             Image(
                 painter = painterResource(id = pet.imageRes),
-                contentDescription = "${pet.name} image",
-                contentScale = ContentScale.Crop,
+                contentDescription = stringResource(R.string.pet_image_description),
                 modifier =
                     Modifier
                         .fillMaxSize()
-                        .clip(MaterialTheme.shapes.medium),
+                        .clip(imageShape),
             )
         }
     }

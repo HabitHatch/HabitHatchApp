@@ -15,16 +15,11 @@ import com.habithatch.demo.core.navigation.Screen
 fun NavItem(
     modifier: Modifier = Modifier.size(24.dp),
     navScreen: Screen,
-    isActive: Boolean,
     iconColor: Color,
-    onNavigationItemClicked: () -> Unit,
+    onClick: () -> Unit = {},
 ) {
     IconButton(
-        onClick = {
-            if (navScreen.enabled && !isActive) {
-                onNavigationItemClicked()
-            }
-        },
+        onClick = onClick,
         modifier = modifier,
         enabled = navScreen.enabled,
     ) {

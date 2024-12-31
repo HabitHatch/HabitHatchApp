@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -24,66 +22,60 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.habithatch.demo.R
 
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun ImageBox(
     imageRes: Int,
-    name: String,
     modifier: Modifier = Modifier,
     isChecked: Boolean,
 ) {
+    val cardShape = MaterialTheme.shapes.large
     val borderColor by animateColorAsState(
-        targetValue = if (isChecked) MaterialTheme.colorScheme.primary else Color.Companion.Transparent,
+        targetValue = if (isChecked) MaterialTheme.colorScheme.primary else Color.Transparent,
         label = "borderAnimation",
     )
     val indicatorColor by animateColorAsState(
         targetValue = if (isChecked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
         label = "indicatorColorAnimation",
     )
-    val indicatorPadding by animateDpAsState(
-        targetValue = if (isChecked) 8.dp else 10.dp,
-        label = "indicatorPaddingAnimation",
-    )
 
     Card(
-        shape = MaterialTheme.shapes.large,
+        shape = cardShape,
         modifier =
             modifier
                 .border(
                     width = if (isChecked) 2.dp else 0.dp,
                     color = borderColor,
-                    shape = MaterialTheme.shapes.large,
+                    shape = cardShape,
                 ),
     ) {
         Box(modifier = Modifier.aspectRatio(1f)) {
             Image(
-                painter = painterResource(id = imageRes),
-                contentDescription = "Pet image",
-                contentScale = ContentScale.Companion.Crop,
+                painter = painterResource(imageRes),
+                contentDescription = stringResource(R.string.pet_image_description),
                 modifier =
                     Modifier
                         .fillMaxSize()
-                        .clip(MaterialTheme.shapes.large),
+                        .clip(cardShape),
             )
 
             Box(
                 modifier =
                     modifier
                         .size(48.dp)
-                        .padding(indicatorPadding)
-                        .background(indicatorColor, CircleShape)
+                        .padding(10.dp)
                         .align(Alignment.BottomEnd),
             ) {
-                if (isChecked) {
-                    Icon(
-                        imageVector = Icons.Default.Check,
-                        contentDescription = "Selected $name",
-                        tint = MaterialTheme.colorScheme.onPrimary,
-                        modifier = Modifier.align(Alignment.Center),
-                    )
-                }
+                Icon(
+                    painter = painterResource(R.drawable.vuesax_tick_circle),
+                    contentDescription = stringResource(R.string.pet_selected_description),
+                    tint = indicatorColor,
+                    modifier = Modifier.align(Alignment.Center),
+                )
             }
         }
     }

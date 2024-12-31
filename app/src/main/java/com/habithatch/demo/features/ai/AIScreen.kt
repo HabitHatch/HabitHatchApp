@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.R
 
@@ -45,7 +46,10 @@ fun AIScreen(
         bottomBar = bottomNavBar,
     ) { paddingValues ->
         Column(
-            modifier = Modifier.padding(paddingValues).fillMaxSize(),
+            modifier =
+                Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
@@ -62,7 +66,7 @@ fun AIScreen(
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.vuesax_microphone_2),
-                    contentDescription = "Microphone",
+                    contentDescription = stringResource(R.string.microphone_icon_description),
                     tint = if (state.isListening) Color.Red else MaterialTheme.colorScheme.outline,
                 )
             }

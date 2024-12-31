@@ -11,8 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.ui.goals.item.GoalItem
+import com.habithatch.demo.R
 
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
@@ -26,11 +28,7 @@ fun GoalsView(
             modifier = Modifier.fillMaxSize(),
         ) {
             Text(
-                text =
-                    """
-                    You don't have any goals yet. Would you like to create some example goals?
-                    Or you can create your own goals by clicking the "+" button.
-                    """.trimIndent(),
+                text = stringResource(id = R.string.no_goals_explanation),
                 modifier =
                     Modifier
                         .align(Alignment.CenterHorizontally)
@@ -40,7 +38,7 @@ fun GoalsView(
                 onClick = state.onCreateExampleGoals,
                 modifier = Modifier.align(Alignment.CenterHorizontally).padding(vertical = 32.dp),
             ) {
-                Text("Create Example Goals")
+                Text(stringResource(id = R.string.example_goals_button))
             }
         }
     }
@@ -53,7 +51,7 @@ fun GoalsView(
             item {
                 GoalItem(
                     goal = goal,
-                    onToggleGoalStatus = { state.onToggleGoalStatus(goal) },
+                    onCycleGoalStatus = { state.onToggleGoalStatus(goal) },
                 )
             }
         }

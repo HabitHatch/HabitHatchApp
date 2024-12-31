@@ -14,8 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.R
-import com.habithatch.demo.core.app.AppModule
-import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -26,8 +24,6 @@ fun TopNavBar(
     rightNavItem: Screen? = null,
     leftNavItem: Screen? = null,
     modifier: Modifier = Modifier,
-    iconButtonModifier: Modifier = Modifier.fillMaxHeight().width(60.dp),
-    iconModifier: Modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
     onRightNavItemClicked: () -> Unit = {},
     onLeftNavItemClicked: () -> Unit = {},
 ) {
@@ -48,24 +44,22 @@ fun TopNavBar(
             )
         },
         navigationIcon = {
-            if (leftNavItem == null) return@CenterAlignedTopAppBar
-
-            NavItem(
-                navScreen = leftNavItem,
-                isActive = false,
-                iconColor = MaterialTheme.colorScheme.onTertiary,
-                onNavigationItemClicked = onLeftNavItemClicked,
-            )
+            leftNavItem?.let {
+                NavItem(
+                    navScreen = leftNavItem,
+                    iconColor = MaterialTheme.colorScheme.onTertiary,
+                    onClick = onLeftNavItemClicked,
+                )
+            }
         },
         actions = {
-            if (rightNavItem == null) return@CenterAlignedTopAppBar
-
-            NavItem(
-                navScreen = rightNavItem,
-                isActive = false,
-                iconColor = MaterialTheme.colorScheme.onTertiary,
-                onNavigationItemClicked = onRightNavItemClicked,
-            )
+            rightNavItem?.let {
+                NavItem(
+                    navScreen = rightNavItem,
+                    iconColor = MaterialTheme.colorScheme.onTertiary,
+                    onClick = onRightNavItemClicked,
+                )
+            }
         },
     )
 }

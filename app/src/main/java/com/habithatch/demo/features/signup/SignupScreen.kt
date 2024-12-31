@@ -8,6 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.habithatch.demo.R
 import com.habithatch.demo.ui.common.ImageBox
 import com.habithatch.demo.ui.common.ImageTextCard
 import com.habithatch.demo.ui.common.SelectionGrid
@@ -23,7 +25,7 @@ fun SignupScreen(
         horizontalAlignment = Alignment.Companion.CenterHorizontally,
     ) {
         Text(
-            text = "Choose your pet",
+            text = stringResource(R.string.pet_selection_cta),
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.primary,
         )
@@ -35,7 +37,6 @@ fun SignupScreen(
                     imageContent = {
                         ImageBox(
                             imageRes = pet.imageRes,
-                            name = pet.name,
                             isChecked = isChecked,
                         )
                     },

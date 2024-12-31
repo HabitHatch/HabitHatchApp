@@ -17,8 +17,8 @@ import com.habithatch.demo.ui.navigation.NavItem
 @Composable
 fun BottomNavBar(
     navigationItems: List<Screen>,
-    activeNavScreen: Screen?,
-    onNavigationItemClicked: (Screen) -> Unit,
+    activeNavScreen: Screen? = null,
+    onNavigationItemClicked: (Screen) -> Unit = {},
 ) {
     @Suppress("ktlint:standard:function-naming", "FunctionNaming")
     @Composable
@@ -38,9 +38,8 @@ fun BottomNavBar(
                 NavItem(
                     modifier = Modifier.size(24.dp).weight(1f),
                     navScreen = navScreen,
-                    isActive = navScreen == activeNavScreen,
                     iconColor = colorForItem(navScreen),
-                    onNavigationItemClicked = {
+                    onClick = {
                         onNavigationItemClicked(navScreen)
                     },
                 )

@@ -1,4 +1,4 @@
-package com.habithatch.demo.ui.goals
+package com.habithatch.demo.ui.common.forms
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -7,24 +7,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
-fun IconToggle(
+fun SimpleIconButton(
     modifier: Modifier = Modifier.size(36.dp),
-    label: String,
+    labelRes: Int,
     color: Color,
     painter: Painter,
-    onToggle: () -> Unit,
+    onClick: () -> Unit,
 ) {
     IconButton(
-        onClick = onToggle,
+        onClick = onClick,
         modifier = modifier,
     ) {
         Icon(
             painter = painter,
-            contentDescription = label,
+            contentDescription = stringResource(labelRes),
             tint = color,
         )
     }

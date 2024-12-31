@@ -7,12 +7,11 @@ import com.habithatch.demo.core.util.disableAll
 import com.habithatch.demo.core.util.getUsed
 import com.habithatch.demo.core.util.removeByLabel
 import com.habithatch.demo.data.models.GoalModel
-import java.util.SortedSet
 
 @Immutable
 data class GoalQuery(
     val filter: GoalFilter,
-    val sortOptions: SortedSet<GoalSortOption>,
+    val sortOptions: List<GoalSortOption>,
     val defaultComparator: Comparator<GoalModel>,
     private val priorityProvider: GoalPriorityProvider,
     private val statusProvider: GoalStatusProvider,
@@ -35,7 +34,7 @@ data class GoalQuery(
 
     private fun setActiveSortOption(sortOption: GoalSortOption): GoalQuery {
         val disabledOptions = sortOptions.removeByLabel(sortOption.label).disableAll()
-        return this.copy(sortOptions = (disabledOptions + sortOption).toSortedSet())
+        return this.copy(sortOptions = disabledOptions + sortOption)
     }
 
     private fun getActiveComparator() = sortOptions.getUsed().firstOrNull()?.comparator

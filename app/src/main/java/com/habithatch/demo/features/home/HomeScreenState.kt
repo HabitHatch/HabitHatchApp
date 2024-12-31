@@ -8,28 +8,27 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.habithatch.demo.core.query.GoalFilter
-import com.habithatch.demo.core.query.GoalQuery
-import com.habithatch.demo.core.query.GoalSortOption
-import com.habithatch.demo.data.entities.User
+import com.habithatch.demo.data.entities.Pet
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.ui.goals.AddGoalDialogState
+import com.habithatch.demo.ui.goals.GoalFilterState
+import com.habithatch.demo.ui.goals.GoalSortState
 import com.habithatch.demo.ui.goals.GoalsViewState
 
-data class HomeState(
-    val user: User?,
-    val goalQuery: GoalQuery,
-    val allGoalsDone: Boolean,
+data class CoreHomeState(
+    val pet: Pet?,
+    val isUserLoggedIn: Boolean = false,
+    val allGoalsDone: Boolean = false,
     val onAddGoalClicked: () -> Unit = {},
-    val onFilterChange: (GoalFilter) -> Unit = {},
-    val onSortOptionChange: (GoalSortOption) -> Unit = {},
 )
 
 @Stable
 class HomeScreenState(
     val addGoalDialogState: AddGoalDialogState,
     val goalsViewState: GoalsViewState,
-    val homeState: HomeState,
+    val goalFilterState: GoalFilterState,
+    val goalSortState: GoalSortState,
+    val core: CoreHomeState,
 )
 
 @Composable
@@ -56,6 +55,7 @@ fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScr
                     viewModel.addGoal(it)
                     showDialog = false
                 },
+                onDismiss = { showDialog = false },
             )
         }
 
@@ -69,23 +69,39 @@ fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScr
             )
         }
 
-    val homeState =
+    val coreHomeState =
         remember(user, allGoalsDone, goalQuery, showDialog) {
-            HomeState(
-                user = user,
+            CoreHomeState(
+                pet = user?.pet,
+                isUserLoggedIn = user != null,
                 allGoalsDone = allGoalsDone,
-                goalQuery = goalQuery,
-                onFilterChange = viewModel::updateGoalFilter,
-                onSortOptionChange = viewModel::updateGoalSortOption,
                 onAddGoalClicked = { showDialog = true },
             )
         }
 
-    return remember(homeState, goalsViewState, addGoalDialogState) {
+    val goalFilterState =
+        remember(goalQuery) {
+            GoalFilterState(
+                goalFilterBuilder = goalQuery.getFilterBuilder(),
+                onGoalFilterChange = viewModel::updateGoalFilter,
+            )
+        }
+
+    val goalSortState =
+        remember(goalQuery) {
+            GoalSortState(
+                sortOptions = goalQuery.sortOptions,
+                onSortOptionChange = viewModel::updateGoalSortOption,
+            )
+        }
+
+    return remember(coreHomeState, goalsViewState, addGoalDialogState) {
         HomeScreenState(
             addGoalDialogState = addGoalDialogState,
             goalsViewState = goalsViewState,
-            homeState = homeState,
+            goalFilterState = goalFilterState,
+            goalSortState = goalSortState,
+            core = coreHomeState,
         )
     }
 }

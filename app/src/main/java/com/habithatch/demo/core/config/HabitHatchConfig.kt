@@ -23,5 +23,5 @@ interface HabitHatchConfig :
 
     val bodyFontFamily: FontFamily
 
-    fun getDefaultGoalQuery(): GoalQuery
+    val defaultGoalQuery: GoalQuery
 }

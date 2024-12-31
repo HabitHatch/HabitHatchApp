@@ -1,6 +1,7 @@
 package com.habithatch.demo.ui.goals.item
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,10 +25,9 @@ fun GoalItem(
     goal: GoalModel,
     rowPadding: PaddingValues = PaddingValues(12.dp),
     checkBoxPadding: PaddingValues = PaddingValues(end = 8.dp),
-    onToggleGoalStatus: () -> Unit = {},
+    onCycleGoalStatus: () -> Unit = {},
 ) {
     val goalStyle = GoalStyleProvider.getGoalStyle(goal)
-    val cardShape = goalStyle.cardShape
     Card(
         modifier =
             Modifier
@@ -35,10 +35,10 @@ fun GoalItem(
                 .border(
                     width = 1.dp,
                     color = goalStyle.borderColor,
-                    shape = cardShape,
+                    shape = goalStyle.cardShape,
                 ),
         colors = goalStyle.cardColors,
-        shape = cardShape,
+        shape = goalStyle.cardShape,
     ) {
         Row(
             modifier =
@@ -49,7 +49,7 @@ fun GoalItem(
         ) {
             Checkbox(
                 checked = goal.isDone(),
-                onCheckedChange = { onToggleGoalStatus() },
+                onCheckedChange = { onCycleGoalStatus() },
                 modifier = Modifier.padding(checkBoxPadding),
             )
 

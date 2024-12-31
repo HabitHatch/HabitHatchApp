@@ -10,25 +10,18 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.habithatch.demo.ui.common.dialogs.ConfirmationDialog
-import com.habithatch.demo.ui.common.dialogs.DialogState
+import com.habithatch.demo.R
 
-@Suppress("ktlint:standard:function-naming","FunctionNaming")
+@Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun AccountSettings(
-    onDeleteAccount: () -> Unit,
+    onOpenDeleteAccountDialog: () -> Unit,
 ) {
-    var dialogState by remember { mutableStateOf<DialogState>(DialogState()) }
-
-    ConfirmationDialog(dialogState)
     Text(
-        text = "Account",
+        text = stringResource(id = R.string.account_settings),
         style = MaterialTheme.typography.titleMedium,
         modifier = Modifier.padding(16.dp),
     )
@@ -36,21 +29,11 @@ fun AccountSettings(
         headlineContent = { Text("Username") },
         supportingContent = { Text("user@example.com") },
         leadingContent = {
-            Icon(Icons.Default.Person, contentDescription = "Account")
+            Icon(Icons.Default.Person, contentDescription = stringResource(R.string.account_icon_description))
         },
         modifier = Modifier.clickable { },
     )
-    Button(
-        onClick = {
-            dialogState =
-                DialogState(
-                    title = "Delete Account",
-                    message = "Are you sure you want to delete your account?",
-                    onConfirm = onDeleteAccount,
-                    onDismiss = { dialogState = DialogState() },
-                )
-        },
-    ) {
-        Text("Delete Account")
+    Button(onClick = onOpenDeleteAccountDialog,) {
+        Text(stringResource(R.string.delete_account_button))
     }
 }

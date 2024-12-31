@@ -2,10 +2,8 @@ package com.habithatch.demo.features.home
 
 import BottomNavBar
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
@@ -15,15 +13,18 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.habithatch.demo.R
 import com.habithatch.demo.core.app.AppModule
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.theme.AppTheme
-import com.habithatch.demo.data.entities.User
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.ui.goals.AddGoalDialog
 import com.habithatch.demo.ui.goals.AddGoalDialogState
+import com.habithatch.demo.ui.goals.GoalFilterState
+import com.habithatch.demo.ui.goals.GoalSortState
 import com.habithatch.demo.ui.goals.GoalsView
 import com.habithatch.demo.ui.goals.GoalsViewState
 import com.habithatch.demo.ui.goals.table.GoalFilterBar
@@ -39,23 +40,21 @@ fun HomeScreen(
     bottomNavBar: @Composable () -> Unit,
     state: HomeScreenState = rememberHomeScreenState(),
 ) {
-    if (state.homeState.user == null) return
+    if (!state.core.isUserLoggedIn) return
 
     Scaffold(
         topBar = topNavBar,
         bottomBar = bottomNavBar,
         floatingActionButton = {
-            FloatingActionButton(onClick = state.homeState.onAddGoalClicked) {
-                Icon(Icons.Default.Add, "Add Goal")
+            FloatingActionButton(onClick = state.core.onAddGoalClicked) {
+                Icon(Icons.Default.Add, stringResource(R.string.add_goal_icon_description))
             }
         },
     ) { paddingValues ->
-        Column(
-            modifier = Modifier.padding(paddingValues),
-        ) {
+        Column(modifier = Modifier.padding(paddingValues)) {
             PetAnimation(
-                pet = state.homeState.user.pet,
-                isPetHappy = state.homeState.allGoalsDone,
+                pet = state.core.pet!!,
+                isPetHappy = state.core.allGoalsDone,
                 modifier =
                     Modifier
                         .fillMaxWidth(0.6f)
@@ -67,23 +66,19 @@ fun HomeScreen(
                     Modifier
                         .fillMaxWidth()
                         .padding(top = 16.dp, start = 8.dp, end = 8.dp),
-                filterContent = {
+                filterContent = { defaultModifier ->
                     GoalFilterBar(
-                        modifier = Modifier.fillMaxHeight().widthIn(min = 100.dp, max = 200.dp),
-                        goalFilterBuilder = state.homeState.goalQuery.getFilterBuilder(),
-                        onGoalFilterChange = state.homeState.onFilterChange,
+                        modifier = defaultModifier,
+                        state = state.goalFilterState,
                     )
                 },
-                sortContent = {
+                sortContent = { defaultModifier ->
                     GoalSortBar(
-                        modifier = Modifier.fillMaxHeight().widthIn(min = 100.dp, max = 200.dp),
-                        sortOptions = state.homeState.goalQuery.sortOptions,
-                        onSortOptionChange = state.homeState.onSortOptionChange,
+                        modifier = defaultModifier,
+                        state = state.goalSortState,
                     )
                 },
-                goalsContent = {
-                    GoalsView(state = state.goalsViewState)
-                },
+                goalsContent = { GoalsView(state = state.goalsViewState) },
             )
         }
     }
@@ -116,29 +111,27 @@ fun HomeScreenPreview() {
                 BottomNavBar(
                     navigationItems = config.navigationItems,
                     activeNavScreen = config.homeNavigationItem,
-                ) { }
+                )
             },
             state =
                 HomeScreenState(
-                    homeState =
-                        HomeState(
-                            allGoalsDone = false,
-                            user = User(pet = config.pets[0]),
-                            goalQuery = config.getDefaultGoalQuery(),
-                        ),
-                    goalsViewState =
-                        GoalsViewState(
-                            goals = emptyList(),
-                            showCreateExampleGoals = true,
-                        ),
+                    core = CoreHomeState(pet = config.pets[0]),
+                    goalsViewState = GoalsViewState(goals = emptyList()),
                     addGoalDialogState =
                         AddGoalDialogState(
-                            showDialog = false,
                             goal =
                                 GoalModel
                                     .Factory()
                                     .createDraft(config.defaultStatus, config.defaultPriority),
                             allPriorities = config.priorities,
+                        ),
+                    goalFilterState =
+                        GoalFilterState(
+                            goalFilterBuilder = config.defaultGoalQuery.getFilterBuilder(),
+                        ),
+                    goalSortState =
+                        GoalSortState(
+                            sortOptions = config.defaultGoalQuery.sortOptions,
                         ),
                 ),
         )

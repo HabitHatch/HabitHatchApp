@@ -35,7 +35,7 @@ class HomeViewModel
         private val _queriedGoals = MutableStateFlow<List<GoalModel>>(emptyList())
         val queriedGoals = _queriedGoals.asStateFlow()
 
-        private val _goalQuery = MutableStateFlow(config.getDefaultGoalQuery())
+        private val _goalQuery = MutableStateFlow(config.defaultGoalQuery)
         val goalQuery = _goalQuery.asStateFlow()
 
         private val _allGoalsDone = MutableStateFlow(false)

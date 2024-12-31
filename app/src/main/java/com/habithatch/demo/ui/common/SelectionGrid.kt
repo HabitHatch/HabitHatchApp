@@ -17,8 +17,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.habithatch.demo.R
 
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
@@ -56,7 +58,7 @@ fun <T> SelectionGrid(
             onClick = { currentElement?.let { onConfirm(it) } },
             enabled = currentElement != null,
         ) {
-            Text(text = "Confirm Selection")
+            Text(text = stringResource(R.string.confirm_selection))
         }
     }
 }

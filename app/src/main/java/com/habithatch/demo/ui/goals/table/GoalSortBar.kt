@@ -11,29 +11,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.habithatch.demo.core.query.GoalSortOption
-import java.util.SortedSet
+import com.habithatch.demo.ui.goals.GoalSortState
 
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun GoalSortBar(
     modifier: Modifier = Modifier,
-    sortOptions: SortedSet<GoalSortOption>,
-    onSortOptionChange: (GoalSortOption) -> Unit,
+    state: GoalSortState,
 ) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly,
     ) {
-        sortOptions.forEach { sortOption ->
+        state.sortOptions.forEach { sortOption ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier =
                     Modifier
                         .clickable {
-                            val newSortOption = sortOption.cycleState()
-                            onSortOptionChange(newSortOption)
+                            state.onSortOptionChange(sortOption.cycleState())
                         }.padding(8.dp),
             ) {
                 Text(

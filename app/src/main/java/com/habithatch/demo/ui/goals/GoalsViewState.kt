@@ -6,7 +6,7 @@ import com.habithatch.demo.data.models.GoalModel
 @Immutable
 data class GoalsViewState(
     val goals: List<GoalModel>,
-    val showCreateExampleGoals: Boolean,
+    val showCreateExampleGoals: Boolean = true,
     val onCreateExampleGoals: () -> Unit = {},
     val onToggleGoalStatus: (GoalModel) -> Unit = {},
 )

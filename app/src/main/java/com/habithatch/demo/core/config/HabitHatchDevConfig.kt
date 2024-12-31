@@ -66,7 +66,7 @@ class HabitHatchDevConfig
             GoalModel.Status(
                 label = "In Progress",
                 stepNumber = 1,
-                    isDone = false,
+                isDone = false,
             )
 
         private val doneStatus =
@@ -105,7 +105,7 @@ class HabitHatchDevConfig
                 .toSet()
 
         private val sortOptions =
-            sortedSetOf(
+            listOf(
                 GoalSortOption(
                     "Date",
                     compareBy { it.createdAt },
@@ -118,9 +118,8 @@ class HabitHatchDevConfig
                 ),
             )
 
-        override fun getDefaultGoalQuery() = defaultGoalQuery
-
-        private val defaultGoalQuery: GoalQuery
+        override var defaultGoalQuery: GoalQuery
+            private set
 
         init {
             val goalFilter =
