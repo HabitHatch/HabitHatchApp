@@ -7,11 +7,21 @@ import com.habithatch.demo.core.util.disableAll
 import com.habithatch.demo.core.util.getUsed
 import com.habithatch.demo.core.util.removeByLabel
 import com.habithatch.demo.data.models.GoalModel
+import javax.inject.Inject
 
+/**
+ * Query for filtering and sorting goals.
+ *
+ * @param filter The filter for the goals.
+ * @param sortOptions The sort options for the goals.
+ * @param defaultComparator The default comparator for the goals.
+ * @param priorityProvider Provides the priorities for goals.
+ * @param statusProvider Provides the statuses for goals.
+ */
 @Immutable
 data class GoalQuery(
     val filter: GoalFilter,
-    val sortOptions: List<GoalSortOption>,
+    val sortOptions: List<GoalSortOption> = emptyList(),
     val defaultComparator: Comparator<GoalModel>,
     private val priorityProvider: GoalPriorityProvider,
     private val statusProvider: GoalStatusProvider,
@@ -59,4 +69,28 @@ data class GoalQuery(
             sortOptions=$sortOptions,
         )
         """.trimIndent()
+
+    class Factory
+        @Inject
+        constructor(
+            private val priorityProvider: GoalPriorityProvider,
+            private val statusProvider: GoalStatusProvider,
+        ) {
+            fun createGoalQuery(
+                filter: GoalFilter,
+                sortOptions: List<GoalSortOption> = emptyList(),
+                defaultComparator: Comparator<GoalModel> = compareBy { 0 },
+            ): GoalQuery =
+                GoalQuery(
+                    filter = filter,
+                    sortOptions = sortOptions,
+                    defaultComparator = defaultComparator,
+                    priorityProvider = priorityProvider,
+                    statusProvider = statusProvider,
+                )
+
+            fun createFilterQuery(
+                filter: GoalFilter,
+            ): GoalQuery = createGoalQuery(filter, emptyList(), compareBy { 0 })
+        }
 }

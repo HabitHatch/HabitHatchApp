@@ -13,6 +13,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.ui.goals.GoalSortState
 
+/**
+ * A bar that displays sort options for goals.
+ */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun GoalSortBar(

@@ -22,6 +22,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.R
 
+
+/**
+ * A grid of elements that can be selected.
+ */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun <T> SelectionGrid(

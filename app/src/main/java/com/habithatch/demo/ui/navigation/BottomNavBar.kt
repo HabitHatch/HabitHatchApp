@@ -13,6 +13,9 @@ import com.habithatch.demo.core.navigation.Screen
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.ui.navigation.NavItem
 
+/**
+ * A bottom navigation bar that displays the navigation items.
+ */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun BottomNavBar(

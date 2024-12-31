@@ -15,6 +15,9 @@ import com.habithatch.demo.ui.goals.GoalFilterState
 import com.habithatch.demo.ui.goals.GoalSortState
 import com.habithatch.demo.ui.goals.GoalsViewState
 
+/**
+ * Represents the main state information for the home screen.
+ */
 data class CoreHomeState(
     val pet: Pet?,
     val isUserLoggedIn: Boolean = false,
@@ -22,6 +25,15 @@ data class CoreHomeState(
     val onAddGoalClicked: () -> Unit = {},
 )
 
+/**
+ * Represents the state of the home screen.
+ *
+ * @param addGoalDialogState The state of the add goal dialog.
+ * @param goalsViewState The state of the goals view.
+ * @param goalFilterState The state of the goal filter.
+ * @param goalSortState The state of the goal sort.
+ * @param core The core state of the home screen.
+ */
 @Stable
 class HomeScreenState(
     val addGoalDialogState: AddGoalDialogState,

@@ -14,6 +14,10 @@ import com.habithatch.demo.ui.common.ImageBox
 import com.habithatch.demo.ui.common.ImageTextCard
 import com.habithatch.demo.ui.common.SelectionGrid
 
+/**
+ * The signup screen composable. Is shown when the user first starts the App
+ * and is asked to select a pet.
+ */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun SignupScreen(

@@ -16,6 +16,9 @@ import androidx.compose.ui.unit.dp
 import com.habithatch.demo.ui.goals.item.GoalItem
 import com.habithatch.demo.R
 
+/**
+ * A view that displays a list of goals.
+ */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun GoalsView(

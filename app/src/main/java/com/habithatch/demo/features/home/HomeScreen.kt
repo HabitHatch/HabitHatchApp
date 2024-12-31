@@ -33,6 +33,10 @@ import com.habithatch.demo.ui.goals.table.GoalSortBar
 import com.habithatch.demo.ui.navigation.TopNavBar
 import com.habithatch.demo.ui.pets.PetAnimation
 
+/**
+ * The main screen of the application.
+ * Shows the user's pet and goals.
+ */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming", "MagicNumber")
 @Composable
 fun HomeScreen(

@@ -28,6 +28,10 @@ val ColorScheme.onSuccessContainer: Color
     @Composable
     get() = onSuccessContainerScheme.color
 
+/**
+ * The [AppTheme] composable, which sets the color scheme and typography for the app.
+ * The Colors are dynamically set with Material You, depending one users wallpaper.
+ */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun AppTheme(

@@ -7,6 +7,14 @@ import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
+/**
+ * Represents the state of the AI screen.
+ *
+ * @param text The text to display on the screen.
+ * @param isListening Whether the AI assistant is currently listening.
+ * @param showPermissionDialog Whether to show the permission dialog.
+ * @param onStartListening The callback to start listening.
+ */
 @Stable
 class AIScreenState(
     val text: String,

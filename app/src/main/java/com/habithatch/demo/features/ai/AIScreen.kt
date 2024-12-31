@@ -22,6 +22,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.R
 
+/**
+ * The AI screen composable.
+ *
+ */
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun AIScreen(

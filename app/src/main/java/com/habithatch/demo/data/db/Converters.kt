@@ -5,6 +5,10 @@ import com.habithatch.demo.core.exceptions.InvalidUUIdException
 import java.time.Instant
 import java.util.UUID
 
+/**
+ * [Converters] is a class that provides type converters for Room.
+ * Converts between UUID and String and Instant and String.
+ */
 class Converters {
     @TypeConverter
     fun toInstant(value: String): Instant = Instant.parse(value)

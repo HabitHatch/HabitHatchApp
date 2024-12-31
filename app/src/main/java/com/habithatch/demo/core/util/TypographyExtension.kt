@@ -3,6 +3,9 @@ package com.habithatch.demo.core.util
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.font.FontFamily
 
+/**
+ * Returns a new [Typography] with the specified font families.
+ */
 fun Typography.withFontFamily(
     displayFontFamily: FontFamily,
     bodyFontFamily: FontFamily,

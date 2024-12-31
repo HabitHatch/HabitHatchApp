@@ -24,6 +24,9 @@ fun getDoneColor(isDoneStatusVisible: Boolean): Color =
         MaterialTheme.colorScheme.outline
     }
 
+/**
+ * A bar that contains a search field and a button to toggle the visibility of done goals.
+ */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun GoalFilterBar(
@@ -43,7 +46,8 @@ fun GoalFilterBar(
             modifier =
                 Modifier
                     .align(Alignment.CenterVertically)
-                    .heightIn(max = 34.dp)
+                    .heightIn(max = 38.dp)
+                    .widthIn(max = 120.dp)
                     .weight(1f),
             searchQuery = searchQuery,
             onQueryChange = {
@@ -52,7 +56,6 @@ fun GoalFilterBar(
         )
 
         SimpleIconButton(
-            modifier = modifier,
             labelRes = R.string.status_toggle_label,
             color = doneIconColor,
             painter = painterResource(R.drawable.vuesax_tick_circle),

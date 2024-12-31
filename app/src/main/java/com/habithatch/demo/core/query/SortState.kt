@@ -2,13 +2,17 @@ package com.habithatch.demo.core.query
 
 import com.habithatch.demo.R
 
+/**
+ * Represents the state of a sort option.
+ *
+ * @param iconId The icon resource ID for the sort option.
+ */
 enum class SortState(
-    val label: String,
     val iconId: Int,
 ) {
-    NOT_USED("Not sorted", R.drawable.vuesax_sort),
-    ASCENDING("Ascending", R.drawable.vuesax_arrow_up_1),
-    DESCENDING("Descending", R.drawable.vuesax_arrow_down_1),
+    NOT_USED(R.drawable.vuesax_sort),
+    ASCENDING(R.drawable.vuesax_arrow_up_1),
+    DESCENDING(R.drawable.vuesax_arrow_down_1),
     ;
 
     fun nextInCycle(): SortState =

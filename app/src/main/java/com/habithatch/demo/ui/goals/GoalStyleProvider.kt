@@ -8,6 +8,9 @@ import com.habithatch.demo.core.util.getAlphaFactor
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.ui.goals.item.GoalStyle
 
+/**
+ * The provider of the style of a goal.
+ */
 object GoalStyleProvider {
     @Composable
     fun getContainerColor(goal: GoalModel): Color =

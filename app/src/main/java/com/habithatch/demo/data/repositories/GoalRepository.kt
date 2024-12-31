@@ -1,9 +1,7 @@
 package com.habithatch.demo.data.repositories
 
-import com.habithatch.demo.core.config.GoalStatusProvider
 import com.habithatch.demo.core.query.GoalFilter
 import com.habithatch.demo.core.query.GoalQuery
-import com.habithatch.demo.core.util.getNextHigherOrLowest
 import com.habithatch.demo.data.daos.GoalDao
 import com.habithatch.demo.data.entities.GoalEntity
 import com.habithatch.demo.data.mappers.GoalMapper
@@ -16,59 +14,42 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
+/**
+ * [GoalRepository] is a repository that provides access to goals in the database.
+ */
 class GoalRepository
     @Inject
     constructor(
         private val goalDao: GoalDao,
-        private val statusesProvider: GoalStatusProvider,
         private val goalMapper: GoalMapper,
         userRepository: UserRepository,
     ) {
-        private val currentUserFlow = userRepository.getUser()
+        private val currentUser = userRepository.getUser()
 
-        private suspend fun asEntity(goalModel: GoalModel): GoalEntity {
-            val currentUser = currentUserFlow.firstOrNull()
-            checkNotNull(currentUser) { "User must be created before inserting goals" }
-            return goalMapper.asEntity(goalModel, currentUser.uuid)
-        }
-
-        fun getAll(): Flow<Collection<GoalModel>> =
-            goalDao.getAll().map { goals ->
-                goals.map(goalMapper::asModel)
+        /**
+         * Inserts the given goals into the database.
+         */
+        suspend fun insert(vararg goals: GoalModel) {
+            goals.forEach { goal ->
+                goalDao.insert(asEntity(goal))
             }
-
-        suspend fun insert(goal: GoalModel) {
-            goalDao.insert(asEntity(goal))
         }
 
-        suspend fun deleteAll() = goalDao.deleteAll()
-
-        @Throws(IllegalArgumentException::class)
-        suspend fun cycleGoalStatus(goalModel: GoalModel) {
-            val nextStatusInCycle =
-                statusesProvider.statuses.getNextHigherOrLowest(
-                    bySelector = { it.stepNumber },
-                    element = goalModel.status,
-                )
-            this.update(goalModel.copy(status = nextStatusInCycle))
-        }
-
+        /**
+         * Returns a flow of goals that match the given [GoalQuery].
+         * Sorted by GoalQuery's comparator.
+         */
         @OptIn(ExperimentalCoroutinesApi::class)
-        fun getQueriedGoals(goalQuery: GoalQuery): Flow<List<GoalModel>> =
-            getFilteredGoals(goalQuery.filter)
-                .combine(flowOf(goalQuery.getComparator())) { goals, comparator ->
+        fun getQueriedGoals(query: GoalQuery): Flow<List<GoalModel>> =
+            getFilteredGoals(query.filter)
+                .combine(flowOf(query.getComparator())) { goals, comparator ->
                     goals.sortedWith(comparator)
                 }
 
-        suspend fun insertAll(goals: Collection<GoalModel>) {
-            goalDao.insertAll(
-                goals.map {
-                    asEntity(it)
-                },
-            )
-        }
-
-        private suspend fun update(goal: GoalModel) {
+        /**
+         * Updates the given goal in the database.
+         */
+        suspend fun update(goal: GoalModel) {
             val goalEntity = asEntity(goal)
             goalDao.update(
                 id = goalEntity.id,
@@ -78,10 +59,18 @@ class GoalRepository
             )
         }
 
-        private fun getFilteredGoals(goalFilter: GoalFilter): Flow<Collection<GoalModel>> =
-            this
-                .getAll()
-                .map { allGoals ->
-                    allGoals.filter(goalFilter::isMatch)
-                }
+        /**
+         * Deletes all goals permanently from the database.
+         */
+        suspend fun deleteAll() = goalDao.deleteAll()
+
+        private fun getFilteredGoals(goalFilter: GoalFilter) = this.getAll().map { it.filter(goalFilter::isMatch) }
+
+        private fun getAll() = goalDao.getAll().map { it.map(goalMapper::asModel) }
+
+        private suspend fun asEntity(goalModel: GoalModel): GoalEntity {
+            val currentUser = currentUser.firstOrNull()
+            checkNotNull(currentUser) { "User must be created before inserting goals" }
+            return goalMapper.asEntity(goalModel, currentUser.uuid)
+        }
     }

@@ -16,6 +16,10 @@ import com.habithatch.demo.R
 import com.habithatch.demo.ui.common.dialogs.DialogHost
 import com.habithatch.demo.ui.settings.AccountSettings
 
+/**
+ * The settings screen composable.
+ * Shows the UI for the user to change their settings.
+ */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun SettingsScreen(

@@ -13,6 +13,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * Configures Hilt DI providers for the app.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {

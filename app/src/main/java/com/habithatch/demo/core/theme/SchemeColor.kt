@@ -5,6 +5,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
+/**
+ * A color scheme that provides a light and dark color.
+ */
 @Immutable
 data class SchemeColor(
     private val lightColor: Color,

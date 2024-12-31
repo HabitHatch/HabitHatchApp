@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.habithatch.demo.core.config.HabitHatchConfig
 import com.habithatch.demo.core.query.GoalFilter
+import com.habithatch.demo.core.query.GoalFilterBuilderFactory
 import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.core.query.GoalSortOption
+import com.habithatch.demo.core.util.getNextHigherOrLowest
 import com.habithatch.demo.data.entities.User
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.data.repositories.GoalRepository
@@ -15,6 +17,7 @@ import com.habithatch.demo.data.repositories.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,6 +31,8 @@ class HomeViewModel
         private val userRepository: UserRepository,
         private val goalRepository: GoalRepository,
         val config: HabitHatchConfig,
+        val goalQueryFactory: GoalQuery.Factory,
+        val builderFactory: GoalFilterBuilderFactory,
     ) : ViewModel() {
         private val _user = MutableStateFlow<User?>(null)
         val user: StateFlow<User?> = _user.asStateFlow()
@@ -59,8 +64,14 @@ class HomeViewModel
 
         @Throws(IllegalArgumentException::class)
         fun toggleGoalStatus(goal: GoalModel) {
+            val nextStatusInCycle =
+                config.statuses.getNextHigherOrLowest(
+                    bySelector = { it.stepNumber },
+                    element = goal.status,
+                )
+            val newGoal = goal.copy(status = nextStatusInCycle)
             viewModelScope.launch {
-                goalRepository.cycleGoalStatus(goal)
+                goalRepository.update(newGoal)
             }
         }
 
@@ -72,16 +83,12 @@ class HomeViewModel
             _goalQuery.value = _goalQuery.value.updateSortOption(newGoalSortOption)
         }
 
-        fun updateGoalQuery(newGoalQuery: GoalQuery) {
-            _goalQuery.value = newGoalQuery
-        }
-
         fun seedGoals() {
             viewModelScope.launch {
                 if (hasAnyGoals.value) {
                     Log.e("HomeScreen", "Cannot seed goals when there are already goals in the database")
                 }
-                goalRepository.insertAll(config.exampleGoals)
+                goalRepository.insert(*config.exampleGoals.toTypedArray())
             }
         }
 
@@ -93,10 +100,22 @@ class HomeViewModel
             }
         }
 
+        private fun getDoneGoals(): Flow<List<GoalModel>> {
+            val doneStatus = config.statuses.find { it.isDone }
+            check(doneStatus != null) { "No done status found" }
+
+            return goalRepository.getQueriedGoals(
+                query =
+                    goalQueryFactory.createFilterQuery(
+                        filter = builderFactory.matchAllBuilder.onlyMatch(doneStatus).build(),
+                    ),
+            )
+        }
+
         private fun observeAllGoalsDone() {
             viewModelScope.launch {
-                goalRepository.getAll().collect { goals ->
-                    _allGoalsDone.value = goals.all { it.isDone() }
+                getDoneGoals().collect { goals ->
+                    _allGoalsDone.value = goals.isEmpty()
                 }
             }
         }
@@ -116,8 +135,9 @@ class HomeViewModel
         private fun observeHasAnyGoals() =
             viewModelScope.launch {
                 goalRepository
-                    .getAll()
-                    .collect { goals ->
+                    .getQueriedGoals(
+                        query = goalQueryFactory.createFilterQuery(builderFactory.matchAllBuilder.build()),
+                    ).collect { goals ->
                         _hasAnyGoals.value = goals.isEmpty().not()
                     }
             }

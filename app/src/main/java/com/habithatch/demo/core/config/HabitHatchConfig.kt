@@ -6,11 +6,14 @@ import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.data.entities.Pet
 import com.habithatch.demo.data.models.GoalModel
 
+/**
+ * The main application configuration.
+ */
 interface HabitHatchConfig :
     GoalStatusProvider,
     GoalPriorityProvider {
     val pets: List<Pet>
-    val exampleGoals: Set<GoalModel>
+    val exampleGoals: Collection<GoalModel>
     val signUpNavigationItem: Screen
     val homeNavigationItem: Screen
     val settingsNavigationItem: Screen

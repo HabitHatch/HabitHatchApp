@@ -15,6 +15,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.R
 
+/**
+ * A view that displays account settings.
+ */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun AccountSettings(
@@ -33,7 +36,7 @@ fun AccountSettings(
         },
         modifier = Modifier.clickable { },
     )
-    Button(onClick = onOpenDeleteAccountDialog,) {
+    Button(onClick = onOpenDeleteAccountDialog) {
         Text(stringResource(R.string.delete_account_button))
     }
 }

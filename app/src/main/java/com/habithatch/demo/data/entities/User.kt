@@ -6,6 +6,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.UUID
 
+/**
+ * [User] represents a user.
+ *
+ * @param uuid the UUID of the user, for global identification
+ * @param pet the pet of the user
+ */
 @Immutable
 @Entity
 data class User(

@@ -19,6 +19,9 @@ import androidx.compose.ui.unit.dp
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.ui.goals.GoalStyleProvider
 
+/**
+ * A card that displays a goal.
+ */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun GoalItem(

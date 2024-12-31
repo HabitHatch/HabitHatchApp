@@ -18,6 +18,10 @@ import com.habithatch.demo.features.signup.SignupScreen
 import com.habithatch.demo.features.signup.SignupViewModel
 import com.habithatch.demo.ui.navigation.TopNavBar
 
+/**
+ * The main application navigation.
+ * @param config The application configuration.
+ */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun AppNavigation(

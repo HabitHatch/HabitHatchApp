@@ -15,6 +15,9 @@ import com.habithatch.demo.data.models.ExampleGoalFactory
 import com.habithatch.demo.data.models.GoalModel
 import javax.inject.Inject
 
+/**
+ * The main application configuration for the development environment.
+ */
 class HabitHatchDevConfig
     @Inject
     constructor(
@@ -102,7 +105,6 @@ class HabitHatchDevConfig
         override val exampleGoals =
             ExampleGoalFactory(this, this, goalModelFactory)
                 .createExampleGoals(numberExampleGoals, uniqueTitles = true)
-                .toSet()
 
         private val sortOptions =
             listOf(

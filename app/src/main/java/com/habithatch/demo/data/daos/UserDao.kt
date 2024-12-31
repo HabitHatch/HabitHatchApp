@@ -6,6 +6,9 @@ import androidx.room.Query
 import com.habithatch.demo.data.entities.User
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * The Data Access Object for the [User] class.
+ */
 @Dao
 interface UserDao {
     @Query("SELECT * FROM user LIMIT 1")

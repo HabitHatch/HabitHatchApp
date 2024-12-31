@@ -1,8 +1,6 @@
 package com.habithatch.demo.core.activities
 
-import android.content.Intent
 import android.os.Bundle
-
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +14,10 @@ import com.habithatch.demo.core.theme.TypographyFactory
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+/**
+ * The main activity of the app.
+ * This activity is responsible for setting up the app's theme and navigation.
+ */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @Inject

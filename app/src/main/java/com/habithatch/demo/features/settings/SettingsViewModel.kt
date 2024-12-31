@@ -8,6 +8,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
+/**
+ * [SettingsViewModel] is a ViewModel that provides the settings screen with the necessary data.
+ */
 @HiltViewModel
 class SettingsViewModel
     @Inject

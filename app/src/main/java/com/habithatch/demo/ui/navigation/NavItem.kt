@@ -10,6 +10,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.core.navigation.Screen
 
+/**
+ * A navigation item that displays an icon.
+ */
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun NavItem(

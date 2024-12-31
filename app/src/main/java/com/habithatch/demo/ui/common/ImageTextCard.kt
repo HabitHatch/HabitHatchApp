@@ -8,6 +8,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+/**
+ * A card with an image and text.
+ *
+ * @param modifier Modifier to be applied to the layout.
+ * @param imageContent The content of the image.
+ * @param text The content of the text.
+ * @param spacing The spacing between the image and text.
+ * @param onSelected The action to be performed when the card is selected.
+ */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun ImageTextCard(

@@ -16,9 +16,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+/**
+ * A search field that allows the user to input a search query.
+ *
+ * @param searchQuery The current search query.
+ * @param onQueryChange The callback to be called when the search query changes.
+ * @param modifier The modifier to be applied to the search field.
+ * @param shape The shape of the search field.
+ * @param textStyle The text style of the search field.
+ */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun SearchField(
@@ -26,13 +36,14 @@ fun SearchField(
     onQueryChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     shape: CornerBasedShape = MaterialTheme.shapes.large,
+    textStyle: TextStyle = MaterialTheme.typography.bodySmall,
 ) {
     Row(
         modifier =
             modifier
                 .border(
                     width = 1.dp,
-                    color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
+                    color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f),
                     shape = shape,
                 ).padding(vertical = 4.dp, horizontal = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -40,17 +51,17 @@ fun SearchField(
         Icon(
             imageVector = Icons.Default.Search,
             contentDescription = Icons.Default.Search.name,
-            tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-            modifier = Modifier.fillMaxHeight(0.5f),
+            tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
+            modifier = Modifier.fillMaxHeight(0.6f),
         )
         BasicTextField(
             value = searchQuery,
             onValueChange = onQueryChange,
-            textStyle = MaterialTheme.typography.bodyMedium,
+            textStyle = textStyle,
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(start = 8.dp, top = 8.dp, bottom = 8.dp),
+                    .padding(start = 8.dp, top = 4.dp, bottom = 4.dp),
         )
     }
 }

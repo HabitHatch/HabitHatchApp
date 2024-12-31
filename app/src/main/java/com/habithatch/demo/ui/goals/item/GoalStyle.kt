@@ -10,6 +10,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 
+/**
+ * The style of a goal.
+ *
+ * @param borderColor The color of the border.
+ * @param containerColor The color of the container.
+ * @param textDecoration The text decoration.
+ * @param iconColor The color of the icon.
+ * @param cardShape The shape of the card.
+ */
 data class GoalStyle(
     val borderColor: Color,
     val containerColor: Color,

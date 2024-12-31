@@ -6,14 +6,30 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 
+/**
+ * A host for dialogs.
+ */
 class DialogHost {
     private var dialog: @Composable (() -> Unit)? = null
 
+    /**
+     * Renders the dialog.
+     */
+    @Suppress("ktlint:standard:function-naming")
     @Composable
     fun Render() {
         dialog?.invoke()
     }
 
+    /**
+     * Creates a confirm dialog.
+     *
+     * @param titleRes The title resource ID.
+     * @param messageRes The message resource ID.
+     * @param confirmButtonRes The confirm button resource ID.
+     * @param dismissButtonRes The dismiss button resource ID.
+     * @param onConfirm The callback to run when the confirm button is clicked.
+     */
     fun createConfirmDialog(
         titleRes: Int,
         messageRes: Int,

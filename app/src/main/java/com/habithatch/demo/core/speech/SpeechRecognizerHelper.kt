@@ -8,6 +8,13 @@ import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.util.Log
 
+/**
+ * Helper class for speech recognition.
+ *
+ * @param context The context to use for creating the SpeechRecognizer.
+ * @param onResult Callback to be called when speech recognition is successful.
+ * @param endOfSpeechCallback Callback to be called when speech input ends.
+ */
 class SpeechRecognizerHelper(
     context: Context,
     private val onResult: (String) -> Unit,

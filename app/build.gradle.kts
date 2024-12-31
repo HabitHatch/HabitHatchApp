@@ -2,6 +2,7 @@ import org.gradle.kotlin.dsl.android
 
 plugins {
     id("com.android.application") version "8.7.3"
+    id("org.jetbrains.dokka") version "1.9.10"
     id("androidx.room") version "2.6.1"
     id("org.jetbrains.kotlin.android") version "2.1.0"
     id("org.jetbrains.kotlin.plugin.compose") version "2.1.0"
@@ -117,6 +118,21 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.7.6")
     androidTestImplementation("androidx.compose.ui:ui-test-manifest:1.7.6")
     androidTestImplementation("com.google.truth:truth:1.4.4")
+}
+
+tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
+    dokkaSourceSets.configureEach {
+        documentedVisibilities.set(
+            setOf(
+                org.jetbrains.dokka.DokkaConfiguration.Visibility.PUBLIC,
+                org.jetbrains.dokka.DokkaConfiguration.Visibility.PROTECTED,
+            ),
+        )
+        suppressObviousFunctions.set(true)
+        skipEmptyPackages.set(true)
+        failOnWarning.set(false)
+        reportUndocumented.set(false)
+    }
 }
 
 tasks.register("codeQualityCheck") {

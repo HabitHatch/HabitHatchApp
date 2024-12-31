@@ -6,10 +6,13 @@ import androidx.room.Query
 import com.habithatch.demo.data.entities.GoalEntity
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * The Data Access Object for the [GoalEntity] class.
+ */
 @Dao
 interface GoalDao {
     @Query("SELECT * FROM goal WHERE goal.id = :goalId")
-    fun getGoalById(goalId: Int): Flow<GoalEntity?>
+    fun getGoalById(goalId: Long): Flow<GoalEntity?>
 
     @Query("SELECT * FROM goal")
     fun getAll(): Flow<List<GoalEntity>>
@@ -30,7 +33,7 @@ interface GoalDao {
     """,
     )
     suspend fun update(
-        id: Int,
+        id: Long,
         title: String,
         statusLabel: String,
         priorityLabel: String,

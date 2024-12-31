@@ -6,12 +6,14 @@ import com.habithatch.demo.core.config.GoalPriorityProvider
 import com.habithatch.demo.core.config.GoalStatusProvider
 import com.habithatch.demo.core.query.GoalFilter
 import com.habithatch.demo.core.query.GoalQuery
-import com.habithatch.demo.core.query.GoalSortOption
 import com.habithatch.demo.data.daos.GoalDao
 import com.habithatch.demo.data.entities.GoalEntity
+import com.habithatch.demo.data.entities.Pet
+import com.habithatch.demo.data.entities.User
 import com.habithatch.demo.data.mappers.GoalMapper
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.data.repositories.GoalRepository
+import com.habithatch.demo.data.repositories.UserRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -28,6 +30,7 @@ class GoalRepositoryTest {
     private lateinit var priorityProvider: GoalPriorityProvider
     private lateinit var goalDao: GoalDao
     private lateinit var goalRepository: GoalRepository
+    private lateinit var userRepository: UserRepository
     private lateinit var goalMapper: GoalMapper
 
     private val matchAllBuilder = GoalFilter.Builder.matchAllBuilder(priorityProvider, statusProvider)
@@ -81,11 +84,23 @@ class GoalRepositoryTest {
 
         goalMapper = GoalMapper(statusProvider, priorityProvider, goalFactory)
 
+        userRepository = mockk()
+        coEvery { userRepository.getUser() } returns
+            flowOf(
+                User(
+                    pet =
+                        Pet(
+                            name = "pet",
+                            imageRes = 1,
+                        ),
+                ),
+            )
         goalRepository =
             GoalRepository(
                 goalDao = goalDao,
                 goalMapper = goalMapper,
                 statusesProvider = statusProvider,
+                userRepository = userRepository,
             )
         coEvery { goalDao.update(any(), any(), any(), any()) } returns Unit
     }
@@ -100,7 +115,7 @@ class GoalRepositoryTest {
         val goalQuery =
             GoalQuery(
                 filter = filter,
-                sortOptions = emptySet<GoalSortOption>().toSortedSet(),
+                sortOptions = emptyList(),
                 statusProvider = statusProvider,
                 priorityProvider = priorityProvider,
                 defaultComparator = compareBy { it.title.lowercase() },
@@ -269,7 +284,7 @@ class GoalRepositoryTest {
             val goalQuery =
                 GoalQuery(
                     filter = matchAllBuilder.build(),
-                    sortOptions = emptySet<GoalSortOption>().toSortedSet(),
+                    sortOptions = emptyList(),
                     priorityProvider = priorityProvider,
                     statusProvider = statusProvider,
                     defaultComparator = compareBy { it.priority.importance },
@@ -307,7 +322,7 @@ class GoalRepositoryTest {
                 GoalFilter
                     .Builder
                     .matchAllBuilder(priorityProvider, statusProvider)
-                    .setStatusVisibility(doneStatus, false)
+                    .statusVisibility(doneStatus, false)
                     .build()
 
             val goalQuery =

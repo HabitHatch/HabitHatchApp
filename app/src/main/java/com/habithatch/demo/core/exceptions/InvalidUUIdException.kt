@@ -1,5 +1,8 @@
 package com.habithatch.demo.core.exceptions
 
+/**
+ * Exception thrown when a UUID is invalid.
+ */
 class InvalidUUIdException(
     uuid: String,
     causedBy: Exception,

@@ -11,11 +11,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.habithatch.demo.R
 import com.habithatch.demo.core.util.getNextHigherOrLowest
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.ui.common.forms.SimpleIconButton
 
+/**
+ * A dialog that allows the user to add a goal.
+ */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun AddGoalDialog(
@@ -36,10 +40,12 @@ fun AddGoalDialog(
                     OutlinedTextField(
                         value = goal.title,
                         onValueChange = { goal = goal.copy(title = it) },
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.weight(1f),
+                        shape = MaterialTheme.shapes.small,
                         label = { Text(stringResource(R.string.goal_dialog_text_label)) },
                     )
                     SimpleIconButton(
+                        modifier = Modifier.width(64.dp).padding(8.dp),
                         labelRes = R.string.priority_toggle_label,
                         color = goal.priority.getColor(),
                         painter = painterResource(id = goal.priority.iconResourceId),
@@ -58,7 +64,7 @@ fun AddGoalDialog(
             },
             confirmButton = {
                 TextButton(onClick = {
-                    state.onAddGoal(state.goal)
+                    state.onAddGoal(goal)
                 }) {
                     Text(stringResource(R.string.confirm_add_goal))
                 }

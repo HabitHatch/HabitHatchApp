@@ -40,7 +40,7 @@ data class GoalModel private constructor(
             override fun compareTo(other: Importance) = this.value.compareTo(other.value)
         }
 
-        fun hasHighImportance() = importance >= Importance.High
+        fun isImportant() = importance >= Importance.High
     }
 
     @Immutable
@@ -66,9 +66,12 @@ data class GoalModel private constructor(
             status = status ?: this.status,
             priority = priority ?: this.priority,
             createdAt = createdAt,
+            isDraft = isDraft,
         )
 
-    fun getUniqueId() = title.hashCode() + 31 * createdAt.hashCode()
+    fun getCreatedAtOrNow(): Instant = createdAt ?: Instant.now()
+
+    fun getUniqueId() = title.hashCode() + 31 * getCreatedAtOrNow().toEpochMilli()
 
     class Factory
         @Inject

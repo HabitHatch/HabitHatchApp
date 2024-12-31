@@ -1,8 +1,5 @@
 package com.habithatch.demo.ui.navigation
 
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -16,6 +13,9 @@ import androidx.compose.ui.unit.dp
 import com.habithatch.demo.R
 import com.habithatch.demo.core.navigation.Screen
 
+/**
+ * A top navigation bar that displays the title and navigation items.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Suppress("ktlint:standard:function-naming", "FunctionNaming", "LongParameterList")
 @Composable

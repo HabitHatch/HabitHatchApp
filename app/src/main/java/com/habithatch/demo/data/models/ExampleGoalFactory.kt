@@ -38,6 +38,9 @@ val habitNames =
         "Reflect on the Day Before Bed",
     )
 
+/**
+ * [ExampleGoalFactory] is a factory that creates example goals for testing purposes.
+ */
 class ExampleGoalFactory(
     private val priorityProvider: GoalPriorityProvider,
     private val statusProvider: GoalStatusProvider,
