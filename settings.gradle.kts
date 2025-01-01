@@ -19,5 +19,3 @@ develocity {
 }
 
 rootProject.name = "HabitHatchApp"
-
-include(":app")

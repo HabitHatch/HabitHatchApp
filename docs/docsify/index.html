@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HabitHatch Documentation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0.8.0/dist/css/theme-simple.css">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <style>
+        :root{
+            --table-cell-padding: 0.5rem 2rem;
+        }
+        .sidebar {
+            background-color: #f4f5f7;
+        }
+
+
+        h1 {
+            padding-bottom: 2.5rem;
+        }
+        h2 {
+            padding-bottom: 2rem;
+            }
+        h3 {
+            padding-bottom: 1rem;
+        }
+
+         @media (min-width: 1200px) {
+            :root {
+                --content-max-width: 70rem;
+            }
+         }
+         .kotlin-class {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #3a3;
+            margin-bottom: 1rem;
+         }
+         .interface{
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #a33;
+            margin-bottom: 1rem;
+         }
+         .decorator{
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #33a;
+            margin-bottom: 1rem;
+         }
+
+  }
+    </style>
+</head>
+<body>
+<div id="app">Loading...</div>
+<script>
+    window.$docsify = {
+      name: 'HabitHatch Docs',
+      loadSidebar: true,
+      subMaxLevel: 3,
+      alias: {
+        '/.*/_sidebar.md': '/_sidebar.md'
+      }
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/docsify-plugin-toc"></script>
+</body>
+</html>

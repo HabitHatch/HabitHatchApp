@@ -1,0 +1,11 @@
+//[HabitHatch](../../index.md)/[com.habithatch.demo.ui.navigation](index.md)
+
+# Package-level declarations
+
+## Functions
+
+| Name | Summary |
+|---|---|
+| [NavItem](-nav-item.md) | [app]<br>@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)<br>fun [NavItem](-nav-item.md)(modifier: [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) = Modifier.size(24.dp), navScreen: [Screen](../com.habithatch.demo.core.navigation/-screen/index.md), iconColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), onClick: () -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html) = {})<br>A navigation item that displays an icon. |
+| [TopAppInformationBarPreview](-top-app-information-bar-preview.md) | [app]<br>@[Preview](https://developer.android.com/reference/kotlin/androidx/compose/ui/tooling/preview/Preview.html)<br>@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)<br>fun [TopAppInformationBarPreview](-top-app-information-bar-preview.md)() |
+| [TopNavBar](-top-nav-bar.md) | [app]<br>@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)<br>fun [TopNavBar](-top-nav-bar.md)(title: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), rightNavItem: [Screen](../com.habithatch.demo.core.navigation/-screen/index.md)? = null, leftNavItem: [Screen](../com.habithatch.demo.core.navigation/-screen/index.md)? = null, modifier: [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) = Modifier, onRightNavItemClicked: () -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html) = {}, onLeftNavItemClicked: () -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html) = {})<br>A top navigation bar that displays the title and navigation items. |

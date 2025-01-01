@@ -1,0 +1,11 @@
+//[HabitHatch](../../index.md)/[com.habithatch.demo.ui.common.forms](index.md)
+
+# Package-level declarations
+
+## Functions
+
+| Name | Summary |
+|---|---|
+| [SearchField](-search-field.md) | [app]<br>@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)<br>fun [SearchField](-search-field.md)(searchQuery: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), onQueryChange: ([String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html)) -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html), modifier: [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) = Modifier, shape: [CornerBasedShape](https://developer.android.com/reference/kotlin/androidx/compose/foundation/shape/CornerBasedShape.html) = MaterialTheme.shapes.large, textStyle: [TextStyle](https://developer.android.com/reference/kotlin/androidx/compose/ui/text/TextStyle.html) = MaterialTheme.typography.bodySmall)<br>A search field that allows the user to input a search query. |
+| [SearchFieldPreview](-search-field-preview.md) | [app]<br>@[Preview](https://developer.android.com/reference/kotlin/androidx/compose/ui/tooling/preview/Preview.html)(showBackground = true)<br>@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)<br>fun [SearchFieldPreview](-search-field-preview.md)() |
+| [SimpleIconButton](-simple-icon-button.md) | [app]<br>@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)<br>fun [SimpleIconButton](-simple-icon-button.md)(modifier: [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) = Modifier.size(36.dp), labelRes: [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html), color: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), painter: [Painter](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/painter/Painter.html), onClick: () -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html))<br>A simple icon button with a label. |
