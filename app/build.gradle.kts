@@ -1,8 +1,9 @@
 import org.gradle.kotlin.dsl.android
+import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
 
 plugins {
     id("com.android.application") version "8.7.3"
-    id("org.jetbrains.dokka") version "1.9.10"
+    id("org.jetbrains.dokka") version "2.0.0"
     id("androidx.room") version "2.6.1"
     id("org.jetbrains.kotlin.android") version "2.1.0"
     id("org.jetbrains.kotlin.plugin.compose") version "2.1.0"
@@ -118,20 +119,48 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.7.6")
     androidTestImplementation("androidx.compose.ui:ui-test-manifest:1.7.6")
     androidTestImplementation("com.google.truth:truth:1.4.4")
+
+    dokkaPlugin("org.jetbrains.dokka:android-documentation-plugin:2.0.0")
 }
 
-tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
+dokka {
     dokkaSourceSets.configureEach {
+        displayName.set("HabitHatch Documentation")
+        includes.from("README.md")
+        sourceRoots.from("src/main/java")
+        moduleName.set("MyModuleName")
+
+        documentedVisibilities.set(setOf(VisibilityModifier.Public))
+        skipEmptyPackages.set(true)
+        skipDeprecated.set(true)
+        reportUndocumented.set(false)
+        suppressGeneratedFiles.set(true)
         documentedVisibilities.set(
             setOf(
-                org.jetbrains.dokka.DokkaConfiguration.Visibility.PUBLIC,
-                org.jetbrains.dokka.DokkaConfiguration.Visibility.PROTECTED,
+                VisibilityModifier.Public,
             ),
         )
-        suppressObviousFunctions.set(true)
         skipEmptyPackages.set(true)
-        failOnWarning.set(false)
         reportUndocumented.set(false)
+        suppressGeneratedFiles.set(false)
+        perPackageOption {
+            matchingRegex.set(".*dagger.*|.*hilt.*|.*generated.*|.*test.*|.*Generated.*")
+            suppress.set(true)
+        }
+        suppressedFiles.from(
+            fileTree(".") {
+                include("*.java")
+            },
+        )
+        suppressedFiles.from(
+            fileTree("build/generated/ksp") {
+                include("**/*.kt")
+                include("**/*.java")
+            },
+        )
+    }
+    dokkaPublications.configureEach {
+        suppressInheritedMembers.set(true)
     }
 }
 
