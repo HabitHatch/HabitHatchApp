@@ -1,1 +1,11 @@
 /build
+.idea
+/node_modules
+gradle
+.gradle
+local.properties
+google-services.json
+*.jks
+keystore.b64
+*/combined_file.txt
+*/all_main_13_12.zip

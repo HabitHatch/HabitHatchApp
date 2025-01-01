@@ -149,10 +149,8 @@ tasks.withType<DokkaTask>().configureEach {
         suppressedFiles.from(
             fileTree("build/generated/ksp") {
                 include("**")
-                include("**/*")
             },
         )
-        includes.from("src/main/java/core/package.md")
     }
 }
 tasks.dokkaHtml.configure {
@@ -169,9 +167,57 @@ tasks.register("codeQualityCheck") {
     dependsOn("lint", "detekt")
 }
 
+fun extractPackageName(
+    file: File,
+    basePackage: String,
+): String {
+    val splitPath = file.path.split(File.separatorChar)
+    val directoryName = splitPath[splitPath.indexOf("dokka-md") + 2]
+    // Remove the base package prefix from the path
+    return directoryName.removePrefix("$basePackage.")
+}
+
+fun extractTrailingPackageName(
+    file: File,
+    basePackage: String,
+): String = extractPackageName(file, basePackage).split('.').last()
+
+fun extractTopLevelSubPackage(
+    file: File,
+    basePackage: String,
+): String = extractPackageName(file, basePackage).substringBefore('.')
+
+/**
+ * Helper function that does interface, class, and decorator conversions
+ */
+fun transformKotlinMarkup(
+    content: String,
+    indexFile: File,
+    basePackage: String,
+): String =
+    content
+        .replace(Regex("//\\[HabitHatch].*"), "")
+        .replace("### Parameters", "## Parameters")
+        .replace("#### Inheritors", "## Inheritors")
+        .replace(
+            "# Package-level declarations",
+            extractTrailingPackageName(indexFile, basePackage),
+        ).replace(Regex("\\[?app[\\s\\]]"), "")
+        .replace("\n#", "\n###")
+        .replace("\\\n", "\n")
+        .replace("| <br>", "| ")
+        .replace(Regex("\\[([^\\]]+)]\\([^\\)]+\\.md\\)"), "$1")
+        .replace("@Injectconstructor", "@Inject<br>constructor")
+        .replace(
+            Regex("(class|fun|var|val|interface)\\s+([a-zA-Z]+)"),
+            "<span class=\"kotlin-kw\">$1</span> <span class=\"kotlin-name\">$2</span>",
+        ).replace(Regex("(@[a-zA-Z]+)"), "<span class=\"decorator\">$1</span> ")
+        .replace(Regex("\\b(class|fun|var|val|interface)\\s+"), "<span class=\"kotlin-kw $1\">$1</span> ")
+
 tasks.register("mergeLeafIndexesMd") {
     val dokkaOutputDir = file("docs/dokka-md")
     val mergedOutputFile = file("docs/docsify/code_documentation.md")
+    val basePackage = "com.habithatch.demo"
 
     doLast {
         println("Merging leaf index.md files...")
@@ -184,69 +230,25 @@ tasks.register("mergeLeafIndexesMd") {
                     file.parentFile?.listFiles { f -> f.isDirectory }?.isEmpty() == true
                 }.toList()
 
+        // Group files by their top-level sub-package
+        val groupedBySubPackage = leafIndexFiles.groupBy { extractTopLevelSubPackage(it, basePackage) }
+
         mergedOutputFile.bufferedWriter().use { writer ->
             writer.write("# Code Documentation\n")
-            leafIndexFiles.forEach { indexFile ->
-                val fileText = indexFile.readText()
-                val result =
-                    fileText
-                        .replace(Regex("//\\[HabitHatch].*"), "")
-                        .replace("[app]", "")
-                        .replace("app ", "")
-                        .replace("app\n", "")
-                        .replace("\n#", "\n##")
-                        .replace("\\\n", "\n")
-                        .replace("| <br>", "| ")
-                        .replace("#### Parameters", "### Parameters")
-                        .replace("#### Inheritors", "### Inheritors")
-                        .replace("interface ", "<span class=\"interface\">interface</span> ")
-                        .replace("class ", "<span class=\"kotlin-class\">class</span> ")
-                        .replace(Regex("(@[a-zA-Z]+)"), "<span class=\"decorator\">$1</span> ")
-                        .replace(Regex("\\[([^\\]]+)]\\([^\\)]+\\.md\\)"), "$1")
 
+            groupedBySubPackage.forEach { (subPkg, files) ->
+                writer.write("\n## ${subPkg.replaceFirstChar { it.uppercase() }}\n")
+                files.forEach { indexFile ->
+                    writer.write(transformKotlinMarkup(indexFile.readText(), indexFile, basePackage))
+                    writer.write("\n")
+                }
                 writer.write("\n---\n")
-                writer.write(result)
-                writer.write("\n")
             }
         }
-
-        println("Merged ${leafIndexFiles.size} leaf index.md files into ${mergedOutputFile.absolutePath}")
-    }
-}
-
-tasks.register("mergeLeafIndexesHtml") {
-    val dokkaOutputDir = file("docs/dokka")
-    val mergedOutputFile = file("docs/code_documentation.html")
-
-    doLast {
-        println("Merging leaf index.md files...")
-
-        val leafIndexFiles =
-            dokkaOutputDir
-                .walkTopDown()
-                .filter { it.isFile && it.name == "index.html" }
-                .filter { file ->
-                    val parentDir = file.parentFile
-                    parentDir?.listFiles { f -> f.isDirectory }?.isEmpty() == true
-                }.toList()
-
-        mergedOutputFile.bufferedWriter().use { writer ->
-            leafIndexFiles.forEach { indexFile ->
-                val cleanFileName = indexFile.parentFile.name.removePrefix("-")
-                writer.write("<div class=\"code-documentation-file\" id=\"$cleanFileName\">\n")
-                writer.write(indexFile.readText())
-                writer.write("\n</div>\n")
-            }
-        }
-
         println("Merged ${leafIndexFiles.size} leaf index.md files into ${mergedOutputFile.absolutePath}")
     }
 }
 
 tasks.dokkaGfm {
     finalizedBy("mergeLeafIndexesMd")
-}
-
-tasks.dokkaHtml {
-    finalizedBy("mergeLeafIndexesHtml")
 }
