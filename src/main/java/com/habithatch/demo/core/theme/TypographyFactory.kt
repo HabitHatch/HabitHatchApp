@@ -5,6 +5,9 @@ import com.habithatch.demo.core.config.HabitHatchConfig
 import com.habithatch.demo.core.util.withFontFamily
 import javax.inject.Inject
 
+/**
+ * Factory for creating [Typography] instances.
+ */
 class TypographyFactory
     @Inject
     constructor(

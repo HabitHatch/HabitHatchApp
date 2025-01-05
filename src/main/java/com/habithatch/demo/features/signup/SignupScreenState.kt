@@ -28,6 +28,9 @@ enum class SignUpState {
     LOADING,
 }
 
+/**
+ * @suppress
+ */
 @Composable
 fun rememberSignupScreenState(
     viewModel: SignupViewModel = hiltViewModel(),

@@ -4,6 +4,9 @@ import com.habithatch.demo.core.config.GoalPriorityProvider
 import com.habithatch.demo.core.config.GoalStatusProvider
 import com.habithatch.demo.core.util.createRandomDate
 
+/**
+ * @suppress
+ */
 val habitNames =
     setOf(
         "Morning Meditation",
@@ -46,20 +49,6 @@ class ExampleGoalFactory(
     private val statusProvider: GoalStatusProvider,
     private val goalModelFactory: GoalModel.Factory,
 ) {
-    fun randomPriority() = priorityProvider.priorities.random()
-
-    fun randomStatus() = statusProvider.statuses.random()
-
-    fun createExampleGoal(
-        pastYears: Long = 1,
-    ): GoalModel =
-        goalModelFactory.createExample(
-            title = habitNames.random(),
-            status = randomStatus(),
-            priority = randomPriority(),
-            createdAt = createRandomDate(pastYears),
-        )
-
     fun createExampleGoals(
         count: Int,
         pastYears: Long = 1,
@@ -70,7 +59,6 @@ class ExampleGoalFactory(
         require(!uniqueTitles || count <= habitNames.size) {
             "Cannot generate more goals than there are unique habit names"
         }
-
         repeat(count) {
             var goal = createExampleGoal(pastYears)
 
@@ -81,4 +69,18 @@ class ExampleGoalFactory(
         }
         return generatedGoals
     }
+
+    private fun randomPriority() = priorityProvider.priorities.random()
+
+    private fun randomStatus() = statusProvider.statuses.random()
+
+    private fun createExampleGoal(
+        pastYears: Long = 1,
+    ): GoalModel =
+        goalModelFactory.createExample(
+            title = habitNames.random(),
+            status = randomStatus(),
+            priority = randomPriority(),
+            createdAt = createRandomDate(pastYears),
+        )
 }

@@ -17,12 +17,17 @@ import com.habithatch.demo.ui.goals.GoalsViewState
 
 /**
  * Represents the main state information for the home screen.
+ *
+ * @param pet The pet to display.
+ * @param isUserLoggedIn Whether the user is logged in.
+ * @param allGoalsDone Whether all goals are done.
+ * @param onFabClicked The callback for when the Floating Action Button is clicked.
  */
 data class CoreHomeState(
     val pet: Pet?,
     val isUserLoggedIn: Boolean = false,
     val allGoalsDone: Boolean = false,
-    val onAddGoalClicked: () -> Unit = {},
+    val onFabClicked: () -> Unit = {},
 )
 
 /**
@@ -43,6 +48,9 @@ class HomeScreenState(
     val core: CoreHomeState,
 )
 
+/**
+ * @suppress
+ */
 @Composable
 fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScreenState {
     val user by viewModel.user.collectAsStateWithLifecycle()
@@ -87,7 +95,7 @@ fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScr
                 pet = user?.pet,
                 isUserLoggedIn = user != null,
                 allGoalsDone = allGoalsDone,
-                onAddGoalClicked = { showDialog = true },
+                onFabClicked = { showDialog = true },
             )
         }
 

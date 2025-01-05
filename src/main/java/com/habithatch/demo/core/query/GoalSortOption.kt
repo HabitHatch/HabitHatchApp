@@ -31,13 +31,28 @@ data class GoalSortOption(
      */
     fun cycleState(): GoalSortOption = this.copy(sortState = sortState.nextInCycle())
 
+    /**
+     * Returns a copy of this sort option with the sort state set to [SortState.NOT_USED].
+     */
     fun isUsed(): Boolean = sortState != SortState.NOT_USED
 
+    /**
+     * @suppress
+     */
     override fun equals(other: Any?) = other is GoalSortOption && other.label == label && other.sortState == sortState
 
+    /**
+     * @suppress
+     */
     override fun hashCode(): Int = label.hashCode() + 31 * sortState.hashCode()
 
+    /**
+     * @suppress
+     */
     override fun toString(): String = "GoalSortOption(label='$label', sortState=$sortState)"
 
+    /**
+     * @suppress
+     */
     override fun compareTo(other: GoalSortOption): Int = this.uiIndex.compareTo(other.uiIndex)
 }

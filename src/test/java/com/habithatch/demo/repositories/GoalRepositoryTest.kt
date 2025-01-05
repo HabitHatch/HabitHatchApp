@@ -263,7 +263,7 @@ class GoalRepositoryTest {
 
             val filter =
                 matchAllBuilder
-                    .setPriorityVisibility(highPriority, false)
+                    .priorityVisibility(highPriority, false)
                     .build()
 
             // Act & Assert

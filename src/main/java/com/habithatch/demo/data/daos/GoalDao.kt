@@ -11,6 +11,12 @@ import kotlinx.coroutines.flow.Flow
  */
 @Dao
 interface GoalDao {
+    /**
+     * @suppress
+     */
+    @Deprecated(
+        message = "Is only used in tests",
+    )
     @Query("SELECT * FROM goal WHERE goal.id = :goalId")
     fun getGoalById(goalId: Long): Flow<GoalEntity?>
 
@@ -21,8 +27,12 @@ interface GoalDao {
     suspend fun insert(goal: GoalEntity)
 
     @Insert()
-    suspend fun insertAll(goals: Collection<GoalEntity>)
+    suspend fun insert(goals: Collection<GoalEntity>)
 
+    /**
+     * Updates the goal with the given [id] with the given [title], [statusLabel], and [priorityLabel].
+     * [GoalEntity.createdAt] and [GoalEntity.id] are not allowed tto be updated.
+     */
     @Query(
         """
         UPDATE goal
@@ -39,6 +49,9 @@ interface GoalDao {
         priorityLabel: String,
     )
 
+    /**
+     * Deletes all goals from the database.
+     */
     @Query("DELETE FROM goal")
     suspend fun deleteAll()
 }

@@ -62,6 +62,9 @@ data class GoalQuery(
         }
     }
 
+    /**
+     * @suppress
+     */
     override fun toString(): String =
         """
         GoalQuery(
@@ -70,6 +73,9 @@ data class GoalQuery(
         )
         """.trimIndent()
 
+    /**
+     * Factory for creating [GoalQuery] instances.
+     */
     class Factory
         @Inject
         constructor(

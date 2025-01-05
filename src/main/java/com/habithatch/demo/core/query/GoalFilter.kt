@@ -47,17 +47,15 @@ data class GoalFilter private constructor(
         fun onlyMatch(status: GoalModel.Status) = this.matchNoneStatuses().includeStatus(status)
 
         @Suppress("ktlint:standard:function-expression-body")
-        fun setPriorityVisibility(priorityVisibility: PriorityVisibility): Builder {
+        fun priorityVisibility(priorityVisibility: PriorityVisibility): Builder {
             return this.copy(priorityVisibility = priorityVisibility)
         }
 
-        fun statusVisibility(statusVisibility: StatusVisibility) = this.copy(statusVisibility = statusVisibility)
-
-        fun setPriorityVisibility(
+        fun priorityVisibility(
             priority: GoalModel.Priority,
             visible: Boolean,
         ): Builder =
-            this.setPriorityVisibility(
+            this.priorityVisibility(
                 this.priorityVisibility + (priority to visible),
             )
 
@@ -65,6 +63,8 @@ data class GoalFilter private constructor(
             val doneStatus = statusProvider.statuses.first { it.isDone }
             return statusVisibility(doneStatus, visible)
         }
+
+        fun statusVisibility(statusVisibility: StatusVisibility) = this.copy(statusVisibility = statusVisibility)
 
         fun statusVisibility(
             status: GoalModel.Status,
@@ -74,8 +74,14 @@ data class GoalFilter private constructor(
                 this.statusVisibility + (status to visible),
             )
 
+        /**
+         * @suppress
+         */
         fun includeStatus(status: GoalModel.Status) = statusVisibility(status, true)
 
+        /**
+         * @suppress
+         */
         fun excludeStatus(status: GoalModel.Status) = statusVisibility(status, false)
 
         fun setSearchQuery(searchQuery: String?): Builder = this.copy(searchQuery = searchQuery)
@@ -125,7 +131,7 @@ data class GoalFilter private constructor(
                 priorityProvider: GoalPriorityProvider,
                 statusProvider: GoalStatusProvider,
             ) = Builder(priorityProvider, statusProvider)
-                .setPriorityVisibility(goalFilter.priorityVisibility)
+                .priorityVisibility(goalFilter.priorityVisibility)
                 .statusVisibility(goalFilter.statusVisibility)
                 .setSearchQuery(goalFilter.searchQuery)
         }
@@ -166,6 +172,9 @@ data class GoalFilter private constructor(
 
     private fun matchesSearchQuery(goal: GoalModel) = notHasSearchQuery() || titleContains(goal)
 
+    /**
+     * @suppress
+     */
     override fun toString(): String =
         """
         ${this.javaClass.simpleName} (

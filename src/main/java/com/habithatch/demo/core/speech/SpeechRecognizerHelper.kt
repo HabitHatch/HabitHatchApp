@@ -29,6 +29,9 @@ class SpeechRecognizerHelper(
     init {
         speechRecognizer.setRecognitionListener(
             object : RecognitionListener {
+                /**
+                 * onResults is called when the recognition is successful.
+                 */
                 override fun onResults(results: Bundle?) {
                     val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                     if (!matches.isNullOrEmpty()) {
@@ -63,6 +66,9 @@ class SpeechRecognizerHelper(
                     }
                 }
 
+                /**
+                 * @suppress
+                 */
                 override fun onEvent(
                     eventType: Int,
                     params: Bundle?,
@@ -70,10 +76,16 @@ class SpeechRecognizerHelper(
                     Log.d(TAG, "Event received: $eventType")
                 }
 
+                /**
+                 * @suppress
+                 */
                 override fun onRmsChanged(rmsdB: Float) {
                     Log.d(TAG, "RMS dB level: $rmsdB")
                 }
 
+                /**
+                 * @suppress
+                 */
                 override fun onBufferReceived(buffer: ByteArray?) {
                     Log.d(TAG, "Audio buffer received")
                 }

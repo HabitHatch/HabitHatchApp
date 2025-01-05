@@ -147,6 +147,12 @@ tasks.withType<DokkaTask>().configureEach {
         suppressInheritedMembers.set(true)
 
         suppressedFiles.from(
+            fileTree("src/main/java") {
+                include("**/package.md")
+            },
+        )
+
+        suppressedFiles.from(
             fileTree("build/generated/ksp") {
                 include("**")
             },
@@ -187,35 +193,84 @@ fun extractTopLevelSubPackage(
     basePackage: String,
 ): String = extractPackageName(file, basePackage).substringBefore('.')
 
-/**
- * Helper function that does interface, class, and decorator conversions
- */
+fun getTopLevelSubPackagesIndexFile(
+    packageName: String,
+    srcDir: File,
+    basePackage: String,
+): File = srcDir.resolve("${basePackage.replace(".", "/")}/$packageName/package.md")
+
+fun String.removeLinks(): String =
+    this
+        .replace(Regex("\\[([^\\]]+)]\\([^\\)]+\\)"), "$1")
+        .replace(Regex("@\\[([^\\]]+)]\\([^\\)]+.*\\)"), "$1")
+
+fun String.removeHabitHatchComment(): String = this.replace(Regex("//\\[HabitHatch].*"), "")
+
+fun String.adjustHeadingLevels(): String =
+    this
+        .replace("#### Parameters", "## Parameters")
+        .replace("#### Inheritors", "## Inheritors")
+        .replace("\n#", "\n###")
+
+fun String.cleanUpMarkdownArtifacts(): String =
+    this
+        .replace("\\\n", "\n")
+        .replace("| <br>", "| ")
+
+fun String.injectConstructorFix(): String = this.replace("@Injectconstructor", "@Inject<br>constructor")
+
+fun String.fixParameterTable(): String = this.replace(Regex("(# Parameters\\n+)\\| \\| \\|"), "$1| Name | Description |")
+
+fun String.removeConstructorsSection(): String = this.replace(Regex("#+ Constructors[^#]+"), "")
+
+fun String.highlightConstructors(): String =
+    this.replace(
+        Regex("constructor(\\(.*\\))"),
+        "<span class=\"kotlin-kw constructor\">constructor</span><span class=\"kotlin-params constructor\">$1</span>",
+    )
+
+fun String.highlightKotlinKeywords(): String =
+    this
+        .replace(
+            Regex(
+                "(class|fun|var|val|interface|object|typealias|enum)\\s+([a-zA-Z_]+)((\\s*:\\s*)([a-zA-Z]+))?",
+            ),
+            "<span class=\"kotlin-kw declaration $1\">$1</span> <span class=\"kotlin-name $1\">$2</span>$4<span class=\"kotlin-type\">$5</span>",
+        ).replace(
+            Regex("(@[^<\\n ]+)"),
+            "<span class=\"kotlin-kw decorator\">$1</span>",
+        ).replace(
+            Regex("\\b(abstract|open|operator|override|lateinit|data|sealed)\\s+", RegexOption.IGNORE_CASE),
+            "<span class=\"kotlin-kw modifier $1\">$1</span> ",
+        )
+
+fun String.removeAppReferences(): String = this.replace(Regex("\\[?app[\\s\\]]"), "")
+
 fun transformKotlinMarkup(
     content: String,
     indexFile: File,
     basePackage: String,
-): String =
-    content
-        .replace(Regex("//\\[HabitHatch].*"), "")
-        .replace("### Parameters", "## Parameters")
-        .replace("#### Inheritors", "## Inheritors")
-        .replace(
-            "# Package-level declarations",
-            extractTrailingPackageName(indexFile, basePackage),
-        ).replace(Regex("\\[?app[\\s\\]]"), "")
-        .replace("\n#", "\n###")
-        .replace("\\\n", "\n")
-        .replace("| <br>", "| ")
-        .replace(Regex("\\[([^\\]]+)]\\([^\\)]+\\.md\\)"), "$1")
-        .replace("@Injectconstructor", "@Inject<br>constructor")
-        .replace(
-            Regex("(class|fun|var|val|interface)\\s+([a-zA-Z]+)"),
-            "<span class=\"kotlin-kw\">$1</span> <span class=\"kotlin-name\">$2</span>",
-        ).replace(Regex("(@[a-zA-Z]+)"), "<span class=\"decorator\">$1</span> ")
-        .replace(Regex("\\b(class|fun|var|val|interface)\\s+"), "<span class=\"kotlin-kw $1\">$1</span> ")
+): String {
+    val trailingPackageName = extractTrailingPackageName(indexFile, basePackage)
+    val formattedPackageName = trailingPackageName.replaceFirstChar { it.uppercase() }
+
+    return content
+        .removeHabitHatchComment()
+        .replace("# Package-level declarations", "# $formattedPackageName")
+        .removeAppReferences()
+        .removeLinks()
+        .injectConstructorFix()
+        .fixParameterTable()
+        .removeConstructorsSection()
+        .highlightConstructors()
+        .highlightKotlinKeywords()
+        .cleanUpMarkdownArtifacts()
+        .adjustHeadingLevels()
+}
 
 tasks.register("mergeLeafIndexesMd") {
     val dokkaOutputDir = file("docs/dokka-md")
+    val srcDir = file("src/main/java")
     val mergedOutputFile = file("docs/docsify/code_documentation.md")
     val basePackage = "com.habithatch.demo"
 
@@ -237,7 +292,10 @@ tasks.register("mergeLeafIndexesMd") {
             writer.write("# Code Documentation\n")
 
             groupedBySubPackage.forEach { (subPkg, files) ->
-                writer.write("\n## ${subPkg.replaceFirstChar { it.uppercase() }}\n")
+                val packageIndexFile = getTopLevelSubPackagesIndexFile(subPkg, srcDir, basePackage)
+
+                writer.write(packageIndexFile.readText())
+
                 files.forEach { indexFile ->
                     writer.write(transformKotlinMarkup(indexFile.readText(), indexFile, basePackage))
                     writer.write("\n")
@@ -247,6 +305,17 @@ tasks.register("mergeLeafIndexesMd") {
         }
         println("Merged ${leafIndexFiles.size} leaf index.md files into ${mergedOutputFile.absolutePath}")
     }
+}
+
+tasks.register("cleanDocs") {
+    doLast {
+        file("docs/dokka-md").deleteRecursively()
+        println("Deleted docs/dokka-md directory.")
+    }
+}
+
+tasks.dokkaGfm.configure {
+    outputDirectory.set(file("docs/dokka-md"))
 }
 
 tasks.dokkaGfm {

@@ -22,6 +22,9 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun goalDao(): GoalDao
 }
 
+/**
+ * @suppress
+ */
 object DatabaseProvider {
     @Volatile
     private var instance: AppDatabase? = null

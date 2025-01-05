@@ -7,6 +7,15 @@ import com.habithatch.demo.data.entities.GoalEntity
 import java.time.Instant
 import javax.inject.Inject
 
+/**
+ * [GoalModel] represents a goal.
+ *
+ * @param title the title of the goal
+ * @param status the status of the goal
+ * @param priority the priority of the goal
+ * @param createdAt the creation date of the goal
+ * @param isDraft whether the goal is a draft
+ */
 @ConsistentCopyVisibility
 @Immutable
 data class GoalModel private constructor(
@@ -23,18 +32,36 @@ data class GoalModel private constructor(
         val iconResourceId: Int,
         val getColor: @Composable () -> Color,
     ) {
+        /**
+         * Importance of the priority.
+         */
         @Suppress("unused")
         sealed class Importance(
             val value: Int,
         ) : Comparable<Importance> {
+            /**
+             * @suppress
+             */
             object VeryLow : Importance(0)
 
+            /**
+             * @suppress
+             */
             object Low : Importance(10)
 
+            /**
+             * @suppress
+             */
             object Normal : Importance(20)
 
+            /**
+             * @suppress
+             */
             object High : Importance(30)
 
+            /**
+             * @suppress
+             */
             object VeryHigh : Importance(40)
 
             override fun compareTo(other: Importance) = this.value.compareTo(other.value)
@@ -49,13 +76,22 @@ data class GoalModel private constructor(
         val stepNumber: Int,
         val isDone: Boolean = false,
     ) {
+        /**
+         * @suppress
+         */
         override fun equals(other: Any?): Boolean = other is Status && other.label == label
 
+        /**
+         * @suppress
+         */
         override fun hashCode(): Int = label.hashCode()
     }
 
     fun isDone(): Boolean = this.status.isDone
 
+    /**
+     * @suppress
+     */
     fun copy(
         title: String? = null,
         status: Status? = null,

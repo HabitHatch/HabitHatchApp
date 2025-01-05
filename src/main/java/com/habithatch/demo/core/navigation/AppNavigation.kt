@@ -1,6 +1,5 @@
 package com.habithatch.demo.core.navigation
 
-import BottomNavBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -16,6 +15,7 @@ import com.habithatch.demo.features.settings.SettingsScreen
 import com.habithatch.demo.features.signup.SignUpState
 import com.habithatch.demo.features.signup.SignupScreen
 import com.habithatch.demo.features.signup.SignupViewModel
+import com.habithatch.demo.ui.navigation.BottomNavBar
 import com.habithatch.demo.ui.navigation.TopNavBar
 
 /**

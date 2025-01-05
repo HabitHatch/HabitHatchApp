@@ -1,3 +1,5 @@
+package com.habithatch.demo.ui.navigation
+
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -11,7 +13,6 @@ import com.habithatch.demo.core.app.AppModule
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.navigation.Screen
 import com.habithatch.demo.data.models.GoalModel
-import com.habithatch.demo.ui.navigation.NavItem
 
 /**
  * A bottom navigation bar that displays the navigation items.

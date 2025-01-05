@@ -4,6 +4,9 @@ import com.habithatch.demo.core.config.GoalPriorityProvider
 import com.habithatch.demo.core.config.GoalStatusProvider
 import javax.inject.Inject
 
+/**
+ * Factory for creating [GoalFilter.Builder] instances.
+ */
 class GoalFilterBuilderFactory
     @Inject
     constructor(

@@ -19,15 +19,18 @@ class UserRepository
     ) {
         fun getUser(): Flow<User?> = userDao.getUser()
 
-        suspend fun hasUser(): Boolean = this.getUser().first() != null
-
         @Throws(UserExistsException::class)
         suspend fun createUser(user: User) {
             if (this.hasUser()) throw UserExistsException(user)
             userDao.insert(user)
         }
 
+        /**
+         * Deletes all(only one) user from the database. There can only be one user in the database.
+         */
         suspend fun deleteUser() {
             userDao.deleteAll()
         }
+
+        private suspend fun hasUser(): Boolean = this.getUser().first() != null
     }

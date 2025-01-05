@@ -17,6 +17,10 @@ interface UserDao {
     @Insert()
     suspend fun insert(user: User)
 
+    /**
+     * Deletes all users from the database.
+     * But there should only be one user in the database.
+     */
     @Query("DELETE FROM user")
     suspend fun deleteAll()
 }

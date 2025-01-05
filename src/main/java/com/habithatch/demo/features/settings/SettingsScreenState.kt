@@ -12,6 +12,9 @@ data class SettingsScreenState(
     val onDeleteAccount: () -> Unit,
 )
 
+/**
+ * @suppress
+ */
 @Composable
 fun rememberSettingsScreenState(
     viewModel: SettingsViewModel = hiltViewModel(),

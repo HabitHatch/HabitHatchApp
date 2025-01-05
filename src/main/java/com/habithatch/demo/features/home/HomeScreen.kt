@@ -1,6 +1,5 @@
 package com.habithatch.demo.features.home
 
-import BottomNavBar
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -30,6 +29,7 @@ import com.habithatch.demo.ui.goals.GoalsViewState
 import com.habithatch.demo.ui.goals.table.GoalFilterBar
 import com.habithatch.demo.ui.goals.table.GoalQueryTable
 import com.habithatch.demo.ui.goals.table.GoalSortBar
+import com.habithatch.demo.ui.navigation.BottomNavBar
 import com.habithatch.demo.ui.navigation.TopNavBar
 import com.habithatch.demo.ui.pets.PetAnimation
 
@@ -50,7 +50,7 @@ fun HomeScreen(
         topBar = topNavBar,
         bottomBar = bottomNavBar,
         floatingActionButton = {
-            FloatingActionButton(onClick = state.core.onAddGoalClicked) {
+            FloatingActionButton(onClick = state.core.onFabClicked) {
                 Icon(Icons.Default.Add, stringResource(R.string.add_goal_icon_description))
             }
         },
