@@ -6,7 +6,6 @@
 
 | Name |
 |---|
-| [[root]](-habit-hatch/[root]/index.md) |
 | [com.habithatch.demo.core](-habit-hatch/com.habithatch.demo.core/index.md) |
 | [com.habithatch.demo.core.activities](-habit-hatch/com.habithatch.demo.core.activities/index.md) |
 | [com.habithatch.demo.core.ai](-habit-hatch/com.habithatch.demo.core.ai/index.md) |

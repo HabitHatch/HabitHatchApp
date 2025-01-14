@@ -257,3 +257,5 @@ local data storage. The integration of **Dagger-Hilt** for dependency injection 
 improves testability. The app’s user experience is personalized through pet selection and goal management, making it
 both functional and engaging.
 
+
+### Adding AI Assistant?

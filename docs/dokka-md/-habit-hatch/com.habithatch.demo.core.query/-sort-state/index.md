@@ -14,14 +14,6 @@ app
 |---|---|
 | iconId | The icon resource ID for the sort option. |
 
-## Entries
-
-| | |
-|---|---|
-| [NOT_USED](-n-o-t_-u-s-e-d/index.md) | [app]<br>[NOT_USED](-n-o-t_-u-s-e-d/index.md) |
-| [ASCENDING](-a-s-c-e-n-d-i-n-g/index.md) | [app]<br>[ASCENDING](-a-s-c-e-n-d-i-n-g/index.md) |
-| [DESCENDING](-d-e-s-c-e-n-d-i-n-g/index.md) | [app]<br>[DESCENDING](-d-e-s-c-e-n-d-i-n-g/index.md) |
-
 ## Properties
 
 | Name | Summary |
