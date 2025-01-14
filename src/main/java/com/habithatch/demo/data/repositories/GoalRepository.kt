@@ -70,7 +70,7 @@ class GoalRepository
 
         private suspend fun asEntity(goalModel: GoalModel): GoalEntity {
             val currentUser = currentUser.firstOrNull()
-            checkNotNull(currentUser) { "User must be created before inserting goals" }
+            checkNotNull(currentUser) { "UserEntity must be created before inserting goals" }
             return goalMapper.asEntity(goalModel, currentUser.uuid)
         }
     }

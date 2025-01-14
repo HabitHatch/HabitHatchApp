@@ -5,7 +5,7 @@ import com.habithatch.demo.core.exceptions.InvalidUUIdException
 import com.habithatch.demo.core.exceptions.UserExistsException
 import com.habithatch.demo.data.daos.UserDao
 import com.habithatch.demo.data.entities.Pet
-import com.habithatch.demo.data.entities.User
+import com.habithatch.demo.data.entities.UserEntity
 import com.habithatch.demo.data.repositories.UserRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -31,7 +31,7 @@ class UserRepositoryTest {
         runBlocking {
             // Arrange
             coEvery { userDao.getUser() } returns flow { emit(null) }
-            val user = User(pet = somePet)
+            val user = UserEntity(pet = somePet)
 
             // Act
             val createdUser = userRepository.createUser(user)
@@ -48,9 +48,9 @@ class UserRepositoryTest {
             // Arrange
             coEvery { userDao.getUser() } returns
                 flow {
-                    emit(User(pet = somePet))
+                    emit(UserEntity(pet = somePet))
                 }
-            val user = User(pet = anotherPet)
+            val user = UserEntity(pet = anotherPet)
 
             // Act
             val exception =
@@ -68,7 +68,7 @@ class UserRepositoryTest {
         runBlocking {
             // Arrange
             coEvery { userDao.getUser() } returns flow { emit(null) }
-            val user1 = User(uuid = "invalid-uid", pet = somePet)
+            val user1 = UserEntity(uuid = "invalid-uid", pet = somePet)
 
             // Act
             val exception =
@@ -85,7 +85,7 @@ class UserRepositoryTest {
             // Arrange
             coEvery { userDao.getUser() } returns
                 flow {
-                    emit(User(pet = somePet))
+                    emit(UserEntity(pet = somePet))
                 }
             coEvery { userDao.deleteAll() } returns Unit
 

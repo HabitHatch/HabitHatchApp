@@ -15,11 +15,16 @@ package Model{
         - pet: Pet
     }
 
+    class Mood{
+        - title: String
+        - description: String
+    }
 
     class Pet {
         + name: String
         + animation: Animation?
         + image: Image
+        - mood: Mood
     }
 
     enum Priority {
@@ -38,11 +43,12 @@ package Model{
     User *.. Goal: "indirectly"
     Pet o-- Image
     Pet o-- Animation
+    Pet o-- Mood
     Animation o-- Image
 }
 
 package View{
-    class InitialLoginView{
+    class SignupView{
     }
 
     class HomeView {
@@ -93,21 +99,20 @@ class AppConfig{
 }
 
 AppConfig o-- Pet
-InitialLoginView .down.> InitialLoginViewModel
+SignupView .down.> SignupViewModel
 HomeView .down.> HomeViewModel
 SettingsView .down.> SettingsViewModel
 
-InitialLoginViewModel .down..> UserRepository
 
 HomeViewModel .down> GoalRepository
 HomeViewModel .down> UserRepository
-
+SignupViewModel .down> UserRepository
 SettingsViewModel .down.> UserRepository
 
 
 UserRepository ..down> UserDAO
 GoalRepository ..down> GoalDAO
-
+GoalRepository ..> Pet: "updates"
 
 UserDAO -down-> User
 GoalDAO -down-> Goal

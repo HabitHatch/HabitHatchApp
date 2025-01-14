@@ -3,7 +3,7 @@ import org.jetbrains.dokka.DokkaConfiguration
 import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
-    id("com.android.application") version "8.7.3"
+    id("com.android.application") version "8.8.0"
     id("org.jetbrains.dokka") version "2.0.0"
     id("androidx.room") version "2.6.1"
     id("org.jetbrains.kotlin.android") version "2.1.0"
@@ -150,9 +150,6 @@ tasks.withType<DokkaTask>().configureEach {
             fileTree("src/main/java") {
                 include("**/package.md")
             },
-        )
-
-        suppressedFiles.from(
             fileTree("build/generated/ksp") {
                 include("**")
             },
@@ -178,9 +175,7 @@ fun extractPackageName(
     basePackage: String,
 ): String {
     val splitPath = file.path.split(File.separatorChar)
-    val directoryName = splitPath[splitPath.indexOf("dokka-md") + 2]
-    // Remove the base package prefix from the path
-    return directoryName.removePrefix("$basePackage.")
+    return splitPath[splitPath.indexOf("dokka-md") + 2].removePrefix("$basePackage.")
 }
 
 fun extractTrailingPackageName(
@@ -217,13 +212,13 @@ fun String.cleanUpMarkdownArtifacts(): String =
         .replace("\\\n", "\n")
         .replace("| <br>", "| ")
 
-fun String.injectConstructorFix(): String = this.replace("@Injectconstructor", "@Inject<br>constructor")
+fun String.injectConstructorFix() = this.replace("@Injectconstructor", "@Inject<br>constructor")
 
-fun String.fixParameterTable(): String = this.replace(Regex("(# Parameters\\n+)\\| \\| \\|"), "$1| Name | Description |")
+fun String.fixParameterTable() = this.replace(Regex("(# Parameters\\n+)\\| \\| \\|"), "$1| Name | Description |")
 
-fun String.removeConstructorsSection(): String = this.replace(Regex("#+ Constructors[^#]+"), "")
+fun String.removeConstructorsSection() = this.replace(Regex("#+ Constructors[^#]+"), "")
 
-fun String.highlightConstructors(): String =
+fun String.highlightConstructors() =
     this.replace(
         Regex("constructor(\\(.*\\))"),
         "<span class=\"kotlin-kw constructor\">constructor</span><span class=\"kotlin-params constructor\">$1</span>",
@@ -244,15 +239,14 @@ fun String.highlightKotlinKeywords(): String =
             "<span class=\"kotlin-kw modifier $1\">$1</span> ",
         )
 
-fun String.removeAppReferences(): String = this.replace(Regex("\\[?app[\\s\\]]"), "")
+fun String.removeAppReferences() = this.replace(Regex("\\[?app[\\s\\]]"), "")
 
 fun transformKotlinMarkup(
     content: String,
     indexFile: File,
     basePackage: String,
 ): String {
-    val trailingPackageName = extractTrailingPackageName(indexFile, basePackage)
-    val formattedPackageName = trailingPackageName.replaceFirstChar { it.uppercase() }
+    val formattedPackageName = extractTrailingPackageName(indexFile, basePackage).replaceFirstChar { it.uppercase() }
 
     return content
         .removeHabitHatchComment()
@@ -285,7 +279,6 @@ tasks.register("mergeLeafIndexesMd") {
                     file.parentFile?.listFiles { f -> f.isDirectory }?.isEmpty() == true
                 }.toList()
 
-        // Group files by their top-level sub-package
         val groupedBySubPackage = leafIndexFiles.groupBy { extractTopLevelSubPackage(it, basePackage) }
 
         mergedOutputFile.bufferedWriter().use { writer ->
@@ -297,8 +290,7 @@ tasks.register("mergeLeafIndexesMd") {
                 writer.write(packageIndexFile.readText())
 
                 files.forEach { indexFile ->
-                    writer.write(transformKotlinMarkup(indexFile.readText(), indexFile, basePackage))
-                    writer.write("\n")
+                    writer.write(transformKotlinMarkup(indexFile.readText(), indexFile, basePackage) + "\n")
                 }
                 writer.write("\n---\n")
             }

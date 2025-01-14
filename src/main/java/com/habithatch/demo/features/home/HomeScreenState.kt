@@ -8,27 +8,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.habithatch.demo.data.entities.Pet
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.ui.goals.AddGoalDialogState
 import com.habithatch.demo.ui.goals.GoalFilterState
 import com.habithatch.demo.ui.goals.GoalSortState
 import com.habithatch.demo.ui.goals.GoalsViewState
-
-/**
- * Represents the main state information for the home screen.
- *
- * @param pet The pet to display.
- * @param isUserLoggedIn Whether the user is logged in.
- * @param allGoalsDone Whether all goals are done.
- * @param onFabClicked The callback for when the Floating Action Button is clicked.
- */
-data class CoreHomeState(
-    val pet: Pet?,
-    val isUserLoggedIn: Boolean = false,
-    val allGoalsDone: Boolean = false,
-    val onFabClicked: () -> Unit = {},
-)
 
 /**
  * Represents the state of the home screen.
@@ -115,7 +99,7 @@ fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScr
             )
         }
 
-    return remember(coreHomeState, goalsViewState, addGoalDialogState) {
+    return remember(addGoalDialogState, goalsViewState, goalFilterState, goalSortState, coreHomeState) {
         HomeScreenState(
             addGoalDialogState = addGoalDialogState,
             goalsViewState = goalsViewState,

@@ -6,7 +6,7 @@ import com.google.common.truth.Truth.assertThat
 import com.habithatch.demo.data.daos.UserDao
 import com.habithatch.demo.data.db.AppDatabase
 import com.habithatch.demo.data.entities.Pet
-import com.habithatch.demo.data.entities.User
+import com.habithatch.demo.data.entities.UserEntity
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -16,8 +16,8 @@ import org.junit.Test
 class UserDaoTest {
     private lateinit var database: AppDatabase
     private lateinit var userDao: UserDao
-    private val someUser = User(pet = Pet(name = "Pet 1", imageRes = 1001))
-    private val anotherUser = User(pet = Pet(name = "Pet 2", imageRes = 1002))
+    private val someUser = UserEntity(pet = Pet(name = "Pet 1", imageRes = 1001))
+    private val anotherUser = UserEntity(pet = Pet(name = "Pet 2", imageRes = 1002))
 
     @Before
     fun setup() {

@@ -10,7 +10,7 @@ import com.habithatch.demo.core.query.GoalFilterBuilderFactory
 import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.core.query.GoalSortOption
 import com.habithatch.demo.core.util.getNextHigherOrLowest
-import com.habithatch.demo.data.entities.User
+import com.habithatch.demo.data.entities.UserEntity
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.data.repositories.GoalRepository
 import com.habithatch.demo.data.repositories.UserRepository
@@ -34,8 +34,8 @@ class HomeViewModel
         val goalQueryFactory: GoalQuery.Factory,
         val builderFactory: GoalFilterBuilderFactory,
     ) : ViewModel() {
-        private val _user = MutableStateFlow<User?>(null)
-        val user: StateFlow<User?> = _user.asStateFlow()
+        private val _user = MutableStateFlow<UserEntity?>(null)
+        val user: StateFlow<UserEntity?> = _user.asStateFlow()
 
         private val _queriedGoals = MutableStateFlow<List<GoalModel>>(emptyList())
         val queriedGoals = _queriedGoals.asStateFlow()

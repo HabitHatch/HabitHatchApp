@@ -36,8 +36,6 @@ class HabitHatchDevConfig
         override val homeNavigationItem = Screen("home", R.drawable.vuesax_home_2)
         override val settingsNavigationItem = Screen("settings", R.drawable.vuesax_profile_circle)
 
-        override val aiNavItem = Screen("ai", R.drawable.vuesax_microphone_2)
-
         override val navigationItems =
             listOf(
                 homeNavigationItem,
@@ -45,9 +43,7 @@ class HabitHatchDevConfig
                 Screen("friends", R.drawable.vuesax_profile_2user, enabled = false),
                 Screen("pet", R.drawable.vuesax_pet, enabled = false),
                 settingsNavigationItem,
-                aiNavItem,
             )
-        override val topLeftNavItem = aiNavItem
         override val topRightNavItem = settingsNavigationItem
         override val displayFontFamily: FontFamily =
             FontFamily(
@@ -121,7 +117,6 @@ class HabitHatchDevConfig
             )
 
         override var defaultGoalQuery: GoalQuery
-            private set
 
         init {
             val goalFilter =

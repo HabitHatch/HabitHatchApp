@@ -2,7 +2,7 @@ package com.habithatch.demo.data.repositories
 
 import com.habithatch.demo.core.exceptions.UserExistsException
 import com.habithatch.demo.data.daos.UserDao
-import com.habithatch.demo.data.entities.User
+import com.habithatch.demo.data.entities.UserEntity
 import javax.inject.Inject
 import kotlin.jvm.Throws
 import kotlinx.coroutines.flow.Flow
@@ -17,20 +17,18 @@ class UserRepository
     constructor(
         private val userDao: UserDao,
     ) {
-        fun getUser(): Flow<User?> = userDao.getUser()
+        fun getUser(): Flow<UserEntity?> = userDao.getUser()
 
         @Throws(UserExistsException::class)
-        suspend fun createUser(user: User) {
+        suspend fun createUser(user: UserEntity) {
             if (this.hasUser()) throw UserExistsException(user)
             userDao.insert(user)
         }
 
         /**
          * Deletes all(only one) user from the database. There can only be one user in the database.
-         */
-        suspend fun deleteUser() {
-            userDao.deleteAll()
-        }
+         * */
+        suspend fun deleteUser() = userDao.deleteAll()
 
-        private suspend fun hasUser(): Boolean = this.getUser().first() != null
+        private suspend fun hasUser() = this.getUser().first() != null
     }

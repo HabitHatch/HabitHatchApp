@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.habithatch.demo.core.config.HabitHatchConfig
 import com.habithatch.demo.core.exceptions.UserExistsException
 import com.habithatch.demo.data.entities.Pet
-import com.habithatch.demo.data.entities.User
+import com.habithatch.demo.data.entities.UserEntity
 import com.habithatch.demo.data.repositories.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -31,7 +31,7 @@ class SignupViewModel
             observeUserSignUpStatus()
         }
 
-        fun signUpUser(user: User) {
+        fun signUpUser(user: UserEntity) {
             viewModelScope.launch {
                 try {
                     userRepository.createUser(user)

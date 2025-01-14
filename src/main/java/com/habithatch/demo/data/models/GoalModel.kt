@@ -5,7 +5,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import com.habithatch.demo.data.entities.GoalEntity
 import java.time.Instant
-import javax.inject.Inject
+import java.util.UUID
 
 /**
  * [GoalModel] represents a goal.
@@ -19,6 +19,7 @@ import javax.inject.Inject
 @ConsistentCopyVisibility
 @Immutable
 data class GoalModel private constructor(
+    val userId: UUID,
     val title: String,
     val status: Status,
     val priority: Priority,
@@ -39,30 +40,20 @@ data class GoalModel private constructor(
         sealed class Importance(
             val value: Int,
         ) : Comparable<Importance> {
-            /**
-             * @suppress
-             */
-            object VeryLow : Importance(0)
+            /** @suppress */
+            object VeryLow : Importance(10)
 
-            /**
-             * @suppress
-             */
-            object Low : Importance(10)
+            /** @suppress */
+            object Low : Importance(20)
 
-            /**
-             * @suppress
-             */
-            object Normal : Importance(20)
+            /** @suppress */
+            object Normal : Importance(30)
 
-            /**
-             * @suppress
-             */
-            object High : Importance(30)
+            /** @suppress */
+            object High : Importance(40)
 
-            /**
-             * @suppress
-             */
-            object VeryHigh : Importance(40)
+            /** @suppress */
+            object VeryHigh : Importance(50)
 
             override fun compareTo(other: Importance) = this.value.compareTo(other.value)
         }
@@ -76,78 +67,58 @@ data class GoalModel private constructor(
         val stepNumber: Int,
         val isDone: Boolean = false,
     ) {
-        /**
-         * @suppress
-         */
-        override fun equals(other: Any?): Boolean = other is Status && other.label == label
+        /** @suppress */
+        override fun equals(other: Any?) = other is Status && other.label == label
 
-        /**
-         * @suppress
-         */
-        override fun hashCode(): Int = label.hashCode()
+        /** @suppress */
+        override fun hashCode() = label.hashCode()
     }
 
     fun isDone(): Boolean = this.status.isDone
 
-    /**
-     * @suppress
-     */
+    /** @suppress */
     fun copy(
         title: String? = null,
         status: Status? = null,
         priority: Priority? = null,
-    ): GoalModel =
-        GoalModel(
-            title = title ?: this.title,
-            status = status ?: this.status,
-            priority = priority ?: this.priority,
-            createdAt = createdAt,
-            isDraft = isDraft,
-        )
+    ) = GoalModel(
+        userId = userId,
+        title = title ?: this.title,
+        status = status ?: this.status,
+        priority = priority ?: this.priority,
+        createdAt = createdAt,
+        isDraft = isDraft,
+    )
 
-    fun getCreatedAtOrNow(): Instant = createdAt ?: Instant.now()
+    fun getCreatedAtOrNow() = createdAt ?: Instant.now()
 
     fun getUniqueId() = title.hashCode() + 31 * getCreatedAtOrNow().toEpochMilli()
 
-    class Factory
-        @Inject
-        constructor() {
-            fun createFromEntity(
-                entity: GoalEntity,
-                status: Status,
-                priority: Priority,
-            ): GoalModel =
-                GoalModel(
-                    title = entity.title,
-                    status = status,
-                    priority = priority,
-                    createdAt = entity.createdAt,
-                    isDraft = false,
-                )
-
-            fun createDraft(
-                title: String = "",
-                status: Status,
-                priority: Priority,
-            ) = GoalModel(
-                title = title,
+    @Suppress("ktlint:standard:function-expression-body")
+    class Factory {
+        fun createFromEntity(
+            entity: GoalEntity,
+            status: Status,
+            priority: Priority,
+        ): GoalModel {
+            return GoalModel(
+                userId = entity.userId,
+                title = entity.title,
                 status = status,
                 priority = priority,
-                createdAt = null,
-                isDraft = true,
+                createdAt = entity.createdAt,
             )
+        }
 
-            fun createDraft(
-                status: Status,
-                priority: Priority,
-            ) = createDraft("", status, priority)
-
-            fun createExample(
-                title: String,
-                status: Status,
-                priority: Priority,
-                createdAt: Instant,
-            ) = GoalModel(
+        fun createDraft(
+            userId: UUID,
+            status: Status,
+            priority: Priority,
+            title: String = "",
+            createdAt: Instant? = null,
+        ): GoalModel {
+            return GoalModel(
+                userId = userId,
                 title = title,
                 status = status,
                 priority = priority,
@@ -155,4 +126,5 @@ data class GoalModel private constructor(
                 isDraft = true,
             )
         }
+    }
 }

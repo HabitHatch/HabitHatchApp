@@ -9,7 +9,7 @@ import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.data.daos.GoalDao
 import com.habithatch.demo.data.entities.GoalEntity
 import com.habithatch.demo.data.entities.Pet
-import com.habithatch.demo.data.entities.User
+import com.habithatch.demo.data.entities.UserEntity
 import com.habithatch.demo.data.mappers.GoalMapper
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.data.repositories.GoalRepository
@@ -87,7 +87,7 @@ class GoalRepositoryTest {
         userRepository = mockk()
         coEvery { userRepository.getUser() } returns
             flowOf(
-                User(
+                UserEntity(
                     pet =
                         Pet(
                             name = "pet",

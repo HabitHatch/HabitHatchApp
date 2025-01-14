@@ -3,7 +3,7 @@ package com.habithatch.demo.viewModels
 import com.google.common.truth.Truth.assertThat
 import com.habithatch.demo.core.config.HabitHatchConfig
 import com.habithatch.demo.data.entities.Pet
-import com.habithatch.demo.data.entities.User
+import com.habithatch.demo.data.entities.UserEntity
 import com.habithatch.demo.data.repositories.UserRepository
 import com.habithatch.demo.features.signup.SignUpState
 import com.habithatch.demo.features.signup.SignupViewModel
@@ -30,7 +30,7 @@ class SignupViewModelTest {
     private val appConfig = mockk<HabitHatchConfig>()
 
     private val testDispatcher = StandardTestDispatcher()
-    private val someUser = User(pet = Pet(name = "Dog", imageRes = 1001))
+    private val someUser = UserEntity(pet = Pet(name = "Dog", imageRes = 1001))
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
