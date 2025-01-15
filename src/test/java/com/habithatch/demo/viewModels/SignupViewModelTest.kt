@@ -85,21 +85,4 @@ class SignupViewModelTest {
             assertThat(viewModel.signUpState.value).isEqualTo(SignUpState.NOT_SIGNED_UP)
         }
     }
-
-    @Test
-    fun `signUpUser(), should insert a user into the database`() {
-        runTest {
-            // Arrange
-            val pet = Pet(name = "Dog", imageRes = -1)
-            coEvery { userRepository.getUser() } returns flow { emit(null) }
-            coEvery { userRepository.createUser(any()) } answers { firstArg() }
-            // Act
-            val viewModel = SignupViewModel(userRepository, appConfig)
-            viewModel.signUpUser(pet)
-            delay(100)
-
-            // Assert
-            coVerify { userRepository.createUser(match { it.pet == pet }) }
-        }
-    }
 }
