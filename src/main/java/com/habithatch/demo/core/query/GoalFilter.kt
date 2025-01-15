@@ -22,27 +22,30 @@ data class GoalFilter private constructor(
     val statusVisibility: StatusVisibility,
     val searchQuery: String?,
 ) {
-    /**
-     * Builder for [GoalFilter].
-     *
-     * @param priorityProvider Provides the priorities for goals.
-     * @param statusProvider Provides the statuses for goals.
-     */
+    /** Builder for [GoalFilter]. */
     @ConsistentCopyVisibility
     data class Builder private constructor(
-        private val priorityProvider: GoalPriorityProvider,
-        private val statusProvider: GoalStatusProvider,
+        val allPriorities: Set<GoalModel.Priority>,
+        val allStatuses: Set<GoalModel.Status>,
         private val priorityVisibility: PriorityVisibility = mutableMapOf(),
         private val statusVisibility: StatusVisibility = mutableMapOf(),
         private val searchQuery: String? = null,
     ) {
+        private constructor(
+            priorityProvider: GoalPriorityProvider,
+            statusProvider: GoalStatusProvider,
+        ) : this(
+            priorityProvider.priorities,
+            statusProvider.statuses,
+        )
+
         fun matchAll(): Builder = this.matchAllPriorities().matchAllStatuses()
 
-        fun matchAllPriorities() = this.copy(priorityVisibility = priorityProvider.priorities.associateWith { true })
+        fun matchAllPriorities() = this.copy(priorityVisibility = allPriorities.associateWith { true })
 
-        fun matchAllStatuses() = this.copy(statusVisibility = statusProvider.statuses.associateWith { true })
+        fun matchAllStatuses() = this.copy(statusVisibility = allStatuses.associateWith { true })
 
-        fun matchNoneStatuses() = this.copy(statusVisibility = statusProvider.statuses.associateWith { false })
+        fun matchNoneStatuses() = this.copy(statusVisibility = allStatuses.associateWith { false })
 
         fun onlyMatch(status: GoalModel.Status) = this.matchNoneStatuses().includeStatus(status)
 
@@ -51,16 +54,18 @@ data class GoalFilter private constructor(
             return this.copy(priorityVisibility = priorityVisibility)
         }
 
+        @Suppress("ktlint:standard:function-expression-body")
         fun priorityVisibility(
             priority: GoalModel.Priority,
             visible: Boolean,
-        ): Builder =
-            this.priorityVisibility(
+        ): Builder {
+            return this.priorityVisibility(
                 this.priorityVisibility + (priority to visible),
             )
+        }
 
         fun setDoneStatusVisibility(visible: Boolean): Builder {
-            val doneStatus = statusProvider.statuses.first { it.isDone }
+            val doneStatus = allStatuses.first { it.isDone }
             return statusVisibility(doneStatus, visible)
         }
 
@@ -74,21 +79,17 @@ data class GoalFilter private constructor(
                 this.statusVisibility + (status to visible),
             )
 
-        /**
-         * @suppress
-         */
+        /** @suppress */
         fun includeStatus(status: GoalModel.Status) = statusVisibility(status, true)
 
-        /**
-         * @suppress
-         */
+        /** @suppress*/
         fun excludeStatus(status: GoalModel.Status) = statusVisibility(status, false)
 
-        fun setSearchQuery(searchQuery: String?): Builder = this.copy(searchQuery = searchQuery)
+        fun setSearchQuery(searchQuery: String?) = this.copy(searchQuery = searchQuery)
 
         @Throws(IllegalStateException::class)
         fun build(): GoalFilter {
-            checkValidity()
+            checkValid()
             return GoalFilter(
                 priorityVisibility = priorityVisibility,
                 statusVisibility = statusVisibility,
@@ -97,61 +98,30 @@ data class GoalFilter private constructor(
         }
 
         @Throws(IllegalStateException::class)
-        private fun checkValidity() {
-            check(statusVisibility.keys == statusProvider.statuses) {
-                "Status visible map must contain all statuses"
-            }
+        private fun checkValid() {
+            check(statusVisibility.keys == allStatuses) { "Status visible map must contain all statuses" }
 
-            check(priorityVisibility.keys == priorityProvider.priorities) {
-                "Priority visible map must contain all priorities"
-            }
+            check(priorityVisibility.keys == allPriorities) { "Priority visible map must contain all priorities" }
         }
 
         companion object {
-            /**
-             * Creates a [GoalFilter.Builder] that matches all goals.
-             *
-             * @param priorityProvider Provides the priorities for goals.
-             * @param statusProvider Provides the statuses for goals.
-             */
+            /** Creates a [GoalFilter.Builder] that matches all goals. */
+            @Suppress("ktlint:standard:function-expression-body")
             fun matchAllBuilder(
                 priorityProvider: GoalPriorityProvider,
                 statusProvider: GoalStatusProvider,
-            ) = Builder(priorityProvider, statusProvider).matchAll()
-
-            /**
-             * Creates a [GoalFilter.Builder] from a [GoalFilter].
-             *
-             * @param goalFilter The [GoalFilter] to copy.
-             * @param priorityProvider Provides the priorities for goals.
-             * @param statusProvider Provides the statuses for goals.
-             */
-            fun createFromFilter(
-                goalFilter: GoalFilter,
-                priorityProvider: GoalPriorityProvider,
-                statusProvider: GoalStatusProvider,
-            ) = Builder(priorityProvider, statusProvider)
-                .priorityVisibility(goalFilter.priorityVisibility)
-                .statusVisibility(goalFilter.statusVisibility)
-                .setSearchQuery(goalFilter.searchQuery)
+            ): Builder {
+                return Builder(priorityProvider, statusProvider).matchAll()
+            }
         }
     }
 
-    /**
-     * Checks if a goal matches the filter.
-     *
-     * @param goal The goal to check.
-     * @return True if the goal matches the filter, false otherwise.
-     */
+    /** Checks if a goal matches the filter. */
     @Throws(IllegalArgumentException::class)
-    fun isMatch(goal: GoalModel): Boolean = matchesStatus(goal) && matchesPriority(goal) && matchesSearchQuery(goal)
+    fun isMatch(goal: GoalModel) = matchesStatus(goal) && matchesPriority(goal) && matchesSearchQuery(goal)
 
-    /**
-     * Checks if a done status is visible.
-     *
-     * @return True if a done status is visible, false otherwise.
-     */
-    fun isDoneVisible(): Boolean = statusVisibility.entries.any { (status, visible) -> status.isDone && visible }
+    /**Checks if a done status is visible.*/
+    fun isDoneVisible() = statusVisibility.entries.any { (status, visible) -> status.isDone && visible }
 
     @Throws(IllegalArgumentException::class)
     private fun matchesStatus(goal: GoalModel): Boolean {
@@ -172,15 +142,11 @@ data class GoalFilter private constructor(
 
     private fun matchesSearchQuery(goal: GoalModel) = notHasSearchQuery() || titleContains(goal)
 
-    /**
-     * @suppress
-     */
+    /** @suppress */
     override fun toString(): String =
-        """
-        ${this.javaClass.simpleName} (
+        """ ${this.javaClass.simpleName} (
         ${GoalFilter::priorityVisibility.name}=$priorityVisibility,
         ${GoalFilter::statusVisibility.name}=$statusVisibility
-        ${GoalFilter::searchQuery.name}=$searchQuery
-        )
+        ${GoalFilter::searchQuery.name}=$searchQuery)
         """.trimIndent()
 }

@@ -115,8 +115,8 @@ class HomeViewModel
 
             return goalRepository.getQueriedGoals(
                 query =
-                    goalQueryFactory.createFilterQuery(
-                        filter = builderFactory.matchAllBuilder.excludeStatus(doneStatus).build(),
+                    GoalQuery(
+                        filterBuilder = builderFactory.matchAllBuilder.excludeStatus(doneStatus),
                     ),
             )
         }
@@ -152,7 +152,7 @@ class HomeViewModel
             viewModelScope.launch {
                 goalRepository
                     .getQueriedGoals(
-                        query = goalQueryFactory.createFilterQuery(builderFactory.matchAllBuilder.build()),
+                        query = goalQueryFactory.createGoalQuery(builderFactory.matchAllBuilder.build()),
                     ).collect { goals ->
                         _hasAnyGoals.value = goals.isEmpty().not()
                     }

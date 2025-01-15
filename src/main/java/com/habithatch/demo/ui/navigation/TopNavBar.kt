@@ -21,9 +21,9 @@ import com.habithatch.demo.core.navigation.Screen
 @Composable
 fun TopNavBar(
     title: String,
+    modifier: Modifier = Modifier,
     rightNavItem: Screen? = null,
     leftNavItem: Screen? = null,
-    modifier: Modifier = Modifier,
     onRightNavItemClicked: () -> Unit = {},
     onLeftNavItemClicked: () -> Unit = {},
 ) {

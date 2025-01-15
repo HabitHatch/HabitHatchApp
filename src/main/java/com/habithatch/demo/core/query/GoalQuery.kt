@@ -15,20 +15,19 @@ import javax.inject.Inject
  * @param filter The filter for the goals.
  * @param sortOptions The sort options for the goals.
  * @param defaultComparator The default comparator for the goals.
- * @param priorityProvider Provides the priorities for goals.
- * @param statusProvider Provides the statuses for goals.
  */
 @Immutable
 data class GoalQuery(
-    val filter: GoalFilter,
+    val filterBuilder: GoalFilter.Builder,
     val sortOptions: List<GoalSortOption> = emptyList(),
-    val defaultComparator: Comparator<GoalModel>,
-    private val priorityProvider: GoalPriorityProvider,
-    private val statusProvider: GoalStatusProvider,
+    val defaultComparator: Comparator<GoalModel> = compareBy { 0 },
 ) {
     init {
-        this.checkValidity()
+        this.checkValid()
     }
+
+    val filter: GoalFilter
+        get() = filterBuilder.build()
 
     @Throws(NoSuchElementException::class, IllegalArgumentException::class)
     fun updateSortOption(sortOption: GoalSortOption): GoalQuery {
@@ -40,8 +39,6 @@ data class GoalQuery(
 
     fun getComparator() = (getActiveComparator() ?: compareBy { 0 }).then(defaultComparator)
 
-    fun getFilterBuilder() = GoalFilter.Builder.createFromFilter(filter, priorityProvider, statusProvider)
-
     private fun setActiveSortOption(sortOption: GoalSortOption): GoalQuery {
         val disabledOptions = sortOptions.removeByLabel(sortOption.label).disableAll()
         return this.copy(sortOptions = disabledOptions + sortOption)
@@ -50,24 +47,14 @@ data class GoalQuery(
     private fun getActiveComparator() = sortOptions.getUsed().firstOrNull()?.comparator
 
     @Throws(IllegalStateException::class)
-    private fun checkValidity() {
-        check(sortOptions.getUsed().size <= 1) {
-            "There must be no more than one active sortOption"
-        }
-        check(filter.priorityVisibility.keys == priorityProvider.priorities.toSet()) {
-            "Priority visible map must contain all priorities"
-        }
-        check(filter.statusVisibility.keys == statusProvider.statuses.toSet()) {
-            "Status visible map must contain all statuses"
-        }
+    private fun checkValid() {
+        check(sortOptions.getUsed().size <= 1) { "There must be no more than one active sortOption" }
     }
 
-    /**
-     * @suppress
-     */
+    /** @suppress */
     override fun toString(): String =
         """
-        GoalQuery(
+         GoalQuery(
             filter=$filter,
             sortOptions=$sortOptions,
         )
@@ -79,24 +66,15 @@ data class GoalQuery(
     class Factory
         @Inject
         constructor(
-            private val priorityProvider: GoalPriorityProvider,
-            private val statusProvider: GoalStatusProvider,
         ) {
             fun createGoalQuery(
-                filter: GoalFilter,
+                filterBuilder: GoalFilter.Builder,
                 sortOptions: List<GoalSortOption> = emptyList(),
                 defaultComparator: Comparator<GoalModel> = compareBy { 0 },
-            ): GoalQuery =
-                GoalQuery(
-                    filter = filter,
-                    sortOptions = sortOptions,
-                    defaultComparator = defaultComparator,
-                    priorityProvider = priorityProvider,
-                    statusProvider = statusProvider,
-                )
-
-            fun createFilterQuery(
-                filter: GoalFilter,
-            ): GoalQuery = createGoalQuery(filter, emptyList(), compareBy { 0 })
+            ) = GoalQuery(
+                filterBuilder = filterBuilder,
+                sortOptions = sortOptions,
+                defaultComparator = defaultComparator,
+            )
         }
 }

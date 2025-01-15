@@ -5,10 +5,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.habithatch.demo.core.config.HabitHatchConfig
+import com.habithatch.demo.core.util.navigateTo
 import com.habithatch.demo.features.home.HomeScreen
 import com.habithatch.demo.features.settings.SettingsScreen
 import com.habithatch.demo.features.signup.SignUpState
@@ -26,19 +28,19 @@ import com.habithatch.demo.ui.navigation.TopNavBar
 fun AppNavigation(
     config: HabitHatchConfig,
 ) {
-    val navController = rememberNavController()
+    val navController: NavHostController = rememberNavController()
     val signupViewModel: SignupViewModel = hiltViewModel()
     val signUpState by signupViewModel.signUpState.collectAsStateWithLifecycle()
 
     LaunchedEffect(signUpState) {
         when (signUpState) {
             SignUpState.NOT_SIGNED_UP -> {
-                navController.navigate(config.signUpNavigationItem.route) {
+                navController.navigate(config.signUpNavItem.route) {
                     popUpTo(0)
                 }
             }
 
-            SignUpState.SIGNED_UP -> navController.navigate(config.homeNavigationItem.route)
+            SignUpState.SIGNED_UP -> navController.navigateTo(config.homeNavItem)
             else -> Unit // No navigation for LOADING, should load in  less than 100ms
         }
     }
@@ -47,31 +49,26 @@ fun AppNavigation(
         TopNavBar(
             title = config.settingsNavigationItem.title,
             rightNavItem = config.topRightNavItem,
-            onRightNavItemClicked = { navController.navigate(config.topRightNavItem.route) },
+            onRightNavItemClicked = { navController.navigateTo(config.topRightNavItem) },
         )
     }
 
     val bottomNavBar = @Composable {
-        val currentRoute = navController.currentDestination?.route
-        val activeNavigationItem = config.navigationItems.firstOrNull { it.route == currentRoute }
-        check(activeNavigationItem != null) {
-            "Current route $currentRoute is not in the list of navigation items"
-        }
         BottomNavBar(
-            onNavigationItemClicked = { navController.navigate(it.route) },
-            activeNavScreen = activeNavigationItem,
-            navigationItems = config.navigationItems,
+            navigationItems = config.navItems,
+            activeNavScreen = config.getActiveNavItem(navController),
+            onNavigationItemClicked = { navController.navigateTo(it) },
         )
     }
 
     NavHost(
         navController = navController,
-        startDestination = config.signUpNavigationItem.route,
+        startDestination = config.signUpNavItem.route,
     ) {
-        composable(config.signUpNavigationItem.route) {
+        composable(config.signUpNavItem.route) {
             SignupScreen()
         }
-        composable(config.homeNavigationItem.route) {
+        composable(config.homeNavItem.route) {
             HomeScreen(
                 topNavBar = topNavBar,
                 bottomNavBar = bottomNavBar,

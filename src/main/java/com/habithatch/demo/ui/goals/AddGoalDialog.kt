@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:no-wildcard-imports")
+
 package com.habithatch.demo.ui.goals
 
 import androidx.compose.foundation.layout.*
@@ -25,8 +27,8 @@ import com.habithatch.demo.ui.common.forms.SimpleIconButton
 fun AddGoalDialog(
     state: AddGoalDialogState,
 ) {
-    var goal by remember { mutableStateOf(state.goal) }
-    if (state.showDialog) {
+    if (state.showDialog && state.goal != null) {
+        var goal by remember { mutableStateOf(state.goal) }
         AlertDialog(
             onDismissRequest = { state.onDismiss() },
             title = {
@@ -80,8 +82,8 @@ fun AddGoalDialog(
 
 data class AddGoalDialogState(
     val showDialog: Boolean = false,
-    val goal: GoalModel,
-    val allPriorities: Set<GoalModel.Priority>,
+    val goal: GoalModel? = null,
+    val allPriorities: Set<GoalModel.Priority> = emptySet(),
     val onAddGoal: (GoalModel) -> Unit = {},
     val onDismiss: () -> Unit = {},
 )

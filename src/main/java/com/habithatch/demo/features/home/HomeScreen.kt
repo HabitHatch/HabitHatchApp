@@ -19,9 +19,7 @@ import com.habithatch.demo.R
 import com.habithatch.demo.core.app.AppModule
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.theme.AppTheme
-import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.ui.goals.AddGoalDialog
-import com.habithatch.demo.ui.goals.AddGoalDialogState
 import com.habithatch.demo.ui.goals.GoalFilterState
 import com.habithatch.demo.ui.goals.GoalSortState
 import com.habithatch.demo.ui.goals.GoalsView
@@ -32,7 +30,6 @@ import com.habithatch.demo.ui.goals.table.GoalSortBar
 import com.habithatch.demo.ui.navigation.BottomNavBar
 import com.habithatch.demo.ui.navigation.TopNavBar
 import com.habithatch.demo.ui.pets.PetAnimation
-import java.util.UUID
 
 /**
  * The main screen of the application.
@@ -112,30 +109,16 @@ fun HomeScreenPreview() {
             },
             bottomNavBar = {
                 BottomNavBar(
-                    navigationItems = config.navigationItems,
-                    activeNavScreen = config.homeNavigationItem,
+                    navigationItems = config.navItems,
+                    activeNavScreen = config.homeNavItem,
                 )
             },
             state =
                 HomeScreenState(
                     core = CoreHomeState(pet = config.pets[0]),
                     goalsViewState = GoalsViewState(goals = emptyList()),
-                    addGoalDialogState =
-                        AddGoalDialogState(
-                            goal =
-                                GoalModel
-                                    .Factory()
-                                    .createDraft(UUID.randomUUID(), config.defaultStatus, config.defaultPriority),
-                            allPriorities = config.priorities,
-                        ),
-                    goalFilterState =
-                        GoalFilterState(
-                            goalFilterBuilder = config.defaultGoalQuery.getFilterBuilder(),
-                        ),
-                    goalSortState =
-                        GoalSortState(
-                            sortOptions = config.defaultGoalQuery.sortOptions,
-                        ),
+                    goalFilterState = GoalFilterState(config.defaultGoalQuery.getFilterBuilder()),
+                    goalSortState = GoalSortState(config.defaultGoalQuery.sortOptions),
                 ),
         )
     }

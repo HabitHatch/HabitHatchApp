@@ -30,13 +30,13 @@ class HabitHatchDevConfig
                 Pet(id = 4, name = "Ice Bear", imageRes = R.mipmap.pet_ice_bear),
             )
 
-        override val signUpNavigationItem = Screen("sign_up", R.drawable.vuesax_profile_circle)
-        override val homeNavigationItem = Screen("home", R.drawable.vuesax_home_2)
+        override val signUpNavItem = Screen("sign_up", R.drawable.vuesax_profile_circle)
+        override val homeNavItem = Screen("home", R.drawable.vuesax_home_2)
         override val settingsNavigationItem = Screen("settings", R.drawable.vuesax_profile_circle)
 
-        override val navigationItems =
+        override val navItems =
             listOf(
-                homeNavigationItem,
+                homeNavItem,
                 Screen("goals", R.drawable.vuesax_flag, enabled = false),
                 Screen("friends", R.drawable.vuesax_profile_2user, enabled = false),
                 Screen("pet", R.drawable.vuesax_pet, enabled = false),
