@@ -10,8 +10,10 @@ import com.habithatch.demo.core.query.GoalFilterBuilderFactory
 import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.core.query.GoalSortOption
 import com.habithatch.demo.core.util.getNextHigherOrLowest
-import com.habithatch.demo.data.entities.UserEntity
+import com.habithatch.demo.data.entities.PetMood
+import com.habithatch.demo.data.models.ExampleGoalFactory
 import com.habithatch.demo.data.models.GoalModel
+import com.habithatch.demo.data.models.UserModel
 import com.habithatch.demo.data.repositories.GoalRepository
 import com.habithatch.demo.data.repositories.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,19 +34,17 @@ class HomeViewModel
         private val goalRepository: GoalRepository,
         val config: HabitHatchConfig,
         val goalQueryFactory: GoalQuery.Factory,
+        private val goalModelFactory: GoalModel.Factory,
         val builderFactory: GoalFilterBuilderFactory,
     ) : ViewModel() {
-        private val _user = MutableStateFlow<UserEntity?>(null)
-        val user: StateFlow<UserEntity?> = _user.asStateFlow()
+        private val _user = MutableStateFlow<UserModel?>(null)
+        val user: StateFlow<UserModel?> = _user.asStateFlow()
 
         private val _queriedGoals = MutableStateFlow<List<GoalModel>>(emptyList())
         val queriedGoals = _queriedGoals.asStateFlow()
 
         private val _goalQuery = MutableStateFlow(config.defaultGoalQuery)
         val goalQuery = _goalQuery.asStateFlow()
-
-        private val _allGoalsDone = MutableStateFlow(false)
-        val allGoalsDone = _allGoalsDone.asStateFlow()
 
         private val _hasAnyGoals = MutableStateFlow(false)
         val hasAnyGoals = _hasAnyGoals.asStateFlow()
@@ -53,7 +53,7 @@ class HomeViewModel
             observeHasAnyGoals()
             observeUser()
             observeQueriedGoals()
-            observeAllGoalsDone()
+            managePetsMood()
         }
 
         fun addGoal(goal: GoalModel) {
@@ -87,8 +87,17 @@ class HomeViewModel
             viewModelScope.launch {
                 if (hasAnyGoals.value) {
                     Log.e("HomeScreen", "Cannot seed goals when there are already goals in the database")
+                    return@launch
                 }
-                goalRepository.insert(*config.exampleGoals.toTypedArray())
+                if (user.value == null) {
+                    Log.e("HomeScreen", "Cannot seed goals when there is no user")
+                    return@launch
+                }
+
+                val exampleGoals =
+                    ExampleGoalFactory(config, config, goalModelFactory)
+                        .createExampleGoals(config.numberExampleGoals, user.value!!.uuid, uniqueTitles = true)
+                goalRepository.insert(*exampleGoals.toTypedArray())
             }
         }
 
@@ -100,22 +109,29 @@ class HomeViewModel
             }
         }
 
-        private fun getDoneGoals(): Flow<List<GoalModel>> {
+        private fun getUnDoneGoals(): Flow<List<GoalModel>> {
             val doneStatus = config.statuses.find { it.isDone }
             check(doneStatus != null) { "No done status found" }
 
             return goalRepository.getQueriedGoals(
                 query =
                     goalQueryFactory.createFilterQuery(
-                        filter = builderFactory.matchAllBuilder.onlyMatch(doneStatus).build(),
+                        filter = builderFactory.matchAllBuilder.excludeStatus(doneStatus).build(),
                     ),
             )
         }
 
-        private fun observeAllGoalsDone() {
+        private fun managePetsMood() {
             viewModelScope.launch {
-                getDoneGoals().collect { goals ->
-                    _allGoalsDone.value = goals.isEmpty()
+                getUnDoneGoals().collect { unDoneGoals ->
+                    user.value?.let {
+                        it.pet.mood =
+                            if (unDoneGoals.isEmpty()) {
+                                PetMood.HAPPY
+                            } else {
+                                PetMood.SAD
+                            }
+                    }
                 }
             }
         }

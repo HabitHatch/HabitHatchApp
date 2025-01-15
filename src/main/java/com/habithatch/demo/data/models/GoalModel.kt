@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.Color
 import com.habithatch.demo.data.entities.GoalEntity
 import java.time.Instant
 import java.util.UUID
+import javax.inject.Inject
 
 /**
  * [GoalModel] represents a goal.
@@ -94,8 +95,8 @@ data class GoalModel private constructor(
 
     fun getUniqueId() = title.hashCode() + 31 * getCreatedAtOrNow().toEpochMilli()
 
-    @Suppress("ktlint:standard:function-expression-body")
-    class Factory {
+    @Suppress("ktlint:standard:annotation", "ktlint:standard:function-expression-body")
+    class Factory @Inject constructor() {
         fun createFromEntity(
             entity: GoalEntity,
             status: Status,

@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.habithatch.demo.R
 import com.habithatch.demo.core.theme.success
 import com.habithatch.demo.data.entities.Pet
+import com.habithatch.demo.data.entities.PetMood
 
 @Composable
 fun borderColor(isPetHappy: Boolean) = if (isPetHappy) MaterialTheme.colorScheme.success else MaterialTheme.colorScheme.error
@@ -25,7 +26,6 @@ fun borderColor(isPetHappy: Boolean) = if (isPetHappy) MaterialTheme.colorScheme
 @Composable
 fun PetAnimation(
     pet: Pet,
-    isPetHappy: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val imageShape = MaterialTheme.shapes.medium
@@ -39,7 +39,7 @@ fun PetAnimation(
                 Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f)
-                    .border(4.dp, borderColor(isPetHappy), imageShape),
+                    .border(4.dp, borderColor(pet.mood == PetMood.HAPPY), imageShape),
         ) {
             Image(
                 painter = painterResource(id = pet.imageRes),

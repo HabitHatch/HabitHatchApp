@@ -4,7 +4,6 @@ import androidx.compose.ui.text.font.FontFamily
 import com.habithatch.demo.core.navigation.Screen
 import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.data.entities.Pet
-import com.habithatch.demo.data.models.GoalModel
 
 /**
  * The main application configuration.
@@ -13,7 +12,7 @@ interface HabitHatchConfig :
     GoalStatusProvider,
     GoalPriorityProvider {
     val pets: List<Pet>
-    val exampleGoals: Collection<GoalModel>
+    val numberExampleGoals: Int
     val signUpNavigationItem: Screen
     val homeNavigationItem: Screen
     val settingsNavigationItem: Screen

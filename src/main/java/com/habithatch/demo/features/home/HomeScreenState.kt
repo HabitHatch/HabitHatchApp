@@ -36,14 +36,14 @@ class HomeScreenState(
  * @suppress
  */
 @Composable
-fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScreenState {
+fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScreenState? {
     val user by viewModel.user.collectAsStateWithLifecycle()
     val goals by viewModel.queriedGoals.collectAsStateWithLifecycle()
-    val allGoalsDone by viewModel.allGoalsDone.collectAsStateWithLifecycle()
     val goalQuery by viewModel.goalQuery.collectAsStateWithLifecycle()
     val hasAnyGoals by viewModel.hasAnyGoals.collectAsStateWithLifecycle()
 
     var showDialog by remember { mutableStateOf(false) }
+    if (user == null) return null
 
     val addGoalDialogState =
         remember(showDialog) {
@@ -51,6 +51,7 @@ fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScr
                 showDialog = showDialog,
                 goal =
                     GoalModel.Factory().createDraft(
+                        userId = user!!.uuid,
                         priority = viewModel.config.defaultPriority,
                         status = viewModel.config.defaultStatus,
                     ),
@@ -74,11 +75,9 @@ fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScr
         }
 
     val coreHomeState =
-        remember(user, allGoalsDone, goalQuery, showDialog) {
+        remember(user, showDialog) {
             CoreHomeState(
-                pet = user?.pet,
-                isUserLoggedIn = user != null,
-                allGoalsDone = allGoalsDone,
+                pet = user!!.pet,
                 onFabClicked = { showDialog = true },
             )
         }

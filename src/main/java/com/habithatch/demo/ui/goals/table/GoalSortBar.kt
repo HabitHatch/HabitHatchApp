@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:no-wildcard-imports")
+
 package com.habithatch.demo.ui.goals.table
 
 import androidx.compose.foundation.clickable
@@ -27,7 +29,7 @@ fun GoalSortBar(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly,
     ) {
-        state.sortOptions.forEach { sortOption ->
+        state.sortOptions.sorted().forEach { sortOption ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier =

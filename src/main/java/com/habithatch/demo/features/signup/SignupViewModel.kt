@@ -7,7 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.habithatch.demo.core.config.HabitHatchConfig
 import com.habithatch.demo.core.exceptions.UserExistsException
 import com.habithatch.demo.data.entities.Pet
-import com.habithatch.demo.data.entities.UserEntity
+import com.habithatch.demo.data.entities.PetInitializer
+import com.habithatch.demo.data.models.UserModel
 import com.habithatch.demo.data.repositories.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -20,6 +21,7 @@ class SignupViewModel
     @Inject
     constructor(
         private val userRepository: UserRepository,
+        public val petInitializer: PetInitializer,
         habitHatchConfig: HabitHatchConfig,
     ) : ViewModel() {
         private val _signUpState = MutableStateFlow<SignUpState>(SignUpState.LOADING)
@@ -31,13 +33,12 @@ class SignupViewModel
             observeUserSignUpStatus()
         }
 
-        fun signUpUser(user: UserEntity) {
+        fun signUpUser(user: UserModel) {
             viewModelScope.launch {
                 try {
                     userRepository.createUser(user)
                 } catch (e: UserExistsException) {
                     Log.e("SignupViewModel", "Error signing up user", e)
-                    _signUpState.value = SignUpState.SIGNED_UP
                 }
             }
         }

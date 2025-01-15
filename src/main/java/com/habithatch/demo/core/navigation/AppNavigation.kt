@@ -66,7 +66,7 @@ fun AppNavigation(
 
     NavHost(
         navController = navController,
-        startDestination = config.homeNavigationItem.route,
+        startDestination = config.signUpNavigationItem.route,
     ) {
         composable(config.signUpNavigationItem.route) {
             SignupScreen()

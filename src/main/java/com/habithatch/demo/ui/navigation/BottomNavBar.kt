@@ -59,7 +59,6 @@ fun BottomNavigationBarPreview() {
     val config =
         HabitHatchDevConfig(
             AppModule().provideGoogleFontProvider(),
-            GoalModel.Factory(),
         )
     val navigationItems = config.navigationItems
 

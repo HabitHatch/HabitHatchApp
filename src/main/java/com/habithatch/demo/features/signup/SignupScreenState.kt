@@ -5,7 +5,8 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.habithatch.demo.data.entities.Pet
-import com.habithatch.demo.data.entities.UserEntity
+import com.habithatch.demo.data.models.UserModel
+import java.util.UUID
 
 /**
  * Represents the state of the signup screen.
@@ -41,6 +42,9 @@ fun rememberSignupScreenState(
     return SignupScreenState(
         pets = pets,
         signUpState = signUpState,
-        onPetConfirmed = { pet -> viewModel.signUpUser(UserEntity(pet = pet)) },
+        onPetConfirmed = { pet ->
+            viewModel.petInitializer.initializePet(pet)
+            viewModel.signUpUser(UserModel(uuid = UUID.randomUUID(), pet = pet))
+        },
     )
 }

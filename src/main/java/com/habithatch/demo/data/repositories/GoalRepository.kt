@@ -3,42 +3,30 @@ package com.habithatch.demo.data.repositories
 import com.habithatch.demo.core.query.GoalFilter
 import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.data.daos.GoalDao
-import com.habithatch.demo.data.entities.GoalEntity
 import com.habithatch.demo.data.mappers.GoalMapper
 import com.habithatch.demo.data.models.GoalModel
 import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
-/**
- * [GoalRepository] is a repository that provides access to goals in the database.
- */
+/** [GoalRepository] is a repository that provides access to goals in the database. */
 class GoalRepository
     @Inject
     constructor(
         private val goalDao: GoalDao,
         private val goalMapper: GoalMapper,
-        userRepository: UserRepository,
     ) {
-        private val currentUser = userRepository.getUser()
-
-        /**
-         * Inserts the given goals into the database.
-         */
+        /** Inserts the given goals into the database. */
         suspend fun insert(vararg goals: GoalModel) {
             goals.forEach { goal ->
-                goalDao.insert(asEntity(goal))
+                goalDao.insert(goalMapper.asEntity(goal))
             }
         }
 
-        /**
-         * Returns a flow of goals that match the given [GoalQuery].
-         * Sorted by GoalQuery's comparator.
-         */
+        /** Returns a flow of goals that match the given [GoalQuery]. Sorted by GoalQuery's comparator. */
         @OptIn(ExperimentalCoroutinesApi::class)
         fun getQueriedGoals(query: GoalQuery): Flow<List<GoalModel>> =
             getFilteredGoals(query.filter)
@@ -46,11 +34,9 @@ class GoalRepository
                     goals.sortedWith(comparator)
                 }
 
-        /**
-         * Updates the given goal in the database.
-         */
+        /** Updates the given goal in the database. */
         suspend fun update(goal: GoalModel) {
-            val goalEntity = asEntity(goal)
+            val goalEntity = goalMapper.asEntity(goal)
             goalDao.update(
                 id = goalEntity.id,
                 title = goalEntity.title,
@@ -59,18 +45,10 @@ class GoalRepository
             )
         }
 
-        /**
-         * Deletes all goals permanently from the database.
-         */
+        /** Deletes all goals permanently from the database. */
         suspend fun deleteAll() = goalDao.deleteAll()
 
         private fun getFilteredGoals(goalFilter: GoalFilter) = this.getAll().map { it.filter(goalFilter::isMatch) }
 
         private fun getAll() = goalDao.getAll().map { it.map(goalMapper::asModel) }
-
-        private suspend fun asEntity(goalModel: GoalModel): GoalEntity {
-            val currentUser = currentUser.firstOrNull()
-            checkNotNull(currentUser) { "UserEntity must be created before inserting goals" }
-            return goalMapper.asEntity(goalModel, currentUser.uuid)
-        }
     }

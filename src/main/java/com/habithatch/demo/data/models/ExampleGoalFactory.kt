@@ -3,6 +3,7 @@ package com.habithatch.demo.data.models
 import com.habithatch.demo.core.config.GoalPriorityProvider
 import com.habithatch.demo.core.config.GoalStatusProvider
 import com.habithatch.demo.core.util.createRandomDate
+import java.util.UUID
 
 /**
  * @suppress
@@ -51,6 +52,7 @@ class ExampleGoalFactory(
 ) {
     fun createExampleGoals(
         count: Int,
+        userId: UUID,
         pastYears: Long = 1,
         uniqueTitles: Boolean = false,
     ): Collection<GoalModel> {
@@ -60,11 +62,11 @@ class ExampleGoalFactory(
             "Cannot generate more goals than there are unique habit names"
         }
         repeat(count) {
-            var goal = createExampleGoal(pastYears)
+            var goal: GoalModel
 
-            while (uniqueTitles && getUsedTitles().contains(goal.title)) {
-                goal = createExampleGoal(pastYears)
-            }
+            do {
+                goal = createExampleGoal(userId, pastYears)
+            } while (uniqueTitles && getUsedTitles().contains(goal.title))
             generatedGoals.add(goal)
         }
         return generatedGoals
@@ -75,9 +77,11 @@ class ExampleGoalFactory(
     private fun randomStatus() = statusProvider.statuses.random()
 
     private fun createExampleGoal(
+        userId: UUID,
         pastYears: Long = 1,
     ): GoalModel =
-        goalModelFactory.createExample(
+        goalModelFactory.createDraft(
+            userId = userId,
             title = habitNames.random(),
             status = randomStatus(),
             priority = randomPriority(),

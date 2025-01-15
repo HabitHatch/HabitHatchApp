@@ -32,6 +32,7 @@ import com.habithatch.demo.ui.goals.table.GoalSortBar
 import com.habithatch.demo.ui.navigation.BottomNavBar
 import com.habithatch.demo.ui.navigation.TopNavBar
 import com.habithatch.demo.ui.pets.PetAnimation
+import java.util.UUID
 
 /**
  * The main screen of the application.
@@ -42,9 +43,9 @@ import com.habithatch.demo.ui.pets.PetAnimation
 fun HomeScreen(
     topNavBar: @Composable () -> Unit,
     bottomNavBar: @Composable () -> Unit,
-    state: HomeScreenState = rememberHomeScreenState(),
+    state: HomeScreenState? = rememberHomeScreenState(),
 ) {
-    if (!state.core.isUserLoggedIn) return
+    if (state == null) return
 
     Scaffold(
         topBar = topNavBar,
@@ -57,8 +58,7 @@ fun HomeScreen(
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
             PetAnimation(
-                pet = state.core.pet!!,
-                isPetHappy = state.core.allGoalsDone,
+                pet = state.core.pet,
                 modifier =
                     Modifier
                         .fillMaxWidth(0.6f)
@@ -97,7 +97,6 @@ fun HomeScreenPreview() {
     val config =
         HabitHatchDevConfig(
             AppModule().provideGoogleFontProvider(),
-            GoalModel.Factory(),
         )
 
     AppTheme(
@@ -126,7 +125,7 @@ fun HomeScreenPreview() {
                             goal =
                                 GoalModel
                                     .Factory()
-                                    .createDraft(config.defaultStatus, config.defaultPriority),
+                                    .createDraft(UUID.randomUUID(), config.defaultStatus, config.defaultPriority),
                             allPriorities = config.priorities,
                         ),
                     goalFilterState =

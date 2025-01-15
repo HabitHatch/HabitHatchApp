@@ -11,7 +11,6 @@ import com.habithatch.demo.core.query.GoalFilter
 import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.core.query.GoalSortOption
 import com.habithatch.demo.data.entities.Pet
-import com.habithatch.demo.data.models.ExampleGoalFactory
 import com.habithatch.demo.data.models.GoalModel
 import javax.inject.Inject
 
@@ -22,14 +21,13 @@ class HabitHatchDevConfig
     @Inject
     constructor(
         googleFontProvider: GoogleFont.Provider,
-        goalModelFactory: GoalModel.Factory,
     ) : HabitHatchConfig {
         override val pets =
             listOf(
-                Pet(name = "Cat", imageRes = R.mipmap.pet_cat),
-                Pet(name = "Fox", imageRes = R.mipmap.pet_fox),
-                Pet(name = "Rabbit", imageRes = R.mipmap.pet_rabbit),
-                Pet(name = "Ice Bear", imageRes = R.mipmap.pet_ice_bear),
+                Pet(id = 1, name = "Cat", imageRes = R.mipmap.pet_cat),
+                Pet(id = 2, name = "Fox", imageRes = R.mipmap.pet_fox),
+                Pet(id = 3, name = "Rabbit", imageRes = R.mipmap.pet_rabbit),
+                Pet(id = 4, name = "Ice Bear", imageRes = R.mipmap.pet_ice_bear),
             )
 
         override val signUpNavigationItem = Screen("sign_up", R.drawable.vuesax_profile_circle)
@@ -97,10 +95,8 @@ class HabitHatchDevConfig
         override val priorities = setOf(normalPriority, highPriority)
 
         override val defaultPriority = normalPriority
-        val numberExampleGoals = 12
-        override val exampleGoals =
-            ExampleGoalFactory(this, this, goalModelFactory)
-                .createExampleGoals(numberExampleGoals, uniqueTitles = true)
+
+        override val numberExampleGoals = 12
 
         private val sortOptions =
             listOf(
