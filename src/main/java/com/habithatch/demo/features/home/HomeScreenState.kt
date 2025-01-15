@@ -75,7 +75,7 @@ fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScr
     val goalFilterState =
         remember(goalQuery) {
             GoalFilterState(
-                goalFilterBuilder = goalQuery.getFilterBuilder(),
+                goalFilterBuilder = goalQuery.filterBuilder,
                 onGoalFilterChange = viewModel::updateGoalFilter,
             )
         }

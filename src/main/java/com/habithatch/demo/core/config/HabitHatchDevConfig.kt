@@ -115,20 +115,17 @@ class HabitHatchDevConfig
         override var defaultGoalQuery: GoalQuery
 
         init {
-            val goalFilter =
+            val goalFilterBuilder =
                 GoalFilter
                     .Builder
                     .matchAllBuilder(this, this)
                     .excludeStatus(doneStatus)
-                    .build()
 
             defaultGoalQuery =
                 GoalQuery(
-                    filter = goalFilter,
+                    filterBuilder = goalFilterBuilder,
                     sortOptions = this.sortOptions,
                     defaultComparator = compareBy<GoalModel> { it.isDone() }.thenBy { it.title },
-                    priorityProvider = this,
-                    statusProvider = this,
                 )
         }
     }

@@ -75,8 +75,8 @@ class HomeViewModel
             }
         }
 
-        fun updateGoalFilter(newGoalFilter: GoalFilter) {
-            _goalQuery.value = _goalQuery.value.copy(filter = newGoalFilter)
+        fun updateGoalFilter(newGoalFilter: GoalFilter.Builder) {
+            _goalQuery.value = _goalQuery.value.copy(filterBuilder = newGoalFilter)
         }
 
         fun updateGoalSortOption(newGoalSortOption: GoalSortOption) {
@@ -152,7 +152,7 @@ class HomeViewModel
             viewModelScope.launch {
                 goalRepository
                     .getQueriedGoals(
-                        query = goalQueryFactory.createGoalQuery(builderFactory.matchAllBuilder.build()),
+                        query = goalQueryFactory.createGoalQuery(builderFactory.matchAllBuilder),
                     ).collect { goals ->
                         _hasAnyGoals.value = goals.isEmpty().not()
                     }

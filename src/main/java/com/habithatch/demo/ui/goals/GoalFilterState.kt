@@ -12,5 +12,5 @@ import com.habithatch.demo.core.query.GoalFilter
 @Stable
 class GoalFilterState(
     val goalFilterBuilder: GoalFilter.Builder,
-    val onGoalFilterChange: (GoalFilter) -> Unit = {},
+    val onGoalFilterChange: (GoalFilter.Builder) -> Unit = {},
 )

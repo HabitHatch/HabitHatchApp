@@ -51,7 +51,7 @@ fun GoalFilterBar(
                     .weight(1f),
             searchQuery = searchQuery,
             onQueryChange = {
-                state.onGoalFilterChange(state.goalFilterBuilder.setSearchQuery(it).build())
+                state.onGoalFilterChange(state.goalFilterBuilder.setSearchQuery(it))
             },
         )
 
@@ -62,8 +62,7 @@ fun GoalFilterBar(
             onClick = {
                 state.onGoalFilterChange(
                     state.goalFilterBuilder
-                        .setDoneStatusVisibility(!isDoneVisible)
-                        .build(),
+                        .setDoneStatusVisibility(!isDoneVisible),
                 )
             },
         )

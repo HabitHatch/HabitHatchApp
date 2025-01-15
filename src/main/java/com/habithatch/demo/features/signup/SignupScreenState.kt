@@ -43,7 +43,6 @@ fun rememberSignupScreenState(
         pets = pets,
         signUpState = signUpState,
         onPetConfirmed = { pet ->
-            viewModel.petInitializer.initializePet(pet)
             viewModel.signUpUser(UserModel(uuid = UUID.randomUUID(), pet = pet))
         },
     )

@@ -12,7 +12,6 @@
 - Tabelle sortieren nach erledigt und Deadline oder Prio
 - Ziel hinzufügen
 - Ziel als erledigt markieren
-- Ziel mit Sprachsteuerung einfügen
 - Animation von einem Tier anzeigen, indem ein Video angezeigt wird; Besteht aus 4 wechselnden Frames
 - Wenn alle Ziele erledigt ist Tier glücklich, das Video bekommt einen hellen Farb filter
 - Wenn nicht alle Ziele erledigt dunkler Farbfilter, Tier ist unglücklich

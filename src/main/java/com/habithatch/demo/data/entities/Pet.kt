@@ -7,5 +7,5 @@ data class Pet(
     val id: Int,
     val name: String,
     val imageRes: Int,
-    var mood: PetMood,
+    var mood: PetMood? = null,
 )

@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.dp
 import com.habithatch.demo.R
 import com.habithatch.demo.core.app.AppModule
 import com.habithatch.demo.core.config.HabitHatchDevConfig
+import com.habithatch.demo.core.query.GoalFilter
+import com.habithatch.demo.core.query.GoalFilterBuilderFactory
 import com.habithatch.demo.core.theme.AppTheme
 import com.habithatch.demo.ui.goals.AddGoalDialog
 import com.habithatch.demo.ui.goals.GoalFilterState
@@ -117,7 +119,7 @@ fun HomeScreenPreview() {
                 HomeScreenState(
                     core = CoreHomeState(pet = config.pets[0]),
                     goalsViewState = GoalsViewState(goals = emptyList()),
-                    goalFilterState = GoalFilterState(config.defaultGoalQuery.getFilterBuilder()),
+                    goalFilterState = GoalFilterState(GoalFilter.Builder.matchAllBuilder(config, config)),
                     goalSortState = GoalSortState(config.defaultGoalQuery.sortOptions),
                 ),
         )
