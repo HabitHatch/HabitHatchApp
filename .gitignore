@@ -9,3 +9,7 @@ google-services.json
 keystore.b64
 */combined_file.txt
 */all_main_13_12.zip
+.gradle
+*.iml
+.kotlin
+
