@@ -6,4 +6,4 @@
 
 @Inject
 
-constructor(userRepository: [UserRepository](../../com.habithatch.demo.data.repositories/-user-repository/index.md), goalRepository: [GoalRepository](../../com.habithatch.demo.data.repositories/-goal-repository/index.md), config: [HabitHatchConfig](../../com.habithatch.demo.core.config/-habit-hatch-config/index.md), goalQueryFactory: [GoalQuery.Factory](../../com.habithatch.demo.core.query/-goal-query/-factory/index.md), builderFactory: [GoalFilterBuilderFactory](../../com.habithatch.demo.core.query/-goal-filter-builder-factory/index.md))
+constructor(userRepository: [UserRepository](../../com.habithatch.demo.data.repositories/-user-repository/index.md), habitRepository: [HabitRepository](../../com.habithatch.demo.data.repositories/-habit-repository/index.md), config: [HabitHatchConfig](../../com.habithatch.demo.core.config/-habit-hatch-config/index.md), habitQueryFactory: [HabitQuery.Factory](../../com.habithatch.demo.core.query/-habit-query/-factory/index.md), builderFactory: [HabitFilterBuilderFactory](../../com.habithatch.demo.core.query/-habit-filter-builder-factory/index.md))

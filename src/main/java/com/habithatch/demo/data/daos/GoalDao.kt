@@ -3,39 +3,39 @@ package com.habithatch.demo.data.daos
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.habithatch.demo.data.entities.GoalEntity
+import com.habithatch.demo.data.entities.HabitEntity
 import kotlinx.coroutines.flow.Flow
 
 /**
- * The Data Access Object for the [GoalEntity] class.
+ * The Data Access Object for the [HabitEntity] class.
  */
 @Dao
-interface GoalDao {
+interface HabitDao {
     /**
      * @suppress
      */
     @Deprecated(
         message = "Is only used in tests",
     )
-    @Query("SELECT * FROM goal WHERE goal.id = :goalId")
-    fun getGoalById(goalId: Long): Flow<GoalEntity?>
+    @Query("SELECT * FROM habit WHERE habit.id = :habitId")
+    fun getHabitById(habitId: Long): Flow<HabitEntity?>
 
-    @Query("SELECT * FROM goal")
-    fun getAll(): Flow<List<GoalEntity>>
+    @Query("SELECT * FROM habit")
+    fun getAll(): Flow<List<HabitEntity>>
 
     @Insert
-    suspend fun insert(goal: GoalEntity)
+    suspend fun insert(habit: HabitEntity)
 
     @Insert()
-    suspend fun insert(goals: Collection<GoalEntity>)
+    suspend fun insert(habits: Collection<HabitEntity>)
 
     /**
-     * Updates the goal with the given [id] with the given [title], [statusLabel], and [priorityLabel].
-     * [GoalEntity.createdAt] and [GoalEntity.id] are not allowed tto be updated.
+     * Updates the habit with the given [id] with the given [title], [statusLabel], and [priorityLabel].
+     * [HabitEntity.createdAt] and [HabitEntity.id] are not allowed tto be updated.
      */
     @Query(
         """
-        UPDATE goal
+        UPDATE habit
         SET title = :title,
             statusLabel = :statusLabel,
             priorityLabel = :priorityLabel
@@ -50,8 +50,8 @@ interface GoalDao {
     )
 
     /**
-     * Deletes all goals from the database.
+     * Deletes all habits from the database.
      */
-    @Query("DELETE FROM goal")
+    @Query("DELETE FROM habit")
     suspend fun deleteAll()
 }

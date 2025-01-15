@@ -1,6 +1,6 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.core.config](../index.md)/[GoalPriorityProvider](index.md)/[priorities](priorities.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.core.config](../index.md)/[HabitPriorityProvider](index.md)/[priorities](priorities.md)
 
 # priorities
 
 [app]\
-abstract val [priorities](priorities.md): [Set](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-set/index.html)&lt;[GoalModel.Priority](../../com.habithatch.demo.data.models/-goal-model/-priority/index.md)&gt;
+abstract val [priorities](priorities.md): [Set](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-set/index.html)&lt;[HabitModel.Priority](../../com.habithatch.demo.data.models/-habit-model/-priority/index.md)&gt;

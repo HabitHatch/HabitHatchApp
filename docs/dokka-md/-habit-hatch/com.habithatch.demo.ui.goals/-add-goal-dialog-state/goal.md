@@ -1,6 +1,6 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.ui.goals](../index.md)/[AddGoalDialogState](index.md)/[goal](goal.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.ui.habits](../index.md)/[AddHabitDialogState](index.md)/[habit](habit.md)
 
-# goal
+# habit
 
 [app]\
-val [goal](goal.md): [GoalModel](../../com.habithatch.demo.data.models/-goal-model/index.md)
+val [habit](habit.md): [HabitModel](../../com.habithatch.demo.data.models/-habit-model/index.md)

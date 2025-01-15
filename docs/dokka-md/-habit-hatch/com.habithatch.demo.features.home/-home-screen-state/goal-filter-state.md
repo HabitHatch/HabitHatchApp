@@ -1,9 +1,9 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.features.home](../index.md)/[HomeScreenState](index.md)/[goalFilterState](goal-filter-state.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.features.home](../index.md)/[HomeScreenState](index.md)/[habitFilterState](habit-filter-state.md)
 
-# goalFilterState
+# habitFilterState
 
 [app]\
-val [goalFilterState](goal-filter-state.md): [GoalFilterState](../../com.habithatch.demo.ui.goals/-goal-filter-state/index.md)
+val [habitFilterState](habit-filter-state.md): [HabitFilterState](../../com.habithatch.demo.ui.habits/-habit-filter-state/index.md)
 
 #### Parameters
 
@@ -11,4 +11,4 @@ app
 
 | | |
 |---|---|
-| goalFilterState | The state of the goal filter. |
+| habitFilterState | The state of the habit filter. |

@@ -1,8 +1,8 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.repositories](../index.md)/[GoalRepository](index.md)/[getQueriedGoals](get-queried-goals.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.repositories](../index.md)/[HabitRepository](index.md)/[getQueriedHabits](get-queried-habits.md)
 
-# getQueriedGoals
+# getQueriedHabits
 
 [app]\
-fun [getQueriedGoals](get-queried-goals.md)(query: [GoalQuery](../../com.habithatch.demo.core.query/-goal-query/index.md)): Flow&lt;[List](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html)&lt;[GoalModel](../../com.habithatch.demo.data.models/-goal-model/index.md)&gt;&gt;
+fun [getQueriedHabits](get-queried-habits.md)(query: [HabitQuery](../../com.habithatch.demo.core.query/-habit-query/index.md)): Flow&lt;[List](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html)&lt;[HabitModel](../../com.habithatch.demo.data.models/-habit-model/index.md)&gt;&gt;
 
-Returns a flow of goals that match the given [GoalQuery](../../com.habithatch.demo.core.query/-goal-query/index.md). Sorted by GoalQuery's comparator.
+Returns a flow of habits that match the given [HabitQuery](../../com.habithatch.demo.core.query/-habit-query/index.md). Sorted by HabitQuery's comparator.

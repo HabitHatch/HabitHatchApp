@@ -4,15 +4,15 @@
 
 package Model{
 
-    class Goal {
+    class Habit {
         + name: String
         + priority: Priority
         + isDone: Boolean
     }
 
-    Goal *- GoalPriority
+    Habit *- HabitPriority
 
-    Goal *- GoalStatus
+    Habit *- HabitStatus
 }
 
 package View{
@@ -33,8 +33,8 @@ package ViewModel{
         pets: List<Pet>
     }
     class HomeViewModel {
-        addGoal()
-        markGoalDone()
+        addHabit()
+        markHabitDone()
         user: User
     }
     class SettingsViewModel{
@@ -49,17 +49,17 @@ package Repository{
         saveUser()
     }
 
-    class GoalRepository {
-        getGoals()
-        saveGoal()
-        updateGoal()
+    class HabitRepository {
+        getHabits()
+        saveHabit()
+        updateHabit()
     }
 }
 package DAO{
     class UserDAO
 
 
-    class GoalDAO
+    class HabitDAO
 }
 
 class AppConfig{
@@ -73,18 +73,18 @@ SettingsView .down.> SettingsViewModel
 
 InitialLoginViewModel .down..> UserRepository
 
-HomeViewModel .down> GoalRepository
+HomeViewModel .down> HabitRepository
 HomeViewModel .down> UserRepository
 
 SettingsViewModel .down.> UserRepository
 
 
 UserRepository ..down> UserDAO
-GoalRepository ..down> GoalDAO
+HabitRepository ..down> HabitDAO
 
 
 UserDAO -down-> User
-GoalDAO -down-> Goal
+HabitDAO -down-> Habit
 @enduml
 
 @enduml

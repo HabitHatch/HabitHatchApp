@@ -1,4 +1,4 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.ui.goals](../index.md)/[AddGoalDialogState](index.md)/[onDismiss](on-dismiss.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.ui.habits](../index.md)/[AddHabitDialogState](index.md)/[onDismiss](on-dismiss.md)
 
 # onDismiss
 

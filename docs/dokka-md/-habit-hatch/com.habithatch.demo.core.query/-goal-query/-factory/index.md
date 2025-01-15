@@ -1,19 +1,19 @@
-//[HabitHatch](../../../../index.md)/[com.habithatch.demo.core.query](../../index.md)/[GoalQuery](../index.md)/[Factory](index.md)
+//[HabitHatch](../../../../index.md)/[com.habithatch.demo.core.query](../../index.md)/[HabitQuery](../index.md)/[Factory](index.md)
 
 # Factory
 
 [app]\
-class [Factory](index.md)@Injectconstructor(priorityProvider: [GoalPriorityProvider](../../../com.habithatch.demo.core.config/-goal-priority-provider/index.md), statusProvider: [GoalStatusProvider](../../../com.habithatch.demo.core.config/-goal-status-provider/index.md))
+class [Factory](index.md)@Injectconstructor(priorityProvider: [HabitPriorityProvider](../../../com.habithatch.demo.core.config/-habit-priority-provider/index.md), statusProvider: [HabitStatusProvider](../../../com.habithatch.demo.core.config/-habit-status-provider/index.md))
 
 ## Constructors
 
 | | |
 |---|---|
-| [Factory](-factory.md) | [app]<br>@Inject<br>constructor(priorityProvider: [GoalPriorityProvider](../../../com.habithatch.demo.core.config/-goal-priority-provider/index.md), statusProvider: [GoalStatusProvider](../../../com.habithatch.demo.core.config/-goal-status-provider/index.md)) |
+| [Factory](-factory.md) | [app]<br>@Inject<br>constructor(priorityProvider: [HabitPriorityProvider](../../../com.habithatch.demo.core.config/-habit-priority-provider/index.md), statusProvider: [HabitStatusProvider](../../../com.habithatch.demo.core.config/-habit-status-provider/index.md)) |
 
 ## Functions
 
 | Name | Summary |
 |---|---|
-| [createFilterQuery](create-filter-query.md) | [app]<br>fun [createFilterQuery](create-filter-query.md)(filter: [GoalFilter](../../-goal-filter/index.md)): [GoalQuery](../index.md) |
-| [createGoalQuery](create-goal-query.md) | [app]<br>fun [createGoalQuery](create-goal-query.md)(filter: [GoalFilter](../../-goal-filter/index.md), sortOptions: [List](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html)&lt;[GoalSortOption](../../-goal-sort-option/index.md)&gt; = emptyList(), defaultComparator: [Comparator](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-comparator/index.html)&lt;[GoalModel](../../../com.habithatch.demo.data.models/-goal-model/index.md)&gt; = compareBy { 0 }): [GoalQuery](../index.md) |
+| [createFilterQuery](create-filter-query.md) | [app]<br>fun [createFilterQuery](create-filter-query.md)(filter: [HabitFilter](../../-habit-filter/index.md)): [HabitQuery](../index.md) |
+| [createHabitQuery](create-habit-query.md) | [app]<br>fun [createHabitQuery](create-habit-query.md)(filter: [HabitFilter](../../-habit-filter/index.md), sortOptions: [List](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html)&lt;[HabitSortOption](../../-habit-sort-option/index.md)&gt; = emptyList(), defaultComparator: [Comparator](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-comparator/index.html)&lt;[HabitModel](../../../com.habithatch.demo.data.models/-habit-model/index.md)&gt; = compareBy { 0 }): [HabitQuery](../index.md) |

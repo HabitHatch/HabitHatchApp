@@ -1,4 +1,4 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.entities](../index.md)/[GoalEntity](index.md)/[priorityLabel](priority-label.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.entities](../index.md)/[HabitEntity](index.md)/[priorityLabel](priority-label.md)
 
 # priorityLabel
 

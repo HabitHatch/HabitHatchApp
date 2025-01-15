@@ -1,9 +1,9 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.ui.goals](../index.md)/[GoalsViewState](index.md)/[showCreateExampleGoals](show-create-example-goals.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.ui.habits](../index.md)/[HabitsViewState](index.md)/[showCreateExampleHabits](show-create-example-habits.md)
 
-# showCreateExampleGoals
+# showCreateExampleHabits
 
 [app]\
-val [showCreateExampleGoals](show-create-example-goals.md): [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html) = true
+val [showCreateExampleHabits](show-create-example-habits.md): [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html) = true
 
 #### Parameters
 
@@ -11,4 +11,4 @@ app
 
 | | |
 |---|---|
-| showCreateExampleGoals | Whether to show the create example goals button. |
+| showCreateExampleHabits | Whether to show the create example habits button. |

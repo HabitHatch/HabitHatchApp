@@ -1,9 +1,9 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.features.home](../index.md)/[HomeScreenState](index.md)/[goalsViewState](goals-view-state.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.features.home](../index.md)/[HomeScreenState](index.md)/[habitsViewState](habits-view-state.md)
 
-# goalsViewState
+# habitsViewState
 
 [app]\
-val [goalsViewState](goals-view-state.md): [GoalsViewState](../../com.habithatch.demo.ui.goals/-goals-view-state/index.md)
+val [habitsViewState](habits-view-state.md): [HabitsViewState](../../com.habithatch.demo.ui.habits/-habits-view-state/index.md)
 
 #### Parameters
 
@@ -11,4 +11,4 @@ app
 
 | | |
 |---|---|
-| goalsViewState | The state of the goals view. |
+| habitsViewState | The state of the habits view. |

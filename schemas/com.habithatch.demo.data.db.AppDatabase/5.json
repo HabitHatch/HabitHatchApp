@@ -37,7 +37,7 @@
         "foreignKeys": []
       },
       {
-        "tableName": "Goal",
+        "tableName": "Habit",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `doneState` TEXT NOT NULL, `priority` TEXT NOT NULL)",
         "fields": [
           {

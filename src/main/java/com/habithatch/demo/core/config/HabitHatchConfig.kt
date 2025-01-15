@@ -2,18 +2,18 @@ package com.habithatch.demo.core.config
 
 import androidx.compose.ui.text.font.FontFamily
 import com.habithatch.demo.core.navigation.Screen
-import com.habithatch.demo.core.query.GoalQuery
+import com.habithatch.demo.core.query.HabitQuery
 import com.habithatch.demo.data.entities.Pet
-import com.habithatch.demo.data.models.GoalModel
+import com.habithatch.demo.data.models.HabitModel
 
 /**
  * The main application configuration.
  */
 interface HabitHatchConfig :
-    GoalStatusProvider,
-    GoalPriorityProvider {
+    HabitStatusProvider,
+    HabitPriorityProvider {
     val pets: List<Pet>
-    val exampleGoals: Collection<GoalModel>
+    val exampleHabits: Collection<HabitModel>
     val signUpNavigationItem: Screen
     val homeNavigationItem: Screen
     val settingsNavigationItem: Screen
@@ -26,5 +26,5 @@ interface HabitHatchConfig :
 
     val bodyFontFamily: FontFamily
 
-    val defaultGoalQuery: GoalQuery
+    val defaultHabitQuery: HabitQuery
 }

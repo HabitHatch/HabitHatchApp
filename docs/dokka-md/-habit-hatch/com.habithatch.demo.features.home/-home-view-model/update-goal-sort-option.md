@@ -1,6 +1,6 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.features.home](../index.md)/[HomeViewModel](index.md)/[updateGoalSortOption](update-goal-sort-option.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.features.home](../index.md)/[HomeViewModel](index.md)/[updateHabitSortOption](update-habit-sort-option.md)
 
-# updateGoalSortOption
+# updateHabitSortOption
 
 [app]\
-fun [updateGoalSortOption](update-goal-sort-option.md)(newGoalSortOption: [GoalSortOption](../../com.habithatch.demo.core.query/-goal-sort-option/index.md))
+fun [updateHabitSortOption](update-habit-sort-option.md)(newHabitSortOption: [HabitSortOption](../../com.habithatch.demo.core.query/-habit-sort-option/index.md))

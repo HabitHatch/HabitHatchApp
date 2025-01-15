@@ -1,6 +1,6 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.features.home](../index.md)/[HomeViewModel](index.md)/[updateGoalFilter](update-goal-filter.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.features.home](../index.md)/[HomeViewModel](index.md)/[updateHabitFilter](update-habit-filter.md)
 
-# updateGoalFilter
+# updateHabitFilter
 
 [app]\
-fun [updateGoalFilter](update-goal-filter.md)(newGoalFilter: [GoalFilter](../../com.habithatch.demo.core.query/-goal-filter/index.md))
+fun [updateHabitFilter](update-habit-filter.md)(newHabitFilter: [HabitFilter](../../com.habithatch.demo.core.query/-habit-filter/index.md))

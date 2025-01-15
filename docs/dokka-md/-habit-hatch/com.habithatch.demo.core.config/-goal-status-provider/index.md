@@ -1,10 +1,10 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.core.config](../index.md)/[GoalStatusProvider](index.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.core.config](../index.md)/[HabitStatusProvider](index.md)
 
-# GoalStatusProvider
+# HabitStatusProvider
 
-interface [GoalStatusProvider](index.md)
+interface [HabitStatusProvider](index.md)
 
-Provides the statuses for goals.
+Provides the statuses for habits.
 
 #### Inheritors
 
@@ -16,11 +16,11 @@ Provides the statuses for goals.
 
 | Name | Summary |
 |---|---|
-| [defaultStatus](default-status.md) | [app]<br>abstract val [defaultStatus](default-status.md): [GoalModel.Status](../../com.habithatch.demo.data.models/-goal-model/-status/index.md) |
-| [statuses](statuses.md) | [app]<br>abstract val [statuses](statuses.md): [Set](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-set/index.html)&lt;[GoalModel.Status](../../com.habithatch.demo.data.models/-goal-model/-status/index.md)&gt; |
+| [defaultStatus](default-status.md) | [app]<br>abstract val [defaultStatus](default-status.md): [HabitModel.Status](../../com.habithatch.demo.data.models/-habit-model/-status/index.md) |
+| [statuses](statuses.md) | [app]<br>abstract val [statuses](statuses.md): [Set](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-set/index.html)&lt;[HabitModel.Status](../../com.habithatch.demo.data.models/-habit-model/-status/index.md)&gt; |
 
 ## Functions
 
 | Name | Summary |
 |---|---|
-| [getStatusByLabel](get-status-by-label.md) | [app]<br>open fun [getStatusByLabel](get-status-by-label.md)(statusLabel: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html)): [GoalModel.Status](../../com.habithatch.demo.data.models/-goal-model/-status/index.md) |
+| [getStatusByLabel](get-status-by-label.md) | [app]<br>open fun [getStatusByLabel](get-status-by-label.md)(statusLabel: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html)): [HabitModel.Status](../../com.habithatch.demo.data.models/-habit-model/-status/index.md) |

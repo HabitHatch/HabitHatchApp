@@ -1,10 +1,10 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.ui.goals.item](../index.md)/[GoalStyle](index.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.ui.habits.item](../index.md)/[HabitStyle](index.md)
 
-# GoalStyle
+# HabitStyle
 
-data class [GoalStyle](index.md)(val borderColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), val containerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), val textDecoration: [TextDecoration](https://developer.android.com/reference/kotlin/androidx/compose/ui/text/style/TextDecoration.html) = TextDecoration.None, val iconColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), val cardShape: [CornerBasedShape](https://developer.android.com/reference/kotlin/androidx/compose/foundation/shape/CornerBasedShape.html))
+data class [HabitStyle](index.md)(val borderColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), val containerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), val textDecoration: [TextDecoration](https://developer.android.com/reference/kotlin/androidx/compose/ui/text/style/TextDecoration.html) = TextDecoration.None, val iconColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), val cardShape: [CornerBasedShape](https://developer.android.com/reference/kotlin/androidx/compose/foundation/shape/CornerBasedShape.html))
 
-The style of a goal.
+The style of a habit.
 
 #### Parameters
 
@@ -22,7 +22,7 @@ app
 
 | | |
 |---|---|
-| [GoalStyle](-goal-style.md) | [app]<br>constructor(borderColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), containerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), textDecoration: [TextDecoration](https://developer.android.com/reference/kotlin/androidx/compose/ui/text/style/TextDecoration.html) = TextDecoration.None, iconColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), cardShape: [CornerBasedShape](https://developer.android.com/reference/kotlin/androidx/compose/foundation/shape/CornerBasedShape.html)) |
+| [HabitStyle](-habit-style.md) | [app]<br>constructor(borderColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), containerColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), textDecoration: [TextDecoration](https://developer.android.com/reference/kotlin/androidx/compose/ui/text/style/TextDecoration.html) = TextDecoration.None, iconColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), cardShape: [CornerBasedShape](https://developer.android.com/reference/kotlin/androidx/compose/foundation/shape/CornerBasedShape.html)) |
 
 ## Properties
 

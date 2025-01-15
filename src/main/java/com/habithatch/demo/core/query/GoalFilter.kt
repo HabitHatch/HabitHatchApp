@@ -1,37 +1,37 @@
 package com.habithatch.demo.core.query
 
 import androidx.compose.runtime.Immutable
-import com.habithatch.demo.core.config.GoalPriorityProvider
-import com.habithatch.demo.core.config.GoalStatusProvider
-import com.habithatch.demo.data.models.GoalModel
+import com.habithatch.demo.core.config.HabitPriorityProvider
+import com.habithatch.demo.core.config.HabitStatusProvider
+import com.habithatch.demo.data.models.HabitModel
 
-typealias PriorityVisibility = Map<GoalModel.Priority, Boolean>
-typealias StatusVisibility = Map<GoalModel.Status, Boolean>
+typealias PriorityVisibility = Map<HabitModel.Priority, Boolean>
+typealias StatusVisibility = Map<HabitModel.Status, Boolean>
 
 /**
- * Filters goals based on priority, statuses and a search query.
+ * Filters habits based on priority, statuses and a search query.
  *
  * @param priorityVisibility Maps each priority to its visibility.
  * @param statusVisibility Maps each status to its visibility.
- * @param searchQuery Optional search term for filtering goals.
+ * @param searchQuery Optional search term for filtering habits.
  */
 @Immutable
 @ConsistentCopyVisibility
-data class GoalFilter private constructor(
+data class HabitFilter private constructor(
     val priorityVisibility: PriorityVisibility,
     val statusVisibility: StatusVisibility,
     val searchQuery: String?,
 ) {
     /**
-     * Builder for [GoalFilter].
+     * Builder for [HabitFilter].
      *
-     * @param priorityProvider Provides the priorities for goals.
-     * @param statusProvider Provides the statuses for goals.
+     * @param priorityProvider Provides the priorities for habits.
+     * @param statusProvider Provides the statuses for habits.
      */
     @ConsistentCopyVisibility
     data class Builder private constructor(
-        private val priorityProvider: GoalPriorityProvider,
-        private val statusProvider: GoalStatusProvider,
+        private val priorityProvider: HabitPriorityProvider,
+        private val statusProvider: HabitStatusProvider,
         private val priorityVisibility: PriorityVisibility = mutableMapOf(),
         private val statusVisibility: StatusVisibility = mutableMapOf(),
         private val searchQuery: String? = null,
@@ -44,7 +44,7 @@ data class GoalFilter private constructor(
 
         fun matchNoneStatuses() = this.copy(statusVisibility = statusProvider.statuses.associateWith { false })
 
-        fun onlyMatch(status: GoalModel.Status) = this.matchNoneStatuses().includeStatus(status)
+        fun onlyMatch(status: HabitModel.Status) = this.matchNoneStatuses().includeStatus(status)
 
         @Suppress("ktlint:standard:function-expression-body")
         fun priorityVisibility(priorityVisibility: PriorityVisibility): Builder {
@@ -52,7 +52,7 @@ data class GoalFilter private constructor(
         }
 
         fun priorityVisibility(
-            priority: GoalModel.Priority,
+            priority: HabitModel.Priority,
             visible: Boolean,
         ): Builder =
             this.priorityVisibility(
@@ -67,7 +67,7 @@ data class GoalFilter private constructor(
         fun statusVisibility(statusVisibility: StatusVisibility) = this.copy(statusVisibility = statusVisibility)
 
         fun statusVisibility(
-            status: GoalModel.Status,
+            status: HabitModel.Status,
             visible: Boolean,
         ): Builder =
             this.statusVisibility(
@@ -77,19 +77,19 @@ data class GoalFilter private constructor(
         /**
          * @suppress
          */
-        fun includeStatus(status: GoalModel.Status) = statusVisibility(status, true)
+        fun includeStatus(status: HabitModel.Status) = statusVisibility(status, true)
 
         /**
          * @suppress
          */
-        fun excludeStatus(status: GoalModel.Status) = statusVisibility(status, false)
+        fun excludeStatus(status: HabitModel.Status) = statusVisibility(status, false)
 
         fun setSearchQuery(searchQuery: String?): Builder = this.copy(searchQuery = searchQuery)
 
         @Throws(IllegalStateException::class)
-        fun build(): GoalFilter {
+        fun build(): HabitFilter {
             checkValidity()
-            return GoalFilter(
+            return HabitFilter(
                 priorityVisibility = priorityVisibility,
                 statusVisibility = statusVisibility,
                 searchQuery = searchQuery,
@@ -109,42 +109,42 @@ data class GoalFilter private constructor(
 
         companion object {
             /**
-             * Creates a [GoalFilter.Builder] that matches all goals.
+             * Creates a [HabitFilter.Builder] that matches all habits.
              *
-             * @param priorityProvider Provides the priorities for goals.
-             * @param statusProvider Provides the statuses for goals.
+             * @param priorityProvider Provides the priorities for habits.
+             * @param statusProvider Provides the statuses for habits.
              */
             fun matchAllBuilder(
-                priorityProvider: GoalPriorityProvider,
-                statusProvider: GoalStatusProvider,
+                priorityProvider: HabitPriorityProvider,
+                statusProvider: HabitStatusProvider,
             ) = Builder(priorityProvider, statusProvider).matchAll()
 
             /**
-             * Creates a [GoalFilter.Builder] from a [GoalFilter].
+             * Creates a [HabitFilter.Builder] from a [HabitFilter].
              *
-             * @param goalFilter The [GoalFilter] to copy.
-             * @param priorityProvider Provides the priorities for goals.
-             * @param statusProvider Provides the statuses for goals.
+             * @param habitFilter The [HabitFilter] to copy.
+             * @param priorityProvider Provides the priorities for habits.
+             * @param statusProvider Provides the statuses for habits.
              */
             fun createFromFilter(
-                goalFilter: GoalFilter,
-                priorityProvider: GoalPriorityProvider,
-                statusProvider: GoalStatusProvider,
+                habitFilter: HabitFilter,
+                priorityProvider: HabitPriorityProvider,
+                statusProvider: HabitStatusProvider,
             ) = Builder(priorityProvider, statusProvider)
-                .priorityVisibility(goalFilter.priorityVisibility)
-                .statusVisibility(goalFilter.statusVisibility)
-                .setSearchQuery(goalFilter.searchQuery)
+                .priorityVisibility(habitFilter.priorityVisibility)
+                .statusVisibility(habitFilter.statusVisibility)
+                .setSearchQuery(habitFilter.searchQuery)
         }
     }
 
     /**
-     * Checks if a goal matches the filter.
+     * Checks if a habit matches the filter.
      *
-     * @param goal The goal to check.
-     * @return True if the goal matches the filter, false otherwise.
+     * @param habit The habit to check.
+     * @return True if the habit matches the filter, false otherwise.
      */
     @Throws(IllegalArgumentException::class)
-    fun isMatch(goal: GoalModel): Boolean = matchesStatus(goal) && matchesPriority(goal) && matchesSearchQuery(goal)
+    fun isMatch(habit: HabitModel): Boolean = matchesStatus(habit) && matchesPriority(habit) && matchesSearchQuery(habit)
 
     /**
      * Checks if a done status is visible.
@@ -154,23 +154,23 @@ data class GoalFilter private constructor(
     fun isDoneVisible(): Boolean = statusVisibility.entries.any { (status, visible) -> status.isDone && visible }
 
     @Throws(IllegalArgumentException::class)
-    private fun matchesStatus(goal: GoalModel): Boolean {
-        require(statusVisibility[goal.status] != null) { "status ${goal.status.label} not in GoalFilter" }
-        return statusVisibility[goal.status]!!
+    private fun matchesStatus(habit: HabitModel): Boolean {
+        require(statusVisibility[habit.status] != null) { "status ${habit.status.label} not in HabitFilter" }
+        return statusVisibility[habit.status]!!
     }
 
     @Throws(IllegalArgumentException::class)
-    private fun matchesPriority(goal: GoalModel): Boolean {
-        require(priorityVisibility[goal.priority] != null) { "priority ${goal.priority.label} not in GoalFilter" }
-        return priorityVisibility[goal.priority]!!
+    private fun matchesPriority(habit: HabitModel): Boolean {
+        require(priorityVisibility[habit.priority] != null) { "priority ${habit.priority.label} not in HabitFilter" }
+        return priorityVisibility[habit.priority]!!
     }
 
     private fun notHasSearchQuery() = searchQuery.isNullOrBlank()
 
     @Throws(NullPointerException::class)
-    private fun titleContains(goal: GoalModel) = goal.title.contains(searchQuery!!, ignoreCase = true)
+    private fun titleContains(habit: HabitModel) = habit.title.contains(searchQuery!!, ignoreCase = true)
 
-    private fun matchesSearchQuery(goal: GoalModel) = notHasSearchQuery() || titleContains(goal)
+    private fun matchesSearchQuery(habit: HabitModel) = notHasSearchQuery() || titleContains(habit)
 
     /**
      * @suppress
@@ -178,9 +178,9 @@ data class GoalFilter private constructor(
     override fun toString(): String =
         """
         ${this.javaClass.simpleName} (
-        ${GoalFilter::priorityVisibility.name}=$priorityVisibility,
-        ${GoalFilter::statusVisibility.name}=$statusVisibility
-        ${GoalFilter::searchQuery.name}=$searchQuery
+        ${HabitFilter::priorityVisibility.name}=$priorityVisibility,
+        ${HabitFilter::statusVisibility.name}=$statusVisibility
+        ${HabitFilter::searchQuery.name}=$searchQuery
         )
         """.trimIndent()
 }

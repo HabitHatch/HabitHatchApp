@@ -1,4 +1,4 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.models](../index.md)/[GoalModel](index.md)/[createdAt](created-at.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.models](../index.md)/[HabitModel](index.md)/[createdAt](created-at.md)
 
 # createdAt
 

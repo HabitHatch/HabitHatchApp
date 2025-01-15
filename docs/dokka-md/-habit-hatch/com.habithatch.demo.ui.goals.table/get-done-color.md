@@ -1,4 +1,4 @@
-//[HabitHatch](../../index.md)/[com.habithatch.demo.ui.goals.table](index.md)/[getDoneColor](get-done-color.md)
+//[HabitHatch](../../index.md)/[com.habithatch.demo.ui.habits.table](index.md)/[getDoneColor](get-done-color.md)
 
 # getDoneColor
 

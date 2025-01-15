@@ -1,6 +1,6 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.core.config](../index.md)/[HabitHatchConfig](index.md)/[defaultGoalQuery](default-goal-query.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.core.config](../index.md)/[HabitHatchConfig](index.md)/[defaultHabitQuery](default-habit-query.md)
 
-# defaultGoalQuery
+# defaultHabitQuery
 
 [app]\
-abstract val [defaultGoalQuery](default-goal-query.md): [GoalQuery](../../com.habithatch.demo.core.query/-goal-query/index.md)
+abstract val [defaultHabitQuery](default-habit-query.md): [HabitQuery](../../com.habithatch.demo.core.query/-habit-query/index.md)

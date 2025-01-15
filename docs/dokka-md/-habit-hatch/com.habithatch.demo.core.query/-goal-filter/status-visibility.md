@@ -1,4 +1,4 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.core.query](../index.md)/[GoalFilter](index.md)/[statusVisibility](status-visibility.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.core.query](../index.md)/[HabitFilter](index.md)/[statusVisibility](status-visibility.md)
 
 # statusVisibility
 

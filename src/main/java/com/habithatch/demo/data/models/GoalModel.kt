@@ -3,22 +3,22 @@ package com.habithatch.demo.data.models
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
-import com.habithatch.demo.data.entities.GoalEntity
+import com.habithatch.demo.data.entities.HabitEntity
 import java.time.Instant
 import javax.inject.Inject
 
 /**
- * [GoalModel] represents a goal.
+ * [HabitModel] represents a habit.
  *
- * @param title the title of the goal
- * @param status the status of the goal
- * @param priority the priority of the goal
- * @param createdAt the creation date of the goal
- * @param isDraft whether the goal is a draft
+ * @param title the title of the habit
+ * @param status the status of the habit
+ * @param priority the priority of the habit
+ * @param createdAt the creation date of the habit
+ * @param isDraft whether the habit is a draft
  */
 @ConsistentCopyVisibility
 @Immutable
-data class GoalModel private constructor(
+data class HabitModel private constructor(
     val title: String,
     val status: Status,
     val priority: Priority,
@@ -96,8 +96,8 @@ data class GoalModel private constructor(
         title: String? = null,
         status: Status? = null,
         priority: Priority? = null,
-    ): GoalModel =
-        GoalModel(
+    ): HabitModel =
+        HabitModel(
             title = title ?: this.title,
             status = status ?: this.status,
             priority = priority ?: this.priority,
@@ -113,11 +113,11 @@ data class GoalModel private constructor(
         @Inject
         constructor() {
             fun createFromEntity(
-                entity: GoalEntity,
+                entity: HabitEntity,
                 status: Status,
                 priority: Priority,
-            ): GoalModel =
-                GoalModel(
+            ): HabitModel =
+                HabitModel(
                     title = entity.title,
                     status = status,
                     priority = priority,
@@ -129,7 +129,7 @@ data class GoalModel private constructor(
                 title: String = "",
                 status: Status,
                 priority: Priority,
-            ) = GoalModel(
+            ) = HabitModel(
                 title = title,
                 status = status,
                 priority = priority,
@@ -147,7 +147,7 @@ data class GoalModel private constructor(
                 status: Status,
                 priority: Priority,
                 createdAt: Instant,
-            ) = GoalModel(
+            ) = HabitModel(
                 title = title,
                 status = status,
                 priority = priority,

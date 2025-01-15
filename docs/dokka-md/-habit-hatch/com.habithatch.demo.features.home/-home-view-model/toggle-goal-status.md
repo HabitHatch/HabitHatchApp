@@ -1,6 +1,6 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.features.home](../index.md)/[HomeViewModel](index.md)/[toggleGoalStatus](toggle-goal-status.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.features.home](../index.md)/[HomeViewModel](index.md)/[toggleHabitStatus](toggle-habit-status.md)
 
-# toggleGoalStatus
+# toggleHabitStatus
 
 [app]\
-fun [toggleGoalStatus](toggle-goal-status.md)(goal: [GoalModel](../../com.habithatch.demo.data.models/-goal-model/index.md))
+fun [toggleHabitStatus](toggle-habit-status.md)(habit: [HabitModel](../../com.habithatch.demo.data.models/-habit-model/index.md))

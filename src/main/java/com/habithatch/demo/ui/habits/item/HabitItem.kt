@@ -1,7 +1,6 @@
-package com.habithatch.demo.ui.goals.item
+package com.habithatch.demo.ui.habits.item
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,32 +15,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.habithatch.demo.data.models.GoalModel
-import com.habithatch.demo.ui.goals.GoalStyleProvider
+import com.habithatch.demo.data.models.HabitModel
+import com.habithatch.demo.ui.habits.HabitStyleProvider
 
 /**
- * A card that displays a goal.
+ * A card that displays a habit.
  */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
-fun GoalItem(
-    goal: GoalModel,
+fun HabitItem(
+    habit: HabitModel,
     rowPadding: PaddingValues = PaddingValues(12.dp),
     checkBoxPadding: PaddingValues = PaddingValues(end = 8.dp),
-    onCycleGoalStatus: () -> Unit = {},
+    onCycleHabitStatus: () -> Unit = {},
 ) {
-    val goalStyle = GoalStyleProvider.getGoalStyle(goal)
+    val habitStyle = HabitStyleProvider.getHabitStyle(habit)
     Card(
         modifier =
             Modifier
                 .fillMaxWidth()
                 .border(
                     width = 1.dp,
-                    color = goalStyle.borderColor,
-                    shape = goalStyle.cardShape,
+                    color = habitStyle.borderColor,
+                    shape = habitStyle.cardShape,
                 ),
-        colors = goalStyle.cardColors,
-        shape = goalStyle.cardShape,
+        colors = habitStyle.cardColors,
+        shape = habitStyle.cardShape,
     ) {
         Row(
             modifier =
@@ -51,23 +50,23 @@ fun GoalItem(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Checkbox(
-                checked = goal.isDone(),
-                onCheckedChange = { onCycleGoalStatus() },
+                checked = habit.isDone(),
+                onCheckedChange = { onCycleHabitStatus() },
                 modifier = Modifier.padding(checkBoxPadding),
             )
 
             Text(
-                text = goal.title,
+                text = habit.title,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                style = goalStyle.textStyle,
+                style = habitStyle.textStyle,
                 modifier = Modifier.weight(1f),
             )
             Icon(
                 modifier = Modifier.weight(0.25f),
-                painter = painterResource(goal.priority.iconResourceId),
-                contentDescription = goal.priority.label,
-                tint = goalStyle.iconColor,
+                painter = painterResource(habit.priority.iconResourceId),
+                contentDescription = habit.priority.label,
+                tint = habitStyle.iconColor,
             )
         }
     }

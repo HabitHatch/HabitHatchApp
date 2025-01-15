@@ -1,4 +1,4 @@
-package com.habithatch.demo.ui.goals
+package com.habithatch.demo.ui.habits
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -14,23 +14,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.R
 import com.habithatch.demo.core.util.getNextHigherOrLowest
-import com.habithatch.demo.data.models.GoalModel
+import com.habithatch.demo.data.models.HabitModel
 import com.habithatch.demo.ui.common.forms.SimpleIconButton
 
 /**
- * A dialog that allows the user to add a goal.
+ * A dialog that allows the user to add a habit.
  */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
-fun AddGoalDialog(
-    state: AddGoalDialogState,
+fun AddHabitDialog(
+    state: AddHabitDialogState,
 ) {
-    var goal by remember { mutableStateOf(state.goal) }
+    var habit by remember { mutableStateOf(state.habit) }
     if (state.showDialog) {
         AlertDialog(
             onDismissRequest = { state.onDismiss() },
             title = {
-                Text(text = stringResource(R.string.add_goal), style = MaterialTheme.typography.headlineSmall)
+                Text(text = stringResource(R.string.add_habit), style = MaterialTheme.typography.headlineSmall)
             },
             text = {
                 Row(
@@ -38,24 +38,24 @@ fun AddGoalDialog(
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     OutlinedTextField(
-                        value = goal.title,
-                        onValueChange = { goal = goal.copy(title = it) },
+                        value = habit.title,
+                        onValueChange = { habit = habit.copy(title = it) },
                         modifier = Modifier.weight(1f),
                         shape = MaterialTheme.shapes.small,
-                        label = { Text(stringResource(R.string.goal_dialog_text_label)) },
+                        label = { Text(stringResource(R.string.habit_dialog_text_label)) },
                     )
                     SimpleIconButton(
                         modifier = Modifier.width(64.dp).padding(8.dp),
                         labelRes = R.string.priority_toggle_label,
-                        color = goal.priority.getColor(),
-                        painter = painterResource(id = goal.priority.iconResourceId),
+                        color = habit.priority.getColor(),
+                        painter = painterResource(id = habit.priority.iconResourceId),
                         onClick = {
-                            goal =
-                                goal.copy(
+                            habit =
+                                habit.copy(
                                     priority =
                                         state.allPriorities.getNextHigherOrLowest(
                                             bySelector = { it.importance.value },
-                                            element = goal.priority,
+                                            element = habit.priority,
                                         ),
                                 )
                         },
@@ -64,24 +64,24 @@ fun AddGoalDialog(
             },
             confirmButton = {
                 TextButton(onClick = {
-                    state.onAddGoal(goal)
+                    state.onAddHabit(habit)
                 }) {
-                    Text(stringResource(R.string.confirm_add_goal))
+                    Text(stringResource(R.string.confirm_add_habit))
                 }
             },
             dismissButton = {
                 TextButton(onClick = state.onDismiss) {
-                    Text(stringResource(R.string.cancel_add_goal))
+                    Text(stringResource(R.string.cancel_add_habit))
                 }
             },
         )
     }
 }
 
-data class AddGoalDialogState(
+data class AddHabitDialogState(
     val showDialog: Boolean = false,
-    val goal: GoalModel,
-    val allPriorities: Set<GoalModel.Priority>,
-    val onAddGoal: (GoalModel) -> Unit = {},
+    val habit: HabitModel,
+    val allPriorities: Set<HabitModel.Priority>,
+    val onAddHabit: (HabitModel) -> Unit = {},
     val onDismiss: () -> Unit = {},
 )

@@ -1,4 +1,4 @@
-package com.habithatch.demo.ui.goals.item
+package com.habithatch.demo.ui.habits.item
 
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material3.CardColors
@@ -11,7 +11,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 
 /**
- * The style of a goal.
+ * The style of a habit.
  *
  * @param borderColor The color of the border.
  * @param containerColor The color of the container.
@@ -19,7 +19,7 @@ import androidx.compose.ui.text.style.TextDecoration
  * @param iconColor The color of the icon.
  * @param cardShape The shape of the card.
  */
-data class GoalStyle(
+data class HabitStyle(
     val borderColor: Color,
     val containerColor: Color,
     val textDecoration: TextDecoration = TextDecoration.None,

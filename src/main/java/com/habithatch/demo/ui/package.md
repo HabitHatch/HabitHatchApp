@@ -7,7 +7,7 @@ The UI package centralizes all visual and interactive components, promoting reus
 
 ### Key Responsibilities
 - **Reusable Components** – Provides common UI elements such as cards, grids, buttons, and dialog hosts, allowing for a consistent look and feel across the app.
-- **Feature-Specific Views** – Manages feature-related UI elements, such as goal views, filters, and sort states.
+- **Feature-Specific Views** – Manages feature-related UI elements, such as habit views, filters, and sort states.
 - **Navigation** – Contains bottom and top navigation bars, enhancing user experience and enabling smooth app transitions.
 - **Theming and Styling** – Implements and standardizes styles to maintain a cohesive visual identity.
 - **Forms and Inputs** – Manages form components like search fields and buttons to streamline data entry and interaction.

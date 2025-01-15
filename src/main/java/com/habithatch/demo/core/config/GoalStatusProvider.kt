@@ -1,14 +1,14 @@
 package com.habithatch.demo.core.config
 
-import com.habithatch.demo.data.models.GoalModel
+import com.habithatch.demo.data.models.HabitModel
 
 /**
- * Provides the statuses for goals.
+ * Provides the statuses for habits.
  */
-interface GoalStatusProvider {
-    val statuses: Set<GoalModel.Status>
-    val defaultStatus: GoalModel.Status
+interface HabitStatusProvider {
+    val statuses: Set<HabitModel.Status>
+    val defaultStatus: HabitModel.Status
 
     @Throws(NoSuchElementException::class)
-    fun getStatusByLabel(statusLabel: String): GoalModel.Status = statuses.first { it.label == statusLabel }
+    fun getStatusByLabel(statusLabel: String): HabitModel.Status = statuses.first { it.label == statusLabel }
 }

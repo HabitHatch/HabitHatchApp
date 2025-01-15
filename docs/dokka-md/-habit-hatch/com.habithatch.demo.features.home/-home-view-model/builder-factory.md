@@ -3,4 +3,4 @@
 # builderFactory
 
 [app]\
-val [builderFactory](builder-factory.md): [GoalFilterBuilderFactory](../../com.habithatch.demo.core.query/-goal-filter-builder-factory/index.md)
+val [builderFactory](builder-factory.md): [HabitFilterBuilderFactory](../../com.habithatch.demo.core.query/-habit-filter-builder-factory/index.md)

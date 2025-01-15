@@ -17,7 +17,7 @@ class AppNavigationTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun clickThroughAppAndMarkGoalComplete() {
+    fun clickThroughAppAndMarkHabitComplete() {
         composeTestRule.setContent {
             AppNavigation(
                 config = config,

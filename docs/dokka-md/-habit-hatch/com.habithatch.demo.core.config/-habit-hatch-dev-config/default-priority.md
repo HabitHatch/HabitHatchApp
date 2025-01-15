@@ -3,4 +3,4 @@
 # defaultPriority
 
 [app]\
-open override val [defaultPriority](default-priority.md): [GoalModel.Priority](../../com.habithatch.demo.data.models/-goal-model/-priority/index.md)
+open override val [defaultPriority](default-priority.md): [HabitModel.Priority](../../com.habithatch.demo.data.models/-habit-model/-priority/index.md)

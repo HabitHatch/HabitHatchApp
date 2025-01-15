@@ -1,9 +1,9 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.repositories](../index.md)/[GoalRepository](index.md)/[GoalRepository](-goal-repository.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.repositories](../index.md)/[HabitRepository](index.md)/[HabitRepository](-habit-repository.md)
 
-# GoalRepository
+# HabitRepository
 
 [app]\
 
 @Inject
 
-constructor(goalDao: [GoalDao](../../com.habithatch.demo.data.daos/-goal-dao/index.md), goalMapper: [GoalMapper](../../com.habithatch.demo.data.mappers/-goal-mapper/index.md), userRepository: [UserRepository](../-user-repository/index.md))
+constructor(habitDao: [HabitDao](../../com.habithatch.demo.data.daos/-habit-dao/index.md), habitMapper: [HabitMapper](../../com.habithatch.demo.data.mappers/-habit-mapper/index.md), userRepository: [UserRepository](../-user-repository/index.md))

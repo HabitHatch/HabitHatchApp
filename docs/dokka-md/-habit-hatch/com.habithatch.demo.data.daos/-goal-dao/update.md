@@ -1,4 +1,4 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.daos](../index.md)/[GoalDao](index.md)/[update](update.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.daos](../index.md)/[HabitDao](index.md)/[update](update.md)
 
 # update
 

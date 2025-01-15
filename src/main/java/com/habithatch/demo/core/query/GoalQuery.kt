@@ -1,37 +1,37 @@
 package com.habithatch.demo.core.query
 
 import androidx.compose.runtime.Immutable
-import com.habithatch.demo.core.config.GoalPriorityProvider
-import com.habithatch.demo.core.config.GoalStatusProvider
+import com.habithatch.demo.core.config.HabitPriorityProvider
+import com.habithatch.demo.core.config.HabitStatusProvider
 import com.habithatch.demo.core.util.disableAll
 import com.habithatch.demo.core.util.getUsed
 import com.habithatch.demo.core.util.removeByLabel
-import com.habithatch.demo.data.models.GoalModel
+import com.habithatch.demo.data.models.HabitModel
 import javax.inject.Inject
 
 /**
- * Query for filtering and sorting goals.
+ * Query for filtering and sorting habits.
  *
- * @param filter The filter for the goals.
- * @param sortOptions The sort options for the goals.
- * @param defaultComparator The default comparator for the goals.
- * @param priorityProvider Provides the priorities for goals.
- * @param statusProvider Provides the statuses for goals.
+ * @param filter The filter for the habits.
+ * @param sortOptions The sort options for the habits.
+ * @param defaultComparator The default comparator for the habits.
+ * @param priorityProvider Provides the priorities for habits.
+ * @param statusProvider Provides the statuses for habits.
  */
 @Immutable
-data class GoalQuery(
-    val filter: GoalFilter,
-    val sortOptions: List<GoalSortOption> = emptyList(),
-    val defaultComparator: Comparator<GoalModel>,
-    private val priorityProvider: GoalPriorityProvider,
-    private val statusProvider: GoalStatusProvider,
+data class HabitQuery(
+    val filter: HabitFilter,
+    val sortOptions: List<HabitSortOption> = emptyList(),
+    val defaultComparator: Comparator<HabitModel>,
+    private val priorityProvider: HabitPriorityProvider,
+    private val statusProvider: HabitStatusProvider,
 ) {
     init {
         this.checkValidity()
     }
 
     @Throws(NoSuchElementException::class, IllegalArgumentException::class)
-    fun updateSortOption(sortOption: GoalSortOption): GoalQuery {
+    fun updateSortOption(sortOption: HabitSortOption): HabitQuery {
         require(sortOptions.filter { it.label == sortOption.label }.size == 1) {
             "Selected option is not exactly once in the list of sort options"
         }
@@ -40,9 +40,9 @@ data class GoalQuery(
 
     fun getComparator() = (getActiveComparator() ?: compareBy { 0 }).then(defaultComparator)
 
-    fun getFilterBuilder() = GoalFilter.Builder.createFromFilter(filter, priorityProvider, statusProvider)
+    fun getFilterBuilder() = HabitFilter.Builder.createFromFilter(filter, priorityProvider, statusProvider)
 
-    private fun setActiveSortOption(sortOption: GoalSortOption): GoalQuery {
+    private fun setActiveSortOption(sortOption: HabitSortOption): HabitQuery {
         val disabledOptions = sortOptions.removeByLabel(sortOption.label).disableAll()
         return this.copy(sortOptions = disabledOptions + sortOption)
     }
@@ -67,27 +67,27 @@ data class GoalQuery(
      */
     override fun toString(): String =
         """
-        GoalQuery(
+        HabitQuery(
             filter=$filter,
             sortOptions=$sortOptions,
         )
         """.trimIndent()
 
     /**
-     * Factory for creating [GoalQuery] instances.
+     * Factory for creating [HabitQuery] instances.
      */
     class Factory
         @Inject
         constructor(
-            private val priorityProvider: GoalPriorityProvider,
-            private val statusProvider: GoalStatusProvider,
+            private val priorityProvider: HabitPriorityProvider,
+            private val statusProvider: HabitStatusProvider,
         ) {
-            fun createGoalQuery(
-                filter: GoalFilter,
-                sortOptions: List<GoalSortOption> = emptyList(),
-                defaultComparator: Comparator<GoalModel> = compareBy { 0 },
-            ): GoalQuery =
-                GoalQuery(
+            fun createHabitQuery(
+                filter: HabitFilter,
+                sortOptions: List<HabitSortOption> = emptyList(),
+                defaultComparator: Comparator<HabitModel> = compareBy { 0 },
+            ): HabitQuery =
+                HabitQuery(
                     filter = filter,
                     sortOptions = sortOptions,
                     defaultComparator = defaultComparator,
@@ -96,7 +96,7 @@ data class GoalQuery(
                 )
 
             fun createFilterQuery(
-                filter: GoalFilter,
-            ): GoalQuery = createGoalQuery(filter, emptyList(), compareBy { 0 })
+                filter: HabitFilter,
+            ): HabitQuery = createHabitQuery(filter, emptyList(), compareBy { 0 })
         }
 }

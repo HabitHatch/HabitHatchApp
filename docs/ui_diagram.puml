@@ -10,11 +10,11 @@ component AppNavigation{
     }
 
     component HomeScreen{
-        component Goals{
+        component Habits{
         }
         component BottomNavBar{
         }
-        Goals -[hidden]down- BottomNavBar
+        Habits -[hidden]down- BottomNavBar
     }
 
     component SettingsScreen{
@@ -33,8 +33,8 @@ package ViewModel{
         pets: List<Pet>
     }
     class HomeViewModel {
-        addGoal()
-        markGoalDone()
+        addHabit()
+        markHabitDone()
         user: User
     }
     class SettingsViewModel{

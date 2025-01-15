@@ -1,6 +1,6 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.features.home](../index.md)/[HomeViewModel](index.md)/[addGoal](add-goal.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.features.home](../index.md)/[HomeViewModel](index.md)/[addHabit](add-habit.md)
 
-# addGoal
+# addHabit
 
 [app]\
-fun [addGoal](add-goal.md)(goal: [GoalModel](../../com.habithatch.demo.data.models/-goal-model/index.md))
+fun [addHabit](add-habit.md)(habit: [HabitModel](../../com.habithatch.demo.data.models/-habit-model/index.md))

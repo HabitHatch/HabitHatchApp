@@ -1,6 +1,6 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.db](../index.md)/[AppDatabase](index.md)/[goalDao](goal-dao.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.db](../index.md)/[AppDatabase](index.md)/[habitDao](habit-dao.md)
 
-# goalDao
+# habitDao
 
 [app]\
-abstract fun [goalDao](goal-dao.md)(): [GoalDao](../../com.habithatch.demo.data.daos/-goal-dao/index.md)
+abstract fun [habitDao](habit-dao.md)(): [HabitDao](../../com.habithatch.demo.data.daos/-habit-dao/index.md)

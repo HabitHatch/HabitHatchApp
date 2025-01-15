@@ -1,4 +1,4 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.models](../index.md)/[GoalModel](index.md)/[getCreatedAtOrNow](get-created-at-or-now.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.models](../index.md)/[HabitModel](index.md)/[getCreatedAtOrNow](get-created-at-or-now.md)
 
 # getCreatedAtOrNow
 

@@ -1,6 +1,6 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.models](../index.md)/[ExampleGoalFactory](index.md)/[ExampleGoalFactory](-example-goal-factory.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.models](../index.md)/[ExampleHabitFactory](index.md)/[ExampleHabitFactory](-example-habit-factory.md)
 
-# ExampleGoalFactory
+# ExampleHabitFactory
 
 [app]\
-constructor(priorityProvider: [GoalPriorityProvider](../../com.habithatch.demo.core.config/-goal-priority-provider/index.md), statusProvider: [GoalStatusProvider](../../com.habithatch.demo.core.config/-goal-status-provider/index.md), goalModelFactory: [GoalModel.Factory](../-goal-model/-factory/index.md))
+constructor(priorityProvider: [HabitPriorityProvider](../../com.habithatch.demo.core.config/-habit-priority-provider/index.md), statusProvider: [HabitStatusProvider](../../com.habithatch.demo.core.config/-habit-status-provider/index.md), habitModelFactory: [HabitModel.Factory](../-habit-model/-factory/index.md))

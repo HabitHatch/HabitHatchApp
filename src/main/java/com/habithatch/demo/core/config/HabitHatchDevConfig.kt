@@ -7,12 +7,12 @@ import androidx.compose.ui.text.googlefonts.Font
 import androidx.compose.ui.text.googlefonts.GoogleFont
 import com.habithatch.demo.R
 import com.habithatch.demo.core.navigation.Screen
-import com.habithatch.demo.core.query.GoalFilter
-import com.habithatch.demo.core.query.GoalQuery
-import com.habithatch.demo.core.query.GoalSortOption
+import com.habithatch.demo.core.query.HabitFilter
+import com.habithatch.demo.core.query.HabitQuery
+import com.habithatch.demo.core.query.HabitSortOption
 import com.habithatch.demo.data.entities.Pet
-import com.habithatch.demo.data.models.ExampleGoalFactory
-import com.habithatch.demo.data.models.GoalModel
+import com.habithatch.demo.data.models.ExampleHabitFactory
+import com.habithatch.demo.data.models.HabitModel
 import javax.inject.Inject
 
 /**
@@ -22,7 +22,7 @@ class HabitHatchDevConfig
     @Inject
     constructor(
         googleFontProvider: GoogleFont.Provider,
-        goalModelFactory: GoalModel.Factory,
+        habitModelFactory: HabitModel.Factory,
     ) : HabitHatchConfig {
         override val pets =
             listOf(
@@ -41,7 +41,7 @@ class HabitHatchDevConfig
         override val navigationItems =
             listOf(
                 homeNavigationItem,
-                Screen("goals", R.drawable.vuesax_flag, enabled = false),
+                Screen("habits", R.drawable.vuesax_flag, enabled = false),
                 Screen("friends", R.drawable.vuesax_profile_2user, enabled = false),
                 Screen("pet", R.drawable.vuesax_pet, enabled = false),
                 settingsNavigationItem,
@@ -66,14 +66,14 @@ class HabitHatchDevConfig
             )
 
         private val inProgressStatus =
-            GoalModel.Status(
+            HabitModel.Status(
                 label = "In Progress",
                 stepNumber = 1,
                 isDone = false,
             )
 
         private val doneStatus =
-            GoalModel.Status(
+            HabitModel.Status(
                 label = "Done",
                 stepNumber = 2,
                 isDone = true,
@@ -83,17 +83,17 @@ class HabitHatchDevConfig
         override val defaultStatus = inProgressStatus
 
         private val normalPriority =
-            GoalModel.Priority(
+            HabitModel.Priority(
                 label = "Normal",
-                importance = GoalModel.Priority.Importance.Normal,
+                importance = HabitModel.Priority.Importance.Normal,
                 iconResourceId = R.drawable.vuesax_minus_cirlce,
                 getColor = @Composable { MaterialTheme.colorScheme.tertiary },
             )
 
         private val highPriority =
-            GoalModel.Priority(
+            HabitModel.Priority(
                 label = "High",
-                importance = GoalModel.Priority.Importance.High,
+                importance = HabitModel.Priority.Importance.High,
                 iconResourceId = R.drawable.vuesax_warning_2,
                 getColor = @Composable { MaterialTheme.colorScheme.error },
             )
@@ -101,41 +101,41 @@ class HabitHatchDevConfig
         override val priorities = setOf(normalPriority, highPriority)
 
         override val defaultPriority = normalPriority
-        val numberExampleGoals = 12
-        override val exampleGoals =
-            ExampleGoalFactory(this, this, goalModelFactory)
-                .createExampleGoals(numberExampleGoals, uniqueTitles = true)
+        val numberExampleHabits = 12
+        override val exampleHabits =
+            ExampleHabitFactory(this, this, habitModelFactory)
+                .createExampleHabits(numberExampleHabits, uniqueTitles = true)
 
         private val sortOptions =
             listOf(
-                GoalSortOption(
+                HabitSortOption(
                     "Date",
                     compareBy { it.createdAt },
                     uiIndex = 1,
                 ),
-                GoalSortOption(
+                HabitSortOption(
                     "Priority",
                     compareBy { it.priority.importance },
                     uiIndex = 2,
                 ),
             )
 
-        override var defaultGoalQuery: GoalQuery
+        override var defaultHabitQuery: HabitQuery
             private set
 
         init {
-            val goalFilter =
-                GoalFilter
+            val habitFilter =
+                HabitFilter
                     .Builder
                     .matchAllBuilder(this, this)
                     .excludeStatus(doneStatus)
                     .build()
 
-            defaultGoalQuery =
-                GoalQuery(
-                    filter = goalFilter,
+            defaultHabitQuery =
+                HabitQuery(
+                    filter = habitFilter,
                     sortOptions = this.sortOptions,
-                    defaultComparator = compareBy<GoalModel> { it.isDone() }.thenBy { it.title },
+                    defaultComparator = compareBy<HabitModel> { it.isDone() }.thenBy { it.title },
                     priorityProvider = this,
                     statusProvider = this,
                 )

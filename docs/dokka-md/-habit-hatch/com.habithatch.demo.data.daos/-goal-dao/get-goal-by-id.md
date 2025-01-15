@@ -1,6 +1,6 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.daos](../index.md)/[GoalDao](index.md)/[getGoalById](get-goal-by-id.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.daos](../index.md)/[HabitDao](index.md)/[getHabitById](get-habit-by-id.md)
 
-# getGoalById
+# getHabitById
 
 [app]\
-abstract fun [getGoalById](get-goal-by-id.md)(goalId: [Long](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html)): Flow&lt;[GoalEntity](../../com.habithatch.demo.data.entities/-goal-entity/index.md)?&gt;
+abstract fun [getHabitById](get-habit-by-id.md)(habitId: [Long](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html)): Flow&lt;[HabitEntity](../../com.habithatch.demo.data.entities/-habit-entity/index.md)?&gt;

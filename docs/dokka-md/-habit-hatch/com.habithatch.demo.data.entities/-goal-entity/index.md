@@ -1,19 +1,19 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.entities](../index.md)/[GoalEntity](index.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.entities](../index.md)/[HabitEntity](index.md)
 
-# GoalEntity
+# HabitEntity
 
 [app]\
 @[Immutable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Immutable.html)
 
-data class [GoalEntity](index.md)(val id: [Long](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html), val title: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), val userId: [UUID](https://developer.android.com/reference/kotlin/java/util/UUID.html), val statusLabel: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), val priorityLabel: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), val createdAt: [Instant](https://developer.android.com/reference/kotlin/java/time/Instant.html))
+data class [HabitEntity](index.md)(val id: [Long](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html), val title: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), val userId: [UUID](https://developer.android.com/reference/kotlin/java/util/UUID.html), val statusLabel: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), val priorityLabel: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), val createdAt: [Instant](https://developer.android.com/reference/kotlin/java/time/Instant.html))
 
-[GoalEntity](index.md) is a Room entity that represents a goal.
+[HabitEntity](index.md) is a Room entity that represents a habit.
 
 ## Constructors
 
 | | |
 |---|---|
-| [GoalEntity](-goal-entity.md) | [app]<br>constructor(id: [Long](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html), title: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), userId: [UUID](https://developer.android.com/reference/kotlin/java/util/UUID.html), statusLabel: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), priorityLabel: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), createdAt: [Instant](https://developer.android.com/reference/kotlin/java/time/Instant.html)) |
+| [HabitEntity](-habit-entity.md) | [app]<br>constructor(id: [Long](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html), title: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), userId: [UUID](https://developer.android.com/reference/kotlin/java/util/UUID.html), statusLabel: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), priorityLabel: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), createdAt: [Instant](https://developer.android.com/reference/kotlin/java/time/Instant.html)) |
 
 ## Properties
 

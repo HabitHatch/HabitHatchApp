@@ -1,11 +1,11 @@
-//[HabitHatch](../../index.md)/[com.habithatch.demo.ui.goals](index.md)/[AddGoalDialog](-add-goal-dialog.md)
+//[HabitHatch](../../index.md)/[com.habithatch.demo.ui.habits](index.md)/[AddHabitDialog](-add-habit-dialog.md)
 
-# AddGoalDialog
+# AddHabitDialog
 
 [app]\
 
 @[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)
 
-fun [AddGoalDialog](-add-goal-dialog.md)(state: [AddGoalDialogState](-add-goal-dialog-state/index.md))
+fun [AddHabitDialog](-add-habit-dialog.md)(state: [AddHabitDialogState](-add-habit-dialog-state/index.md))
 
-A dialog that allows the user to add a goal.
+A dialog that allows the user to add a habit.

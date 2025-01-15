@@ -6,4 +6,4 @@
 
 @Inject
 
-constructor(googleFontProvider: [GoogleFont.Provider](https://developer.android.com/reference/kotlin/androidx/compose/ui/text/googlefonts/GoogleFont.Provider.html), goalModelFactory: [GoalModel.Factory](../../com.habithatch.demo.data.models/-goal-model/-factory/index.md))
+constructor(googleFontProvider: [GoogleFont.Provider](https://developer.android.com/reference/kotlin/androidx/compose/ui/text/googlefonts/GoogleFont.Provider.html), habitModelFactory: [HabitModel.Factory](../../com.habithatch.demo.data.models/-habit-model/-factory/index.md))

@@ -1,9 +1,9 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.features.home](../index.md)/[HomeScreenState](index.md)/[addGoalDialogState](add-goal-dialog-state.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.features.home](../index.md)/[HomeScreenState](index.md)/[addHabitDialogState](add-habit-dialog-state.md)
 
-# addGoalDialogState
+# addHabitDialogState
 
 [app]\
-val [addGoalDialogState](add-goal-dialog-state.md): [AddGoalDialogState](../../com.habithatch.demo.ui.goals/-add-goal-dialog-state/index.md)
+val [addHabitDialogState](add-habit-dialog-state.md): [AddHabitDialogState](../../com.habithatch.demo.ui.habits/-add-habit-dialog-state/index.md)
 
 #### Parameters
 
@@ -11,4 +11,4 @@ app
 
 | | |
 |---|---|
-| addGoalDialogState | The state of the add goal dialog. |
+| addHabitDialogState | The state of the add habit dialog. |

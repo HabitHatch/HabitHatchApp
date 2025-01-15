@@ -1,14 +1,14 @@
 package com.habithatch.demo.core.config
 
-import com.habithatch.demo.data.models.GoalModel
+import com.habithatch.demo.data.models.HabitModel
 
 /**
- * Provides the priorities for goals.
+ * Provides the priorities for habits.
  */
-interface GoalPriorityProvider {
-    val priorities: Set<GoalModel.Priority>
-    val defaultPriority: GoalModel.Priority
+interface HabitPriorityProvider {
+    val priorities: Set<HabitModel.Priority>
+    val defaultPriority: HabitModel.Priority
 
     @Throws(NoSuchElementException::class)
-    fun getPriorityByLabel(priorityLabel: String): GoalModel.Priority = priorities.first { it.label == priorityLabel }
+    fun getPriorityByLabel(priorityLabel: String): HabitModel.Priority = priorities.first { it.label == priorityLabel }
 }

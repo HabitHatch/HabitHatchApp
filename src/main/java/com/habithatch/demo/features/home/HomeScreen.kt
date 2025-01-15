@@ -19,23 +19,23 @@ import com.habithatch.demo.R
 import com.habithatch.demo.core.app.AppModule
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.theme.AppTheme
-import com.habithatch.demo.data.models.GoalModel
-import com.habithatch.demo.ui.goals.AddGoalDialog
-import com.habithatch.demo.ui.goals.AddGoalDialogState
-import com.habithatch.demo.ui.goals.GoalFilterState
-import com.habithatch.demo.ui.goals.GoalSortState
-import com.habithatch.demo.ui.goals.GoalsView
-import com.habithatch.demo.ui.goals.GoalsViewState
-import com.habithatch.demo.ui.goals.table.GoalFilterBar
-import com.habithatch.demo.ui.goals.table.GoalQueryTable
-import com.habithatch.demo.ui.goals.table.GoalSortBar
+import com.habithatch.demo.data.models.HabitModel
+import com.habithatch.demo.ui.habits.AddHabitDialog
+import com.habithatch.demo.ui.habits.AddHabitDialogState
+import com.habithatch.demo.ui.habits.HabitFilterState
+import com.habithatch.demo.ui.habits.HabitSortState
+import com.habithatch.demo.ui.habits.HabitsView
+import com.habithatch.demo.ui.habits.HabitsViewState
+import com.habithatch.demo.ui.habits.table.HabitFilterBar
+import com.habithatch.demo.ui.habits.table.HabitQueryTable
+import com.habithatch.demo.ui.habits.table.HabitSortBar
 import com.habithatch.demo.ui.navigation.BottomNavBar
 import com.habithatch.demo.ui.navigation.TopNavBar
 import com.habithatch.demo.ui.pets.PetAnimation
 
 /**
  * The main screen of the application.
- * Shows the user's pet and goals.
+ * Shows the user's pet and habits.
  */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming", "MagicNumber")
 @Composable
@@ -51,43 +51,43 @@ fun HomeScreen(
         bottomBar = bottomNavBar,
         floatingActionButton = {
             FloatingActionButton(onClick = state.core.onFabClicked) {
-                Icon(Icons.Default.Add, stringResource(R.string.add_goal_icon_description))
+                Icon(Icons.Default.Add, stringResource(R.string.add_habit_icon_description))
             }
         },
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
             PetAnimation(
                 pet = state.core.pet!!,
-                isPetHappy = state.core.allGoalsDone,
+                isPetHappy = state.core.allHabitsDone,
                 modifier =
                     Modifier
                         .fillMaxWidth(0.6f)
                         .padding(top = 8.dp)
                         .align(Alignment.CenterHorizontally),
             )
-            GoalQueryTable(
+            HabitQueryTable(
                 modifier =
                     Modifier
                         .fillMaxWidth()
                         .padding(top = 16.dp, start = 8.dp, end = 8.dp),
                 filterContent = { defaultModifier ->
-                    GoalFilterBar(
+                    HabitFilterBar(
                         modifier = defaultModifier,
-                        state = state.goalFilterState,
+                        state = state.habitFilterState,
                     )
                 },
                 sortContent = { defaultModifier ->
-                    GoalSortBar(
+                    HabitSortBar(
                         modifier = defaultModifier,
-                        state = state.goalSortState,
+                        state = state.habitSortState,
                     )
                 },
-                goalsContent = { GoalsView(state = state.goalsViewState) },
+                habitsContent = { HabitsView(state = state.habitsViewState) },
             )
         }
     }
 
-    AddGoalDialog(state = state.addGoalDialogState)
+    AddHabitDialog(state = state.addHabitDialogState)
 }
 
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
@@ -97,7 +97,7 @@ fun HomeScreenPreview() {
     val config =
         HabitHatchDevConfig(
             AppModule().provideGoogleFontProvider(),
-            GoalModel.Factory(),
+            HabitModel.Factory(),
         )
 
     AppTheme(
@@ -120,22 +120,22 @@ fun HomeScreenPreview() {
             state =
                 HomeScreenState(
                     core = CoreHomeState(pet = config.pets[0]),
-                    goalsViewState = GoalsViewState(goals = emptyList()),
-                    addGoalDialogState =
-                        AddGoalDialogState(
-                            goal =
-                                GoalModel
+                    habitsViewState = HabitsViewState(habits = emptyList()),
+                    addHabitDialogState =
+                        AddHabitDialogState(
+                            habit =
+                                HabitModel
                                     .Factory()
                                     .createDraft(config.defaultStatus, config.defaultPriority),
                             allPriorities = config.priorities,
                         ),
-                    goalFilterState =
-                        GoalFilterState(
-                            goalFilterBuilder = config.defaultGoalQuery.getFilterBuilder(),
+                    habitFilterState =
+                        HabitFilterState(
+                            habitFilterBuilder = config.defaultHabitQuery.getFilterBuilder(),
                         ),
-                    goalSortState =
-                        GoalSortState(
-                            sortOptions = config.defaultGoalQuery.sortOptions,
+                    habitSortState =
+                        HabitSortState(
+                            sortOptions = config.defaultHabitQuery.sortOptions,
                         ),
                 ),
         )

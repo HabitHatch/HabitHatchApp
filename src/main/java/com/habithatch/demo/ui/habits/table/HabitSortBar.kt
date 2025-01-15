@@ -1,4 +1,4 @@
-package com.habithatch.demo.ui.goals.table
+package com.habithatch.demo.ui.habits.table
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,16 +11,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.habithatch.demo.ui.goals.GoalSortState
+import com.habithatch.demo.ui.habits.HabitSortState
 
 /**
- * A bar that displays sort options for goals.
+ * A bar that displays sort options for habits.
  */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
-fun GoalSortBar(
+fun HabitSortBar(
     modifier: Modifier = Modifier,
-    state: GoalSortState,
+    state: HabitSortState,
 ) {
     Row(
         modifier = modifier,

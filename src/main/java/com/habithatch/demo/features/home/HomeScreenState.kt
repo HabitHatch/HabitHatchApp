@@ -9,42 +9,42 @@ import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.habithatch.demo.data.entities.Pet
-import com.habithatch.demo.data.models.GoalModel
-import com.habithatch.demo.ui.goals.AddGoalDialogState
-import com.habithatch.demo.ui.goals.GoalFilterState
-import com.habithatch.demo.ui.goals.GoalSortState
-import com.habithatch.demo.ui.goals.GoalsViewState
+import com.habithatch.demo.data.models.HabitModel
+import com.habithatch.demo.ui.habits.AddHabitDialogState
+import com.habithatch.demo.ui.habits.HabitFilterState
+import com.habithatch.demo.ui.habits.HabitSortState
+import com.habithatch.demo.ui.habits.HabitsViewState
 
 /**
  * Represents the main state information for the home screen.
  *
  * @param pet The pet to display.
  * @param isUserLoggedIn Whether the user is logged in.
- * @param allGoalsDone Whether all goals are done.
+ * @param allHabitsDone Whether all habits are done.
  * @param onFabClicked The callback for when the Floating Action Button is clicked.
  */
 data class CoreHomeState(
     val pet: Pet?,
     val isUserLoggedIn: Boolean = false,
-    val allGoalsDone: Boolean = false,
+    val allHabitsDone: Boolean = false,
     val onFabClicked: () -> Unit = {},
 )
 
 /**
  * Represents the state of the home screen.
  *
- * @param addGoalDialogState The state of the add goal dialog.
- * @param goalsViewState The state of the goals view.
- * @param goalFilterState The state of the goal filter.
- * @param goalSortState The state of the goal sort.
+ * @param addHabitDialogState The state of the add habit dialog.
+ * @param habitsViewState The state of the habits view.
+ * @param habitFilterState The state of the habit filter.
+ * @param habitSortState The state of the habit sort.
  * @param core The core state of the home screen.
  */
 @Stable
 class HomeScreenState(
-    val addGoalDialogState: AddGoalDialogState,
-    val goalsViewState: GoalsViewState,
-    val goalFilterState: GoalFilterState,
-    val goalSortState: GoalSortState,
+    val addHabitDialogState: AddHabitDialogState,
+    val habitsViewState: HabitsViewState,
+    val habitFilterState: HabitFilterState,
+    val habitSortState: HabitSortState,
     val core: CoreHomeState,
 )
 
@@ -54,73 +54,73 @@ class HomeScreenState(
 @Composable
 fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScreenState {
     val user by viewModel.user.collectAsStateWithLifecycle()
-    val goals by viewModel.queriedGoals.collectAsStateWithLifecycle()
-    val allGoalsDone by viewModel.allGoalsDone.collectAsStateWithLifecycle()
-    val goalQuery by viewModel.goalQuery.collectAsStateWithLifecycle()
-    val hasAnyGoals by viewModel.hasAnyGoals.collectAsStateWithLifecycle()
+    val habits by viewModel.queriedHabits.collectAsStateWithLifecycle()
+    val allHabitsDone by viewModel.allHabitsDone.collectAsStateWithLifecycle()
+    val habitQuery by viewModel.habitQuery.collectAsStateWithLifecycle()
+    val hasAnyHabits by viewModel.hasAnyHabits.collectAsStateWithLifecycle()
 
     var showDialog by remember { mutableStateOf(false) }
 
-    val addGoalDialogState =
+    val addHabitDialogState =
         remember(showDialog) {
-            AddGoalDialogState(
+            AddHabitDialogState(
                 showDialog = showDialog,
-                goal =
-                    GoalModel.Factory().createDraft(
+                habit =
+                    HabitModel.Factory().createDraft(
                         priority = viewModel.config.defaultPriority,
                         status = viewModel.config.defaultStatus,
                     ),
                 allPriorities = viewModel.config.priorities,
-                onAddGoal = {
-                    viewModel.addGoal(it)
+                onAddHabit = {
+                    viewModel.addHabit(it)
                     showDialog = false
                 },
                 onDismiss = { showDialog = false },
             )
         }
 
-    val goalsViewState =
-        remember(goals, hasAnyGoals) {
-            GoalsViewState(
-                goals = goals,
-                showCreateExampleGoals = !hasAnyGoals,
-                onCreateExampleGoals = viewModel::seedGoals,
-                onToggleGoalStatus = viewModel::toggleGoalStatus,
+    val habitsViewState =
+        remember(habits, hasAnyHabits) {
+            HabitsViewState(
+                habits = habits,
+                showCreateExampleHabits = !hasAnyHabits,
+                onCreateExampleHabits = viewModel::seedHabits,
+                onToggleHabitStatus = viewModel::toggleHabitStatus,
             )
         }
 
     val coreHomeState =
-        remember(user, allGoalsDone, goalQuery, showDialog) {
+        remember(user, allHabitsDone, habitQuery, showDialog) {
             CoreHomeState(
                 pet = user?.pet,
                 isUserLoggedIn = user != null,
-                allGoalsDone = allGoalsDone,
+                allHabitsDone = allHabitsDone,
                 onFabClicked = { showDialog = true },
             )
         }
 
-    val goalFilterState =
-        remember(goalQuery) {
-            GoalFilterState(
-                goalFilterBuilder = goalQuery.getFilterBuilder(),
-                onGoalFilterChange = viewModel::updateGoalFilter,
+    val habitFilterState =
+        remember(habitQuery) {
+            HabitFilterState(
+                habitFilterBuilder = habitQuery.getFilterBuilder(),
+                onHabitFilterChange = viewModel::updateHabitFilter,
             )
         }
 
-    val goalSortState =
-        remember(goalQuery) {
-            GoalSortState(
-                sortOptions = goalQuery.sortOptions,
-                onSortOptionChange = viewModel::updateGoalSortOption,
+    val habitSortState =
+        remember(habitQuery) {
+            HabitSortState(
+                sortOptions = habitQuery.sortOptions,
+                onSortOptionChange = viewModel::updateHabitSortOption,
             )
         }
 
-    return remember(coreHomeState, goalsViewState, addGoalDialogState) {
+    return remember(coreHomeState, habitsViewState, addHabitDialogState) {
         HomeScreenState(
-            addGoalDialogState = addGoalDialogState,
-            goalsViewState = goalsViewState,
-            goalFilterState = goalFilterState,
-            goalSortState = goalSortState,
+            addHabitDialogState = addHabitDialogState,
+            habitsViewState = habitsViewState,
+            habitFilterState = habitFilterState,
+            habitSortState = habitSortState,
             core = coreHomeState,
         )
     }

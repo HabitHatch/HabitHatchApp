@@ -8,4 +8,4 @@
 
 fun [HomeScreen](-home-screen.md)(topNavBar: @[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)() -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html), bottomNavBar: @[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)() -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html), state: [HomeScreenState](-home-screen-state/index.md) = rememberHomeScreenState())
 
-The main screen of the application. Shows the user's pet and goals.
+The main screen of the application. Shows the user's pet and habits.

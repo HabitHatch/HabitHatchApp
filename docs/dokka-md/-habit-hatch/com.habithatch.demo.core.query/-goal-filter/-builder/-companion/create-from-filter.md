@@ -1,11 +1,11 @@
-//[HabitHatch](../../../../../index.md)/[com.habithatch.demo.core.query](../../../index.md)/[GoalFilter](../../index.md)/[Builder](../index.md)/[Companion](index.md)/[createFromFilter](create-from-filter.md)
+//[HabitHatch](../../../../../index.md)/[com.habithatch.demo.core.query](../../../index.md)/[HabitFilter](../../index.md)/[Builder](../index.md)/[Companion](index.md)/[createFromFilter](create-from-filter.md)
 
 # createFromFilter
 
 [app]\
-fun [createFromFilter](create-from-filter.md)(goalFilter: [GoalFilter](../../index.md), priorityProvider: [GoalPriorityProvider](../../../../com.habithatch.demo.core.config/-goal-priority-provider/index.md), statusProvider: [GoalStatusProvider](../../../../com.habithatch.demo.core.config/-goal-status-provider/index.md)): [GoalFilter.Builder](../index.md)
+fun [createFromFilter](create-from-filter.md)(habitFilter: [HabitFilter](../../index.md), priorityProvider: [HabitPriorityProvider](../../../../com.habithatch.demo.core.config/-habit-priority-provider/index.md), statusProvider: [HabitStatusProvider](../../../../com.habithatch.demo.core.config/-habit-status-provider/index.md)): [HabitFilter.Builder](../index.md)
 
-Creates a [GoalFilter.Builder](../index.md) from a [GoalFilter](../../index.md).
+Creates a [HabitFilter.Builder](../index.md) from a [HabitFilter](../../index.md).
 
 #### Parameters
 
@@ -13,6 +13,6 @@ app
 
 | | |
 |---|---|
-| goalFilter | The [GoalFilter](../../index.md) to copy. |
-| priorityProvider | Provides the priorities for goals. |
-| statusProvider | Provides the statuses for goals. |
+| habitFilter | The [HabitFilter](../../index.md) to copy. |
+| priorityProvider | Provides the priorities for habits. |
+| statusProvider | Provides the statuses for habits. |

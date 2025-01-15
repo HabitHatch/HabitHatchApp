@@ -6,4 +6,4 @@
 
 @Inject
 
-constructor(userRepository: [UserRepository](../../com.habithatch.demo.data.repositories/-user-repository/index.md), goalRepository: [GoalRepository](../../com.habithatch.demo.data.repositories/-goal-repository/index.md))
+constructor(userRepository: [UserRepository](../../com.habithatch.demo.data.repositories/-user-repository/index.md), habitRepository: [HabitRepository](../../com.habithatch.demo.data.repositories/-habit-repository/index.md))

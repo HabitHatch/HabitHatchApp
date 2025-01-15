@@ -1,4 +1,4 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.models](../index.md)/[GoalModel](index.md)/[isDraft](is-draft.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.models](../index.md)/[HabitModel](index.md)/[isDraft](is-draft.md)
 
 # isDraft
 

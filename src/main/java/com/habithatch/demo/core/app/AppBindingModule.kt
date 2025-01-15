@@ -1,7 +1,7 @@
 package com.habithatch.demo.core.app
 
-import com.habithatch.demo.core.config.GoalPriorityProvider
-import com.habithatch.demo.core.config.GoalStatusProvider
+import com.habithatch.demo.core.config.HabitPriorityProvider
+import com.habithatch.demo.core.config.HabitStatusProvider
 import com.habithatch.demo.core.config.HabitHatchConfig
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import dagger.Binds
@@ -22,9 +22,9 @@ abstract class AppBindingModule {
 
     @Binds
     @Singleton
-    abstract fun bindPrioritiesProvider(devConfig: HabitHatchDevConfig): GoalPriorityProvider
+    abstract fun bindPrioritiesProvider(devConfig: HabitHatchDevConfig): HabitPriorityProvider
 
     @Binds
     @Singleton
-    abstract fun bindStatusProvider(devConfig: HabitHatchDevConfig): GoalStatusProvider
+    abstract fun bindStatusProvider(devConfig: HabitHatchDevConfig): HabitStatusProvider
 }

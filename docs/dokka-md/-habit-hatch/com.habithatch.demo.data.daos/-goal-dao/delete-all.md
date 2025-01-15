@@ -1,4 +1,4 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.daos](../index.md)/[GoalDao](index.md)/[deleteAll](delete-all.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.daos](../index.md)/[HabitDao](index.md)/[deleteAll](delete-all.md)
 
 # deleteAll
 

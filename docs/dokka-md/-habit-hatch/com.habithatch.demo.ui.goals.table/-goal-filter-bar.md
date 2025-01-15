@@ -1,11 +1,11 @@
-//[HabitHatch](../../index.md)/[com.habithatch.demo.ui.goals.table](index.md)/[GoalFilterBar](-goal-filter-bar.md)
+//[HabitHatch](../../index.md)/[com.habithatch.demo.ui.habits.table](index.md)/[HabitFilterBar](-habit-filter-bar.md)
 
-# GoalFilterBar
+# HabitFilterBar
 
 [app]\
 
 @[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)
 
-fun [GoalFilterBar](-goal-filter-bar.md)(state: [GoalFilterState](../com.habithatch.demo.ui.goals/-goal-filter-state/index.md), modifier: [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) = Modifier)
+fun [HabitFilterBar](-habit-filter-bar.md)(state: [HabitFilterState](../com.habithatch.demo.ui.habits/-habit-filter-state/index.md), modifier: [Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier.html) = Modifier)
 
-A bar that contains a search field and a button to toggle the visibility of done goals.
+A bar that contains a search field and a button to toggle the visibility of done habits.

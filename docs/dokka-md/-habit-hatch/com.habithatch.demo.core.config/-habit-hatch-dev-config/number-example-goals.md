@@ -1,6 +1,6 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.core.config](../index.md)/[HabitHatchDevConfig](index.md)/[numberExampleGoals](number-example-goals.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.core.config](../index.md)/[HabitHatchDevConfig](index.md)/[numberExampleHabits](number-example-habits.md)
 
-# numberExampleGoals
+# numberExampleHabits
 
 [app]\
-val [numberExampleGoals](number-example-goals.md): [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) = 12
+val [numberExampleHabits](number-example-habits.md): [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) = 12

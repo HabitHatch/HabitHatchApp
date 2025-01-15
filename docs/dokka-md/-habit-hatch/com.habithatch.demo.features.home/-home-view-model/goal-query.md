@@ -1,6 +1,6 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.features.home](../index.md)/[HomeViewModel](index.md)/[goalQuery](goal-query.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.features.home](../index.md)/[HomeViewModel](index.md)/[habitQuery](habit-query.md)
 
-# goalQuery
+# habitQuery
 
 [app]\
-val [goalQuery](goal-query.md): StateFlow&lt;[GoalQuery](../../com.habithatch.demo.core.query/-goal-query/index.md)&gt;
+val [habitQuery](habit-query.md): StateFlow&lt;[HabitQuery](../../com.habithatch.demo.core.query/-habit-query/index.md)&gt;

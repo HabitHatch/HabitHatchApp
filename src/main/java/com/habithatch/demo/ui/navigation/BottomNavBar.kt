@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.habithatch.demo.core.app.AppModule
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.navigation.Screen
-import com.habithatch.demo.data.models.GoalModel
+import com.habithatch.demo.data.models.HabitModel
 
 /**
  * A bottom navigation bar that displays the navigation items.
@@ -59,7 +59,7 @@ fun BottomNavigationBarPreview() {
     val config =
         HabitHatchDevConfig(
             AppModule().provideGoogleFontProvider(),
-            GoalModel.Factory(),
+            HabitModel.Factory(),
         )
     val navigationItems = config.navigationItems
 

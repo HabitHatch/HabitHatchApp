@@ -1,6 +1,6 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.features.home](../index.md)/[HomeViewModel](index.md)/[seedGoals](seed-goals.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.features.home](../index.md)/[HomeViewModel](index.md)/[seedHabits](seed-habits.md)
 
-# seedGoals
+# seedHabits
 
 [app]\
-fun [seedGoals](seed-goals.md)()
+fun [seedHabits](seed-habits.md)()
