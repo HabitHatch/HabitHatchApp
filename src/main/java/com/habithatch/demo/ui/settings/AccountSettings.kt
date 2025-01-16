@@ -1,6 +1,7 @@
 package com.habithatch.demo.ui.settings
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
@@ -17,11 +18,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Switch
 import androidx.compose.ui.Alignment
 import com.habithatch.demo.R
+import androidx.compose.material3.Divider
 
 /**
  * A view that displays account settings.
@@ -35,8 +38,8 @@ fun AccountSettings(
     Column(modifier = Modifier.padding(8.dp)) {
 Text(
         text = stringResource(id = R.string.account_settings),
-        style = MaterialTheme.typography.titleMedium,
-        modifier = Modifier.padding(16.dp),
+        style = MaterialTheme.typography.titleLarge,
+        modifier = Modifier.padding(4.dp),
     )
     ListItem(
         headlineContent = { Text("Username") },
@@ -47,7 +50,7 @@ Text(
         modifier = Modifier.clickable { },
     )
 
-        Box( // Added Box to center the button
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 4.dp),
@@ -63,27 +66,42 @@ Text(
         Text(stringResource(R.string.delete_account_button))
     }
 }
+
+        Divider(
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
+            thickness = 1.dp,
+            modifier = Modifier.absolutePadding(top = 10.dp, bottom = 20.dp))
+
         Text(
             text = stringResource(id = R.string.about),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(16.dp),
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.padding(4.dp),
         )
-        Column {
+        Column (
+            verticalArrangement = Arrangement.spacedBy(0.dp)
+        ) {
             ListItem(
                 headlineContent = { Text("Usage Tips")},
+                modifier = Modifier.padding(vertical = 2.dp)
             )
             ListItem(
                 headlineContent = { Text("FAQs") },
+                modifier = Modifier.padding(vertical = 2.dp)
             )
             ListItem(
                 headlineContent = { Text("Contact Us") },
+                modifier = Modifier.padding(vertical = 2.dp)
             )
         }
+        Divider(
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
+            thickness = 1.dp,
+            modifier = Modifier.padding(vertical = 8.dp))
 
         Text(
             text = stringResource(id = R.string.notification_toggle),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(16.dp),
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.padding(8.dp),
         )
         ListItem(
             headlineContent = {
