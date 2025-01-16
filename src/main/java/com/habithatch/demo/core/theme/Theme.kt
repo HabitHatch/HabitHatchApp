@@ -6,7 +6,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
-import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
@@ -29,6 +29,24 @@ val ColorScheme.onSuccessContainer: Color
     @Composable
     get() = onSuccessContainerScheme.color
 
+private val LightColorPalette = lightColorScheme(
+    primary = Color(0xFF6200EE), // Purple
+    onPrimary = Color.White,
+    primaryContainer = Color(0xFFBB86FC),
+    onPrimaryContainer = Color.Black,
+    secondary = Color(0xff505050), // grey
+    onSecondary = Color(0xff8f9098),
+    secondaryContainer = Color(0xFF018786),
+    onSecondaryContainer = Color.White,
+    error = Color(0xFFB00020),
+    onError = Color.White,
+    background = Color(0xFFFFFFFF), // white
+    onBackground = Color.Black,
+    surface = Color.White,
+    onSurface = Color.Black,
+)
+
+
 /**
  * The [AppTheme] composable, which sets the color scheme and typography for the app.
  * The Colors are dynamically set with Material You, depending one users wallpaper.
@@ -41,12 +59,12 @@ fun AppTheme(
     content: @Composable () -> Unit,
 ) {
     val context = LocalContext.current
-    val colorScheme = darkColorScheme(
+    val colorScheme = lightColorScheme(
         inverseSurface = Color.Green
     )
 
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = LightColorPalette,
         typography = typography,
         content = content,
     )
