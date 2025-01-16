@@ -3,4 +3,4 @@
 # signUpUser
 
 [app]\
-fun [signUpUser](sign-up-user.md)(user: [User](../../com.habithatch.demo.data.entities/-user/index.md))
+fun [signUpUser](sign-up-user.md)(user: [UserModel](../../com.habithatch.demo.data.models/-user-model/index.md))

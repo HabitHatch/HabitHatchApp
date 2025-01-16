@@ -5,6 +5,8 @@
 [app]\
 class [HabitHatchApp](index.md) : [Application](https://developer.android.com/reference/kotlin/android/app/Application.html)
 
+The main application class for the app.
+
 ## Constructors
 
 | | |

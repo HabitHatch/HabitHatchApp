@@ -45,10 +45,6 @@ data class GoalFilter private constructor(
 
         fun matchAllStatuses() = this.copy(statusVisibility = allStatuses.associateWith { true })
 
-        fun matchNoneStatuses() = this.copy(statusVisibility = allStatuses.associateWith { false })
-
-        fun onlyMatch(status: GoalModel.Status) = this.matchNoneStatuses().includeStatus(status)
-
         @Suppress("ktlint:standard:function-expression-body")
         fun priorityVisibility(priorityVisibility: PriorityVisibility): Builder {
             return this.copy(priorityVisibility = priorityVisibility)

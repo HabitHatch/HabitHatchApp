@@ -3,4 +3,4 @@
 # updateGoalFilter
 
 [app]\
-fun [updateGoalFilter](update-goal-filter.md)(newGoalFilter: [GoalFilter](../../com.habithatch.demo.core.query/-goal-filter/index.md))
+fun [updateGoalFilter](update-goal-filter.md)(newGoalFilter: [GoalFilter.Builder](../../com.habithatch.demo.core.query/-goal-filter/-builder/index.md))

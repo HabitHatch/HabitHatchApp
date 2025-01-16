@@ -2,10 +2,23 @@
 
 # GoalModel
 
-[app]\
 @[Immutable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Immutable.html)
 
 data class [GoalModel](index.md)
+
+[GoalModel](index.md) represents a goal.
+
+#### Parameters
+
+app
+
+| | |
+|---|---|
+| title | the title of the goal |
+| status | the status of the goal |
+| priority | the priority of the goal |
+| createdAt | the creation date of the goal |
+| isDraft | whether the goal is a draft |
 
 ## Types
 
@@ -24,12 +37,12 @@ data class [GoalModel](index.md)
 | [priority](priority.md) | [app]<br>val [priority](priority.md): [GoalModel.Priority](-priority/index.md) |
 | [status](status.md) | [app]<br>val [status](status.md): [GoalModel.Status](-status/index.md) |
 | [title](title.md) | [app]<br>val [title](title.md): [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html) |
+| [userId](user-id.md) | [app]<br>val [userId](user-id.md): [UUID](https://developer.android.com/reference/kotlin/java/util/UUID.html) |
 
 ## Functions
 
 | Name | Summary |
 |---|---|
-| [copy](copy.md) | [app]<br>fun [copy](copy.md)(title: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html)? = null, status: [GoalModel.Status](-status/index.md)? = null, priority: [GoalModel.Priority](-priority/index.md)? = null): [GoalModel](index.md) |
 | [getCreatedAtOrNow](get-created-at-or-now.md) | [app]<br>fun [getCreatedAtOrNow](get-created-at-or-now.md)(): [Instant](https://developer.android.com/reference/kotlin/java/time/Instant.html) |
 | [getUniqueId](get-unique-id.md) | [app]<br>fun [getUniqueId](get-unique-id.md)(): [Long](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html) |
 | [isDone](is-done.md) | [app]<br>fun [isDone](is-done.md)(): [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html) |

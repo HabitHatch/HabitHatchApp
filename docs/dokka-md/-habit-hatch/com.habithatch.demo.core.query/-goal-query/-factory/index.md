@@ -3,17 +3,18 @@
 # Factory
 
 [app]\
-class [Factory](index.md)@Injectconstructor(priorityProvider: [GoalPriorityProvider](../../../com.habithatch.demo.core.config/-goal-priority-provider/index.md), statusProvider: [GoalStatusProvider](../../../com.habithatch.demo.core.config/-goal-status-provider/index.md))
+class [Factory](index.md)@Injectconstructor
+
+Factory for creating [GoalQuery](../index.md) instances.
 
 ## Constructors
 
 | | |
 |---|---|
-| [Factory](-factory.md) | [app]<br>@Inject<br>constructor(priorityProvider: [GoalPriorityProvider](../../../com.habithatch.demo.core.config/-goal-priority-provider/index.md), statusProvider: [GoalStatusProvider](../../../com.habithatch.demo.core.config/-goal-status-provider/index.md)) |
+| [Factory](-factory.md) | [app]<br>@Inject<br>constructor() |
 
 ## Functions
 
 | Name | Summary |
 |---|---|
-| [createFilterQuery](create-filter-query.md) | [app]<br>fun [createFilterQuery](create-filter-query.md)(filter: [GoalFilter](../../-goal-filter/index.md)): [GoalQuery](../index.md) |
-| [createGoalQuery](create-goal-query.md) | [app]<br>fun [createGoalQuery](create-goal-query.md)(filter: [GoalFilter](../../-goal-filter/index.md), sortOptions: [List](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html)&lt;[GoalSortOption](../../-goal-sort-option/index.md)&gt; = emptyList(), defaultComparator: [Comparator](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-comparator/index.html)&lt;[GoalModel](../../../com.habithatch.demo.data.models/-goal-model/index.md)&gt; = compareBy { 0 }): [GoalQuery](../index.md) |
+| [createQuery](create-query.md) | [app]<br>fun [createQuery](create-query.md)(filterBuilder: [GoalFilter.Builder](../../-goal-filter/-builder/index.md), sortOptions: [List](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html)&lt;[GoalSortOption](../../-goal-sort-option/index.md)&gt; = emptyList(), defaultComparator: [Comparator](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-comparator/index.html)&lt;[GoalModel](../../../com.habithatch.demo.data.models/-goal-model/index.md)&gt; = compareBy { 0 }): [GoalQuery](../index.md) |

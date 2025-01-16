@@ -5,6 +5,8 @@
 [app]\
 class [TypographyFactory](index.md)@Injectconstructor(config: [HabitHatchConfig](../../com.habithatch.demo.core.config/-habit-hatch-config/index.md))
 
+Factory for creating [Typography](https://developer.android.com/reference/kotlin/androidx/compose/material3/Typography.html) instances.
+
 ## Constructors
 
 | | |

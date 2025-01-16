@@ -1,6 +1,5 @@
 <resources>
   <string name="app_name">HabitHatch</string>
-  <string name="action_button_description">Add Habit</string>
   <string name="no_goals_explanation">You don\'t have any habits yet. Would you like to create some example habits?\n Or you can create your own habits by clicking the + button.</string>
   <string name="example_goals_button">Create Example Habits</string>
   <string name="account_settings">Account</string>
@@ -12,7 +11,6 @@
   <string name="enable_notifications">Enable Notifications</string>
   <string name="notification_settings_title">Notifications</string>
   <string name="theme_settings_title">Theme</string>
-  <string name="microphone_icon_description">Microphone</string>
   <string name="add_goal_icon_description">Add Habit</string>
   <string name="pet_selection_cta">Choose your pet</string>
   <string name="delete_account_button">Delete Account</string>

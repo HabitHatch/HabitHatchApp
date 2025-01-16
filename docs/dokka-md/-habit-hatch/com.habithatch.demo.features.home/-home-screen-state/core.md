@@ -4,11 +4,3 @@
 
 [app]\
 val [core](core.md): [CoreHomeState](../-core-home-state/index.md)
-
-#### Parameters
-
-app
-
-| | |
-|---|---|
-| core | The core state of the home screen. |

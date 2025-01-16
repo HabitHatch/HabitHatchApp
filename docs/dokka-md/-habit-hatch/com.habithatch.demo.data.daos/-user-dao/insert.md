@@ -3,4 +3,4 @@
 # insert
 
 [app]\
-abstract suspend fun [insert](insert.md)(user: [User](../../com.habithatch.demo.data.entities/-user/index.md))
+abstract suspend fun [insert](insert.md)(user: [UserEntity](../../com.habithatch.demo.data.entities/-user-entity/index.md))

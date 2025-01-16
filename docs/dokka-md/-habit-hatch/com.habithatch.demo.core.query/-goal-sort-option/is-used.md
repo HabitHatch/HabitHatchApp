@@ -4,3 +4,5 @@
 
 [app]\
 fun [isUsed](is-used.md)(): [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html)
+
+Returns a copy of this sort option with the sort state set to SortState.NOT_USED.

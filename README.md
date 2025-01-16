@@ -127,7 +127,7 @@ und Filtern nach erledigt und Prio
 
 ## Architecture:
 
-![](docs/class_diagram.png)
+![](docs/diagrams/class_diagram.png)
 
 ## Activities / Navigation
 

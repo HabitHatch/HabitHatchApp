@@ -4,3 +4,11 @@
 
 [app]\
 val [priority](priority.md): [GoalModel.Priority](-priority/index.md)
+
+#### Parameters
+
+app
+
+| | |
+|---|---|
+| priority | the priority of the goal |

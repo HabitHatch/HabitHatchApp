@@ -9,5 +9,4 @@ object [Companion](index.md)
 
 | Name | Summary |
 |---|---|
-| [createFromFilter](create-from-filter.md) | [app]<br>fun [createFromFilter](create-from-filter.md)(goalFilter: [GoalFilter](../../index.md), priorityProvider: [GoalPriorityProvider](../../../../com.habithatch.demo.core.config/-goal-priority-provider/index.md), statusProvider: [GoalStatusProvider](../../../../com.habithatch.demo.core.config/-goal-status-provider/index.md)): [GoalFilter.Builder](../index.md)<br>Creates a [GoalFilter.Builder](../index.md) from a [GoalFilter](../../index.md). |
 | [matchAllBuilder](match-all-builder.md) | [app]<br>fun [matchAllBuilder](match-all-builder.md)(priorityProvider: [GoalPriorityProvider](../../../../com.habithatch.demo.core.config/-goal-priority-provider/index.md), statusProvider: [GoalStatusProvider](../../../../com.habithatch.demo.core.config/-goal-status-provider/index.md)): [GoalFilter.Builder](../index.md)<br>Creates a [GoalFilter.Builder](../index.md) that matches all goals. |

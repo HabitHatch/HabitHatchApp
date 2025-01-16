@@ -11,5 +11,4 @@ The provider of the style of a goal.
 
 | Name | Summary |
 |---|---|
-| [getContainerColor](get-container-color.md) | [app]<br>@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)<br>fun [getContainerColor](get-container-color.md)(goal: [GoalModel](../../com.habithatch.demo.data.models/-goal-model/index.md)): [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html) |
 | [getGoalStyle](get-goal-style.md) | [app]<br>@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)<br>fun [getGoalStyle](get-goal-style.md)(goal: [GoalModel](../../com.habithatch.demo.data.models/-goal-model/index.md)): [GoalStyle](../../com.habithatch.demo.ui.goals.item/-goal-style/index.md) |

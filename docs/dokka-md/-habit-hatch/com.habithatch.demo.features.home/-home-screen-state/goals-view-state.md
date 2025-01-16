@@ -4,11 +4,3 @@
 
 [app]\
 val [goalsViewState](goals-view-state.md): [GoalsViewState](../../com.habithatch.demo.ui.goals/-goals-view-state/index.md)
-
-#### Parameters
-
-app
-
-| | |
-|---|---|
-| goalsViewState | The state of the goals view. |

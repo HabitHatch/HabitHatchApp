@@ -38,4 +38,3 @@ app
 |---|---|
 | [isDoneVisible](is-done-visible.md) | [app]<br>fun [isDoneVisible](is-done-visible.md)(): [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html)<br>Checks if a done status is visible. |
 | [isMatch](is-match.md) | [app]<br>fun [isMatch](is-match.md)(goal: [GoalModel](../../com.habithatch.demo.data.models/-goal-model/index.md)): [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html)<br>Checks if a goal matches the filter. |
-| [toString](to-string.md) | [app]<br>open override fun [toString](to-string.md)(): [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html) |

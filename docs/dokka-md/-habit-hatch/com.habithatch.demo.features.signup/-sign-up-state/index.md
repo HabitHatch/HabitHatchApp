@@ -5,7 +5,7 @@
 [app]\
 enum [SignUpState](index.md) : [Enum](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-enum/index.html)&lt;[SignUpState](index.md)&gt; 
 
-Represents the state of the signup screen. The [SignUpState.LOADING](-l-o-a-d-i-n-g/index.md) is needed to handle the state, that the User Information is loading. Since this Information is loaded from the in memory cache, the time to load the information is very short < 100ms. Therefore, the loading state is not visible to the user.
+Represents the state of the signup screen. The [SignUpState.LOADING](-l-o-a-d-i-n-g/index.md) is needed to handle the state, that the UserEntity Information is loading. Since this Information is loaded from the in memory cache, the time to load the information is very short < 100ms. Therefore, the loading state is not visible to the user.
 
 ## Entries
 

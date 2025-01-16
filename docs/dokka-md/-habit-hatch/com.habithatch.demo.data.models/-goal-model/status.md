@@ -4,3 +4,11 @@
 
 [app]\
 val [status](status.md): [GoalModel.Status](-status/index.md)
+
+#### Parameters
+
+app
+
+| | |
+|---|---|
+| status | the status of the goal |

@@ -6,4 +6,4 @@
 
 @Inject
 
-constructor(goalDao: [GoalDao](../../com.habithatch.demo.data.daos/-goal-dao/index.md), goalMapper: [GoalMapper](../../com.habithatch.demo.data.mappers/-goal-mapper/index.md), userRepository: [UserRepository](../-user-repository/index.md))
+constructor(goalDao: [GoalDao](../../com.habithatch.demo.data.daos/-goal-dao/index.md), goalMapper: [GoalMapper](../../com.habithatch.demo.data.mappers/-goal-mapper/index.md))

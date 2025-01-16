@@ -3,4 +3,4 @@
 # getUser
 
 [app]\
-abstract fun [getUser](get-user.md)(): Flow&lt;[User](../../com.habithatch.demo.data.entities/-user/index.md)?&gt;
+abstract fun [getUser](get-user.md)(): Flow&lt;[UserEntity](../../com.habithatch.demo.data.entities/-user-entity/index.md)?&gt;

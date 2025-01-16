@@ -6,4 +6,4 @@
 
 | Name | Summary |
 |---|---|
-| [HabitHatchApp](-habit-hatch-app/index.md) | [app]<br>class [HabitHatchApp](-habit-hatch-app/index.md) : [Application](https://developer.android.com/reference/kotlin/android/app/Application.html) |
+| [HabitHatchApp](-habit-hatch-app/index.md) | [app]<br>class [HabitHatchApp](-habit-hatch-app/index.md) : [Application](https://developer.android.com/reference/kotlin/android/app/Application.html)<br>The main application class for the app. |

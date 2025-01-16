@@ -26,8 +26,6 @@ interface GoalDao {
     @Insert
     suspend fun insert(goal: GoalEntity)
 
-    @Insert()
-    suspend fun insert(goals: Collection<GoalEntity>)
 
     /**
      * Updates the goal with the given [id] with the given [title], [statusLabel], and [priorityLabel].

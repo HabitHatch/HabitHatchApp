@@ -5,7 +5,7 @@
 [app]\
 class [DialogHost](index.md)
 
-A host for dialogs.
+A host for dialogs
 
 ## Constructors
 

@@ -6,4 +6,4 @@
 
 @Inject
 
-constructor(userDao: [UserDao](../../com.habithatch.demo.data.daos/-user-dao/index.md))
+constructor(userDao: [UserDao](../../com.habithatch.demo.data.daos/-user-dao/index.md), userMapper: [UserMapper](../../com.habithatch.demo.data.mappers/-user-mapper/index.md))

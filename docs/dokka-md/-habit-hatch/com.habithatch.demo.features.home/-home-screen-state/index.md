@@ -2,29 +2,18 @@
 
 # HomeScreenState
 
+[app]\
 @[Stable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Stable.html)
 
-class [HomeScreenState](index.md)(val addGoalDialogState: [AddGoalDialogState](../../com.habithatch.demo.ui.goals/-add-goal-dialog-state/index.md), val goalsViewState: [GoalsViewState](../../com.habithatch.demo.ui.goals/-goals-view-state/index.md), val goalFilterState: [GoalFilterState](../../com.habithatch.demo.ui.goals/-goal-filter-state/index.md), val goalSortState: [GoalSortState](../../com.habithatch.demo.ui.goals/-goal-sort-state/index.md), val core: [CoreHomeState](../-core-home-state/index.md))
+class [HomeScreenState](index.md)(val goalsViewState: [GoalsViewState](../../com.habithatch.demo.ui.goals/-goals-view-state/index.md), val goalFilterState: [GoalFilterState](../../com.habithatch.demo.ui.goals/-goal-filter-state/index.md), val core: [CoreHomeState](../-core-home-state/index.md), val addGoalDialogState: [AddGoalDialogState](../../com.habithatch.demo.ui.goals/-add-goal-dialog-state/index.md) = AddGoalDialogState(), val goalSortState: [GoalSortState](../../com.habithatch.demo.ui.goals/-goal-sort-state/index.md) = GoalSortState(emptyList()))
 
 Represents the state of the home screen.
-
-#### Parameters
-
-app
-
-| | |
-|---|---|
-| addGoalDialogState | The state of the add goal dialog. |
-| goalsViewState | The state of the goals view. |
-| goalFilterState | The state of the goal filter. |
-| goalSortState | The state of the goal sort. |
-| core | The core state of the home screen. |
 
 ## Constructors
 
 | | |
 |---|---|
-| [HomeScreenState](-home-screen-state.md) | [app]<br>constructor(addGoalDialogState: [AddGoalDialogState](../../com.habithatch.demo.ui.goals/-add-goal-dialog-state/index.md), goalsViewState: [GoalsViewState](../../com.habithatch.demo.ui.goals/-goals-view-state/index.md), goalFilterState: [GoalFilterState](../../com.habithatch.demo.ui.goals/-goal-filter-state/index.md), goalSortState: [GoalSortState](../../com.habithatch.demo.ui.goals/-goal-sort-state/index.md), core: [CoreHomeState](../-core-home-state/index.md)) |
+| [HomeScreenState](-home-screen-state.md) | [app]<br>constructor(goalsViewState: [GoalsViewState](../../com.habithatch.demo.ui.goals/-goals-view-state/index.md), goalFilterState: [GoalFilterState](../../com.habithatch.demo.ui.goals/-goal-filter-state/index.md), core: [CoreHomeState](../-core-home-state/index.md), addGoalDialogState: [AddGoalDialogState](../../com.habithatch.demo.ui.goals/-add-goal-dialog-state/index.md) = AddGoalDialogState(), goalSortState: [GoalSortState](../../com.habithatch.demo.ui.goals/-goal-sort-state/index.md) = GoalSortState(emptyList())) |
 
 ## Properties
 

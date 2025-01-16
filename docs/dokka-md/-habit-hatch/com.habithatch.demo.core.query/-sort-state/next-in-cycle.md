@@ -4,3 +4,5 @@
 
 [app]\
 fun [nextInCycle](next-in-cycle.md)(): [SortState](index.md)
+
+Returns the next state in the cycle.

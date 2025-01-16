@@ -4,7 +4,7 @@
 
 @[Stable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Stable.html)
 
-class [GoalFilterState](index.md)(val goalFilterBuilder: [GoalFilter.Builder](../../com.habithatch.demo.core.query/-goal-filter/-builder/index.md), val onGoalFilterChange: ([GoalFilter](../../com.habithatch.demo.core.query/-goal-filter/index.md)) -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html) = {})
+class [GoalFilterState](index.md)(val goalFilterBuilder: [GoalFilter.Builder](../../com.habithatch.demo.core.query/-goal-filter/-builder/index.md), val onGoalFilterChange: ([GoalFilter.Builder](../../com.habithatch.demo.core.query/-goal-filter/-builder/index.md)) -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html) = {})
 
 The state of the goal filter.
 
@@ -21,11 +21,11 @@ app
 
 | | |
 |---|---|
-| [GoalFilterState](-goal-filter-state.md) | [app]<br>constructor(goalFilterBuilder: [GoalFilter.Builder](../../com.habithatch.demo.core.query/-goal-filter/-builder/index.md), onGoalFilterChange: ([GoalFilter](../../com.habithatch.demo.core.query/-goal-filter/index.md)) -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html) = {}) |
+| [GoalFilterState](-goal-filter-state.md) | [app]<br>constructor(goalFilterBuilder: [GoalFilter.Builder](../../com.habithatch.demo.core.query/-goal-filter/-builder/index.md), onGoalFilterChange: ([GoalFilter.Builder](../../com.habithatch.demo.core.query/-goal-filter/-builder/index.md)) -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html) = {}) |
 
 ## Properties
 
 | Name | Summary |
 |---|---|
 | [goalFilterBuilder](goal-filter-builder.md) | [app]<br>val [goalFilterBuilder](goal-filter-builder.md): [GoalFilter.Builder](../../com.habithatch.demo.core.query/-goal-filter/-builder/index.md) |
-| [onGoalFilterChange](on-goal-filter-change.md) | [app]<br>val [onGoalFilterChange](on-goal-filter-change.md): ([GoalFilter](../../com.habithatch.demo.core.query/-goal-filter/index.md)) -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html) |
+| [onGoalFilterChange](on-goal-filter-change.md) | [app]<br>val [onGoalFilterChange](on-goal-filter-change.md): ([GoalFilter.Builder](../../com.habithatch.demo.core.query/-goal-filter/-builder/index.md)) -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html) |

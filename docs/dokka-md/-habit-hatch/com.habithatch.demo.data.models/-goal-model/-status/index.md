@@ -20,10 +20,3 @@ data class [Status](index.md)(val label: [String](https://kotlinlang.org/api/cor
 | [isDone](is-done.md) | [app]<br>val [isDone](is-done.md): [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html) = false |
 | [label](label.md) | [app]<br>val [label](label.md): [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html) |
 | [stepNumber](step-number.md) | [app]<br>val [stepNumber](step-number.md): [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) |
-
-## Functions
-
-| Name | Summary |
-|---|---|
-| [equals](equals.md) | [app]<br>open operator override fun [equals](equals.md)(other: [Any](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html)?): [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html) |
-| [hashCode](hash-code.md) | [app]<br>open override fun [hashCode](hash-code.md)(): [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) |

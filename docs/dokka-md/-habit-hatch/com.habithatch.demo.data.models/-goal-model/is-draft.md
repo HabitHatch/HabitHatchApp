@@ -4,3 +4,11 @@
 
 [app]\
 val [isDraft](is-draft.md): [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html) = false
+
+#### Parameters
+
+app
+
+| | |
+|---|---|
+| isDraft | whether the goal is a draft |

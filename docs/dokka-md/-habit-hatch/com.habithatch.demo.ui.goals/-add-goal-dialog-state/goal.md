@@ -3,4 +3,4 @@
 # goal
 
 [app]\
-val [goal](goal.md): [GoalModel](../../com.habithatch.demo.data.models/-goal-model/index.md)
+val [goal](goal.md): [GoalModel](../../com.habithatch.demo.data.models/-goal-model/index.md)? = null

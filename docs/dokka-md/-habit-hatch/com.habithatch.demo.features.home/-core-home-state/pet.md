@@ -3,4 +3,12 @@
 # pet
 
 [app]\
-val [pet](pet.md): [Pet](../../com.habithatch.demo.data.entities/-pet/index.md)?
+val [pet](pet.md): [Pet](../../com.habithatch.demo.data.entities/-pet/index.md)
+
+#### Parameters
+
+app
+
+| | |
+|---|---|
+| pet | The pet to display. |

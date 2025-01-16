@@ -4,11 +4,3 @@
 
 [app]\
 val [filter](filter.md): [GoalFilter](../-goal-filter/index.md)
-
-#### Parameters
-
-app
-
-| | |
-|---|---|
-| filter | The filter for the goals. |

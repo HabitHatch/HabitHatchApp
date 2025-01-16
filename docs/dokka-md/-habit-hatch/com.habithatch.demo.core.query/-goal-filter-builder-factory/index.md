@@ -5,6 +5,8 @@
 [app]\
 class [GoalFilterBuilderFactory](index.md)@Injectconstructor(priorityProvider: [GoalPriorityProvider](../../com.habithatch.demo.core.config/-goal-priority-provider/index.md), statusProvider: [GoalStatusProvider](../../com.habithatch.demo.core.config/-goal-status-provider/index.md))
 
+Factory for creating [GoalFilter.Builder](../-goal-filter/-builder/index.md) instances.
+
 ## Constructors
 
 | | |

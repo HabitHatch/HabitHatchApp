@@ -3,7 +3,7 @@
 # UserExistsException
 
 [app]\
-class [UserExistsException](index.md)(user: [User](../../com.habithatch.demo.data.entities/-user/index.md)) : [IllegalStateException](https://developer.android.com/reference/kotlin/java/lang/IllegalStateException.html)
+class [UserExistsException](index.md)(user: [UserEntity](../../com.habithatch.demo.data.entities/-user-entity/index.md)) : [IllegalStateException](https://developer.android.com/reference/kotlin/java/lang/IllegalStateException.html)
 
 Exception thrown when a user already exists in the database. Only one user is allowed in the local database.
 
@@ -11,4 +11,4 @@ Exception thrown when a user already exists in the database. Only one user is al
 
 | | |
 |---|---|
-| [UserExistsException](-user-exists-exception.md) | [app]<br>constructor(user: [User](../../com.habithatch.demo.data.entities/-user/index.md)) |
+| [UserExistsException](-user-exists-exception.md) | [app]<br>constructor(user: [UserEntity](../../com.habithatch.demo.data.entities/-user-entity/index.md)) |

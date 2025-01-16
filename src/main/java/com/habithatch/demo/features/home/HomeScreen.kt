@@ -104,16 +104,15 @@ fun HomeScreenPreview() {
         Pet(
             1,
             "Cat",
-            R.mipmap.pet_cat,
+            R.mipmap.cat,
             PetMoodAnimationsFactory()
                 .create(
-                    ImageStateAnimation(R.mipmap.pet_cat),
+                    ImageStateAnimation(R.mipmap.cat),
                 ),
         )
     pet.updateMood(emptyList())
     AppTheme(
         typography = MaterialTheme.typography,
-        darkTheme = true,
     ) {
         HomeScreen(
             topNavBar = {

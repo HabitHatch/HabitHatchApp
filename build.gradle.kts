@@ -52,6 +52,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+    lint {
+        disable.add("IconDuplicates")
+    }
 
     kotlinOptions {
         jvmTarget = "17"
@@ -78,6 +81,8 @@ android {
 detekt {
     config.setFrom("detekt.yml")
 }
+
+
 
 configurations.all {
     resolutionStrategy {

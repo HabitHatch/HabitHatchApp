@@ -4,11 +4,3 @@
 
 [app]\
 val [goalFilterState](goal-filter-state.md): [GoalFilterState](../../com.habithatch.demo.ui.goals/-goal-filter-state/index.md)
-
-#### Parameters
-
-app
-
-| | |
-|---|---|
-| goalFilterState | The state of the goal filter. |

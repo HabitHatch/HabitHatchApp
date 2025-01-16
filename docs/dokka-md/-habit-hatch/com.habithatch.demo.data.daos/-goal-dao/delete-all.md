@@ -4,3 +4,5 @@
 
 [app]\
 abstract suspend fun [deleteAll](delete-all.md)()
+
+Deletes all goals from the database.

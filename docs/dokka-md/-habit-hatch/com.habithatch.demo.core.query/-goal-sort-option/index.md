@@ -37,9 +37,5 @@ app
 
 | Name | Summary |
 |---|---|
-| [compareTo](compare-to.md) | [app]<br>open operator override fun [compareTo](compare-to.md)(other: [GoalSortOption](index.md)): [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) |
 | [cycleState](cycle-state.md) | [app]<br>fun [cycleState](cycle-state.md)(): [GoalSortOption](index.md)<br>Returns a copy of this sort option with the sort state cycled. |
-| [equals](equals.md) | [app]<br>open operator override fun [equals](equals.md)(other: [Any](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html)?): [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html) |
-| [hashCode](hash-code.md) | [app]<br>open override fun [hashCode](hash-code.md)(): [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) |
-| [isUsed](is-used.md) | [app]<br>fun [isUsed](is-used.md)(): [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html) |
-| [toString](to-string.md) | [app]<br>open override fun [toString](to-string.md)(): [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html) |
+| [isUsed](is-used.md) | [app]<br>fun [isUsed](is-used.md)(): [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html)<br>Returns a copy of this sort option with the sort state set to SortState.NOT_USED. |

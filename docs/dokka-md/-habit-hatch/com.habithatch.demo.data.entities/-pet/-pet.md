@@ -3,4 +3,4 @@
 # Pet
 
 [app]\
-constructor(name: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), imageRes: [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html))
+constructor(id: [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html), name: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), coverImage: [ImageResource](../../com.habithatch.demo.core.animation/-image-resource/index.md), petMoodAnimations: [PetMoodAnimations](../-pet-mood-animations/index.md)? = null, mood: [PetMood](../-pet-mood/index.md)? = null)

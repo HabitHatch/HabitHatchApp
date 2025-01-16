@@ -3,4 +3,4 @@
 # numberExampleGoals
 
 [app]\
-val [numberExampleGoals](number-example-goals.md): [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) = 12
+open override val [numberExampleGoals](number-example-goals.md): [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) = 12

@@ -3,4 +3,4 @@
 # createUser
 
 [app]\
-suspend fun [createUser](create-user.md)(user: [User](../../com.habithatch.demo.data.entities/-user/index.md))
+suspend fun [createUser](create-user.md)(user: [UserModel](../../com.habithatch.demo.data.models/-user-model/index.md))

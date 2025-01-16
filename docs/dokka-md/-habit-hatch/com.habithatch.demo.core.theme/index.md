@@ -7,7 +7,7 @@
 | Name | Summary |
 |---|---|
 | [SchemeColor](-scheme-color/index.md) | [app]<br>@[Immutable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Immutable.html)<br>data class [SchemeColor](-scheme-color/index.md)(lightColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html), darkColor: [Color](https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/Color.html))<br>A color scheme that provides a light and dark color. |
-| [TypographyFactory](-typography-factory/index.md) | [app]<br>class [TypographyFactory](-typography-factory/index.md)@Injectconstructor(config: [HabitHatchConfig](../com.habithatch.demo.core.config/-habit-hatch-config/index.md)) |
+| [TypographyFactory](-typography-factory/index.md) | [app]<br>class [TypographyFactory](-typography-factory/index.md)@Injectconstructor(config: [HabitHatchConfig](../com.habithatch.demo.core.config/-habit-hatch-config/index.md))<br>Factory for creating [Typography](https://developer.android.com/reference/kotlin/androidx/compose/material3/Typography.html) instances. |
 
 ## Properties
 

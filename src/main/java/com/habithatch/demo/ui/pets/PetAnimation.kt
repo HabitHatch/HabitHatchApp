@@ -62,7 +62,7 @@ fun PetAnimation(
 @Preview(showBackground = true)
 @Composable()
 fun PetAnimationPreview() {
-    val animation = ImageStateAnimation(R.mipmap.pet_cat)
+    val animation = ImageStateAnimation(R.mipmap.cat)
     val petMoodAnimations =
         PetMoodAnimationsFactory()
             .create(
@@ -72,7 +72,7 @@ fun PetAnimationPreview() {
         Pet(
             id = 1,
             name = "Cat",
-            coverImage = R.mipmap.pet_cat,
+            coverImage = R.mipmap.cat,
             petMoodAnimations = petMoodAnimations,
         )
     pet.updateMood(emptyList())

@@ -22,4 +22,4 @@ class [SignupViewModel](index.md)@Injectconstructor(userRepository: [UserReposit
 
 | Name | Summary |
 |---|---|
-| [signUpUser](sign-up-user.md) | [app]<br>fun [signUpUser](sign-up-user.md)(user: [User](../../com.habithatch.demo.data.entities/-user/index.md)) |
+| [signUpUser](sign-up-user.md) | [app]<br>fun [signUpUser](sign-up-user.md)(user: [UserModel](../../com.habithatch.demo.data.models/-user-model/index.md)) |

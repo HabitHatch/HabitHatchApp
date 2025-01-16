@@ -6,4 +6,4 @@
 
 | Name | Summary |
 |---|---|
-| [DialogHost](-dialog-host/index.md) | [app]<br>class [DialogHost](-dialog-host/index.md)<br>A host for dialogs. |
+| [DialogHost](-dialog-host/index.md) | [app]<br>class [DialogHost](-dialog-host/index.md)<br>A host for dialogs |

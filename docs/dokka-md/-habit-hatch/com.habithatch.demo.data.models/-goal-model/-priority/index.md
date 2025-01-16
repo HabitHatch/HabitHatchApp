@@ -17,7 +17,7 @@ data class [Priority](index.md)(val label: [String](https://kotlinlang.org/api/c
 
 | Name | Summary |
 |---|---|
-| [Importance](-importance/index.md) | [app]<br>sealed class [Importance](-importance/index.md) : [Comparable](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-comparable/index.html)&lt;[GoalModel.Priority.Importance](-importance/index.md)&gt; |
+| [Importance](-importance/index.md) | [app]<br>sealed class [Importance](-importance/index.md) : [Comparable](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-comparable/index.html)&lt;[GoalModel.Priority.Importance](-importance/index.md)&gt; <br>Importance of the priority. |
 
 ## Properties
 

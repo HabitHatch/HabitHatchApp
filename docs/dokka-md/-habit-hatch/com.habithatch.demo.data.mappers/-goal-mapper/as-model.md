@@ -3,4 +3,4 @@
 # asModel
 
 [app]\
-fun [asModel](as-model.md)(entity: [GoalEntity](../../com.habithatch.demo.data.entities/-goal-entity/index.md)): [GoalModel](../../com.habithatch.demo.data.models/-goal-model/index.md)
+open override fun [asModel](as-model.md)(entity: [GoalEntity](../../com.habithatch.demo.data.entities/-goal-entity/index.md)): [GoalModel](../../com.habithatch.demo.data.models/-goal-model/index.md)

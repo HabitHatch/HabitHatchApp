@@ -8,4 +8,3 @@
 |---|---|
 | [AppDatabase](-app-database/index.md) | [app]<br>abstract class [AppDatabase](-app-database/index.md) : [RoomDatabase](https://developer.android.com/reference/kotlin/androidx/room/RoomDatabase.html)<br>The Room database for this app. |
 | [Converters](-converters/index.md) | [app]<br>class [Converters](-converters/index.md)<br>[Converters](-converters/index.md) is a class that provides type converters for Room. Converts between UUID and String and Instant and String. |
-| [DatabaseProvider](-database-provider/index.md) | [app]<br>object [DatabaseProvider](-database-provider/index.md) |

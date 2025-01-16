@@ -3,4 +3,4 @@
 # UserExistsException
 
 [app]\
-constructor(user: [User](../../com.habithatch.demo.data.entities/-user/index.md))
+constructor(user: [UserEntity](../../com.habithatch.demo.data.entities/-user-entity/index.md))

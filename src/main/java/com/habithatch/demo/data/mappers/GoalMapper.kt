@@ -17,14 +17,14 @@ class GoalMapper
         private val statusProvider: GoalStatusProvider,
         private val priorityProvider: GoalPriorityProvider,
         private val goalModelFactory: GoalModel.Factory,
-    ) : EntityModelMapper<GoalEntity, GoalModel> {
+    ) {
         /**
          * Maps a [GoalModel] to a [GoalEntity].
          * Every Goal in the Database needs to have a createdAt date.
          * If the goal is a draft, the createdAt date is set to the current date.
          */
         @Throws(IllegalArgumentException::class)
-        override fun asEntity(
+        fun asEntity(
             goal: GoalModel,
         ): GoalEntity {
             require(goal.isDraft || goal.createdAt != null) {
@@ -41,7 +41,7 @@ class GoalMapper
         }
 
         @Throws(NoSuchElementException::class)
-        override fun asModel(entity: GoalEntity): GoalModel =
+        fun asModel(entity: GoalEntity): GoalModel =
             goalModelFactory.createFromEntity(
                 entity = entity,
                 status = statusProvider.getStatusByLabel(entity.statusLabel),
