@@ -31,6 +31,8 @@ The core package follows best practices for Kotlin development, emphasizing:
 
 <span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">HabitHatchApp</span> : <span class="kotlin-type">Application</span>
 
+The main application <span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">for</span><span class="kotlin-type"></span> the app.
+
 
 
 
@@ -63,6 +65,70 @@ The main activity of the app. This activity is responsible for setting up the ap
 
 
 <span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">AssistantClient</span><span class="kotlin-type"></span>
+
+
+
+
+### Frame
+
+
+<span class="kotlin-kw modifier data">data</span> <span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">Frame</span><span class="kotlin-type"></span>(<span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">imageRes</span>: <span class="kotlin-type">ImageResource</span>, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">duration</span>: <span class="kotlin-type">Long</span> = 1000)
+
+#### Properties
+
+| Name | Summary |
+|---|---|
+| duration | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">duration</span>: <span class="kotlin-type">Long</span> = 1000 |
+| imageRes | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">imageRes</span>: <span class="kotlin-type">ImageResource</span> |
+
+
+### Companion
+
+
+<span class="kotlin-kw declaration object">object</span> <span class="kotlin-name object">Companion</span><span class="kotlin-type"></span>
+
+#### Functions
+
+| Name | Summary |
+|---|---|
+| createFromFrames | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">createFromFrames</span><span class="kotlin-type"></span>(frames: List&lt;Frame&gt;): FrameStateAnimation |
+| createFromImages | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">createFromImages</span><span class="kotlin-type"></span>(images: List&lt;ImageResource&gt;, duration: Long = 1000): FrameStateAnimation |
+
+
+### IStateAnimation
+
+<span class="kotlin-kw declaration interface">interface</span> <span class="kotlin-name interface">IStateAnimation</span><span class="kotlin-type"></span>
+
+#### Inheritors
+
+| |
+|---|
+| FrameStateAnimation |
+
+#### Properties
+
+| Name | Summary |
+|---|---|
+| state | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">state</span>: <span class="kotlin-type">StateFlow</span>&lt;Any?&gt; |
+
+#### Functions
+
+| Name | Summary |
+|---|---|
+| start | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">start</span><span class="kotlin-type"></span>() |
+| stop | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">stop</span><span class="kotlin-type"></span>() |
+
+
+### ImageResource
+
+
+<span class="kotlin-kw declaration typealias">typealias</span> <span class="kotlin-name typealias">ImageResource</span><span class="kotlin-type"></span> = Int
+
+
+### ImageStateAnimation
+
+
+<span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">ImageStateAnimation</span><span class="kotlin-type"></span>(image: ImageResource) : FrameStateAnimation
 
 
 
@@ -172,24 +238,29 @@ The main application configuration.
 
 | Name | Summary |
 |---|---|
-| aiNavItem | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">aiNavItem</span>: <span class="kotlin-type">Screen</span> |
 | bodyFontFamily | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">bodyFontFamily</span>: <span class="kotlin-type">FontFamily</span> |
 | defaultGoalQuery | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">defaultGoalQuery</span>: <span class="kotlin-type">GoalQuery</span> |
 | displayFontFamily | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">displayFontFamily</span>: <span class="kotlin-type">FontFamily</span> |
-| exampleGoals | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">exampleGoals</span>: <span class="kotlin-type">Collection</span>&lt;GoalModel&gt; |
-| homeNavigationItem | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">homeNavigationItem</span>: <span class="kotlin-type">Screen</span> |
-| navigationItems | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">navigationItems</span>: <span class="kotlin-type">List</span>&lt;Screen&gt; |
+| homeNavItem | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">homeNavItem</span>: <span class="kotlin-type">Screen</span> |
+| navItems | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">navItems</span>: <span class="kotlin-type">List</span>&lt;Screen&gt; |
+| numberExampleGoals | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">numberExampleGoals</span>: <span class="kotlin-type">Int</span> |
 | pets | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">pets</span>: <span class="kotlin-type">List</span>&lt;Pet&gt; |
 | settingsNavigationItem | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">settingsNavigationItem</span>: <span class="kotlin-type">Screen</span> |
-| signUpNavigationItem | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">signUpNavigationItem</span>: <span class="kotlin-type">Screen</span> |
-| topLeftNavItem | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">topLeftNavItem</span>: <span class="kotlin-type">Screen</span> |
+| signUpNavItem | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">signUpNavItem</span>: <span class="kotlin-type">Screen</span> |
 | topRightNavItem | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">topRightNavItem</span>: <span class="kotlin-type">Screen</span> |
+
+#### Functions
+
+| Name | Summary |
+|---|---|
+| getActiveNavItem | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">getActiveNavItem</span><span class="kotlin-type"></span>(navController: NavController): Screen |
+| getPetById | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">getPetById</span><span class="kotlin-type"></span>(id: Int): Pet |
 
 
 ### HabitHatchDevConfig
 
 
-<span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">HabitHatchDevConfig</span><span class="kotlin-type"></span><span class="kotlin-kw decorator">@Inject</span><br><span class="kotlin-kw constructor">constructor</span><span class="kotlin-params constructor">(googleFontProvider: GoogleFont.Provider, goalModelFactory: GoalModel.Factory)</span> : HabitHatchConfig
+<span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">HabitHatchDevConfig</span><span class="kotlin-type"></span><span class="kotlin-kw decorator">@Inject</span><br><span class="kotlin-kw constructor">constructor</span><span class="kotlin-params constructor">(googleFontProvider: GoogleFont.Provider, petMoodAnimationsBuilder: PetMoodAnimationsFactory)</span> : HabitHatchConfig
 
 The main application configuration for the development environment.
 
@@ -197,22 +268,22 @@ The main application configuration for the development environment.
 
 | Name | Summary |
 |---|---|
-| aiNavItem | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">aiNavItem</span>: <span class="kotlin-type">Screen</span> |
 | bodyFontFamily | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">bodyFontFamily</span>: <span class="kotlin-type">FontFamily</span> |
+| catAnimation | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">catAnimation</span>: <span class="kotlin-type">PetMoodAnimations</span> |
 | defaultGoalQuery | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration var">var</span> <span class="kotlin-name var">defaultGoalQuery</span>: <span class="kotlin-type">GoalQuery</span> |
 | defaultPriority | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">defaultPriority</span>: <span class="kotlin-type">GoalModel</span>.Priority |
 | defaultStatus | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">defaultStatus</span>: <span class="kotlin-type">GoalModel</span>.Status |
 | displayFontFamily | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">displayFontFamily</span>: <span class="kotlin-type">FontFamily</span> |
-| exampleGoals | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">exampleGoals</span>: <span class="kotlin-type">Collection</span>&lt;GoalModel&gt; |
-| homeNavigationItem | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">homeNavigationItem</span>: <span class="kotlin-type">Screen</span> |
-| navigationItems | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">navigationItems</span>: <span class="kotlin-type">List</span>&lt;Screen&gt; |
-| numberExampleGoals | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">numberExampleGoals</span>: <span class="kotlin-type">Int</span> = 12 |
+| happyCatAnimation | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">happyCatAnimation</span>: <span class="kotlin-type">FrameStateAnimation</span> |
+| homeNavItem | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">homeNavItem</span>: <span class="kotlin-type">Screen</span> |
+| navItems | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">navItems</span>: <span class="kotlin-type">List</span>&lt;Screen&gt; |
+| numberExampleGoals | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">numberExampleGoals</span>: <span class="kotlin-type">Int</span> = 12 |
 | pets | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">pets</span>: <span class="kotlin-type">List</span>&lt;Pet&gt; |
 | priorities | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">priorities</span>: <span class="kotlin-type">Set</span>&lt;GoalModel.Priority&gt; |
+| sadCatAnimation | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">sadCatAnimation</span>: <span class="kotlin-type">FrameStateAnimation</span> |
 | settingsNavigationItem | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">settingsNavigationItem</span>: <span class="kotlin-type">Screen</span> |
-| signUpNavigationItem | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">signUpNavigationItem</span>: <span class="kotlin-type">Screen</span> |
+| signUpNavItem | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">signUpNavItem</span>: <span class="kotlin-type">Screen</span> |
 | statuses | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">statuses</span>: <span class="kotlin-type">Set</span>&lt;GoalModel.Status&gt; |
-| topLeftNavItem | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">topLeftNavItem</span>: <span class="kotlin-type">Screen</span> |
 | topRightNavItem | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">topRightNavItem</span>: <span class="kotlin-type">Screen</span> |
 
 
@@ -229,7 +300,7 @@ Exception thrown when a UUID is invalid.
 ### UserExistsException
 
 
-<span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">UserExistsException</span><span class="kotlin-type"></span>(user: User) : IllegalStateException
+<span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">UserExistsException</span><span class="kotlin-type"></span>(user: UserEntity) : IllegalStateException
 
 Exception thrown when a user already exists in the database. Only one user is allowed in the local database.
 
@@ -240,6 +311,8 @@ Exception thrown when a user already exists in the database. Only one user is al
 
 
 <span class="kotlin-kw modifier data">data</span> <span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">Screen</span><span class="kotlin-type"></span>(<span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">route</span>: <span class="kotlin-type">String</span>, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">iconResourceId</span>: <span class="kotlin-type">Int</span>, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">enabled</span>: <span class="kotlin-type">Boolean</span> = true)
+
+Represents a screen in the app. Is used to generate the navigation graph.
 
 #### Properties
 
@@ -260,7 +333,6 @@ Exception thrown when a user already exists in the database. Only one user is al
 
 | Name | Summary |
 |---|---|
-| createFromFilter | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">createFromFilter</span><span class="kotlin-type"></span>(goalFilter: GoalFilter, priorityProvider: GoalPriorityProvider, statusProvider: GoalStatusProvider): GoalFilter.Builder<br>Creates a GoalFilter.Builder from a GoalFilter. |
 | matchAllBuilder | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">matchAllBuilder</span><span class="kotlin-type"></span>(priorityProvider: GoalPriorityProvider, statusProvider: GoalStatusProvider): GoalFilter.Builder<br>Creates a GoalFilter.Builder that matches all goals. |
 
 
@@ -268,6 +340,8 @@ Exception thrown when a user already exists in the database. Only one user is al
 
 
 <span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">GoalFilterBuilderFactory</span><span class="kotlin-type"></span><span class="kotlin-kw decorator">@Inject</span><br><span class="kotlin-kw constructor">constructor</span><span class="kotlin-params constructor">(priorityProvider: GoalPriorityProvider, statusProvider: GoalStatusProvider)</span>
+
+Factory for creating GoalFilter.Builder instances.
 
 #### Properties
 
@@ -279,14 +353,15 @@ Exception thrown when a user already exists in the database. Only one user is al
 ### Factory
 
 
-<span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">Factory</span><span class="kotlin-type"></span><span class="kotlin-kw decorator">@Inject</span><br><span class="kotlin-kw constructor">constructor</span><span class="kotlin-params constructor">(priorityProvider: GoalPriorityProvider, statusProvider: GoalStatusProvider)</span>
+<span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">Factory</span><span class="kotlin-type"></span><span class="kotlin-kw decorator">@Inject</span><br>constructor
+
+Factory for creating GoalQuery instances.
 
 #### Functions
 
 | Name | Summary |
 |---|---|
-| createFilterQuery | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">createFilterQuery</span><span class="kotlin-type"></span>(filter: GoalFilter): GoalQuery |
-| createGoalQuery | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">createGoalQuery</span><span class="kotlin-type"></span>(filter: GoalFilter, sortOptions: List&lt;GoalSortOption&gt; = emptyList(), defaultComparator: Comparator&lt;GoalModel&gt; = compareBy { 0 }): GoalQuery |
+| createQuery | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">createQuery</span><span class="kotlin-type"></span>(filterBuilder: GoalFilter.Builder, sortOptions: List&lt;GoalSortOption&gt; = emptyList(), defaultComparator: Comparator&lt;GoalModel&gt; = compareBy { 0 }): GoalQuery |
 
 
 ### GoalSortOption
@@ -319,12 +394,8 @@ Represents a sort option for goals.
 
 | Name | Summary |
 |---|---|
-| compareTo | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier operator">operator</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">compareTo</span><span class="kotlin-type"></span>(other: GoalSortOption): Int |
 | cycleState | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">cycleState</span><span class="kotlin-type"></span>(): GoalSortOption<br>Returns a copy of this sort option with the sort state cycled. |
-| equals | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier operator">operator</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">equals</span><span class="kotlin-type"></span>(other: Any?): Boolean |
-| hashCode | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">hashCode</span><span class="kotlin-type"></span>(): Int |
-| isUsed | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">isUsed</span><span class="kotlin-type"></span>(): Boolean |
-| toString | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">toString</span><span class="kotlin-type"></span>(): String |
+| isUsed | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">isUsed</span><span class="kotlin-type"></span>(): Boolean<br>Returns a copy of this sort option with the sort state set to SortState.NOT_USED. |
 
 
 ### PriorityVisibility
@@ -357,7 +428,7 @@ Represents the state of a sort option.
 
 | Name | Summary |
 |---|---|
-| nextInCycle | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">nextInCycle</span><span class="kotlin-type"></span>(): SortState |
+| nextInCycle | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">nextInCycle</span><span class="kotlin-type"></span>(): SortState<br>Returns the next state in the cycle. |
 | valueOf | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">valueOf</span><span class="kotlin-type"></span>(value: String): SortState<br>Returns the <span class="kotlin-kw declaration enum">enum</span> <span class="kotlin-name enum">constant</span><span class="kotlin-type"></span> of this type with the specified name. The string must match exactly an identifier used to declare an <span class="kotlin-kw declaration enum">enum</span> <span class="kotlin-name enum">constant</span><span class="kotlin-type"></span> in this type. (Extraneous whitespace characters are not permitted.) |
 | values | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">values</span><span class="kotlin-type"></span>(): Array&lt;SortState&gt;<br>Returns an array containing the constants of this <span class="kotlin-kw declaration enum">enum</span> <span class="kotlin-name enum">type</span><span class="kotlin-type"></span>, in the order they're declared. |
 
@@ -395,6 +466,8 @@ A color scheme that provides a light and dark color.
 
 <span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">TypographyFactory</span><span class="kotlin-type"></span><span class="kotlin-kw decorator">@Inject</span><br><span class="kotlin-kw constructor">constructor</span><span class="kotlin-params constructor">(config: HabitHatchConfig)</span>
 
+Factory for creating Typography instances.
+
 #### Functions
 
 | Name | Summary |
@@ -408,15 +481,17 @@ A color scheme that provides a light and dark color.
 
 | Name | Summary |
 |---|---|
+| allDone | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">Collection</span><span class="kotlin-type"></span>&lt;GoalModel&gt;.allDone(): Boolean |
 | createRandomDate | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">createRandomDate</span><span class="kotlin-type"></span>(pastYears: Long): Instant<br>Returns a new random Instant, that is at most pastYears years in the past. |
 | darken | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">Color</span><span class="kotlin-type"></span>.darken(factor: Float): Color<br>Darkens the **color** by the given factor. |
-| disableAll | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">Iterable</span><span class="kotlin-type"></span>&lt;GoalSortOption&gt;.disableAll(): List&lt;GoalSortOption&gt; |
+| disableAll | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">Iterable</span><span class="kotlin-type"></span>&lt;GoalSortOption&gt;.disableAll(): List&lt;GoalSortOption&gt;<br>Disables all GoalSortOption's. |
 | getAlphaFactor | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">GoalModel</span><span class="kotlin-type"></span>.Priority.getAlphaFactor(): Float<br>Returns the alpha factor for the priority. Used to give more weight to high importance goals. |
-| getNextHigherOrLowest | fun &lt;T, R : Comparable&lt;R&gt;&gt; Collection&lt;T&gt;.getNextHigherOrLowest(bySelector: (T) -&gt; R, element: T): T |
-| getUsed | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">Iterable</span><span class="kotlin-type"></span>&lt;GoalSortOption&gt;.getUsed(): List&lt;GoalSortOption&gt; |
+| getNextHigherOrLowest | fun &lt;T, R : Comparable&lt;R&gt;&gt; Collection&lt;T&gt;.getNextHigherOrLowest(bySelector: (T) -&gt; R, element: T): T<br>Returns the next higher element in the collection, based on the given selector. |
+| getUsed | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">Iterable</span><span class="kotlin-type"></span>&lt;GoalSortOption&gt;.getUsed(): List&lt;GoalSortOption&gt;<br>Returns all GoalSortOption's that are used. |
 | lighten | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">Color</span><span class="kotlin-type"></span>.lighten(factor: Float): Color<br>Lightens the **color** by the given factor. |
 | minusYears | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">Instant</span><span class="kotlin-type"></span>.minusYears(years: Long): Instant<br>Returns a new Instant that is years years after this instant. |
-| removeByLabel | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">Iterable</span><span class="kotlin-type"></span>&lt;GoalSortOption&gt;.removeByLabel(label: String): List&lt;GoalSortOption&gt; |
+| navigateTo | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">NavController</span><span class="kotlin-type"></span>.navigateTo(screen: Screen) |
+| removeByLabel | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">Iterable</span><span class="kotlin-type"></span>&lt;GoalSortOption&gt;.removeByLabel(label: String): List&lt;GoalSortOption&gt;<br>Removes all GoalSortOption's with the given label. |
 | withFontFamily | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">Typography</span><span class="kotlin-type"></span>.withFontFamily(displayFontFamily: FontFamily, bodyFontFamily: FontFamily): Typography<br>Returns a new Typography with the specified font families. |
 
 ---
@@ -454,12 +529,10 @@ The <span class="kotlin-kw modifier Data">Data</span> Access Object for the Goal
 
 | Name | Summary |
 |---|---|
-| deleteAll | <span class="kotlin-kw modifier abstract">abstract</span> suspend <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">deleteAll</span><span class="kotlin-type"></span>() |
+| deleteAll | <span class="kotlin-kw modifier abstract">abstract</span> suspend <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">deleteAll</span><span class="kotlin-type"></span>()<br>Deletes all goals from the database. |
 | getAll | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">getAll</span><span class="kotlin-type"></span>(): Flow&lt;List&lt;GoalEntity&gt;&gt; |
-| getGoalById | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">getGoalById</span><span class="kotlin-type"></span>(goalId: Long): Flow&lt;GoalEntity?&gt; |
-| insert | <span class="kotlin-kw modifier abstract">abstract</span> suspend <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">insert</span><span class="kotlin-type"></span>(goal: GoalEntity) |
-| insertAll | <span class="kotlin-kw modifier abstract">abstract</span> suspend <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">insertAll</span><span class="kotlin-type"></span>(goals: Collection&lt;GoalEntity&gt;) |
-| update | <span class="kotlin-kw modifier abstract">abstract</span> suspend <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">update</span><span class="kotlin-type"></span>(id: Long, title: String, statusLabel: String, priorityLabel: String) |
+| insert | <span class="kotlin-kw modifier abstract">abstract</span> suspend <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">insert</span><span class="kotlin-type"></span>(goal: GoalEntity)<br><span class="kotlin-kw modifier abstract">abstract</span> suspend <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">insert</span><span class="kotlin-type"></span>(goals: Collection&lt;GoalEntity&gt;) |
+| update | <span class="kotlin-kw modifier abstract">abstract</span> suspend <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">update</span><span class="kotlin-type"></span>(id: Long, title: String, statusLabel: String, priorityLabel: String)<br>Updates the goal with the given id with the given title, statusLabel, and priorityLabel. GoalEntity.createdAt and GoalEntity.id are not allowed tto be updated. |
 
 
 ### UserDao
@@ -467,15 +540,15 @@ The <span class="kotlin-kw modifier Data">Data</span> Access Object for the Goal
 
 <span class="kotlin-kw declaration interface">interface</span> <span class="kotlin-name interface">UserDao</span><span class="kotlin-type"></span>
 
-The <span class="kotlin-kw modifier Data">Data</span> Access Object for the User class.
+The <span class="kotlin-kw modifier Data">Data</span> Access Object for the UserEntity class.
 
 #### Functions
 
 | Name | Summary |
 |---|---|
-| deleteAll | <span class="kotlin-kw modifier abstract">abstract</span> suspend <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">deleteAll</span><span class="kotlin-type"></span>() |
-| getUser | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">getUser</span><span class="kotlin-type"></span>(): Flow&lt;User?&gt; |
-| insert | <span class="kotlin-kw modifier abstract">abstract</span> suspend <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">insert</span><span class="kotlin-type"></span>(user: User) |
+| deleteAll | <span class="kotlin-kw modifier abstract">abstract</span> suspend <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">deleteAll</span><span class="kotlin-type"></span>()<br>Deletes all users from the database. But there should only be one user in the database. |
+| getUser | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">getUser</span><span class="kotlin-type"></span>(): Flow&lt;UserEntity?&gt; |
+| insert | <span class="kotlin-kw modifier abstract">abstract</span> suspend <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">insert</span><span class="kotlin-type"></span>(user: UserEntity) |
 
 
 ### AppDatabase
@@ -546,9 +619,7 @@ GoalEntity is a Room entity that represents a goal.
 ### Pet
 
 
-<span class="kotlin-kw decorator">@Immutable</span>
-
-<span class="kotlin-kw modifier data">data</span> <span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">Pet</span><span class="kotlin-type"></span>(<span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">name</span>: <span class="kotlin-type">String</span>, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">imageRes</span>: <span class="kotlin-type">Int</span>)
+<span class="kotlin-kw modifier data">data</span> <span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">Pet</span><span class="kotlin-type"></span>(<span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">id</span>: <span class="kotlin-type">Int</span>, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">name</span>: <span class="kotlin-type">String</span>, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">coverImage</span>: <span class="kotlin-type">ImageResource</span>, petMoodAnimations: PetMoodAnimations? = null, mood: PetMood? = null)
 
 Pet represents a pet
 
@@ -556,8 +627,49 @@ Pet represents a pet
 
 | Name | Summary |
 |---|---|
-| imageRes | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">imageRes</span>: <span class="kotlin-type">Int</span> |
+| animationState | <span class="kotlin-kw declaration var">var</span> <span class="kotlin-name var">animationState</span>: <span class="kotlin-type">MutableStateFlow</span>&lt;FrameStateAnimation?&gt; |
+| coverImage | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">coverImage</span>: <span class="kotlin-type">ImageResource</span> |
+| id | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">id</span>: <span class="kotlin-type">Int</span> |
 | name | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">name</span>: <span class="kotlin-type">String</span> |
+
+#### Functions
+
+| Name | Summary |
+|---|---|
+| equals | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier operator">operator</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">equals</span><span class="kotlin-type"></span>(other: Any?): Boolean |
+| hashCode | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">hashCode</span><span class="kotlin-type"></span>(): Int |
+| toString | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">toString</span><span class="kotlin-type"></span>(): String |
+| updateMood | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">updateMood</span><span class="kotlin-type"></span>(allGoals: Collection&lt;GoalModel&gt;) |
+
+
+### HAPPY
+
+
+HAPPY
+
+
+### SAD
+
+
+SAD
+
+
+### PetMoodAnimations
+
+
+<span class="kotlin-kw declaration typealias">typealias</span> <span class="kotlin-name typealias">PetMoodAnimations</span><span class="kotlin-type"></span> = Map&lt;PetMood, FrameStateAnimation&gt;
+
+
+### PetMoodAnimationsFactory
+
+
+<span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">PetMoodAnimationsFactory</span><span class="kotlin-type"></span><span class="kotlin-kw decorator">@Inject</span><br>constructor
+
+#### Functions
+
+| Name | Summary |
+|---|---|
+| create | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">create</span><span class="kotlin-type"></span>(animation: FrameStateAnimation): PetMoodAnimations |
 
 
 ### User
@@ -584,10 +696,53 @@ User represents a user.
 | uuid | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">uuid</span>: <span class="kotlin-type">UUID</span> |
 
 
+### UserEntity
+
+<span class="kotlin-kw decorator">@Immutable</span>
+
+<span class="kotlin-kw modifier data">data</span> <span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">UserEntity</span><span class="kotlin-type"></span>(<span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">uuid</span>: <span class="kotlin-type">UUID</span> = UUID.randomUUID(), <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">petId</span>: <span class="kotlin-type">Int</span>)
+
+UserEntity represents a user.
+
+#### Parameters
+
+
+| Name | Description |
+|---|---|
+| uuid | the UUID of the user, for global identification |
+| petId | the pet of the user |
+
+#### Properties
+
+| Name | Summary |
+|---|---|
+| petId | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">petId</span>: <span class="kotlin-type">Int</span> |
+| uuid | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">uuid</span>: <span class="kotlin-type">UUID</span> |
+
+
+### EntityModelMapper
+
+<span class="kotlin-kw declaration interface">interface</span> <span class="kotlin-name interface">EntityModelMapper</span><span class="kotlin-type"></span>&lt;E, M&gt;
+
+#### Inheritors
+
+| |
+|---|
+| GoalMapper |
+| UserMapper |
+
+#### Functions
+
+| Name | Summary |
+|---|---|
+| asEntity | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">asEntity</span><span class="kotlin-type"></span>(model: M): E |
+| asModel | <span class="kotlin-kw modifier abstract">abstract</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">asModel</span><span class="kotlin-type"></span>(entity: E): M |
+
+
 ### GoalMapper
 
 
-<span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">GoalMapper</span><span class="kotlin-type"></span><span class="kotlin-kw decorator">@Inject</span><br><span class="kotlin-kw constructor">constructor</span><span class="kotlin-params constructor">(statusProvider: GoalStatusProvider, priorityProvider: GoalPriorityProvider, goalModelFactory: GoalModel.Factory)</span>
+<span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">GoalMapper</span><span class="kotlin-type"></span><span class="kotlin-kw decorator">@Inject</span><br><span class="kotlin-kw constructor">constructor</span><span class="kotlin-params constructor">(statusProvider: GoalStatusProvider, priorityProvider: GoalPriorityProvider, goalModelFactory: GoalModel.Factory)</span> : EntityModelMapper&lt;GoalEntity, GoalModel&gt; 
 
 GoalMapper is a mapper that maps GoalModel to GoalEntity and vice versa. GoalEntity is a RoomEntity, used for storing goals in the database. GoalModel is a model used for creating and displaying goals.
 
@@ -595,8 +750,21 @@ GoalMapper is a mapper that maps GoalModel to GoalEntity and vice versa. GoalEnt
 
 | Name | Summary |
 |---|---|
-| asEntity | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">asEntity</span><span class="kotlin-type"></span>(goal: GoalModel, userId: UUID): GoalEntity<br>Maps a GoalModel to a GoalEntity. Every Goal in the Database needs to have a createdAt date. If the goal is a draft, the createdAt date is set to the current date. |
-| asModel | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">asModel</span><span class="kotlin-type"></span>(entity: GoalEntity): GoalModel |
+| asEntity | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">asEntity</span><span class="kotlin-type"></span>(goal: GoalModel): GoalEntity<br>Maps a GoalModel to a GoalEntity. Every Goal in the Database needs to have a createdAt date. If the goal is a draft, the createdAt date is set to the current date. |
+| asModel | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">asModel</span><span class="kotlin-type"></span>(entity: GoalEntity): GoalModel |
+
+
+### UserMapper
+
+
+<span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">UserMapper</span><span class="kotlin-type"></span><span class="kotlin-kw decorator">@Inject</span><br><span class="kotlin-kw constructor">constructor</span><span class="kotlin-params constructor">(config: HabitHatchConfig)</span> : EntityModelMapper&lt;UserEntity, UserModel&gt;
+
+#### Functions
+
+| Name | Summary |
+|---|---|
+| asEntity | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">asEntity</span><span class="kotlin-type"></span>(model: UserModel): UserEntity |
+| asModel | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">asModel</span><span class="kotlin-type"></span>(entity: UserEntity): UserModel |
 
 
 ### ExampleGoalFactory
@@ -610,10 +778,7 @@ ExampleGoalFactory is a factory that creates example goals for testing purposes.
 
 | Name | Summary |
 |---|---|
-| createExampleGoal | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">createExampleGoal</span><span class="kotlin-type"></span>(pastYears: Long = 1): GoalModel |
-| createExampleGoals | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">createExampleGoals</span><span class="kotlin-type"></span>(count: Int, pastYears: Long = 1, uniqueTitles: Boolean = false): Collection&lt;GoalModel&gt; |
-| randomPriority | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">randomPriority</span><span class="kotlin-type"></span>(): GoalModel.Priority |
-| randomStatus | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">randomStatus</span><span class="kotlin-type"></span>(): GoalModel.Status |
+| createExampleGoals | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">createExampleGoals</span><span class="kotlin-type"></span>(count: Int, userId: UUID, pastYears: Long = 1, uniqueTitles: Boolean = false): Collection&lt;GoalModel&gt; |
 
 
 ### Factory
@@ -625,8 +790,7 @@ ExampleGoalFactory is a factory that creates example goals for testing purposes.
 
 | Name | Summary |
 |---|---|
-| createDraft | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">createDraft</span><span class="kotlin-type"></span>(status: GoalModel.Status, priority: GoalModel.Priority): GoalModel<br><span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">createDraft</span><span class="kotlin-type"></span>(title: String = &quot;&quot;, status: GoalModel.Status, priority: GoalModel.Priority): GoalModel |
-| createExample | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">createExample</span><span class="kotlin-type"></span>(title: String, status: GoalModel.Status, priority: GoalModel.Priority, createdAt: Instant): GoalModel |
+| createDraft | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">createDraft</span><span class="kotlin-type"></span>(userId: UUID, status: GoalModel.Status, priority: GoalModel.Priority, title: String = &quot;&quot;, createdAt: Instant? = null): GoalModel |
 | createFromEntity | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">createFromEntity</span><span class="kotlin-type"></span>(entity: GoalEntity, status: GoalModel.Status, priority: GoalModel.Priority): GoalModel |
 
 
@@ -665,18 +829,24 @@ Importance of the priority.
 | label | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">label</span>: <span class="kotlin-type">String</span> |
 | stepNumber | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">stepNumber</span>: <span class="kotlin-type">Int</span> |
 
-#### Functions
+
+### UserModel
+
+
+<span class="kotlin-kw modifier data">data</span> <span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">UserModel</span><span class="kotlin-type"></span>(<span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">uuid</span>: <span class="kotlin-type">UUID</span>, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">pet</span>: <span class="kotlin-type">Pet</span>)
+
+#### Properties
 
 | Name | Summary |
 |---|---|
-| equals | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier operator">operator</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">equals</span><span class="kotlin-type"></span>(other: Any?): Boolean |
-| hashCode | <span class="kotlin-kw modifier open">open</span> <span class="kotlin-kw modifier override">override</span> <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">hashCode</span><span class="kotlin-type"></span>(): Int |
+| pet | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">pet</span>: <span class="kotlin-type">Pet</span> |
+| uuid | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">uuid</span>: <span class="kotlin-type">UUID</span> |
 
 
 ### GoalRepository
 
 
-<span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">GoalRepository</span><span class="kotlin-type"></span><span class="kotlin-kw decorator">@Inject</span><br><span class="kotlin-kw constructor">constructor</span><span class="kotlin-params constructor">(goalDao: GoalDao, goalMapper: GoalMapper, userRepository: UserRepository)</span>
+<span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">GoalRepository</span><span class="kotlin-type"></span><span class="kotlin-kw decorator">@Inject</span><br><span class="kotlin-kw constructor">constructor</span><span class="kotlin-params constructor">(goalDao: GoalDao, goalMapper: GoalMapper)</span>
 
 GoalRepository is a repository that provides access to goals in the database.
 
@@ -685,15 +855,16 @@ GoalRepository is a repository that provides access to goals in the database.
 | Name | Summary |
 |---|---|
 | deleteAll | suspend <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">deleteAll</span><span class="kotlin-type"></span>()<br>Deletes all goals permanently from the database. |
-| getQueriedGoals | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">getQueriedGoals</span><span class="kotlin-type"></span>(query: GoalQuery): Flow&lt;List&lt;GoalModel&gt;&gt;<br>Returns a flow of goals that match the given GoalQuery. Sorted by GoalQuery's comparator. |
+| getAll | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">getAll</span><span class="kotlin-type"></span>(): Flow&lt;List&lt;GoalModel&gt;&gt; |
 | insert | suspend <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">insert</span><span class="kotlin-type"></span>(vararg goals: GoalModel)<br>Inserts the given goals into the database. |
+| search | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">search</span><span class="kotlin-type"></span>(query: GoalQuery): Flow&lt;List&lt;GoalModel&gt;&gt;<br>Returns a flow of goals that match the given GoalQuery. Sorted by GoalQuery's comparator. |
 | update | suspend <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">update</span><span class="kotlin-type"></span>(goal: GoalModel)<br>Updates the given goal in the database. |
 
 
 ### UserRepository
 
 
-<span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">UserRepository</span><span class="kotlin-type"></span><span class="kotlin-kw decorator">@Inject</span><br><span class="kotlin-kw constructor">constructor</span><span class="kotlin-params constructor">(userDao: UserDao)</span>
+<span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">UserRepository</span><span class="kotlin-type"></span><span class="kotlin-kw decorator">@Inject</span><br><span class="kotlin-kw constructor">constructor</span><span class="kotlin-params constructor">(userDao: UserDao, userMapper: UserMapper)</span>
 
 UserRepository is a repository that provides access to the user in the database. Since there is only one user, the repository provides methods to create, read, update and delete the user.
 
@@ -701,10 +872,9 @@ UserRepository is a repository that provides access to the user in the database.
 
 | Name | Summary |
 |---|---|
-| createUser | suspend <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">createUser</span><span class="kotlin-type"></span>(user: User) |
-| deleteUser | suspend <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">deleteUser</span><span class="kotlin-type"></span>() |
-| getUser | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">getUser</span><span class="kotlin-type"></span>(): Flow&lt;User?&gt; |
-| hasUser | suspend <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">hasUser</span><span class="kotlin-type"></span>(): Boolean |
+| createUser | suspend <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">createUser</span><span class="kotlin-type"></span>(user: UserModel) |
+| deleteUser | suspend <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">deleteUser</span><span class="kotlin-type"></span>()<br>Deletes all(only one) user from the database. There can only be one user in the database. |
+| getUser | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">getUser</span><span class="kotlin-type"></span>(): Flow&lt;UserModel?&gt; |
 
 ---
 ## Features
@@ -778,39 +948,34 @@ Represents the state of the AI screen.
 
 ### CoreHomeState
 
-
-<span class="kotlin-kw modifier data">data</span> <span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">CoreHomeState</span><span class="kotlin-type"></span>(<span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">pet</span>: <span class="kotlin-type">Pet</span>?, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">isUserLoggedIn</span>: <span class="kotlin-type">Boolean</span> = false, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">allGoalsDone</span>: <span class="kotlin-type">Boolean</span> = false, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">onAddGoalClicked</span><span class="kotlin-type"></span>: () -&gt; Unit = {})
+<span class="kotlin-kw modifier data">data</span> <span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">CoreHomeState</span><span class="kotlin-type"></span>(<span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">pet</span>: <span class="kotlin-type">Pet</span>, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">onFabClicked</span><span class="kotlin-type"></span>: () -&gt; Unit = {})
 
 Represents the main state information for the home screen.
-
-#### Properties
-
-| Name | Summary |
-|---|---|
-| allGoalsDone | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">allGoalsDone</span>: <span class="kotlin-type">Boolean</span> = false |
-| isUserLoggedIn | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">isUserLoggedIn</span>: <span class="kotlin-type">Boolean</span> = false |
-| onAddGoalClicked | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">onAddGoalClicked</span><span class="kotlin-type"></span>: () -&gt; Unit |
-| pet | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">pet</span>: <span class="kotlin-type">Pet</span>? |
-
-
-### HomeScreenState
-
-<span class="kotlin-kw decorator">@Stable</span>
-
-<span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">HomeScreenState</span><span class="kotlin-type"></span>(<span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">addGoalDialogState</span>: <span class="kotlin-type">AddGoalDialogState</span>, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">goalsViewState</span>: <span class="kotlin-type">GoalsViewState</span>, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">goalFilterState</span>: <span class="kotlin-type">GoalFilterState</span>, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">goalSortState</span>: <span class="kotlin-type">GoalSortState</span>, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">core</span>: <span class="kotlin-type">CoreHomeState</span>)
-
-Represents the state of the home screen.
 
 #### Parameters
 
 
 | Name | Description |
 |---|---|
-| addGoalDialogState | The state of the add goal dialog. |
-| goalsViewState | The state of the goals view. |
-| goalFilterState | The state of the goal filter. |
-| goalSortState | The state of the goal sort. |
-| core | The core state of the home screen. |
+| pet | The pet to display. |
+| onFabClicked | The callback for when the Floating Action Button is clicked. |
+
+#### Properties
+
+| Name | Summary |
+|---|---|
+| onFabClicked | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">onFabClicked</span><span class="kotlin-type"></span>: () -&gt; Unit |
+| pet | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">pet</span>: <span class="kotlin-type">Pet</span> |
+
+
+### HomeScreenState
+
+
+<span class="kotlin-kw decorator">@Stable</span>
+
+<span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">HomeScreenState</span><span class="kotlin-type"></span>(<span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">goalsViewState</span>: <span class="kotlin-type">GoalsViewState</span>, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">goalFilterState</span>: <span class="kotlin-type">GoalFilterState</span>, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">core</span>: <span class="kotlin-type">CoreHomeState</span>, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">addGoalDialogState</span>: <span class="kotlin-type">AddGoalDialogState</span> = AddGoalDialogState(), <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">goalSortState</span>: <span class="kotlin-type">GoalSortState</span> = GoalSortState(emptyList()))
+
+Represents the state of the home screen.
 
 #### Properties
 
@@ -826,20 +991,19 @@ Represents the state of the home screen.
 ### HomeViewModel
 
 
-<span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">HomeViewModel</span><span class="kotlin-type"></span><span class="kotlin-kw decorator">@Inject</span><br><span class="kotlin-kw constructor">constructor</span><span class="kotlin-params constructor">(userRepository: UserRepository, goalRepository: GoalRepository, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">config</span>: <span class="kotlin-type">HabitHatchConfig</span>, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">goalQueryFactory</span>: <span class="kotlin-type">GoalQuery</span>.Factory, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">builderFactory</span>: <span class="kotlin-type">GoalFilterBuilderFactory</span>)</span> : ViewModel
+<span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">HomeViewModel</span><span class="kotlin-type"></span><span class="kotlin-kw decorator">@Inject</span><br><span class="kotlin-kw constructor">constructor</span><span class="kotlin-params constructor">(userRepository: UserRepository, goalRepository: GoalRepository, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">config</span>: <span class="kotlin-type">HabitHatchConfig</span>, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">goalQueryFactory</span>: <span class="kotlin-type">GoalQuery</span>.Factory, goalModelFactory: GoalModel.Factory, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">builderFactory</span>: <span class="kotlin-type">GoalFilterBuilderFactory</span>)</span> : ViewModel
 
 #### Properties
 
 | Name | Summary |
 |---|---|
-| allGoalsDone | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">allGoalsDone</span>: <span class="kotlin-type">StateFlow</span>&lt;Boolean&gt; |
 | builderFactory | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">builderFactory</span>: <span class="kotlin-type">GoalFilterBuilderFactory</span> |
 | config | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">config</span>: <span class="kotlin-type">HabitHatchConfig</span> |
 | goalQuery | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">goalQuery</span>: <span class="kotlin-type">StateFlow</span>&lt;GoalQuery&gt; |
 | goalQueryFactory | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">goalQueryFactory</span>: <span class="kotlin-type">GoalQuery</span>.Factory |
 | hasAnyGoals | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">hasAnyGoals</span>: <span class="kotlin-type">StateFlow</span>&lt;Boolean&gt; |
 | queriedGoals | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">queriedGoals</span>: <span class="kotlin-type">StateFlow</span>&lt;List&lt;GoalModel&gt;&gt; |
-| user | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">user</span>: <span class="kotlin-type">StateFlow</span>&lt;User?&gt; |
+| user | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">user</span>: <span class="kotlin-type">StateFlow</span>&lt;UserModel?&gt; |
 
 #### Functions
 
@@ -848,22 +1012,16 @@ Represents the state of the home screen.
 | addGoal | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">addGoal</span><span class="kotlin-type"></span>(goal: GoalModel) |
 | seedGoals | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">seedGoals</span><span class="kotlin-type"></span>() |
 | toggleGoalStatus | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">toggleGoalStatus</span><span class="kotlin-type"></span>(goal: GoalModel) |
-| updateGoalFilter | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">updateGoalFilter</span><span class="kotlin-type"></span>(newGoalFilter: GoalFilter) |
+| updateGoalFilter | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">updateGoalFilter</span><span class="kotlin-type"></span>(newGoalFilter: GoalFilter.Builder) |
 | updateGoalSortOption | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">updateGoalSortOption</span><span class="kotlin-type"></span>(newGoalSortOption: GoalSortOption) |
 
 
 ### SettingsScreenState
 
+
 <span class="kotlin-kw modifier data">data</span> <span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">SettingsScreenState</span><span class="kotlin-type"></span>(<span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">onDeleteAccount</span><span class="kotlin-type"></span>: () -&gt; Unit)
 
 Represents the state of the settings screen.
-
-#### Parameters
-
-
-| Name | Description |
-|---|---|
-| onDeleteAccount | The callback to delete the user account. |
 
 #### Properties
 
@@ -936,7 +1094,7 @@ Represents the state of the signup screen.
 
 | Name | Summary |
 |---|---|
-| signUpUser | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">signUpUser</span><span class="kotlin-type"></span>(user: User) |
+| signUpUser | <span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">signUpUser</span><span class="kotlin-type"></span>(user: UserModel) |
 
 ---
 ## UI
@@ -978,7 +1136,7 @@ The UI package follows these principles:
 
 <span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">DialogHost</span><span class="kotlin-type"></span>
 
-A host for dialogs.
+A host for dialogs
 
 #### Functions
 
@@ -1002,14 +1160,14 @@ A host for dialogs.
 ### AddGoalDialogState
 
 
-<span class="kotlin-kw modifier data">data</span> <span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">AddGoalDialogState</span><span class="kotlin-type"></span>(<span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">showDialog</span>: <span class="kotlin-type">Boolean</span> = false, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">goal</span>: <span class="kotlin-type">GoalModel</span>, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">allPriorities</span>: <span class="kotlin-type">Set</span>&lt;GoalModel.Priority&gt;, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">onAddGoal</span><span class="kotlin-type"></span>: (GoalModel) -&gt; Unit = {}, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">onDismiss</span><span class="kotlin-type"></span>: () -&gt; Unit = {})
+<span class="kotlin-kw modifier data">data</span> <span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">AddGoalDialogState</span><span class="kotlin-type"></span>(<span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">showDialog</span>: <span class="kotlin-type">Boolean</span> = false, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">goal</span>: <span class="kotlin-type">GoalModel</span>? = null, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">allPriorities</span>: <span class="kotlin-type">Set</span>&lt;GoalModel.Priority&gt; = emptySet(), <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">onAddGoal</span><span class="kotlin-type"></span>: (GoalModel) -&gt; Unit = {}, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">onDismiss</span><span class="kotlin-type"></span>: () -&gt; Unit = {})
 
 #### Properties
 
 | Name | Summary |
 |---|---|
 | allPriorities | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">allPriorities</span>: <span class="kotlin-type">Set</span>&lt;GoalModel.Priority&gt; |
-| goal | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">goal</span>: <span class="kotlin-type">GoalModel</span> |
+| goal | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">goal</span>: <span class="kotlin-type">GoalModel</span>? = null |
 | onAddGoal | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">onAddGoal</span><span class="kotlin-type"></span>: (GoalModel) -&gt; Unit |
 | onDismiss | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">onDismiss</span><span class="kotlin-type"></span>: () -&gt; Unit |
 | showDialog | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">showDialog</span>: <span class="kotlin-type">Boolean</span> = false |
@@ -1019,7 +1177,7 @@ A host for dialogs.
 
 <span class="kotlin-kw decorator">@Stable</span>
 
-<span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">GoalFilterState</span><span class="kotlin-type"></span>(<span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">goalFilterBuilder</span>: <span class="kotlin-type">GoalFilter</span>.Builder, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">onGoalFilterChange</span><span class="kotlin-type"></span>: (GoalFilter) -&gt; Unit = {})
+<span class="kotlin-kw declaration class">class</span> <span class="kotlin-name class">GoalFilterState</span><span class="kotlin-type"></span>(<span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">goalFilterBuilder</span>: <span class="kotlin-type">GoalFilter</span>.Builder, <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">onGoalFilterChange</span><span class="kotlin-type"></span>: (GoalFilter.Builder) -&gt; Unit = {})
 
 The state of the goal filter.
 
@@ -1036,7 +1194,7 @@ The state of the goal filter.
 | Name | Summary |
 |---|---|
 | goalFilterBuilder | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">goalFilterBuilder</span>: <span class="kotlin-type">GoalFilter</span>.Builder |
-| onGoalFilterChange | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">onGoalFilterChange</span><span class="kotlin-type"></span>: (GoalFilter) -&gt; Unit |
+| onGoalFilterChange | <span class="kotlin-kw declaration val">val</span> <span class="kotlin-name val">onGoalFilterChange</span><span class="kotlin-type"></span>: (GoalFilter.Builder) -&gt; Unit |
 
 
 ### GoalSortState
@@ -1074,7 +1232,6 @@ The provider of the style of a goal.
 
 | Name | Summary |
 |---|---|
-| getContainerColor | <span class="kotlin-kw decorator">@Composable</span><br><span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">getContainerColor</span><span class="kotlin-type"></span>(goal: GoalModel): Color |
 | getGoalStyle | <span class="kotlin-kw decorator">@Composable</span><br><span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">getGoalStyle</span><span class="kotlin-type"></span>(goal: GoalModel): GoalStyle |
 
 
@@ -1159,7 +1316,7 @@ The style of a goal.
 | BottomNavigationBarPreview | <span class="kotlin-kw decorator">@Preview</span><br><span class="kotlin-kw decorator">@Composable</span><br><span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">BottomNavigationBarPreview</span><span class="kotlin-type"></span>() |
 | NavItem | <span class="kotlin-kw decorator">@Composable</span><br><span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">NavItem</span><span class="kotlin-type"></span>(modifier: Modifier = Modifier.size(24.dp), navScreen: Screen, iconColor: Color, onClick: () -&gt; Unit = {})<br>A navigation item that displays an icon. |
 | TopAppInformationBarPreview | <span class="kotlin-kw decorator">@Preview</span><br><span class="kotlin-kw decorator">@Composable</span><br><span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">TopAppInformationBarPreview</span><span class="kotlin-type"></span>() |
-| TopNavBar | <span class="kotlin-kw decorator">@Composable</span><br><span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">TopNavBar</span><span class="kotlin-type"></span>(title: String, rightNavItem: Screen? = null, leftNavItem: Screen? = null, modifier: Modifier = Modifier, onRightNavItemClicked: () -&gt; Unit = {}, onLeftNavItemClicked: () -&gt; Unit = {})<br>A top navigation bar that displays the title and navigation items. |
+| TopNavBar | <span class="kotlin-kw decorator">@Composable</span><br><span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">TopNavBar</span><span class="kotlin-type"></span>(title: String, modifier: Modifier = Modifier, rightNavItem: Screen? = null, leftNavItem: Screen? = null, onRightNavItemClicked: () -&gt; Unit = {}, onLeftNavItemClicked: () -&gt; Unit = {})<br>A top navigation bar that displays the title and navigation items. |
 
 
 ### Pets
@@ -1168,8 +1325,8 @@ The style of a goal.
 
 | Name | Summary |
 |---|---|
-| borderColor | <span class="kotlin-kw decorator">@Composable</span><br><span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">borderColor</span><span class="kotlin-type"></span>(isPetHappy: Boolean): Color |
-| PetAnimation | <span class="kotlin-kw decorator">@Composable</span><br><span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">PetAnimation</span><span class="kotlin-type"></span>(pet: Pet, isPetHappy: Boolean, modifier: Modifier = Modifier)<br>A pet animation that displays a pet. |
+| PetAnimation | <span class="kotlin-kw decorator">@Composable</span><br><span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">PetAnimation</span><span class="kotlin-type"></span>(pet: Pet, modifier: Modifier = Modifier)<br>A pet animation that displays a pet. |
+| PetAnimationPreview | <span class="kotlin-kw decorator">@Preview(showBackground</span> = true)<br><span class="kotlin-kw decorator">@Composable</span><br><span class="kotlin-kw declaration fun">fun</span> <span class="kotlin-name fun">PetAnimationPreview</span><span class="kotlin-type"></span>() |
 
 
 ### Settings

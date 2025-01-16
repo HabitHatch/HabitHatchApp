@@ -1,7 +1,6 @@
 package com.habithatch.demo.data.entities
 
 import android.util.Log
-
 import com.habithatch.demo.core.animation.FrameStateAnimation
 import com.habithatch.demo.core.animation.ImageResource
 import com.habithatch.demo.core.util.allDone
@@ -15,7 +14,7 @@ data class Pet(
     val id: Int,
     val name: String,
     val coverImage: ImageResource,
-    private val petMoodAnimations: PetMoodAnimations,
+    private val petMoodAnimations: PetMoodAnimations? = null,
     private var mood: PetMood? = null,
 ) {
     var animationState: MutableStateFlow<FrameStateAnimation?> = MutableStateFlow(null)
@@ -26,7 +25,7 @@ data class Pet(
 
     fun updateMood(allGoals: Collection<GoalModel>) {
         mood = if (allGoals.allDone()) PetMood.HAPPY else PetMood.SAD
-        animationState.value = petMoodAnimations[mood]
+        animationState.value = petMoodAnimations?.get(mood)
     }
 
     override fun equals(other: Any?): Boolean = other is Pet && other.id == id

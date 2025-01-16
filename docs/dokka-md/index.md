@@ -6,16 +6,14 @@
 
 | Name |
 |---|
-| [[root]](-habit-hatch/[root]/index.md) |
 | [com.habithatch.demo.core](-habit-hatch/com.habithatch.demo.core/index.md) |
 | [com.habithatch.demo.core.activities](-habit-hatch/com.habithatch.demo.core.activities/index.md) |
-| [com.habithatch.demo.core.ai](-habit-hatch/com.habithatch.demo.core.ai/index.md) |
+| [com.habithatch.demo.core.animation](-habit-hatch/com.habithatch.demo.core.animation/index.md) |
 | [com.habithatch.demo.core.app](-habit-hatch/com.habithatch.demo.core.app/index.md) |
 | [com.habithatch.demo.core.config](-habit-hatch/com.habithatch.demo.core.config/index.md) |
 | [com.habithatch.demo.core.exceptions](-habit-hatch/com.habithatch.demo.core.exceptions/index.md) |
 | [com.habithatch.demo.core.navigation](-habit-hatch/com.habithatch.demo.core.navigation/index.md) |
 | [com.habithatch.demo.core.query](-habit-hatch/com.habithatch.demo.core.query/index.md) |
-| [com.habithatch.demo.core.speech](-habit-hatch/com.habithatch.demo.core.speech/index.md) |
 | [com.habithatch.demo.core.theme](-habit-hatch/com.habithatch.demo.core.theme/index.md) |
 | [com.habithatch.demo.core.util](-habit-hatch/com.habithatch.demo.core.util/index.md) |
 | [com.habithatch.demo.data.daos](-habit-hatch/com.habithatch.demo.data.daos/index.md) |
@@ -24,7 +22,6 @@
 | [com.habithatch.demo.data.mappers](-habit-hatch/com.habithatch.demo.data.mappers/index.md) |
 | [com.habithatch.demo.data.models](-habit-hatch/com.habithatch.demo.data.models/index.md) |
 | [com.habithatch.demo.data.repositories](-habit-hatch/com.habithatch.demo.data.repositories/index.md) |
-| [com.habithatch.demo.features.ai](-habit-hatch/com.habithatch.demo.features.ai/index.md) |
 | [com.habithatch.demo.features.home](-habit-hatch/com.habithatch.demo.features.home/index.md) |
 | [com.habithatch.demo.features.settings](-habit-hatch/com.habithatch.demo.features.settings/index.md) |
 | [com.habithatch.demo.features.signup](-habit-hatch/com.habithatch.demo.features.signup/index.md) |
