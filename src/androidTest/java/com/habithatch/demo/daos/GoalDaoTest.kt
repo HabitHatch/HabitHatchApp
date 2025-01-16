@@ -3,9 +3,9 @@ package com.habithatch.demo.daos
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
-import com.habithatch.demo.data.daos.GoalDao
+import com.habithatch.demo.data.daos.HabitDao
 import com.habithatch.demo.data.db.AppDatabase
-import com.habithatch.demo.data.entities.GoalEntity
+import com.habithatch.demo.data.entities.HabitEntity
 import java.time.Instant
 import java.util.UUID
 import kotlinx.coroutines.flow.first
@@ -14,9 +14,9 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class GoalDaoTest {
+class HabitDaoTest {
     private lateinit var database: AppDatabase
-    private lateinit var goalDao: GoalDao
+    private lateinit var habitDao: HabitDao
 
     @Before
     fun setup() {
@@ -26,7 +26,7 @@ class GoalDaoTest {
                 .inMemoryDatabaseBuilder(context, AppDatabase::class.java)
                 .allowMainThreadQueries()
                 .build()
-        goalDao = database.goalDao()
+        habitDao = database.habitDao()
     }
 
     @After
@@ -35,11 +35,11 @@ class GoalDaoTest {
     }
 
     @Test
-    fun getGoalById_shouldGetAGoalById_whenGoalExists() {
+    fun getHabitById_shouldGetAHabitById_whenHabitExists() {
         runBlocking {
             // Arrange
-            val goal =
-                GoalEntity(
+            val habit =
+                HabitEntity(
                     id = 1,
                     userId = UUID.randomUUID(),
                     title = "Drink water",
@@ -47,23 +47,23 @@ class GoalDaoTest {
                     priorityLabel = "Normal",
                     createdAt = Instant.now(),
                 )
-            goalDao.insert(goal)
+            habitDao.insert(habit)
 
             // Act
-            val result = goalDao.getGoalById(goal.id).first()
+            val result = habitDao.getHabitById(habit.id).first()
 
             // Assert
-            assertThat(result).isEqualTo(goal)
+            assertThat(result).isEqualTo(habit)
         }
     }
 
     @Test
-    fun getAll_shouldRetrieveAllGoalsStored() {
+    fun getAll_shouldRetrieveAllHabitsStored() {
         runBlocking {
             // Arrange
-            val goals =
+            val habits =
                 listOf(
-                    GoalEntity(
+                    HabitEntity(
                         id = 1,
                         userId = UUID.randomUUID(),
                         title = "Drink water",
@@ -71,7 +71,7 @@ class GoalDaoTest {
                         priorityLabel = "Normal",
                         createdAt = Instant.now(),
                     ),
-                    GoalEntity(
+                    HabitEntity(
                         id = 2,
                         userId = UUID.randomUUID(),
                         title = "Eat vegetables",
@@ -80,13 +80,13 @@ class GoalDaoTest {
                         createdAt = Instant.now(),
                     ),
                 )
-            goals.forEach { goalDao.insert(it) }
+            habits.forEach { habitDao.insert(it) }
 
             // Act
-            val activeGoals = goalDao.getAll().first()
+            val activeHabits = habitDao.getAll().first()
 
             // Assert
-            assertThat(activeGoals).containsExactlyElementsIn(goals)
+            assertThat(activeHabits).containsExactlyElementsIn(habits)
         }
     }
 }

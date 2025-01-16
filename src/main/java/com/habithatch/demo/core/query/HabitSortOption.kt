@@ -1,10 +1,10 @@
 package com.habithatch.demo.core.query
 
 import androidx.compose.runtime.Immutable
-import com.habithatch.demo.data.models.GoalModel
+import com.habithatch.demo.data.models.HabitModel
 
 /**
- * Represents a sort option for goals.
+ * Represents a sort option for habits.
  *
  * @param label The label of the sort option.
  * @param _comparator The comparator for the sort option.
@@ -12,13 +12,13 @@ import com.habithatch.demo.data.models.GoalModel
  * @param uiIndex changes the position of the sort option in the UI.
  */
 @Immutable
-data class GoalSortOption(
+data class HabitSortOption(
     val label: String,
-    private val _comparator: Comparator<GoalModel>,
+    private val _comparator: Comparator<HabitModel>,
     val sortState: SortState = SortState.NOT_USED,
     private val uiIndex: Int,
-) : Comparable<GoalSortOption> {
-    val comparator: Comparator<GoalModel>
+) : Comparable<HabitSortOption> {
+    val comparator: Comparator<HabitModel>
         get() =
             when (sortState) {
                 SortState.ASCENDING -> _comparator
@@ -29,7 +29,7 @@ data class GoalSortOption(
     /**
      * Returns a copy of this sort option with the sort state cycled.
      */
-    fun cycleState(): GoalSortOption = this.copy(sortState = sortState.nextInCycle())
+    fun cycleState(): HabitSortOption = this.copy(sortState = sortState.nextInCycle())
 
     /**
      * Returns a copy of this sort option with the sort state set to [SortState.NOT_USED].
@@ -39,7 +39,7 @@ data class GoalSortOption(
     /**
      * @suppress
      */
-    override fun equals(other: Any?) = other is GoalSortOption && other.label == label && other.sortState == sortState
+    override fun equals(other: Any?) = other is HabitSortOption && other.label == label && other.sortState == sortState
 
     /**
      * @suppress
@@ -49,10 +49,10 @@ data class GoalSortOption(
     /**
      * @suppress
      */
-    override fun toString(): String = "GoalSortOption(label='$label', sortState=$sortState)"
+    override fun toString(): String = "HabitSortOption(label='$label', sortState=$sortState)"
 
     /**
      * @suppress
      */
-    override fun compareTo(other: GoalSortOption): Int = this.uiIndex.compareTo(other.uiIndex)
+    override fun compareTo(other: HabitSortOption): Int = this.uiIndex.compareTo(other.uiIndex)
 }

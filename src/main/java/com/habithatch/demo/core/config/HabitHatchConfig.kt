@@ -3,17 +3,17 @@ package com.habithatch.demo.core.config
 import androidx.compose.ui.text.font.FontFamily
 import androidx.navigation.NavController
 import com.habithatch.demo.core.navigation.Screen
-import com.habithatch.demo.core.query.GoalQuery
+import com.habithatch.demo.core.query.HabitQuery
 import com.habithatch.demo.data.entities.Pet
 
 /**
  * The main application configuration.
  */
 interface HabitHatchConfig :
-    GoalStatusProvider,
-    GoalPriorityProvider {
+    HabitStatusProvider,
+    HabitPriorityProvider {
     val pets: List<Pet>
-    val numberExampleGoals: Int
+    val numberExampleHabits: Int
     val signUpNavItem: Screen
     val homeNavItem: Screen
     val settingsNavigationItem: Screen
@@ -24,7 +24,7 @@ interface HabitHatchConfig :
 
     val bodyFontFamily: FontFamily
 
-    val defaultGoalQuery: GoalQuery
+    val defaultHabitQuery: HabitQuery
 
     @Throws(NoSuchElementException::class)
     fun getPetById(id: Int): Pet = pets.first { it.id == id }

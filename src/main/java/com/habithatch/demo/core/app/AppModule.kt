@@ -42,7 +42,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideGoalDao(
+    fun provideHabitDao(
         database: AppDatabase,
-    ) = database.goalDao()
+    ) = database.habitDao()
 }

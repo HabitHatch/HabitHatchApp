@@ -1,19 +1,19 @@
 package com.habithatch.demo.core.util
 
-import com.habithatch.demo.core.query.GoalSortOption
+import com.habithatch.demo.core.query.HabitSortOption
 import com.habithatch.demo.core.query.SortState
 
 /**
- * Returns all [GoalSortOption]'s that are used.
+ * Returns all [HabitSortOption]'s that are used.
  */
-fun Iterable<GoalSortOption>.getUsed() = filter { it.isUsed() }
+fun Iterable<HabitSortOption>.getUsed() = filter { it.isUsed() }
 
 /**
- * Removes all [GoalSortOption]'s with the given [label].
+ * Removes all [HabitSortOption]'s with the given [label].
  */
-fun Iterable<GoalSortOption>.removeByLabel(label: String) = filter { it.label != label }
+fun Iterable<HabitSortOption>.removeByLabel(label: String) = filter { it.label != label }
 
 /**
- * Disables all [GoalSortOption]'s.
+ * Disables all [HabitSortOption]'s.
  */
-fun Iterable<GoalSortOption>.disableAll() = map { it.copy(sortState = SortState.NOT_USED) }
+fun Iterable<HabitSortOption>.disableAll() = map { it.copy(sortState = SortState.NOT_USED) }

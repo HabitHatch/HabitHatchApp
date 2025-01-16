@@ -1,5 +1,5 @@
 package com.habithatch.demo.core.util
 
-import com.habithatch.demo.data.models.GoalModel
+import com.habithatch.demo.data.models.HabitModel
 
-fun Collection<GoalModel>.allDone(): Boolean = this.all(GoalModel::isDone)
+fun Collection<HabitModel>.allDone(): Boolean = this.all(HabitModel::isDone)

@@ -1,34 +1,34 @@
 package com.habithatch.demo.core.query
 
 import androidx.compose.runtime.Immutable
+import javax.inject.Inject
 import com.habithatch.demo.core.util.disableAll
 import com.habithatch.demo.core.util.getUsed
 import com.habithatch.demo.core.util.removeByLabel
-import com.habithatch.demo.data.models.GoalModel
-import javax.inject.Inject
+import com.habithatch.demo.data.models.HabitModel
 
 /**
- * Query for filtering and sorting goals.
+ * Query for filtering and sorting habits.
  *
- * @param filter The filter for the goals.
- * @param sortOptions The sort options for the goals.
- * @param defaultComparator The default comparator for the goals.
+ * @param filter The filter for the habits.
+ * @param sortOptions The sort options for the habits.
+ * @param defaultComparator The default comparator for the habits.
  */
 @Immutable
-data class GoalQuery(
-    val filterBuilder: GoalFilter.Builder,
-    val sortOptions: List<GoalSortOption> = emptyList(),
-    val defaultComparator: Comparator<GoalModel> = compareBy { 0 },
+data class HabitQuery(
+    val filterBuilder: HabitFilter.Builder,
+    val sortOptions: List<HabitSortOption> = emptyList(),
+    val defaultComparator: Comparator<HabitModel> = compareBy { 0 },
 ) {
     init {
         this.checkValid()
     }
 
-    val filter: GoalFilter
+    val filter: HabitFilter
         get() = filterBuilder.build()
 
     @Throws(NoSuchElementException::class, IllegalArgumentException::class)
-    fun updateSortOption(sortOption: GoalSortOption): GoalQuery {
+    fun updateSortOption(sortOption: HabitSortOption): HabitQuery {
         require(sortOptions.filter { it.label == sortOption.label }.size == 1) {
             "Selected option is not exactly once in the list of sort options"
         }
@@ -37,7 +37,7 @@ data class GoalQuery(
 
     fun getComparator() = (getActiveComparator() ?: compareBy { 0 }).then(defaultComparator)
 
-    private fun setActiveSortOption(sortOption: GoalSortOption): GoalQuery {
+    private fun setActiveSortOption(sortOption: HabitSortOption): HabitQuery {
         val disabledOptions = sortOptions.removeByLabel(sortOption.label).disableAll()
         return this.copy(sortOptions = disabledOptions + sortOption)
     }
@@ -52,23 +52,23 @@ data class GoalQuery(
     /** @suppress */
     override fun toString(): String =
         """
-         GoalQuery(
+         HabitQuery(
             filter=$filter,
             sortOptions=$sortOptions,
         )
         """.trimIndent()
 
     /**
-     * Factory for creating [GoalQuery] instances.
+     * Factory for creating [HabitQuery] instances.
      */
     class Factory
         @Inject
         constructor() {
             fun createQuery(
-                filterBuilder: GoalFilter.Builder,
-                sortOptions: List<GoalSortOption> = emptyList(),
-                defaultComparator: Comparator<GoalModel> = compareBy { 0 },
-            ) = GoalQuery(
+                filterBuilder: HabitFilter.Builder,
+                sortOptions: List<HabitSortOption> = emptyList(),
+                defaultComparator: Comparator<HabitModel> = compareBy { 0 },
+            ) = HabitQuery(
                 filterBuilder = filterBuilder,
                 sortOptions = sortOptions,
                 defaultComparator = defaultComparator,

@@ -1,4 +1,4 @@
-package com.habithatch.demo.ui.goals.table
+package com.habithatch.demo.ui.habits.table
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,16 +13,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 /**
- * A table that displays a list of goals.
+ * A table that displays a list of habits.
  * With filter and sort options.
  */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
-fun GoalQueryTable(
+fun HabitQueryTable(
     modifier: Modifier = Modifier,
     filterContent: @Composable (defaultModifier: Modifier) -> Unit,
     sortContent: @Composable (defaultModifier: Modifier) -> Unit,
-    goalsContent: @Composable () -> Unit,
+    habitsContent: @Composable () -> Unit,
 ) {
     val defaultModifier =
         Modifier
@@ -39,6 +39,6 @@ fun GoalQueryTable(
             filterContent(defaultModifier)
             sortContent(defaultModifier)
         }
-        goalsContent()
+        habitsContent()
     }
 }

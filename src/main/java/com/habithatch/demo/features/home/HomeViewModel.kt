@@ -5,15 +5,15 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.habithatch.demo.core.config.HabitHatchConfig
-import com.habithatch.demo.core.query.GoalFilter
-import com.habithatch.demo.core.query.GoalFilterBuilderFactory
-import com.habithatch.demo.core.query.GoalQuery
-import com.habithatch.demo.core.query.GoalSortOption
+import com.habithatch.demo.core.query.HabitFilter
+import com.habithatch.demo.core.query.HabitFilterBuilderFactory
+import com.habithatch.demo.core.query.HabitQuery
+import com.habithatch.demo.core.query.HabitSortOption
 import com.habithatch.demo.core.util.getNextHigherOrLowest
-import com.habithatch.demo.data.models.ExampleGoalFactory
-import com.habithatch.demo.data.models.GoalModel
+import com.habithatch.demo.data.models.ExampleHabitFactory
+import com.habithatch.demo.data.models.HabitModel
 import com.habithatch.demo.data.models.UserModel
-import com.habithatch.demo.data.repositories.GoalRepository
+import com.habithatch.demo.data.repositories.HabitRepository
 import com.habithatch.demo.data.repositories.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -29,74 +29,74 @@ class HomeViewModel
     @Inject
     constructor(
         private val userRepository: UserRepository,
-        private val goalRepository: GoalRepository,
+        private val habitRepository: HabitRepository,
         val config: HabitHatchConfig,
-        val goalQueryFactory: GoalQuery.Factory,
-        private val goalModelFactory: GoalModel.Factory,
-        val builderFactory: GoalFilterBuilderFactory,
+        val habitQueryFactory: HabitQuery.Factory,
+        private val habitModelFactory: HabitModel.Factory,
+        val builderFactory: HabitFilterBuilderFactory,
     ) : ViewModel() {
         private val _user = MutableStateFlow<UserModel?>(null)
         val user: StateFlow<UserModel?> = _user.asStateFlow()
 
-        private val _queriedGoals = MutableStateFlow<List<GoalModel>>(emptyList())
-        val queriedGoals = _queriedGoals.asStateFlow()
+        private val _queriedHabits = MutableStateFlow<List<HabitModel>>(emptyList())
+        val queriedHabits = _queriedHabits.asStateFlow()
 
-        private val _goalQuery = MutableStateFlow(config.defaultGoalQuery)
-        val goalQuery = _goalQuery.asStateFlow()
+        private val _habitQuery = MutableStateFlow(config.defaultHabitQuery)
+        val habitQuery = _habitQuery.asStateFlow()
 
-        private val _hasAnyGoals = MutableStateFlow(false)
-        val hasAnyGoals = _hasAnyGoals.asStateFlow()
+        private val _hasAnyHabits = MutableStateFlow(false)
+        val hasAnyHabits = _hasAnyHabits.asStateFlow()
 
         init {
-            observeHasAnyGoals()
+            observeHasAnyHabits()
             observeUser()
-            observeQueriedGoals()
+            observeQueriedHabits()
             managePetsMood()
             Log.d("Pets", config.pets.toString())
         }
 
-        fun addGoal(goal: GoalModel) {
+        fun addHabit(habit: HabitModel) {
             viewModelScope.launch {
-                goalRepository.insert(goal)
+                habitRepository.insert(habit)
             }
         }
 
         @Throws(IllegalArgumentException::class)
-        fun toggleGoalStatus(goal: GoalModel) {
+        fun toggleHabitStatus(habit: HabitModel) {
             val nextStatusInCycle =
                 config.statuses.getNextHigherOrLowest(
                     bySelector = { it.stepNumber },
-                    element = goal.status,
+                    element = habit.status,
                 )
-            val newGoal = goal.copy(status = nextStatusInCycle)
+            val newHabit = habit.copy(status = nextStatusInCycle)
             viewModelScope.launch {
-                goalRepository.update(newGoal)
+                habitRepository.update(newHabit)
             }
         }
 
-        fun updateGoalFilter(newGoalFilter: GoalFilter.Builder) {
-            _goalQuery.value = _goalQuery.value.copy(filterBuilder = newGoalFilter)
+        fun updateHabitFilter(newHabitFilter: HabitFilter.Builder) {
+            _habitQuery.value = _habitQuery.value.copy(filterBuilder = newHabitFilter)
         }
 
-        fun updateGoalSortOption(newGoalSortOption: GoalSortOption) {
-            _goalQuery.value = _goalQuery.value.updateSortOption(newGoalSortOption)
+        fun updateHabitSortOption(newHabitSortOption: HabitSortOption) {
+            _habitQuery.value = _habitQuery.value.updateSortOption(newHabitSortOption)
         }
 
-        fun seedGoals() {
+        fun seedHabits() {
             viewModelScope.launch {
-                if (hasAnyGoals.value) {
-                    Log.e("HomeScreen", "Cannot seed goals when there are already goals in the database")
+                if (hasAnyHabits.value) {
+                    Log.e("HomeScreen", "Cannot seed habits when there are already habits in the database")
                     return@launch
                 }
                 if (user.value == null) {
-                    Log.e("HomeScreen", "Cannot seed goals when there is no user")
+                    Log.e("HomeScreen", "Cannot seed habits when there is no user")
                     return@launch
                 }
 
-                val exampleGoals =
-                    ExampleGoalFactory(config, config, goalModelFactory)
-                        .createExampleGoals(config.numberExampleGoals, user.value!!.uuid, uniqueTitles = true)
-                goalRepository.insert(*exampleGoals.toTypedArray())
+                val exampleHabits =
+                    ExampleHabitFactory(config, config, habitModelFactory)
+                        .createExampleHabits(config.numberExampleHabits, user.value!!.uuid, uniqueTitles = true)
+                habitRepository.insert(*exampleHabits.toTypedArray())
             }
         }
 
@@ -114,10 +114,10 @@ class HomeViewModel
                 user
                     .flatMapLatest {
                         Log.d("HomeViewModel", "User: $it")
-                        goalRepository.getAll()
-                    }.collect { allGoals ->
+                        habitRepository.getAll()
+                    }.collect { allHabits ->
                         if (user.value != null) {
-                            user.value!!.pet.updateMood(allGoals)
+                            user.value!!.pet.updateMood(allHabits)
                             Log.d("HomeViewModel", "Updated pet mood: ${user.value!!.pet}")
                         }
                     }
@@ -125,21 +125,21 @@ class HomeViewModel
         }
 
         @OptIn(ExperimentalCoroutinesApi::class)
-        private fun observeQueriedGoals() {
+        private fun observeQueriedHabits() {
             viewModelScope.launch {
-                _goalQuery
-                    .flatMapLatest { goalRepository.search(it) }
-                    .collect { _queriedGoals.value = it }
+                _habitQuery
+                    .flatMapLatest { habitRepository.search(it) }
+                    .collect { _queriedHabits.value = it }
             }
         }
 
-        private fun observeHasAnyGoals() =
+        private fun observeHasAnyHabits() =
             viewModelScope.launch {
-                goalRepository
+                habitRepository
                     .search(
-                        query = goalQueryFactory.createQuery(builderFactory.matchAllBuilder),
-                    ).collect { goals ->
-                        _hasAnyGoals.value = goals.isEmpty().not()
+                        query = habitQueryFactory.createQuery(builderFactory.matchAllBuilder),
+                    ).collect { habits ->
+                        _hasAnyHabits.value = habits.isEmpty().not()
                     }
             }
     }

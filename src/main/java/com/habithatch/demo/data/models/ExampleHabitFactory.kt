@@ -1,9 +1,9 @@
 package com.habithatch.demo.data.models
 
-import com.habithatch.demo.core.config.GoalPriorityProvider
-import com.habithatch.demo.core.config.GoalStatusProvider
-import com.habithatch.demo.core.util.createRandomDate
 import java.util.UUID
+import com.habithatch.demo.core.config.HabitPriorityProvider
+import com.habithatch.demo.core.config.HabitStatusProvider
+import com.habithatch.demo.core.util.createRandomDate
 
 /**
  * @suppress
@@ -25,7 +25,7 @@ val habitNames =
         "Eat 5 Servings of Vegetables",
         "Stretch for 10 Minutes",
         "Practice Deep Breathing",
-        "Review Personal Goals",
+        "Review Personal Habits",
         "Listen to an Educational Podcast",
         "Unplug 1 Hour Before Bed",
         "Track Expenses",
@@ -43,44 +43,44 @@ val habitNames =
     )
 
 /**
- * [ExampleGoalFactory] is a factory that creates example goals for testing purposes.
+ * [ExampleHabitFactory] is a factory that creates example habits for testing purposes.
  */
-class ExampleGoalFactory(
-    private val priorityProvider: GoalPriorityProvider,
-    private val statusProvider: GoalStatusProvider,
-    private val goalModelFactory: GoalModel.Factory,
+class ExampleHabitFactory(
+    private val priorityProvider: HabitPriorityProvider,
+    private val statusProvider: HabitStatusProvider,
+    private val habitModelFactory: HabitModel.Factory,
 ) {
-    fun createExampleGoals(
+    fun createExampleHabits(
         count: Int,
         userId: UUID,
         pastYears: Long = 1,
         uniqueTitles: Boolean = false,
-    ): Collection<GoalModel> {
-        val generatedGoals = mutableSetOf<GoalModel>()
-        val getUsedTitles = { generatedGoals.map { it.title }.toSet() }
+    ): Collection<HabitModel> {
+        val generatedHabits = mutableSetOf<HabitModel>()
+        val getUsedTitles = { generatedHabits.map { it.title }.toSet() }
         require(!uniqueTitles || count <= habitNames.size) {
-            "Cannot generate more goals than there are unique habit names"
+            "Cannot generate more habits than there are unique habit names"
         }
         repeat(count) {
-            var goal: GoalModel
+            var habit: HabitModel
 
             do {
-                goal = createExampleGoal(userId, pastYears)
-            } while (uniqueTitles && getUsedTitles().contains(goal.title))
-            generatedGoals.add(goal)
+                habit = createExampleHabit(userId, pastYears)
+            } while (uniqueTitles && getUsedTitles().contains(habit.title))
+            generatedHabits.add(habit)
         }
-        return generatedGoals
+        return generatedHabits
     }
 
     private fun randomPriority() = priorityProvider.priorities.random()
 
     private fun randomStatus() = statusProvider.statuses.random()
 
-    private fun createExampleGoal(
+    private fun createExampleHabit(
         userId: UUID,
         pastYears: Long = 1,
-    ): GoalModel =
-        goalModelFactory.createDraft(
+    ): HabitModel =
+        habitModelFactory.createDraft(
             userId = userId,
             title = habitNames.random(),
             status = randomStatus(),

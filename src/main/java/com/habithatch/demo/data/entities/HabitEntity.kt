@@ -1,17 +1,17 @@
 package com.habithatch.demo.data.entities
 
 import androidx.compose.runtime.Immutable
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import java.time.Instant
 import java.util.UUID
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 /**
- * [GoalEntity] is a Room entity that represents a goal.
+ * [HabitEntity] is a Room entity that represents a habit.
  */
 @Immutable
-@Entity(tableName = "goal")
-data class GoalEntity(
+@Entity(tableName = "habit")
+data class HabitEntity(
     @PrimaryKey val id: Long,
     val title: String,
     val userId: UUID,

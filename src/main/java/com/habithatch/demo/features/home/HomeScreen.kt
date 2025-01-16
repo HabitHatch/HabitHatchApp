@@ -19,25 +19,25 @@ import com.habithatch.demo.R
 import com.habithatch.demo.core.animation.ImageStateAnimation
 import com.habithatch.demo.core.app.AppModule
 import com.habithatch.demo.core.config.HabitHatchDevConfig
-import com.habithatch.demo.core.query.GoalFilter
+import com.habithatch.demo.core.query.HabitFilter
 import com.habithatch.demo.core.theme.AppTheme
 import com.habithatch.demo.data.entities.Pet
 import com.habithatch.demo.data.entities.PetMoodAnimationsFactory
-import com.habithatch.demo.ui.goals.AddGoalDialog
-import com.habithatch.demo.ui.goals.GoalFilterState
-import com.habithatch.demo.ui.goals.GoalSortState
-import com.habithatch.demo.ui.goals.GoalsView
-import com.habithatch.demo.ui.goals.GoalsViewState
-import com.habithatch.demo.ui.goals.table.GoalFilterBar
-import com.habithatch.demo.ui.goals.table.GoalQueryTable
-import com.habithatch.demo.ui.goals.table.GoalSortBar
+import com.habithatch.demo.ui.habits.AddHabitDialog
+import com.habithatch.demo.ui.habits.HabitFilterState
+import com.habithatch.demo.ui.habits.HabitSortState
+import com.habithatch.demo.ui.habits.HabitsView
+import com.habithatch.demo.ui.habits.HabitsViewState
+import com.habithatch.demo.ui.habits.table.HabitFilterBar
+import com.habithatch.demo.ui.habits.table.HabitQueryTable
+import com.habithatch.demo.ui.habits.table.HabitSortBar
 import com.habithatch.demo.ui.navigation.BottomNavBar
 import com.habithatch.demo.ui.navigation.TopNavBar
 import com.habithatch.demo.ui.pets.PetAnimation
 
 /**
  * The main screen of the application.
- * Shows the user's pet and goals.
+ * Shows the user's pet and habits.
  */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming", "MagicNumber")
 @Composable
@@ -53,7 +53,7 @@ fun HomeScreen(
         bottomBar = bottomNavBar,
         floatingActionButton = {
             FloatingActionButton(onClick = state.core.onFabClicked) {
-                Icon(Icons.Default.Add, stringResource(R.string.add_goal_icon_description))
+                Icon(Icons.Default.Add, stringResource(R.string.add_habit_icon_description))
             }
         },
     ) { paddingValues ->
@@ -66,29 +66,29 @@ fun HomeScreen(
                         .padding(top = 8.dp)
                         .align(Alignment.CenterHorizontally),
             )
-            GoalQueryTable(
+            HabitQueryTable(
                 modifier =
                     Modifier
                         .fillMaxWidth()
                         .padding(top = 16.dp, start = 8.dp, end = 8.dp),
                 filterContent = { defaultModifier ->
-                    GoalFilterBar(
+                    HabitFilterBar(
                         modifier = defaultModifier,
-                        state = state.goalFilterState,
+                        state = state.habitFilterState,
                     )
                 },
                 sortContent = { defaultModifier ->
-                    GoalSortBar(
+                    HabitSortBar(
                         modifier = defaultModifier,
-                        state = state.goalSortState,
+                        state = state.habitSortState,
                     )
                 },
-                goalsContent = { GoalsView(state = state.goalsViewState) },
+                habitsContent = { HabitsView(state = state.habitsViewState) },
             )
         }
     }
 
-    AddGoalDialog(state = state.addGoalDialogState)
+    AddHabitDialog(state = state.addHabitDialogState)
 }
 
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
@@ -133,9 +133,9 @@ fun HomeScreenPreview() {
                         CoreHomeState(
                             pet = pet,
                         ),
-                    goalsViewState = GoalsViewState(goals = emptyList()),
-                    goalFilterState = GoalFilterState(GoalFilter.Builder.matchAllBuilder(config, config)),
-                    goalSortState = GoalSortState(config.defaultGoalQuery.sortOptions),
+                    habitsViewState = HabitsViewState(habits = emptyList()),
+                    habitFilterState = HabitFilterState(HabitFilter.Builder.matchAllBuilder(config, config)),
+                    habitSortState = HabitSortState(config.defaultHabitQuery.sortOptions),
                 ),
         )
     }

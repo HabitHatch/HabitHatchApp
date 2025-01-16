@@ -1,7 +1,7 @@
 <resources>
   <string name="app_name">HabitHatch</string>
-  <string name="no_goals_explanation">You don\'t have any habits yet. Would you like to create some example habits?\n Or you can create your own habits by clicking the + button.</string>
-  <string name="example_goals_button">Create Example Habits</string>
+  <string name="no_habits_explanation">You don\'t have any habits yet. Would you like to create some example habits?\n Or you can create your own habits by clicking the + button.</string>
+  <string name="example_habits_button">Create Example Habits</string>
   <string name="account_settings">Account</string>
   <string name="account_icon_description">Account</string>
   <string name="delete_account_dialog_title">Delete Account</string>
@@ -11,7 +11,7 @@
   <string name="enable_notifications">Enable Notifications</string>
   <string name="notification_settings_title">Notifications</string>
   <string name="theme_settings_title">Theme</string>
-  <string name="add_goal_icon_description">Add Habit</string>
+  <string name="add_habit_icon_description">Add Habit</string>
   <string name="pet_selection_cta">Choose your pet</string>
   <string name="delete_account_button">Delete Account</string>
   <string name="status_toggle_label">Status Toggle</string>
@@ -19,8 +19,8 @@
   <string name="pet_selected_description">Pet selected</string>
   <string name="confirm_selection">Confirm Selection</string>
   <string name="priority_toggle_label">Priority Cycle</string>
-  <string name="goal_dialog_text_label">Habit Name</string>
-  <string name="confirm_add_goal">Add</string>
-  <string name="cancel_add_goal">Cancel</string>
-  <string name="add_goal">Add Habit</string>
+  <string name="habit_dialog_text_label">Habit Name</string>
+  <string name="confirm_add_habit">Add</string>
+  <string name="cancel_add_habit">Cancel</string>
+  <string name="add_habit">Add Habit</string>
 </resources>

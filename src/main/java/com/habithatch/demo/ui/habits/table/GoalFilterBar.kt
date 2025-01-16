@@ -1,4 +1,4 @@
-package com.habithatch.demo.ui.goals.table
+package com.habithatch.demo.ui.habits.table
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
@@ -14,7 +14,7 @@ import com.habithatch.demo.R
 import com.habithatch.demo.core.theme.success
 import com.habithatch.demo.ui.common.forms.SearchField
 import com.habithatch.demo.ui.common.forms.SimpleIconButton
-import com.habithatch.demo.ui.goals.GoalFilterState
+import com.habithatch.demo.ui.habits.HabitFilterState
 
 @Composable
 fun getDoneColor(isDoneStatusVisible: Boolean): Color =
@@ -25,17 +25,17 @@ fun getDoneColor(isDoneStatusVisible: Boolean): Color =
     }
 
 /**
- * A bar that contains a search field and a button to toggle the visibility of done goals.
+ * A bar that contains a search field and a button to toggle the visibility of done habits.
  */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
-fun GoalFilterBar(
-    state: GoalFilterState,
+fun HabitFilterBar(
+    state: HabitFilterState,
     modifier: Modifier = Modifier,
 ) {
-    val goalFilter = state.goalFilterBuilder.build()
-    val searchQuery = goalFilter.searchQuery.orEmpty()
-    val isDoneVisible = state.goalFilterBuilder.build().isDoneVisible()
+    val habitFilter = state.habitFilterBuilder.build()
+    val searchQuery = habitFilter.searchQuery.orEmpty()
+    val isDoneVisible = state.habitFilterBuilder.build().isDoneVisible()
     val doneIconColor = getDoneColor(isDoneVisible)
     Row(
         modifier = modifier,
@@ -51,7 +51,7 @@ fun GoalFilterBar(
                     .weight(1f),
             searchQuery = searchQuery,
             onQueryChange = {
-                state.onGoalFilterChange(state.goalFilterBuilder.setSearchQuery(it))
+                state.onHabitFilterChange(state.habitFilterBuilder.setSearchQuery(it))
             },
         )
 
@@ -60,8 +60,8 @@ fun GoalFilterBar(
             color = doneIconColor,
             painter = painterResource(R.drawable.vuesax_tick_circle),
             onClick = {
-                state.onGoalFilterChange(
-                    state.goalFilterBuilder
+                state.onHabitFilterChange(
+                    state.habitFilterBuilder
                         .setDoneStatusVisibility(!isDoneVisible),
                 )
             },

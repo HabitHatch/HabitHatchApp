@@ -4,7 +4,7 @@ import android.util.Log
 import com.habithatch.demo.core.animation.FrameStateAnimation
 import com.habithatch.demo.core.animation.ImageResource
 import com.habithatch.demo.core.util.allDone
-import com.habithatch.demo.data.models.GoalModel
+import com.habithatch.demo.data.models.HabitModel
 import kotlinx.coroutines.flow.MutableStateFlow
 
 /**
@@ -23,8 +23,8 @@ data class Pet(
         Log.d("Pet", "Pet created: $this")
     }
 
-    fun updateMood(allGoals: Collection<GoalModel>) {
-        mood = if (allGoals.allDone()) PetMood.HAPPY else PetMood.SAD
+    fun updateMood(allHabits: Collection<HabitModel>) {
+        mood = if (allHabits.allDone()) PetMood.HAPPY else PetMood.SAD
         animationState.value = petMoodAnimations?.get(mood)
     }
 
