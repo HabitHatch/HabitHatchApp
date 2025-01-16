@@ -13,17 +13,17 @@ enum class SortState(
     /**
      * @suppress
      */
-    NOT_USED(R.drawable.vuesax_sort),
+    NOT_USED(R.drawable.sort),
 
     /**
      * @suppress
      */
-    ASCENDING(R.drawable.vuesax_arrow_up_1),
+    ASCENDING(R.drawable.sort_ascending),
 
     /**
      * @suppress
      */
-    DESCENDING(R.drawable.vuesax_arrow_down_1),
+    DESCENDING(R.drawable.sort_descending),
     ;
 
     /**
