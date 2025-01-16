@@ -6,12 +6,15 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.googlefonts.Font
 import androidx.compose.ui.text.googlefonts.GoogleFont
 import com.habithatch.demo.R
+import com.habithatch.demo.core.animation.FrameStateAnimation
 import com.habithatch.demo.core.animation.ImageStateAnimation
 import com.habithatch.demo.core.navigation.Screen
 import com.habithatch.demo.core.query.GoalFilter
 import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.core.query.GoalSortOption
 import com.habithatch.demo.data.entities.Pet
+import com.habithatch.demo.data.entities.PetMood
+import com.habithatch.demo.data.entities.PetMoodAnimations
 import com.habithatch.demo.data.entities.PetMoodAnimationsFactory
 import com.habithatch.demo.data.models.GoalModel
 import javax.inject.Inject
@@ -25,46 +28,102 @@ class HabitHatchDevConfig
         googleFontProvider: GoogleFont.Provider,
         petMoodAnimationsBuilder: PetMoodAnimationsFactory,
     ) : HabitHatchConfig {
+        val happyCatAnimation =
+            FrameStateAnimation.createFromImages(
+                listOf(
+                    R.mipmap.cat_happy_0000,
+                    R.mipmap.cat_happy_0001,
+                    R.mipmap.cat_happy_0002,
+                    R.mipmap.cat_happy_0003,
+                    R.mipmap.cat_happy_0004,
+                    R.mipmap.cat_happy_0005,
+                    R.mipmap.cat_happy_0006,
+                    R.mipmap.cat_happy_0007,
+                    R.mipmap.cat_happy_0008,
+                    R.mipmap.cat_happy_0009,
+                    R.mipmap.cat_happy_0010,
+                    R.mipmap.cat_happy_0011,
+                    R.mipmap.cat_happy_0012,
+                    R.mipmap.cat_happy_0013,
+                    R.mipmap.cat_happy_0014,
+                    R.mipmap.cat_happy_0015,
+                    R.mipmap.cat_happy_0016,
+                    R.mipmap.cat_happy_0017,
+                    R.mipmap.cat_happy_0018,
+                    R.mipmap.cat_happy_0019,
+                ),
+                duration = 100,
+            )
+
+        val sadCatAnimation =
+            FrameStateAnimation.createFromImages(
+                listOf(
+                    R.mipmap.cat_sad_0000,
+                    R.mipmap.cat_sad_0001,
+                    R.mipmap.cat_sad_0002,
+                    R.mipmap.cat_sad_0003,
+                    R.mipmap.cat_sad_0004,
+                    R.mipmap.cat_sad_0005,
+                    R.mipmap.cat_sad_0006,
+                    R.mipmap.cat_sad_0007,
+                    R.mipmap.cat_sad_0008,
+                    R.mipmap.cat_sad_0009,
+                    R.mipmap.cat_sad_0010,
+                    R.mipmap.cat_sad_0011,
+                    R.mipmap.cat_sad_0012,
+                    R.mipmap.cat_sad_0013,
+                    R.mipmap.cat_sad_0014,
+                    R.mipmap.cat_sad_0015,
+                    R.mipmap.cat_sad_0016,
+                    R.mipmap.cat_sad_0017,
+                    R.mipmap.cat_sad_0018,
+                    R.mipmap.cat_sad_0019,
+                ),
+                duration = 100,
+            )
+
+        val catAnimation: PetMoodAnimations =
+            mapOf(
+                PetMood.HAPPY to happyCatAnimation,
+                PetMood.SAD to sadCatAnimation,
+            )
+
         override val pets =
             listOf(
                 Pet(
                     id = 1,
                     name = "Cat",
-                    coverImage = R.mipmap.pet_cat,
-                    petMoodAnimations =
-                        petMoodAnimationsBuilder
-                            .create(
-                                ImageStateAnimation(R.mipmap.pet_cat),
-                            ),
+                    coverImage = R.mipmap.cat,
+                    petMoodAnimations = catAnimation,
                 ),
                 Pet(
                     id = 2,
                     name = "Fox",
-                    coverImage = R.mipmap.pet_fox,
+                    coverImage = R.mipmap.panda,
                     petMoodAnimations =
                         petMoodAnimationsBuilder
                             .create(
-                                ImageStateAnimation(R.mipmap.pet_fox),
+                                ImageStateAnimation(R.mipmap.panda),
                             ),
                 ),
                 Pet(
                     id = 3,
                     name = "Rabbit",
-                    coverImage = R.mipmap.pet_rabbit,
+                    coverImage = R.mipmap.rabbit,
                     petMoodAnimations =
                         petMoodAnimationsBuilder
                             .create(
-                                ImageStateAnimation(R.mipmap.pet_rabbit),
+                                ImageStateAnimation(R.mipmap.rabbit),
                             ),
                 ),
                 Pet(
                     id = 4,
                     name = "Ice Bear",
-                    coverImage = R.mipmap.pet_ice_bear,
+                    coverImage = R.mipmap.wolf,
                     petMoodAnimations =
                         petMoodAnimationsBuilder
                             .create(
-                                ImageStateAnimation(R.mipmap.pet_ice_bear),
+                                ImageStateAnimation(R.mipmap.wolf),
                             ),
                 ),
             )

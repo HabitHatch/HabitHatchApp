@@ -1,5 +1,6 @@
 package com.habithatch.demo.core.animation
 
+import android.content.Context
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -8,6 +9,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+
+import com.habithatch.demo.R
 
 open class FrameStateAnimation(
     private val frames: List<Frame>,

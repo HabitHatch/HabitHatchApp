@@ -47,7 +47,7 @@ fun AppNavigation(
 
     val topNavBar = @Composable {
         TopNavBar(
-            title = config.settingsNavigationItem.title,
+            title = config.getActiveNavItem(navController).title,
             rightNavItem = config.topRightNavItem,
             onRightNavItemClicked = { navController.navigateTo(config.topRightNavItem) },
         )
