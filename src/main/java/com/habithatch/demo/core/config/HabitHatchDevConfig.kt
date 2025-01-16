@@ -10,6 +10,7 @@ import com.habithatch.demo.core.navigation.Screen
 import com.habithatch.demo.core.query.HabitFilter
 import com.habithatch.demo.core.query.HabitQuery
 import com.habithatch.demo.core.query.HabitSortOption
+import com.habithatch.demo.core.theme.success
 import com.habithatch.demo.data.entities.Pet
 import com.habithatch.demo.data.models.ExampleHabitFactory
 import com.habithatch.demo.data.models.HabitModel
@@ -86,7 +87,7 @@ class HabitHatchDevConfig
             HabitModel.Priority(
                 label = "Normal",
                 importance = HabitModel.Priority.Importance.Normal,
-                iconResourceId = R.drawable.vuesax_minus_cirlce,
+                iconResourceId = R.drawable.chevron_up,
                 getColor = @Composable { MaterialTheme.colorScheme.tertiary },
             )
 
@@ -94,7 +95,7 @@ class HabitHatchDevConfig
             HabitModel.Priority(
                 label = "High",
                 importance = HabitModel.Priority.Importance.High,
-                iconResourceId = R.drawable.vuesax_warning_2,
+                iconResourceId = R.drawable.chevron_double_up,
                 getColor = @Composable { MaterialTheme.colorScheme.error },
             )
 
