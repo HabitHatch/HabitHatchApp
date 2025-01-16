@@ -16,8 +16,8 @@ import org.junit.Test
 class UserDaoTest {
     private lateinit var database: AppDatabase
     private lateinit var userDao: UserDao
-    private val someUser = UserEntity(pet = Pet(name = "Pet 1", imageRes = 1001))
-    private val anotherUser = UserEntity(pet = Pet(name = "Pet 2", imageRes = 1002))
+    private val someUser = UserEntity(pet = Pet(name = "Pet 1", petMoodAnimations = 1001))
+    private val anotherUser = UserEntity(pet = Pet(name = "Pet 2", petMoodAnimations = 1002))
 
     @Before
     fun setup() {

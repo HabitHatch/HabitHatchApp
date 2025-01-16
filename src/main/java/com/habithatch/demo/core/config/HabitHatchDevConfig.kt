@@ -6,11 +6,13 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.googlefonts.Font
 import androidx.compose.ui.text.googlefonts.GoogleFont
 import com.habithatch.demo.R
+import com.habithatch.demo.core.animation.ImageStateAnimation
 import com.habithatch.demo.core.navigation.Screen
 import com.habithatch.demo.core.query.GoalFilter
 import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.core.query.GoalSortOption
 import com.habithatch.demo.data.entities.Pet
+import com.habithatch.demo.data.entities.PetMoodAnimationsFactory
 import com.habithatch.demo.data.models.GoalModel
 import javax.inject.Inject
 
@@ -21,13 +23,50 @@ class HabitHatchDevConfig
     @Inject
     constructor(
         googleFontProvider: GoogleFont.Provider,
+        petMoodAnimationsBuilder: PetMoodAnimationsFactory,
     ) : HabitHatchConfig {
         override val pets =
             listOf(
-                Pet(id = 1, name = "Cat", imageRes = R.mipmap.pet_cat),
-                Pet(id = 2, name = "Fox", imageRes = R.mipmap.pet_fox),
-                Pet(id = 3, name = "Rabbit", imageRes = R.mipmap.pet_rabbit),
-                Pet(id = 4, name = "Ice Bear", imageRes = R.mipmap.pet_ice_bear),
+                Pet(
+                    id = 1,
+                    name = "Cat",
+                    coverImage = R.mipmap.pet_cat,
+                    petMoodAnimations =
+                        petMoodAnimationsBuilder
+                            .create(
+                                ImageStateAnimation(R.mipmap.pet_cat),
+                            ),
+                ),
+                Pet(
+                    id = 2,
+                    name = "Fox",
+                    coverImage = R.mipmap.pet_fox,
+                    petMoodAnimations =
+                        petMoodAnimationsBuilder
+                            .create(
+                                ImageStateAnimation(R.mipmap.pet_fox),
+                            ),
+                ),
+                Pet(
+                    id = 3,
+                    name = "Rabbit",
+                    coverImage = R.mipmap.pet_rabbit,
+                    petMoodAnimations =
+                        petMoodAnimationsBuilder
+                            .create(
+                                ImageStateAnimation(R.mipmap.pet_rabbit),
+                            ),
+                ),
+                Pet(
+                    id = 4,
+                    name = "Ice Bear",
+                    coverImage = R.mipmap.pet_ice_bear,
+                    petMoodAnimations =
+                        petMoodAnimationsBuilder
+                            .create(
+                                ImageStateAnimation(R.mipmap.pet_ice_bear),
+                            ),
+                ),
             )
 
         override val signUpNavItem = Screen("sign_up", R.drawable.vuesax_profile_circle)

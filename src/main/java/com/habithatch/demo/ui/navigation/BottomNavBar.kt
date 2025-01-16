@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.habithatch.demo.core.app.AppModule
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.navigation.Screen
+import com.habithatch.demo.data.entities.PetMoodAnimationsFactory
 
 /**
  * A bottom navigation bar that displays the navigation items.
@@ -58,6 +59,7 @@ fun BottomNavigationBarPreview() {
     val config =
         HabitHatchDevConfig(
             AppModule().provideGoogleFontProvider(),
+            PetMoodAnimationsFactory(),
         )
     val navigationItems = config.navItems
 

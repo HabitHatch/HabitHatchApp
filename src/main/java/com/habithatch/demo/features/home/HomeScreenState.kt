@@ -34,6 +34,7 @@ fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScr
 
     var showDialog by remember { mutableStateOf(false) }
     if (user == null) return null
+    val pet = user!!.pet
 
     val addGoalDialogState =
         remember(showDialog) {
@@ -65,9 +66,9 @@ fun rememberHomeScreenState(viewModel: HomeViewModel = hiltViewModel()): HomeScr
         }
 
     val coreHomeState =
-        remember(user, showDialog) {
+        remember(pet, showDialog) {
             CoreHomeState(
-                pet = user!!.pet,
+                pet = pet,
                 onFabClicked = { showDialog = true },
             )
         }

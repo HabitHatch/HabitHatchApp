@@ -10,7 +10,6 @@ import com.habithatch.demo.core.query.GoalFilterBuilderFactory
 import com.habithatch.demo.core.query.GoalQuery
 import com.habithatch.demo.core.query.GoalSortOption
 import com.habithatch.demo.core.util.getNextHigherOrLowest
-import com.habithatch.demo.data.entities.PetMood
 import com.habithatch.demo.data.models.ExampleGoalFactory
 import com.habithatch.demo.data.models.GoalModel
 import com.habithatch.demo.data.models.UserModel
@@ -19,7 +18,6 @@ import com.habithatch.demo.data.repositories.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -54,6 +52,7 @@ class HomeViewModel
             observeUser()
             observeQueriedGoals()
             managePetsMood()
+            Log.d("Pets", config.pets.toString())
         }
 
         fun addGoal(goal: GoalModel) {
@@ -103,36 +102,25 @@ class HomeViewModel
 
         private fun observeUser() {
             viewModelScope.launch {
-                userRepository.getUser().collect { user ->
-                    _user.value = user
+                userRepository.getUser().collect {
+                    _user.value = it
                 }
             }
         }
 
-        private fun getUnDoneGoals(): Flow<List<GoalModel>> {
-            val doneStatus = config.statuses.find { it.isDone }
-            check(doneStatus != null) { "No done status found" }
-
-            return goalRepository.getQueriedGoals(
-                query =
-                    GoalQuery(
-                        filterBuilder = builderFactory.matchAllBuilder.excludeStatus(doneStatus),
-                    ),
-            )
-        }
-
+        @OptIn(ExperimentalCoroutinesApi::class)
         private fun managePetsMood() {
             viewModelScope.launch {
-                getUnDoneGoals().collect { unDoneGoals ->
-                    user.value?.let {
-                        it.pet.mood =
-                            if (unDoneGoals.isEmpty()) {
-                                PetMood.HAPPY
-                            } else {
-                                PetMood.SAD
-                            }
+                user
+                    .flatMapLatest {
+                        Log.d("HomeViewModel", "User: $it")
+                        goalRepository.getAll()
+                    }.collect { allGoals ->
+                        if (user.value != null) {
+                            user.value!!.pet.updateMood(allGoals)
+                            Log.d("HomeViewModel", "Updated pet mood: ${user.value!!.pet}")
+                        }
                     }
-                }
             }
         }
 
@@ -140,19 +128,16 @@ class HomeViewModel
         private fun observeQueriedGoals() {
             viewModelScope.launch {
                 _goalQuery
-                    .flatMapLatest { goalQuery ->
-                        goalRepository.getQueriedGoals(goalQuery)
-                    }.collect { goals ->
-                        _queriedGoals.value = goals
-                    }
+                    .flatMapLatest { goalRepository.search(it) }
+                    .collect { _queriedGoals.value = it }
             }
         }
 
         private fun observeHasAnyGoals() =
             viewModelScope.launch {
                 goalRepository
-                    .getQueriedGoals(
-                        query = goalQueryFactory.createGoalQuery(builderFactory.matchAllBuilder),
+                    .search(
+                        query = goalQueryFactory.createQuery(builderFactory.matchAllBuilder),
                     ).collect { goals ->
                         _hasAnyGoals.value = goals.isEmpty().not()
                     }

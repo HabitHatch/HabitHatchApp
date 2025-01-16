@@ -1,5 +1,6 @@
 package com.habithatch.demo.features.signup
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -43,6 +44,7 @@ fun rememberSignupScreenState(
         pets = pets,
         signUpState = signUpState,
         onPetConfirmed = { pet ->
+            Log.d("SignupScreen", "Pet confirmed: $pet")
             viewModel.signUpUser(UserModel(uuid = UUID.randomUUID(), pet = pet))
         },
     )

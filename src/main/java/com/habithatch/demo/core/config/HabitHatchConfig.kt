@@ -27,6 +27,9 @@ interface HabitHatchConfig :
     val defaultGoalQuery: GoalQuery
 
     @Throws(NoSuchElementException::class)
+    fun getPetById(id: Int): Pet = pets.first { it.id == id }
+
+    @Throws(NoSuchElementException::class)
     fun getActiveNavItem(navController: NavController): Screen {
         val currentRoute = navController.currentDestination?.route
         return this.navItems.first { it.route == currentRoute }

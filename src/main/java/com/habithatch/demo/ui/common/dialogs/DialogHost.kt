@@ -4,13 +4,14 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 
-/**
- * A host for dialogs.
- */
+/** A host for dialogs */
 class DialogHost {
-    private var dialog: @Composable (() -> Unit)? = null
+    private var dialog by mutableStateOf<@Composable (() -> Unit)?>(null)
 
     /**
      * Renders the dialog.
@@ -21,15 +22,7 @@ class DialogHost {
         dialog?.invoke()
     }
 
-    /**
-     * Creates a confirm dialog.
-     *
-     * @param titleRes The title resource ID.
-     * @param messageRes The message resource ID.
-     * @param confirmButtonRes The confirm button resource ID.
-     * @param dismissButtonRes The dismiss button resource ID.
-     * @param onConfirm The callback to run when the confirm button is clicked.
-     */
+    /** Creates a confirm dialog. */
     fun createConfirmDialog(
         titleRes: Int,
         messageRes: Int,

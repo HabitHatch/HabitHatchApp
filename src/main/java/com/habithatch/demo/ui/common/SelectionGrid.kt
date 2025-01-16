@@ -49,9 +49,9 @@ fun <T> SelectionGrid(
             horizontalArrangement = Arrangement.spacedBy(spaceBetween),
             verticalArrangement = Arrangement.spacedBy(spaceBetween),
         ) {
-            elements.forEach { pet ->
+            elements.forEach { element ->
                 item {
-                    card(pet, currentElement == pet, { currentElement = if (currentElement == pet) null else pet })
+                    card(element, currentElement == element, { currentElement = if (currentElement == element) null else element })
                 }
             }
         }

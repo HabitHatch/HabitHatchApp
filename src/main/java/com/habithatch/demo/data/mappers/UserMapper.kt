@@ -1,5 +1,6 @@
 package com.habithatch.demo.data.mappers
 
+import android.util.Log
 import com.habithatch.demo.core.config.HabitHatchConfig
 import com.habithatch.demo.data.entities.UserEntity
 import com.habithatch.demo.data.models.UserModel
@@ -18,7 +19,8 @@ class UserMapper
 
         @Throws(NoSuchElementException::class)
         override fun asModel(entity: UserEntity): UserModel {
-            val pet = config.pets.first { it.id == entity.petId }
+            val pet = config.getPetById(entity.petId)
+            Log.d("UserMapper", "Pet: $pet")
             return UserModel(
                 uuid = entity.uuid,
                 pet = pet,

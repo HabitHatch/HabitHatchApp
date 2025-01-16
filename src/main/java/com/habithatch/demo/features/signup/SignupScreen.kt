@@ -40,7 +40,7 @@ fun SignupScreen(
                 ImageTextCard(
                     imageContent = {
                         ImageBox(
-                            imageRes = pet.imageRes,
+                            imageRes = pet.coverImage,
                             isChecked = isChecked,
                         )
                     },

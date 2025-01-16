@@ -1,0 +1,16 @@
+@startuml
+
+interface IStateAnimation{
+    + state: State<Any?>
+    + start(): void
+    + stop(): void
+}
+
+class FrameStateAnimation implements IStateAnimation{
+    + state: State<ImageResource?>
+}
+
+class ImageStateAnimation extends FrameStateAnimation{
+    + state: State<ImageResource?>
+}
+@enduml

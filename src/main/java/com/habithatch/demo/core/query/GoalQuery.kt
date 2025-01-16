@@ -1,8 +1,6 @@
 package com.habithatch.demo.core.query
 
 import androidx.compose.runtime.Immutable
-import com.habithatch.demo.core.config.GoalPriorityProvider
-import com.habithatch.demo.core.config.GoalStatusProvider
 import com.habithatch.demo.core.util.disableAll
 import com.habithatch.demo.core.util.getUsed
 import com.habithatch.demo.core.util.removeByLabel
@@ -65,9 +63,8 @@ data class GoalQuery(
      */
     class Factory
         @Inject
-        constructor(
-        ) {
-            fun createGoalQuery(
+        constructor() {
+            fun createQuery(
                 filterBuilder: GoalFilter.Builder,
                 sortOptions: List<GoalSortOption> = emptyList(),
                 defaultComparator: Comparator<GoalModel> = compareBy { 0 },

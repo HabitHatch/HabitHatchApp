@@ -26,9 +26,11 @@ class GoalRepository
             }
         }
 
+        fun getAll() = goalDao.getAll().map { it.map(goalMapper::asModel) }
+
         /** Returns a flow of goals that match the given [GoalQuery]. Sorted by GoalQuery's comparator. */
         @OptIn(ExperimentalCoroutinesApi::class)
-        fun getQueriedGoals(query: GoalQuery): Flow<List<GoalModel>> =
+        fun search(query: GoalQuery): Flow<List<GoalModel>> =
             getFilteredGoals(query.filter)
                 .combine(flowOf(query.getComparator())) { goals, comparator ->
                     goals.sortedWith(comparator)
@@ -49,6 +51,4 @@ class GoalRepository
         suspend fun deleteAll() = goalDao.deleteAll()
 
         private fun getFilteredGoals(goalFilter: GoalFilter) = this.getAll().map { it.filter(goalFilter::isMatch) }
-
-        private fun getAll() = goalDao.getAll().map { it.map(goalMapper::asModel) }
     }

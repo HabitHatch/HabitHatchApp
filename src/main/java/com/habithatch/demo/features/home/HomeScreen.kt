@@ -16,11 +16,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.R
+import com.habithatch.demo.core.animation.ImageStateAnimation
 import com.habithatch.demo.core.app.AppModule
 import com.habithatch.demo.core.config.HabitHatchDevConfig
 import com.habithatch.demo.core.query.GoalFilter
-import com.habithatch.demo.core.query.GoalFilterBuilderFactory
 import com.habithatch.demo.core.theme.AppTheme
+import com.habithatch.demo.data.entities.Pet
+import com.habithatch.demo.data.entities.PetMoodAnimationsFactory
 import com.habithatch.demo.ui.goals.AddGoalDialog
 import com.habithatch.demo.ui.goals.GoalFilterState
 import com.habithatch.demo.ui.goals.GoalSortState
@@ -96,8 +98,19 @@ fun HomeScreenPreview() {
     val config =
         HabitHatchDevConfig(
             AppModule().provideGoogleFontProvider(),
+            PetMoodAnimationsFactory(),
         )
-
+    val pet =
+        Pet(
+            1,
+            "Cat",
+            R.mipmap.pet_cat,
+            PetMoodAnimationsFactory()
+                .create(
+                    ImageStateAnimation(R.mipmap.pet_cat),
+                ),
+        )
+    pet.updateMood(emptyList())
     AppTheme(
         typography = MaterialTheme.typography,
         darkTheme = true,
@@ -117,7 +130,10 @@ fun HomeScreenPreview() {
             },
             state =
                 HomeScreenState(
-                    core = CoreHomeState(pet = config.pets[0]),
+                    core =
+                        CoreHomeState(
+                            pet = pet,
+                        ),
                     goalsViewState = GoalsViewState(goals = emptyList()),
                     goalFilterState = GoalFilterState(GoalFilter.Builder.matchAllBuilder(config, config)),
                     goalSortState = GoalSortState(config.defaultGoalQuery.sortOptions),

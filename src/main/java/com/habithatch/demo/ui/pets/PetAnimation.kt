@@ -1,23 +1,21 @@
 package com.habithatch.demo.ui.pets
 
+import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.habithatch.demo.R
-import com.habithatch.demo.core.theme.success
+import com.habithatch.demo.core.animation.ImageStateAnimation
 import com.habithatch.demo.data.entities.Pet
-import com.habithatch.demo.data.entities.PetMood
-
-@Composable
-fun borderColor(isPetHappy: Boolean) = if (isPetHappy) MaterialTheme.colorScheme.success else MaterialTheme.colorScheme.error
+import com.habithatch.demo.data.entities.PetMoodAnimationsFactory
 
 /**
  * A pet animation that displays a pet.
@@ -29,7 +27,8 @@ fun PetAnimation(
     modifier: Modifier = Modifier,
 ) {
     val imageShape = MaterialTheme.shapes.medium
-
+    val animation by pet.animationState.collectAsStateWithLifecycle()
+    Log.d("PetAnimation", "pet: $pet")
     Row(
         modifier = modifier,
     ) {
@@ -38,17 +37,47 @@ fun PetAnimation(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .aspectRatio(1f)
-                    .border(4.dp, borderColor(pet.mood == PetMood.HAPPY), imageShape),
+                    .aspectRatio(1f),
         ) {
-            Image(
-                painter = painterResource(id = pet.imageRes),
-                contentDescription = stringResource(R.string.pet_image_description),
-                modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .clip(imageShape),
-            )
+            if (animation != null) {
+                val frame by animation!!.state.collectAsStateWithLifecycle()
+                DisposableEffect(animation) {
+                    animation!!.start()
+
+                    onDispose {
+                        animation!!.stop()
+                    }
+                }
+                Image(
+                    modifier = Modifier.fillMaxSize(),
+                    painter = painterResource(id = frame),
+                    contentDescription = "animation",
+                )
+            }
         }
     }
+}
+
+@Suppress("ktlint:standard:function-naming")
+@Preview(showBackground = true)
+@Composable()
+fun PetAnimationPreview() {
+    val animation = ImageStateAnimation(R.mipmap.pet_cat)
+    val petMoodAnimations =
+        PetMoodAnimationsFactory()
+            .create(
+                animation = animation,
+            )
+    val pet =
+        Pet(
+            id = 1,
+            name = "Cat",
+            coverImage = R.mipmap.pet_cat,
+            petMoodAnimations = petMoodAnimations,
+        )
+    pet.updateMood(emptyList())
+
+    PetAnimation(
+        pet = pet,
+    )
 }
