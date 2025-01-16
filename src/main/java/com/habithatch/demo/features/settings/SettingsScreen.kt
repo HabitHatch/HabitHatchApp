@@ -27,7 +27,7 @@ fun SettingsScreen(
     bottomNavBar: @Composable () -> Unit,
     state: SettingsScreenState = rememberSettingsScreenState(),
 ) {
-    var dialogHost = DialogHost()
+    val dialogHost = DialogHost()
 
     dialogHost.Render()
 
@@ -47,33 +47,7 @@ fun SettingsScreen(
                         )
                     },
                 )
-                HorizontalDivider()
 
-                Text(
-                    text = stringResource(R.string.notification_settings_title),
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(16.dp),
-                )
-                ListItem(
-                    headlineContent = {
-                        Text(
-                            stringResource(R.string.enable_notifications),
-                        )
-                    },
-                    trailingContent = {
-                        Switch(
-                            checked = true,
-                            onCheckedChange = { },
-                        )
-                    },
-                )
-                HorizontalDivider()
-
-                Text(
-                    text = stringResource(R.string.theme_settings_title),
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(16.dp),
-                )
             }
         },
         topBar = topNavBar,

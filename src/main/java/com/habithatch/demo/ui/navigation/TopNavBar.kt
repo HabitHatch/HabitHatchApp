@@ -1,5 +1,6 @@
 package com.habithatch.demo.ui.navigation
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -8,6 +9,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.size
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,7 +44,7 @@ fun TopNavBar(
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleLarge.copy
-                    (fontWeight = FontWeight.Bold)
+                    (fontWeight = FontWeight.ExtraBold)
             )
         },
         navigationIcon = {
@@ -50,6 +52,9 @@ fun TopNavBar(
                 NavItem(
                     navScreen = leftNavItem,
                     iconColor = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier
+                        .padding(start = 4.dp)
+                        .size(33.dp),
                     onClick = onLeftNavItemClicked,
                 )
             }
@@ -58,6 +63,9 @@ fun TopNavBar(
             rightNavItem?.let {
                 NavItem(
                     navScreen = rightNavItem,
+                    modifier = Modifier
+                        .padding(end = 4.dp)
+                        .size(33.dp),
                     iconColor = MaterialTheme.colorScheme.onSurface,
                     onClick = onRightNavItemClicked,
                 )
