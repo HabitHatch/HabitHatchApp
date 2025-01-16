@@ -18,7 +18,7 @@ import com.habithatch.demo.ui.settings.AccountSettings
 
 /**
  * The settings screen composable.
- * Shows the UI for the user to change their settings.
+ * Showing the UI for the user to change their settings.
  */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
