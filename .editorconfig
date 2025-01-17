@@ -12,18 +12,18 @@ insert_final_newline = true
 
 # Rules for Kotlin files
 [*.{kt,kts}]
-max_line_length = 120
+max_line_length = 100
 continuation_indent_size = 8
 
 ij_kotlin_imports_layout = *,java.**,javax.**,kotlin.**,android.**
 ktlint_standard_no-wildcard-imports = false
-ij_kotlin_max_line_length=120
+ij_kotlin_max_line_length=100
 ktlint_standard_property-naming = "^(_)?[a-z][A-Za-z0-9]*$"
 ij_kotlin_imports_layout=* # alphabetical with capital letters before lower case letters (e.g. Z before a), no blank lines
 ij_kotlin_imports_layout=*,java.**,javax.**,kotlin.**,^ # default IntelliJ IDEA style, same as alphabetical, but with "java", "javax", "kotlin" and alias imports in the end of the imports list
 ij_kotlin_imports_layout=android.**,|,^org.junit.**,kotlin.io.Closeable.*,|,*,^ # custom imports layout
 ktlint_disabled_rules = standard:function-expression-body
-ktlint_standard_max-line-length = 120
+ktlint_standard_max-line-length = 100
 ktlint_standard_indent = 4
 ktlint_standard_trailing-comma-on-call-site = true
 ktlint_standard_trailing-comma-on-declaration-site = true

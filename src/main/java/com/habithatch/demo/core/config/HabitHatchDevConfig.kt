@@ -178,7 +178,7 @@ class HabitHatchDevConfig
             HabitModel.Priority(
                 label = "Normal",
                 importance = HabitModel.Priority.Importance.Normal,
-                iconResourceId = R.drawable.vuesax_minus_cirlce,
+                iconResourceId = R.drawable.chevron_up,
                 getColor = @Composable { MaterialTheme.colorScheme.tertiary },
             )
 
@@ -186,14 +186,14 @@ class HabitHatchDevConfig
             HabitModel.Priority(
                 label = "High",
                 importance = HabitModel.Priority.Importance.High,
-                iconResourceId = R.drawable.vuesax_warning_2,
+                iconResourceId = R.drawable.chevron_double_up,
                 getColor = @Composable { MaterialTheme.colorScheme.error },
             )
 
         override val priorities = setOf(normalPriority, highPriority)
 
         override val defaultPriority = normalPriority
-        override val  numberExampleHabits = 12
+        override val numberExampleHabits = 12
 
         private val sortOptions =
             listOf(
