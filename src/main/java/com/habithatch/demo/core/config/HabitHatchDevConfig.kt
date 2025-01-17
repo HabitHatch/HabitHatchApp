@@ -193,8 +193,7 @@ class HabitHatchDevConfig
         override val priorities = setOf(normalPriority, highPriority)
 
         override val defaultPriority = normalPriority
-
-        override val numberExampleHabits = 12
+        override val  numberExampleHabits = 12
 
         private val sortOptions =
             listOf(

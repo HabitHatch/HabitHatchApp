@@ -1,9 +1,9 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.ui.goals](../index.md)/[GoalStyleProvider](index.md)/[getGoalStyle](get-goal-style.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.ui.habits](../index.md)/[HabitStyleProvider](index.md)/[getHabitStyle](get-habit-style.md)
 
-# getGoalStyle
+# getHabitStyle
 
 [app]\
 
 @[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)
 
-fun [getGoalStyle](get-goal-style.md)(goal: [GoalModel](../../com.habithatch.demo.data.models/-goal-model/index.md)): [GoalStyle](../../com.habithatch.demo.ui.goals.item/-goal-style/index.md)
+fun [getHabitStyle](get-habit-style.md)(habit: [HabitModel](../../com.habithatch.demo.data.models/-habit-model/index.md)): [HabitStyle](../../com.habithatch.demo.ui.habits.item/-habit-style/index.md)

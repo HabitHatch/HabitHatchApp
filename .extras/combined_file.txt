@@ -61,7 +61,7 @@ fun BottomNavigationBarPreview() {
             ),
             navigationItems = navigationItems
     )
-}package com.habithatch.demo.common.ui.goals
+}package com.habithatch.demo.common.ui.habits
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -76,21 +76,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun AddGoalDialog(
+fun AddHabitDialog(
     onDismiss: () -> Unit,
     onAdd: (String) -> Unit
 ) {
-    var goalName = remember { mutableStateOf("") }
+    var habitName = remember { mutableStateOf("") }
 
     AlertDialog(
             onDismissRequest = onDismiss,
-            title = { Text(text = "Add Goal") },
+            title = { Text(text = "Add Habit") },
             text = {
                 Column {
-                    Text("Enter goal name:")
+                    Text("Enter habit name:")
                     OutlinedTextField(
-                            value = goalName.value,
-                            onValueChange = { goalName.value = it },
+                            value = habitName.value,
+                            onValueChange = { habitName.value = it },
                             modifier = Modifier.fillMaxWidth()
                     )
                 }
@@ -98,9 +98,9 @@ fun AddGoalDialog(
             confirmButton = {
                 Button(
                         onClick = {
-                            if (goalName.value.isNotBlank()) {
-                                onAdd(goalName.value)
-                                goalName.value = ""
+                            if (habitName.value.isNotBlank()) {
+                                onAdd(habitName.value)
+                                habitName.value = ""
                             }
                         }
                 ) {
@@ -118,9 +118,9 @@ fun AddGoalDialog(
 
 @Preview(showBackground = true)
 @Composable
-fun AddGoalDialogPreview() {
-    AddGoalDialog(onDismiss = {}, onAdd = {})
-}package com.habithatch.demo.common.ui.goals
+fun AddHabitDialogPreview() {
+    AddHabitDialog(onDismiss = {}, onAdd = {})
+}package com.habithatch.demo.common.ui.habits
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Column
@@ -135,17 +135,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.habithatch.demo.data.entities.GoalStatus
-import com.habithatch.demo.data.entities.GoalPriority
+import com.habithatch.demo.data.entities.HabitStatus
+import com.habithatch.demo.data.entities.HabitPriority
 
 @Composable
-fun GoalFilterBar(
+fun HabitFilterBar(
     searchQuery: String,
-    visibleDoneStates: Map<GoalDoneState, Boolean>,
-    visiblePriorities: Map<GoalPriority, Boolean>,
+    visibleDoneStates: Map<HabitDoneState, Boolean>,
+    visiblePriorities: Map<HabitPriority, Boolean>,
     onQueryChange: (String) -> Unit,
-    onDoneStateVisibleChange: (GoalDoneState, Boolean) -> Unit,
-    onPriorityVisibilityChange: (GoalPriority, Boolean) -> Unit,
+    onDoneStateVisibleChange: (HabitDoneState, Boolean) -> Unit,
+    onPriorityVisibilityChange: (HabitPriority, Boolean) -> Unit,
 ) {
 
     Column(
@@ -178,7 +178,7 @@ fun GoalFilterBar(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text("Status", style = MaterialTheme.typography.labelSmall)
-                GoalDoneState.entries.forEach { doneState: GoalDoneState ->
+                HabitDoneState.entries.forEach { doneState: HabitDoneState ->
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Checkbox(
@@ -197,7 +197,7 @@ fun GoalFilterBar(
             Column(modifier = Modifier.weight(1f)) {
                 Text("Priority", style = MaterialTheme.typography.labelSmall)
 
-                GoalPriority.entries.forEach { priority: GoalPriority ->
+                HabitPriority.entries.forEach { priority: HabitPriority ->
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Checkbox(
                                 checked = visiblePriorities[priority] == true,
@@ -211,7 +211,7 @@ fun GoalFilterBar(
             }
         }
     }
-}package com.habithatch.demo.common.ui.goals
+}package com.habithatch.demo.common.ui.habits
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -228,13 +228,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.habithatch.demo.data.entities.Goal
-import com.habithatch.demo.data.entities.GoalStatus
+import com.habithatch.demo.data.entities.Habit
+import com.habithatch.demo.data.entities.HabitStatus
 
 @Composable
-fun GoalItem(
-    goal: Goal,
-    onToggleDone: (Goal) -> Unit
+fun HabitItem(
+    habit: Habit,
+    onToggleDone: (Habit) -> Unit
 ) {
     Card(
             modifier = Modifier
@@ -242,7 +242,7 @@ fun GoalItem(
                 .padding(vertical = 4.dp),
             colors = CardDefaults.cardColors(
                     containerColor =
-                    if (goal.isDone == GoalDoneState.DONE)
+                    if (habit.isDone == HabitDoneState.DONE)
                         MaterialTheme.colorScheme.secondaryContainer
                     else
                         MaterialTheme.colorScheme.primaryContainer
@@ -255,21 +255,21 @@ fun GoalItem(
                 verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
-                    checked = goal.isDone == GoalDoneState.DONE,
-                    onCheckedChange = { onToggleDone(goal) },
+                    checked = habit.isDone == HabitDoneState.DONE,
+                    onCheckedChange = { onToggleDone(habit) },
                     modifier = Modifier.padding(end = 8.dp)
             )
 
             Text(
-                    text = goal.title,
+                    text = habit.title,
                     style = MaterialTheme.typography.titleMedium.copy(
                             textDecoration =
-                            if (goal.isDone == GoalDoneState.DONE)
+                            if (habit.isDone == HabitDoneState.DONE)
                                 TextDecoration.LineThrough
                             else TextDecoration.None,
 
                             color =
-                            if (goal.isDone == GoalDoneState.DONE)
+                            if (habit.isDone == HabitDoneState.DONE)
                                 MaterialTheme.colorScheme.onSecondaryContainer
                             else
                                 MaterialTheme.colorScheme.onPrimaryContainer
@@ -283,18 +283,18 @@ fun GoalItem(
 
 @Preview(showBackground = true)
 @Composable
-fun GoalItemPreview() {
+fun HabitItemPreview() {
     Column {
-        GoalItem(
-                goal = Goal(title = "Test Goal"),
+        HabitItem(
+                habit = Habit(title = "Test Habit"),
                 onToggleDone = {}
         )
-        GoalItem(
-                goal = Goal(title = "Test Goal 2", isDone = GoalDoneState.DONE),
+        HabitItem(
+                habit = Habit(title = "Test Habit 2", isDone = HabitDoneState.DONE),
                 onToggleDone = {}
         )
     }
-}package com.habithatch.demo.common.ui.goals
+}package com.habithatch.demo.common.ui.habits
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -304,13 +304,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.habithatch.demo.data.entities.Goal
-import com.habithatch.demo.data.entities.GoalStatus
+import com.habithatch.demo.data.entities.Habit
+import com.habithatch.demo.data.entities.HabitStatus
 
 @Composable
-fun GoalList(
-    goals: List<Goal>,
-    onToggleDone: (Goal) -> Unit,
+fun HabitList(
+    habits: List<Habit>,
+    onToggleDone: (Habit) -> Unit,
     modifier: Modifier = Modifier.fillMaxSize()
 ) {
     LazyColumn(
@@ -318,9 +318,9 @@ fun GoalList(
             contentPadding = PaddingValues(5.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        goals.forEach { goal ->
+        habits.forEach { habit ->
             item {
-                GoalItem(goal = goal, onToggleDone = onToggleDone)
+                HabitItem(habit = habit, onToggleDone = onToggleDone)
             }
         }
     }
@@ -328,14 +328,14 @@ fun GoalList(
 
 @Preview(showBackground = true)
 @Composable
-fun GoalListPreview() {
-    val goals = listOf(
-            Goal(title = "Goal 1", isDone = GoalDoneState.DONE),
-            Goal(title = "Goal 2"),
-            Goal(title = "Goal 3")
+fun HabitListPreview() {
+    val habits = listOf(
+            Habit(title = "Habit 1", isDone = HabitDoneState.DONE),
+            Habit(title = "Habit 2"),
+            Habit(title = "Habit 3")
     )
-    GoalList(goals = goals, onToggleDone = {})
-}package com.habithatch.demo.common.ui.goals
+    HabitList(habits = habits, onToggleDone = {})
+}package com.habithatch.demo.common.ui.habits
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -343,27 +343,27 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.habithatch.demo.data.entities.Goal
-import com.habithatch.demo.data.entities.GoalStatus
-import com.habithatch.demo.data.entities.GoalPriority
+import com.habithatch.demo.data.entities.Habit
+import com.habithatch.demo.data.entities.HabitStatus
+import com.habithatch.demo.data.entities.HabitPriority
 
 @Composable
-fun GoalListScreen(
-    goals: List<Goal>,
+fun HabitListScreen(
+    habits: List<Habit>,
     searchQuery: String,
-    visibleDoneStates: Map<GoalDoneState, Boolean>,
-    visiblePriorities: Map<GoalPriority, Boolean>,
-    onToggleDone: (Goal) -> Unit,
-    addGoal: (String) -> Unit,
+    visibleDoneStates: Map<HabitDoneState, Boolean>,
+    visiblePriorities: Map<HabitPriority, Boolean>,
+    onToggleDone: (Habit) -> Unit,
+    addHabit: (String) -> Unit,
     onQueryChange: (String) -> Unit,
-    onDoneStateVisibilityChange: (GoalDoneState, Boolean) -> Unit,
-    onPriorityVisibilityChange: (GoalPriority, Boolean) -> Unit,
+    onDoneStateVisibilityChange: (HabitDoneState, Boolean) -> Unit,
+    onPriorityVisibilityChange: (HabitPriority, Boolean) -> Unit,
 ) {
 
     Column(
             modifier = Modifier.padding(4.dp)
     ) {
-        GoalFilterBar(
+        HabitFilterBar(
                 searchQuery = searchQuery,
                 visibleDoneStates = visibleDoneStates,
                 visiblePriorities = visiblePriorities,
@@ -371,8 +371,8 @@ fun GoalListScreen(
                 onDoneStateVisibleChange = onDoneStateVisibilityChange,
                 onPriorityVisibilityChange = onPriorityVisibilityChange
         )
-        GoalList(
-                goals = goals,
+        HabitList(
+                habits = habits,
                 onToggleDone = onToggleDone,
                 modifier = Modifier
                     .fillMaxSize()
@@ -633,11 +633,11 @@ import javax.inject.Singleton
 import android.content.Context
 import com.habithatch.demo.core.config.HabitHatchConfig
 import com.habithatch.demo.core.config.HabitHatchDevConfig
-import com.habithatch.demo.data.daos.GoalDao
+import com.habithatch.demo.data.daos.HabitDao
 import com.habithatch.demo.data.daos.UserDao
 import com.habithatch.demo.data.db.AppDatabase
 import com.habithatch.demo.data.db.DatabaseProvider
-import com.habithatch.demo.data.repositories.GoalRepository
+import com.habithatch.demo.data.repositories.HabitRepository
 import com.habithatch.demo.data.repositories.UserRepository
 import dagger.Module
 import dagger.Provides
@@ -663,14 +663,14 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideGoalDao(database: AppDatabase): GoalDao {
-        return database.goalDao()
+    fun provideHabitDao(database: AppDatabase): HabitDao {
+        return database.habitDao()
     }
 
     @Provides
     @Singleton
-    fun provideGoalRepository(goalDao: GoalDao): GoalRepository {
-        return GoalRepository(goalDao)
+    fun provideHabitRepository(habitDao: HabitDao): HabitRepository {
+        return HabitRepository(habitDao)
     }
 
 
@@ -715,7 +715,7 @@ object HabitHatchDevConfig : HabitHatchConfig {
     )
     override val navigationItems = listOf(
         NavigationItem(Screen.Home, IconSax.Linear.Home2, true),
-        NavigationItem(Screen.Goals, IconSax.Linear.Flag, false),
+        NavigationItem(Screen.Habits, IconSax.Linear.Flag, false),
         NavigationItem(Screen.Friends, IconSax.Linear.Profile2user, false),
         NavigationItem(Screen.Pet, IconSax.Linear.Pet, false),
         NavigationItem(Screen.Settings, IconSax.Linear.Menu, true),
@@ -842,9 +842,9 @@ sealed class Screen(
             route = "home",
             label = "Home",
     )
-    object Goals : Screen(
-            route = "goals",
-            label = "Goals",
+    object Habits : Screen(
+            route = "habits",
+            label = "Habits",
     )
     object Friends : Screen(
             route = "friends",
@@ -912,22 +912,22 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.habithatch.demo.data.entities.Goal
+import com.habithatch.demo.data.entities.Habit
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface GoalDao {
-    @Query("SELECT * FROM goal WHERE goal.id = :goalId")
-    suspend fun getGoalById(goalId: Int): Goal?
+interface HabitDao {
+    @Query("SELECT * FROM habit WHERE habit.id = :habitId")
+    suspend fun getHabitById(habitId: Int): Habit?
 
-    @Query("SELECT * FROM goal")
-    fun getAll(): Flow<List<Goal>>
+    @Query("SELECT * FROM habit")
+    fun getAll(): Flow<List<Habit>>
 
     @Insert
-    suspend fun insert(goal: Goal)
+    suspend fun insert(habit: Habit)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun update(goal: Goal)
+    suspend fun update(habit: Habit)
 }package com.habithatch.demo.data.daos
 
 import androidx.room.Dao
@@ -954,16 +954,16 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.habithatch.demo.data.daos.GoalDao
+import com.habithatch.demo.data.daos.HabitDao
 import com.habithatch.demo.data.daos.UserDao
-import com.habithatch.demo.data.entities.Goal
+import com.habithatch.demo.data.entities.Habit
 import com.habithatch.demo.data.entities.User
 
-@Database(entities = [User::class, Goal::class], version = 5)
+@Database(entities = [User::class, Habit::class], version = 5)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
-    abstract fun goalDao(): GoalDao
+    abstract fun habitDao(): HabitDao
 }
 
 
@@ -986,29 +986,29 @@ object DatabaseProvider {
 }package com.habithatch.demo.data.db
 
 import androidx.room.TypeConverter
-import com.habithatch.demo.data.entities.GoalStatus
-import com.habithatch.demo.data.entities.GoalPriority
+import com.habithatch.demo.data.entities.HabitStatus
+import com.habithatch.demo.data.entities.HabitPriority
 
 class Converters {
 
     @TypeConverter
-    fun fromGoalPriority(priority: GoalPriority): String {
+    fun fromHabitPriority(priority: HabitPriority): String {
         return priority.name
     }
 
     @TypeConverter
-    fun toGoalPriority(priority: String): GoalPriority {
-        return GoalPriority.valueOf(priority)
+    fun toHabitPriority(priority: String): HabitPriority {
+        return HabitPriority.valueOf(priority)
     }
 
     @TypeConverter
-    fun fromGoalState(state: GoalDoneState): String {
+    fun fromHabitState(state: HabitDoneState): String {
         return state.name
     }
 
     @TypeConverter
-    fun toGoalState(state: String): GoalDoneState {
-        return GoalDoneState.valueOf(state)
+    fun toHabitState(state: String): HabitDoneState {
+        return HabitDoneState.valueOf(state)
     }
 }package com.habithatch.demo.data.entities
 
@@ -1017,22 +1017,22 @@ import androidx.room.PrimaryKey
 
 
 @Entity
-data class Goal(
+data class Habit(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val title: String,
-    val isDone: GoalDoneState =  GoalDoneState.UNDONE,
-    val priority: GoalPriority = GoalPriority.NORMAL
+    val isDone: HabitDoneState =  HabitDoneState.UNDONE,
+    val priority: HabitPriority = HabitPriority.NORMAL
 ) {
     init {
         require(title.isNotBlank()) { "Title must not be empty or blank." }
     }
 }package com.habithatch.demo.data.entities
 
-enum class GoalDoneState{
+enum class HabitDoneState{
     DONE, UNDONE
 }package com.habithatch.demo.data.entities
 
-enum class GoalPriority {
+enum class HabitPriority {
     NORMAL, HIGH
 }package com.habithatch.demo.data.entities
 
@@ -1049,30 +1049,30 @@ data class User(
     @Embedded val pet: Pet
 )package com.habithatch.demo.data.models
 
-import com.habithatch.demo.data.entities.GoalStatus
-import com.habithatch.demo.data.entities.GoalPriority
+import com.habithatch.demo.data.entities.HabitStatus
+import com.habithatch.demo.data.entities.HabitPriority
 
-data class GoalFilter(
-    val priorityVisibleMap: Map<GoalPriority, Boolean>,
-    val doneStateVisibleMap: Map<GoalDoneState, Boolean>,
+data class HabitFilter(
+    val priorityVisibleMap: Map<HabitPriority, Boolean>,
+    val doneStateVisibleMap: Map<HabitDoneState, Boolean>,
     val searchQuery: String?
 ) {
     init {
-        val allPriorities = GoalPriority.entries.toSet()
+        val allPriorities = HabitPriority.entries.toSet()
         require(priorityVisibleMap.keys == allPriorities) {
-            "priorityVisibleMap must contain all values of GoalPriority exactly once."
+            "priorityVisibleMap must contain all values of HabitPriority exactly once."
         }
 
-        val allDoneStates = GoalDoneState.entries.toSet()
+        val allDoneStates = HabitDoneState.entries.toSet()
         require(doneStateVisibleMap.keys == allDoneStates) {
-            "doneStateVisibleMap must contain all values of GoalDoneState exactly once."
+            "doneStateVisibleMap must contain all values of HabitDoneState exactly once."
         }
     }
     companion object {
-        fun matchAllFilter(): GoalFilter {
-            return GoalFilter(
-                    priorityVisibleMap = GoalPriority.entries.associateWith { true },
-                    doneStateVisibleMap = GoalDoneState.entries.associateWith { true },
+        fun matchAllFilter(): HabitFilter {
+            return HabitFilter(
+                    priorityVisibleMap = HabitPriority.entries.associateWith { true },
+                    doneStateVisibleMap = HabitDoneState.entries.associateWith { true },
                     searchQuery = null
             )
         }
@@ -1080,36 +1080,36 @@ data class GoalFilter(
 }
 package com.habithatch.demo.data.repositories
 
-import com.habithatch.demo.data.daos.GoalDao
-import com.habithatch.demo.data.entities.Goal
-import com.habithatch.demo.data.entities.GoalStatus
-import com.habithatch.demo.data.models.GoalFilterAttributes
+import com.habithatch.demo.data.daos.HabitDao
+import com.habithatch.demo.data.entities.Habit
+import com.habithatch.demo.data.entities.HabitStatus
+import com.habithatch.demo.data.models.HabitFilterAttributes
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 
 
-class GoalRepository(private val goalDao: GoalDao) {
-    fun getAll(): Flow<List<Goal>> = goalDao.getAll()
+class HabitRepository(private val habitDao: HabitDao) {
+    fun getAll(): Flow<List<Habit>> = habitDao.getAll()
 
-    suspend fun insert(goal: Goal) = goalDao.insert(goal)
+    suspend fun insert(habit: Habit) = habitDao.insert(habit)
 
-    suspend fun toggleGoalDone(goalId: Int) {
-        goalDao.getGoalById(goalId)?.let {
-            val goal = it.copy(
-                    isDone = if (it.isDone == GoalDoneState.DONE) GoalDoneState.UNDONE else GoalDoneState.DONE
+    suspend fun toggleHabitDone(habitId: Int) {
+        habitDao.getHabitById(habitId)?.let {
+            val habit = it.copy(
+                    isDone = if (it.isDone == HabitDoneState.DONE) HabitDoneState.UNDONE else HabitDoneState.DONE
             )
-            goalDao.update(goal)
+            habitDao.update(habit)
         }
     }
 
-    fun getFilteredGoals(filter: GoalFilter): Flow<List<Goal>> {
-        return goalDao.getAll().map { allGoals ->
-            allGoals.filter { goal ->
-                val matchesDone = filter.doneStateVisibleMap[goal.isDone] == true
-                val matchesPriority = filter.priorityVisibleMap[goal.priority] == true
+    fun getFilteredHabits(filter: HabitFilter): Flow<List<Habit>> {
+        return habitDao.getAll().map { allHabits ->
+            allHabits.filter { habit ->
+                val matchesDone = filter.doneStateVisibleMap[habit.isDone] == true
+                val matchesPriority = filter.priorityVisibleMap[habit.priority] == true
                 val matchesSearch = filter.searchQuery.isNullOrBlank() ||
-                        goal.title.contains(filter.searchQuery, ignoreCase = true)
+                        habit.title.contains(filter.searchQuery, ignoreCase = true)
 
                 matchesDone && matchesPriority && matchesSearch
             }
@@ -1118,12 +1118,12 @@ class GoalRepository(private val goalDao: GoalDao) {
 
     suspend fun seedDatabase() {
         if (getAll().firstOrNull().isNullOrEmpty()) {
-            val goals = listOf(
-                    Goal(id = 1, title = "Drink water", isDone = GoalDoneState.UNDONE),
-                    Goal(id = 2, title = "Read a book", isDone = GoalDoneState.UNDONE),
-                    Goal(id = 3, title = "Exercise", isDone = GoalDoneState.DONE)
+            val habits = listOf(
+                    Habit(id = 1, title = "Drink water", isDone = HabitDoneState.UNDONE),
+                    Habit(id = 2, title = "Read a book", isDone = HabitDoneState.UNDONE),
+                    Habit(id = 3, title = "Exercise", isDone = HabitDoneState.DONE)
             )
-            goals.forEach { insert(it) }
+            habits.forEach { insert(it) }
         }
     }
 }package com.habithatch.demo.data.repositories
@@ -1195,8 +1195,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.habithatch.demo.common.ui.LoadingScreen
 import com.habithatch.demo.common.ui.PetAnimation
-import com.habithatch.demo.common.ui.goals.AddGoalDialog
-import com.habithatch.demo.common.ui.goals.GoalListScreen
+import com.habithatch.demo.common.ui.habits.AddHabitDialog
+import com.habithatch.demo.common.ui.habits.HabitListScreen
 import com.habithatch.demo.core.navigation.Screen
 import com.habithatch.demo.core.navigation.getNavigationItem
 import com.habithatch.demo.data.entities.User
@@ -1207,7 +1207,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val user: User? by viewModel.user.collectAsStateWithLifecycle()
-    val goals by viewModel.filteredGoals.collectAsStateWithLifecycle()
+    val habits by viewModel.filteredHabits.collectAsStateWithLifecycle()
     val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
     val doneStateVisibleMap by viewModel.doneStateVisibleMap.collectAsStateWithLifecycle()
     val priorityVisibleMap by viewModel.priorityVisibleMap.collectAsStateWithLifecycle()
@@ -1215,7 +1215,7 @@ fun HomeScreen(
     val bottomNavigationItems = viewModel.bottomNavigationItems
     val showDialog = remember { mutableStateOf(false) }
     val selectedItem = Screen.Home.getNavigationItem(bottomNavigationItems)
-    Log.d("HomeScreen", "Goals: $goals")
+    Log.d("HomeScreen", "Habits: $habits")
     Log.d("HomeScreen", "User: $user")
 
     if (user == null) {
@@ -1235,7 +1235,7 @@ fun HomeScreen(
     Scaffold(
             floatingActionButton = {
                 FloatingActionButton(onClick = { showDialog.value = true }) {
-                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add Goal")
+                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add Habit")
                 }
             },
             content = { paddingValues ->
@@ -1252,12 +1252,12 @@ fun HomeScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                     ) {
-                        GoalListScreen(searchQuery = searchQuery.orEmpty(),
+                        HabitListScreen(searchQuery = searchQuery.orEmpty(),
                                 visibleDoneStates = doneStateVisibleMap,
                                 visiblePriorities = priorityVisibleMap,
-                                goals = goals,
-                                onToggleDone = { viewModel.toggleGoalDone(it) },
-                                addGoal = { viewModel.addGoal(it) },
+                                habits = habits,
+                                onToggleDone = { viewModel.toggleHabitDone(it) },
+                                addHabit = { viewModel.addHabit(it) },
                                 onQueryChange = { viewModel.changeSearchQuery(it) },
                                 onDoneStateVisibilityChange = { doneState, visibility ->
                                     viewModel.setDoneStateVisible(doneState, visibility)
@@ -1283,10 +1283,10 @@ fun HomeScreen(
             }
     )
     if (showDialog.value) {
-        AddGoalDialog(
+        AddHabitDialog(
                 onDismiss = { showDialog.value = false },
-                onAdd = { goalName ->
-                    viewModel.addGoal(goalName)
+                onAdd = { habitName ->
+                    viewModel.addHabit(habitName)
                     showDialog.value = false
                 }
         )
@@ -1300,12 +1300,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.habithatch.demo.core.config.HabitHatchConfig
 import com.habithatch.demo.core.navigation.NavigationItem
-import com.habithatch.demo.data.entities.Goal
-import com.habithatch.demo.data.entities.GoalStatus
-import com.habithatch.demo.data.entities.GoalPriority
+import com.habithatch.demo.data.entities.Habit
+import com.habithatch.demo.data.entities.HabitStatus
+import com.habithatch.demo.data.entities.HabitPriority
 import com.habithatch.demo.data.entities.User
-import com.habithatch.demo.data.models.GoalFilterAttributes
-import com.habithatch.demo.data.repositories.GoalRepository
+import com.habithatch.demo.data.models.HabitFilterAttributes
+import com.habithatch.demo.data.repositories.HabitRepository
 import com.habithatch.demo.data.repositories.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -1321,45 +1321,45 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val userRepository: UserRepository,
-    private val goalRepository: GoalRepository,
+    private val habitRepository: HabitRepository,
     habitHatchConfig: HabitHatchConfig
 ) : ViewModel() {
 
     private val _user = MutableStateFlow<User?>(null)
     val user: StateFlow<User?> = _user.asStateFlow()
 
-    private val _filteredGoals = MutableStateFlow<List<Goal>>(emptyList())
-    val filteredGoals = _filteredGoals.asStateFlow()
+    private val _filteredHabits = MutableStateFlow<List<Habit>>(emptyList())
+    val filteredHabits = _filteredHabits.asStateFlow()
 
     private val _searchQuery = MutableStateFlow<String?>(null)
     val searchQuery = _searchQuery.asStateFlow()
 
     private val _doneStateVisibleMap =
-        MutableStateFlow(GoalDoneState.entries.associateWith { true })
+        MutableStateFlow(HabitDoneState.entries.associateWith { true })
     val doneStateVisibleMap = _doneStateVisibleMap.asStateFlow()
 
 
-    private val _priorityVisibleMap = MutableStateFlow(GoalPriority.entries.associateWith { true })
+    private val _priorityVisibleMap = MutableStateFlow(HabitPriority.entries.associateWith { true })
     val priorityVisibleMap = _priorityVisibleMap.asStateFlow()
 
     val bottomNavigationItems: List<NavigationItem> = habitHatchConfig.navigationItems
 
     init {
-        seedGoals()
+        seedHabits()
         observeUser()
-        observeFilteredGoals()
+        observeFilteredHabits()
     }
 
-    fun addGoal(goalTitle: String) {
+    fun addHabit(habitTitle: String) {
         viewModelScope.launch {
-            val newGoal = Goal(title = goalTitle)
-            goalRepository.insert(newGoal)
+            val newHabit = Habit(title = habitTitle)
+            habitRepository.insert(newHabit)
         }
     }
 
-    fun toggleGoalDone(goal: Goal) {
+    fun toggleHabitDone(habit: Habit) {
         viewModelScope.launch {
-            goalRepository.toggleGoalDone(goal.id)
+            habitRepository.toggleHabitDone(habit.id)
         }
     }
 
@@ -1367,7 +1367,7 @@ class HomeViewModel @Inject constructor(
         _searchQuery.value = query
     }
 
-    fun setDoneStateVisible(doneState: GoalDoneState, visible: Boolean) {
+    fun setDoneStateVisible(doneState: HabitDoneState, visible: Boolean) {
         _doneStateVisibleMap.update {
             it.toMutableMap().apply {
                 this[doneState] = visible
@@ -1375,7 +1375,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun setPriorityVisibility(priority: GoalPriority, visible: Boolean) {
+    fun setPriorityVisibility(priority: HabitPriority, visible: Boolean) {
         _priorityVisibleMap.update {
             it.toMutableMap().apply {
                 this[priority] = visible
@@ -1393,30 +1393,30 @@ class HomeViewModel @Inject constructor(
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private fun observeFilteredGoals() {
-        Log.d("HomeViewModel", "observeFilteredGoals called")
+    private fun observeFilteredHabits() {
+        Log.d("HomeViewModel", "observeFilteredHabits called")
         viewModelScope.launch {
             combine(
                     searchQuery,
                     doneStateVisibleMap,
                     priorityVisibleMap
             ) { query, doneMap, priorityMap ->
-                GoalFilter(
+                HabitFilter(
                         searchQuery = query,
                         doneStateVisibleMap = doneMap,
                         priorityVisibleMap = priorityMap
                 )
             }.flatMapLatest { filter ->
-                goalRepository.getFilteredGoals(filter)
+                habitRepository.getFilteredHabits(filter)
             }.collect {
-                _filteredGoals.value = it
+                _filteredHabits.value = it
             }
         }
     }
 
-    private fun seedGoals() {
+    private fun seedHabits() {
         viewModelScope.launch {
-            goalRepository.seedDatabase()
+            habitRepository.seedDatabase()
         }
     }
 }

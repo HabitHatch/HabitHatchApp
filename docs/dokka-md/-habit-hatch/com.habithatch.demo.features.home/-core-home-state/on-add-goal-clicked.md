@@ -1,6 +1,6 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.features.home](../index.md)/[CoreHomeState](index.md)/[onAddGoalClicked](on-add-goal-clicked.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.features.home](../index.md)/[CoreHomeState](index.md)/[onAddHabitClicked](on-add-habit-clicked.md)
 
-# onAddGoalClicked
+# onAddHabitClicked
 
 [app]\
-val [onAddGoalClicked](on-add-goal-clicked.md): () -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html)
+val [onAddHabitClicked](on-add-habit-clicked.md): () -&gt; [Unit](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html)

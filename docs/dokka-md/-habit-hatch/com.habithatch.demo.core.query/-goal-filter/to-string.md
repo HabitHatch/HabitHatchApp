@@ -1,4 +1,4 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.core.query](../index.md)/[GoalFilter](index.md)/[toString](to-string.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.core.query](../index.md)/[HabitFilter](index.md)/[toString](to-string.md)
 
 # toString
 

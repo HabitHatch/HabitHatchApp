@@ -14,7 +14,7 @@ import com.habithatch.demo.data.entities.UserEntity
 /**
  * The Room database for this app.
  */
-@Database(entities = [UserEntity::class, HabitEntity::class], version = 17)
+@Database(entities = [UserEntity::class, HabitEntity::class], version = 18)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao

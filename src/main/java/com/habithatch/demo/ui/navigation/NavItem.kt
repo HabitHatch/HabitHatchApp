@@ -16,7 +16,7 @@ import com.habithatch.demo.core.navigation.Screen
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun NavItem(
-    modifier: Modifier = Modifier.size(24.dp),
+    modifier: Modifier = Modifier,
     navScreen: Screen,
     iconColor: Color,
     onClick: () -> Unit = {},
@@ -30,6 +30,7 @@ fun NavItem(
             painter = painterResource(navScreen.iconResourceId),
             contentDescription = navScreen.route,
             tint = iconColor,
+            modifier = modifier,
         )
     }
 }

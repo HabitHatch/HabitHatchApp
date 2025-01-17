@@ -32,11 +32,12 @@ fun BottomNavBar(
         } else if (item.enabled) {
             MaterialTheme.colorScheme.secondary
         } else {
-            MaterialTheme.colorScheme.tertiary
+            MaterialTheme.colorScheme.secondary
         }
 
     BottomAppBar(
         modifier = Modifier.fillMaxWidth().height(64.dp),
+        containerColor = MaterialTheme.colorScheme.surface,
         actions = {
             navigationItems.forEach { navScreen ->
                 NavItem(

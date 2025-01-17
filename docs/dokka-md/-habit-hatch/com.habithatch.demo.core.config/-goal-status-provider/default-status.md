@@ -1,6 +1,6 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.core.config](../index.md)/[GoalStatusProvider](index.md)/[defaultStatus](default-status.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.core.config](../index.md)/[HabitStatusProvider](index.md)/[defaultStatus](default-status.md)
 
 # defaultStatus
 
 [app]\
-abstract val [defaultStatus](default-status.md): [GoalModel.Status](../../com.habithatch.demo.data.models/-goal-model/-status/index.md)
+abstract val [defaultStatus](default-status.md): [HabitModel.Status](../../com.habithatch.demo.data.models/-habit-model/-status/index.md)

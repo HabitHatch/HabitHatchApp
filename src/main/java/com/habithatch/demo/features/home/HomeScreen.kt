@@ -15,15 +15,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import java.util.UUID
 import com.habithatch.demo.R
-import com.habithatch.demo.core.animation.ImageStateAnimation
 import com.habithatch.demo.core.app.AppModule
 import com.habithatch.demo.core.config.HabitHatchDevConfig
-import com.habithatch.demo.core.query.HabitFilter
+import com.habithatch.demo.core.query.HabitFilterBuilderFactory
 import com.habithatch.demo.core.theme.AppTheme
-import com.habithatch.demo.data.entities.Pet
 import com.habithatch.demo.data.entities.PetMoodAnimationsFactory
+import com.habithatch.demo.data.models.HabitModel
 import com.habithatch.demo.ui.habits.AddHabitDialog
+import com.habithatch.demo.ui.habits.AddHabitDialogState
 import com.habithatch.demo.ui.habits.HabitFilterState
 import com.habithatch.demo.ui.habits.HabitSortState
 import com.habithatch.demo.ui.habits.HabitsView
@@ -100,19 +101,10 @@ fun HomeScreenPreview() {
             AppModule().provideGoogleFontProvider(),
             PetMoodAnimationsFactory(),
         )
-    val pet =
-        Pet(
-            1,
-            "Cat",
-            R.mipmap.cat,
-            PetMoodAnimationsFactory()
-                .create(
-                    ImageStateAnimation(R.mipmap.cat),
-                ),
-        )
-    pet.updateMood(emptyList())
+
     AppTheme(
         typography = MaterialTheme.typography,
+        darkTheme = true,
     ) {
         HomeScreen(
             topNavBar = {
@@ -129,13 +121,29 @@ fun HomeScreenPreview() {
             },
             state =
                 HomeScreenState(
-                    core =
-                        CoreHomeState(
-                            pet = pet,
-                        ),
+                    core = CoreHomeState(pet = config.pets[0]),
                     habitsViewState = HabitsViewState(habits = emptyList()),
-                    habitFilterState = HabitFilterState(HabitFilter.Builder.matchAllBuilder(config, config)),
-                    habitSortState = HabitSortState(config.defaultHabitQuery.sortOptions),
+                    addHabitDialogState =
+                        AddHabitDialogState(
+                            habit =
+                                HabitModel
+                                    .Factory()
+                                    .createDraft(
+                                        userId = UUID.randomUUID(),
+                                        title = "Test",
+                                        priority = config.defaultPriority,
+                                        status = config.defaultStatus,
+                                    ),
+                            allPriorities = config.priorities,
+                        ),
+                    habitFilterState =
+                        HabitFilterState(
+                            habitFilterBuilder = HabitFilterBuilderFactory(config, config).matchAllBuilder,
+                        ),
+                    habitSortState =
+                        HabitSortState(
+                            sortOptions = config.defaultHabitQuery.sortOptions,
+                        ),
                 ),
         )
     }

@@ -1,8 +1,8 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.repositories](../index.md)/[GoalRepository](index.md)/[insert](insert.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.repositories](../index.md)/[HabitRepository](index.md)/[insert](insert.md)
 
 # insert
 
 [app]\
-suspend fun [insert](insert.md)(vararg goals: [GoalModel](../../com.habithatch.demo.data.models/-goal-model/index.md))
+suspend fun [insert](insert.md)(vararg habits: [HabitModel](../../com.habithatch.demo.data.models/-habit-model/index.md))
 
-Inserts the given goals into the database.
+Inserts the given habits into the database.

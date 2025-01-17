@@ -1,4 +1,4 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.ui.goals.item](../index.md)/[GoalStyle](index.md)/[textColor](text-color.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.ui.habits.item](../index.md)/[HabitStyle](index.md)/[textColor](text-color.md)
 
 # textColor
 

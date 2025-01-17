@@ -1,4 +1,4 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.ui.goals](../index.md)/[AddGoalDialogState](index.md)/[showDialog](show-dialog.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.ui.habits](../index.md)/[AddHabitDialogState](index.md)/[showDialog](show-dialog.md)
 
 # showDialog
 

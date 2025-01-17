@@ -1,5 +1,3 @@
-@file:Suppress("ktlint:standard:no-wildcard-imports")
-
 package com.habithatch.demo.ui.habits
 
 import androidx.compose.foundation.layout.*
@@ -19,16 +17,14 @@ import com.habithatch.demo.core.util.getNextHigherOrLowest
 import com.habithatch.demo.data.models.HabitModel
 import com.habithatch.demo.ui.common.forms.SimpleIconButton
 
-/**
- * A dialog that allows the user to add a habit.
- */
+/** A dialog that allows the user to add a habit. */
 @Suppress("ktlint:standard:function-naming", "FunctionNaming")
 @Composable
 fun AddHabitDialog(
     state: AddHabitDialogState,
 ) {
-    if (state.showDialog && state.habit != null) {
-        var habit by remember { mutableStateOf(state.habit) }
+    var habit by remember { mutableStateOf(state.habit) }
+    if (state.showDialog && habit != null) {
         AlertDialog(
             onDismissRequest = { state.onDismiss() },
             title = {
@@ -40,8 +36,8 @@ fun AddHabitDialog(
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     OutlinedTextField(
-                        value = habit.title,
-                        onValueChange = { habit = habit.copy(title = it) },
+                        value = habit!!.title,
+                        onValueChange = { habit = habit!!.copy(title = it) },
                         modifier = Modifier.weight(1f),
                         shape = MaterialTheme.shapes.small,
                         label = { Text(stringResource(R.string.habit_dialog_text_label)) },
@@ -49,15 +45,15 @@ fun AddHabitDialog(
                     SimpleIconButton(
                         modifier = Modifier.width(64.dp).padding(8.dp),
                         labelRes = R.string.priority_toggle_label,
-                        color = habit.priority.getColor(),
-                        painter = painterResource(id = habit.priority.iconResourceId),
+                        color = habit!!.priority.getColor(),
+                        painter = painterResource(id = habit!!.priority.iconResourceId),
                         onClick = {
                             habit =
-                                habit.copy(
+                                habit!!.copy(
                                     priority =
                                         state.allPriorities.getNextHigherOrLowest(
                                             bySelector = { it.importance.value },
-                                            element = habit.priority,
+                                            element = habit!!.priority,
                                         ),
                                 )
                         },
@@ -66,7 +62,7 @@ fun AddHabitDialog(
             },
             confirmButton = {
                 TextButton(onClick = {
-                    state.onAddHabit(habit)
+                    state.onAddHabit(habit!!)
                 }) {
                     Text(stringResource(R.string.confirm_add_habit))
                 }

@@ -1,4 +1,4 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.ui.goals.item](../index.md)/[GoalStyle](index.md)/[borderColor](border-color.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.ui.habits.item](../index.md)/[HabitStyle](index.md)/[borderColor](border-color.md)
 
 # borderColor
 

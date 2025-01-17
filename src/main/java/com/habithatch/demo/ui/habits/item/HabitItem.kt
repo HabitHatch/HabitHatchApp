@@ -31,42 +31,42 @@ fun HabitItem(
 ) {
     val habitStyle = HabitStyleProvider.getHabitStyle(habit)
     Card(
-            modifier =
+        modifier =
             Modifier.Companion
                 .fillMaxWidth()
                 .border(
-                        width = 1.dp,
-                        color = habitStyle.borderColor,
-                        shape = habitStyle.cardShape,
+                    width = 1.dp,
+                    color = habitStyle.borderColor,
+                    shape = habitStyle.cardShape,
                 ),
-            colors = habitStyle.cardColors,
-            shape = habitStyle.cardShape,
+        colors = habitStyle.cardColors,
+        shape = habitStyle.cardShape,
     ) {
         Row(
-                modifier =
-                Modifier.Companion
+            modifier =
+                Modifier
                     .fillMaxWidth()
                     .padding(rowPadding),
-                verticalAlignment = Alignment.Companion.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Checkbox(
-                    checked = habit.isDone(),
-                    onCheckedChange = { onCycleHabitStatus() },
-                    modifier = Modifier.Companion.padding(checkBoxPadding),
+                checked = habit.isDone(),
+                onCheckedChange = { onCycleHabitStatus() },
+                modifier = Modifier.padding(checkBoxPadding),
             )
 
             Text(
-                    text = habit.title,
-                    maxLines = 2,
-                    overflow = TextOverflow.Companion.Ellipsis,
-                    style = habitStyle.textStyle,
-                    modifier = Modifier.Companion.weight(1f),
+                text = habit.title,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                style = habitStyle.textStyle,
+                modifier = Modifier.weight(1f),
             )
             Icon(
-                    modifier = Modifier.Companion.weight(0.25f),
-                    painter = painterResource(habit.priority.iconResourceId),
-                    contentDescription = habit.priority.label,
-                    tint = habitStyle.iconColor,
+                modifier = Modifier.weight(0.25f),
+                painter = painterResource(habit.priority.iconResourceId),
+                contentDescription = habit.priority.label,
+                tint = habitStyle.iconColor,
             )
         }
     }

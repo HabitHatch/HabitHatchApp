@@ -1,6 +1,6 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.features.home](../index.md)/[HomeViewModel](index.md)/[allGoalsDone](all-goals-done.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.features.home](../index.md)/[HomeViewModel](index.md)/[allHabitsDone](all-habits-done.md)
 
-# allGoalsDone
+# allHabitsDone
 
 [app]\
-val [allGoalsDone](all-goals-done.md): StateFlow&lt;[Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html)&gt;
+val [allHabitsDone](all-habits-done.md): StateFlow&lt;[Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html)&gt;

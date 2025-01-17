@@ -1,4 +1,4 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.core.query](../index.md)/[GoalSortOption](index.md)/[sortState](sort-state.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.core.query](../index.md)/[HabitSortOption](index.md)/[sortState](sort-state.md)
 
 # sortState
 

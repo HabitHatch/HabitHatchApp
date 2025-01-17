@@ -1,4 +1,4 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.models](../index.md)/[GoalModel](index.md)/[getUniqueId](get-unique-id.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.models](../index.md)/[HabitModel](index.md)/[getUniqueId](get-unique-id.md)
 
 # getUniqueId
 

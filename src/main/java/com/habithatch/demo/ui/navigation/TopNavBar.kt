@@ -1,5 +1,6 @@
 package com.habithatch.demo.ui.navigation
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -8,6 +9,8 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.R
@@ -27,11 +30,11 @@ fun TopNavBar(
     onRightNavItemClicked: () -> Unit = {},
     onLeftNavItemClicked: () -> Unit = {},
 ) {
-    val navBarColor = MaterialTheme.colorScheme.tertiary
+    val navBarColor = MaterialTheme.colorScheme.surface
 
     CenterAlignedTopAppBar(
         modifier = modifier,
-        expandedHeight = 44.dp,
+        expandedHeight = 50.dp,
         colors =
             TopAppBarDefaults.topAppBarColors(
                 containerColor = navBarColor,
@@ -40,14 +43,18 @@ fun TopNavBar(
         title = {
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleLarge.copy
+                    (fontWeight = FontWeight.ExtraBold)
             )
         },
         navigationIcon = {
             leftNavItem?.let {
                 NavItem(
                     navScreen = leftNavItem,
-                    iconColor = MaterialTheme.colorScheme.onTertiary,
+                    iconColor = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier
+                        .padding(start = 4.dp)
+                        .size(33.dp),
                     onClick = onLeftNavItemClicked,
                 )
             }
@@ -56,7 +63,10 @@ fun TopNavBar(
             rightNavItem?.let {
                 NavItem(
                     navScreen = rightNavItem,
-                    iconColor = MaterialTheme.colorScheme.onTertiary,
+                    modifier = Modifier
+                        .padding(end = 4.dp)
+                        .size(33.dp),
+                    iconColor = MaterialTheme.colorScheme.onSurface,
                     onClick = onRightNavItemClicked,
                 )
             }

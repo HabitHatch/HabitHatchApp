@@ -15,11 +15,11 @@ object HabitStyleProvider {
     @Composable
     fun getHabitStyle(habit: HabitModel): HabitStyle =
         HabitStyle(
-                borderColor = MaterialTheme.colorScheme.outline,
-                containerColor = getContainerColor(habit),
-                textDecoration = if (habit.isDone()) TextDecoration.Companion.LineThrough else TextDecoration.Companion.None,
-                iconColor = habit.priority.getColor(),
-                cardShape = MaterialTheme.shapes.large,
+            borderColor = MaterialTheme.colorScheme.outline,
+            containerColor = getContainerColor(habit),
+            textDecoration = if (habit.isDone()) TextDecoration.LineThrough else TextDecoration.None,
+            iconColor = habit.priority.getColor(),
+            cardShape = MaterialTheme.shapes.large,
         )
 
     @Composable

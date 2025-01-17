@@ -17,5 +17,5 @@ The Room database for this app.
 
 | Name | Summary |
 |---|---|
-| [goalDao](goal-dao.md) | [app]<br>abstract fun [goalDao](goal-dao.md)(): [GoalDao](../../com.habithatch.demo.data.daos/-goal-dao/index.md) |
+| [habitDao](habit-dao.md) | [app]<br>abstract fun [habitDao](habit-dao.md)(): [HabitDao](../../com.habithatch.demo.data.daos/-habit-dao/index.md) |
 | [userDao](user-dao.md) | [app]<br>abstract fun [userDao](user-dao.md)(): [UserDao](../../com.habithatch.demo.data.daos/-user-dao/index.md) |

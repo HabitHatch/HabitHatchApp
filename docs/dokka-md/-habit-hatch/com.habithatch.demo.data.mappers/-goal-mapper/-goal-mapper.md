@@ -1,9 +1,9 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.mappers](../index.md)/[GoalMapper](index.md)/[GoalMapper](-goal-mapper.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.mappers](../index.md)/[HabitMapper](index.md)/[HabitMapper](-habit-mapper.md)
 
-# GoalMapper
+# HabitMapper
 
 [app]\
 
 @Inject
 
-constructor(statusProvider: [GoalStatusProvider](../../com.habithatch.demo.core.config/-goal-status-provider/index.md), priorityProvider: [GoalPriorityProvider](../../com.habithatch.demo.core.config/-goal-priority-provider/index.md), goalModelFactory: [GoalModel.Factory](../../com.habithatch.demo.data.models/-goal-model/-factory/index.md))
+constructor(statusProvider: [HabitStatusProvider](../../com.habithatch.demo.core.config/-habit-status-provider/index.md), priorityProvider: [HabitPriorityProvider](../../com.habithatch.demo.core.config/-habit-priority-provider/index.md), habitModelFactory: [HabitModel.Factory](../../com.habithatch.demo.data.models/-habit-model/-factory/index.md))

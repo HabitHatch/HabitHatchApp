@@ -139,14 +139,14 @@ https://developer.android.com/topic/architecture/recommendations
 
 ## Overview
 
-**HabitHatch** is an Android application designed to help users track their goals while incorporating personalized pets
+**HabitHatch** is an Android application designed to help users track their habits while incorporating personalized pets
 for a more engaging experience. Built using **Kotlin**, **Jetpack Compose**, **Dagger-Hilt** for dependency injection,
 and **Room** for local data storage, the app includes key features such as:
 
-- **Goal Management**: Users can add, track, and filter goals.
+- **Habit Management**: Users can add, track, and filter habits.
 - **Pet Selection**: Users choose a pet during signup for personalization.
 - **Settings**: Users can manage account preferences.
-- **Navigation**: A bottom navigation bar for quick access to different screens like Home, Goals, and Settings.
+- **Navigation**: A bottom navigation bar for quick access to different screens like Home, Habits, and Settings.
 
 The app uses **MVVM architecture**, ensuring maintainability and scalability. The **Jetpack Compose** UI framework
 allows for a more declarative UI, while **Room** provides local database persistence, and **Dagger-Hilt** simplifies
@@ -159,7 +159,7 @@ dependency injection.
 ### 1. **Navigation**
 
 - **`BottomNavigationBar`**: A composable that displays a bottom app bar with icons representing different screens like
-  Home, Goals, and Settings.
+  Home, Habits, and Settings.
     - It uses **IconButton** to allow users to select navigation items.
     - The icons change color based on whether the item is selected or enabled.
     - Navigation items are passed from the configuration class (`HabitHatchDevConfig`).
@@ -174,34 +174,34 @@ dependency injection.
 
 ### 2. **Home Screen**
 
-- **`HomeScreen`**: Displays the user's goals, a floating action button to add goals, and the user’s selected pet.
-    - **`FloatingActionButton`** allows adding a new goal.
+- **`HomeScreen`**: Displays the user's habits, a floating action button to add habits, and the user’s selected pet.
+    - **`FloatingActionButton`** allows adding a new habit.
     - **`PetAnimation`** shows an animated pet, personalized based on the user's choice during signup.
-    - **`GoalListScreen`** displays all goals, with the ability to toggle the goal’s completion state.
+    - **`HabitListScreen`** displays all habits, with the ability to toggle the habit’s completion state.
     - **`BottomNavigationBar`** is used to navigate between screens.
 
-- **ViewModel (`HomeViewModel`)**: Handles user data, filtered goals, and navigation items.
-    - It combines the current search query, goal visibility settings, and other filters to manage the goals that are
+- **ViewModel (`HomeViewModel`)**: Handles user data, filtered habits, and navigation items.
+    - It combines the current search query, habit visibility settings, and other filters to manage the habits that are
       displayed.
     - It observes the user’s data and updates the UI accordingly.
 
 ---
 
-### 3. **Goal Management**
+### 3. **Habit Management**
 
-- **`GoalFilterBar`**: Allows filtering goals by their done state and priority.
-    - Includes checkboxes for each **GoalDoneState** (Done/Undone) and **GoalPriority** (Normal/High).
-    - **`OutlinedTextField`** is used for filtering goals by search query.
+- **`HabitFilterBar`**: Allows filtering habits by their done state and priority.
+    - Includes checkboxes for each **HabitDoneState** (Done/Undone) and **HabitPriority** (Normal/High).
+    - **`OutlinedTextField`** is used for filtering habits by search query.
 
-- **`GoalItem`**: A single goal display with a checkbox to mark it as done.
-    - Uses **Card** for visual representation, and the goal’s title is styled with a line-through effect if marked as
+- **`HabitItem`**: A single habit display with a checkbox to mark it as done.
+    - Uses **Card** for visual representation, and the habit’s title is styled with a line-through effect if marked as
       done.
 
-- **`GoalList`**: Displays all goals in a **LazyColumn**.
-    - It observes the **filteredGoals** flow to show the correct list based on the user’s settings.
+- **`HabitList`**: Displays all habits in a **LazyColumn**.
+    - It observes the **filteredHabits** flow to show the correct list based on the user’s settings.
 
-- **`AddGoalDialog`**: A dialog for adding new goals.
-    - Includes a text field for the goal title and buttons to confirm or cancel the action.
+- **`AddHabitDialog`**: A dialog for adding new habits.
+    - Includes a text field for the habit title and buttons to confirm or cancel the action.
 
 ---
 
@@ -228,14 +228,14 @@ dependency injection.
 
 ### 6. **Database Layer**
 
-- **`AppDatabase`**: The main Room database class that manages entities like **Goal** and **User**.
+- **`AppDatabase`**: The main Room database class that manages entities like **Habit** and **User**.
     - Provides DAOs for accessing and manipulating data.
 
-- **`GoalDao` and `UserDao`**: Define queries to fetch and modify goals and user data in the database.
-    - **GoalDao** includes queries for getting goals by ID, inserting, and updating goals.
+- **`HabitDao` and `UserDao`**: Define queries to fetch and modify habits and user data in the database.
+    - **HabitDao** includes queries for getting habits by ID, inserting, and updating habits.
     - **UserDao** includes queries for managing user data.
 
-- **Converters**: Type converters for **GoalPriority** and **GoalDoneState** enums to store them as strings in the
+- **Converters**: Type converters for **HabitPriority** and **HabitDoneState** enums to store them as strings in the
   database.
 
 ---
@@ -254,6 +254,6 @@ dependency injection.
 The **HabitHatch** app is structured to be modular, with clear separation between UI, business logic, and data
 management. The use of **MVVM** ensures maintainability, while **Room** provides a simple yet effective solution for
 local data storage. The integration of **Dagger-Hilt** for dependency injection simplifies component management and
-improves testability. The app’s user experience is personalized through pet selection and goal management, making it
+improves testability. The app’s user experience is personalized through pet selection and habit management, making it
 both functional and engaging.
 

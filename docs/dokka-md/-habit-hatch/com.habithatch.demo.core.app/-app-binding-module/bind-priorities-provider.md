@@ -8,4 +8,4 @@
 
 @Singleton
 
-abstract fun [bindPrioritiesProvider](bind-priorities-provider.md)(devConfig: [HabitHatchDevConfig](../../com.habithatch.demo.core.config/-habit-hatch-dev-config/index.md)): [GoalPriorityProvider](../../com.habithatch.demo.core.config/-goal-priority-provider/index.md)
+abstract fun [bindPrioritiesProvider](bind-priorities-provider.md)(devConfig: [HabitHatchDevConfig](../../com.habithatch.demo.core.config/-habit-hatch-dev-config/index.md)): [HabitPriorityProvider](../../com.habithatch.demo.core.config/-habit-priority-provider/index.md)

@@ -1,4 +1,4 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.entities](../index.md)/[GoalEntity](index.md)/[title](title.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.entities](../index.md)/[HabitEntity](index.md)/[title](title.md)
 
 # title
 

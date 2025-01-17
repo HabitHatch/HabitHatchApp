@@ -1,6 +1,6 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.models](../index.md)/[ExampleGoalFactory](index.md)/[createExampleGoal](create-example-goal.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.data.models](../index.md)/[ExampleHabitFactory](index.md)/[createExampleHabit](create-example-habit.md)
 
-# createExampleGoal
+# createExampleHabit
 
 [app]\
-fun [createExampleGoal](create-example-goal.md)(pastYears: [Long](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html) = 1): [GoalModel](../-goal-model/index.md)
+fun [createExampleHabit](create-example-habit.md)(pastYears: [Long](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html) = 1): [HabitModel](../-habit-model/index.md)

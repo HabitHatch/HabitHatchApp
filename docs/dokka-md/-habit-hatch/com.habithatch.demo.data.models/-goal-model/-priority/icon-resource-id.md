@@ -1,4 +1,4 @@
-//[HabitHatch](../../../../index.md)/[com.habithatch.demo.data.models](../../index.md)/[GoalModel](../index.md)/[Priority](index.md)/[iconResourceId](icon-resource-id.md)
+//[HabitHatch](../../../../index.md)/[com.habithatch.demo.data.models](../../index.md)/[HabitModel](../index.md)/[Priority](index.md)/[iconResourceId](icon-resource-id.md)
 
 # iconResourceId
 

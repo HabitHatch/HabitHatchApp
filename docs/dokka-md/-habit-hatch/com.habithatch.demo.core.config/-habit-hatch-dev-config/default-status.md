@@ -3,4 +3,4 @@
 # defaultStatus
 
 [app]\
-open override val [defaultStatus](default-status.md): [GoalModel.Status](../../com.habithatch.demo.data.models/-goal-model/-status/index.md)
+open override val [defaultStatus](default-status.md): [HabitModel.Status](../../com.habithatch.demo.data.models/-habit-model/-status/index.md)

@@ -1,4 +1,4 @@
-//[HabitHatch](../../../../index.md)/[com.habithatch.demo.data.models](../../index.md)/[GoalModel](../index.md)/[Status](index.md)/[isDone](is-done.md)
+//[HabitHatch](../../../../index.md)/[com.habithatch.demo.data.models](../../index.md)/[HabitModel](../index.md)/[Status](index.md)/[isDone](is-done.md)
 
 # isDone
 

@@ -1,4 +1,4 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.core.query](../index.md)/[GoalFilter](index.md)/[searchQuery](search-query.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.core.query](../index.md)/[HabitFilter](index.md)/[searchQuery](search-query.md)
 
 # searchQuery
 
@@ -11,4 +11,4 @@ app
 
 | | |
 |---|---|
-| searchQuery | Optional search term for filtering goals. |
+| searchQuery | Optional search term for filtering habits. |

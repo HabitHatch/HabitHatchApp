@@ -8,4 +8,4 @@
 
 @Singleton
 
-abstract fun [bindStatusProvider](bind-status-provider.md)(devConfig: [HabitHatchDevConfig](../../com.habithatch.demo.core.config/-habit-hatch-dev-config/index.md)): [GoalStatusProvider](../../com.habithatch.demo.core.config/-goal-status-provider/index.md)
+abstract fun [bindStatusProvider](bind-status-provider.md)(devConfig: [HabitHatchDevConfig](../../com.habithatch.demo.core.config/-habit-hatch-dev-config/index.md)): [HabitStatusProvider](../../com.habithatch.demo.core.config/-habit-status-provider/index.md)

@@ -28,9 +28,9 @@
 | [com.habithatch.demo.ui.common](-habit-hatch/com.habithatch.demo.ui.common/index.md) |
 | [com.habithatch.demo.ui.common.dialogs](-habit-hatch/com.habithatch.demo.ui.common.dialogs/index.md) |
 | [com.habithatch.demo.ui.common.forms](-habit-hatch/com.habithatch.demo.ui.common.forms/index.md) |
-| [com.habithatch.demo.ui.goals](-habit-hatch/com.habithatch.demo.ui.goals/index.md) |
-| [com.habithatch.demo.ui.goals.item](-habit-hatch/com.habithatch.demo.ui.goals.item/index.md) |
-| [com.habithatch.demo.ui.goals.table](-habit-hatch/com.habithatch.demo.ui.goals.table/index.md) |
+| [com.habithatch.demo.ui.habits](-habit-hatch/com.habithatch.demo.ui.habits/index.md) |
+| [com.habithatch.demo.ui.habits.item](-habit-hatch/com.habithatch.demo.ui.habits.item/index.md) |
+| [com.habithatch.demo.ui.habits.table](-habit-hatch/com.habithatch.demo.ui.habits.table/index.md) |
 | [com.habithatch.demo.ui.navigation](-habit-hatch/com.habithatch.demo.ui.navigation/index.md) |
 | [com.habithatch.demo.ui.pets](-habit-hatch/com.habithatch.demo.ui.pets/index.md) |
 | [com.habithatch.demo.ui.settings](-habit-hatch/com.habithatch.demo.ui.settings/index.md) |

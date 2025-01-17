@@ -2,7 +2,10 @@
   <string name="app_name">HabitHatch</string>
   <string name="no_habits_explanation">You don\'t have any habits yet. Would you like to create some example habits?\n Or you can create your own habits by clicking the + button.</string>
   <string name="example_habits_button">Create Example Habits</string>
+  <string name="action_button_description">Add Habit</string>
   <string name="account_settings">Account</string>
+  <string name="about">About</string>
+  <string name="notification_toggle">Notifications</string>
   <string name="account_icon_description">Account</string>
   <string name="delete_account_dialog_title">Delete Account</string>
   <string name="delete_account_dialog_message">Are you sure you want to delete your account?</string>

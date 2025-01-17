@@ -1,9 +1,9 @@
-//[HabitHatch](../../../index.md)/[com.habithatch.demo.core.query](../index.md)/[GoalFilterBuilderFactory](index.md)
+//[HabitHatch](../../../index.md)/[com.habithatch.demo.core.query](../index.md)/[HabitFilterBuilderFactory](index.md)
 
-# GoalFilterBuilderFactory
+# HabitFilterBuilderFactory
 
 [app]\
-class [GoalFilterBuilderFactory](index.md)@Injectconstructor(priorityProvider: [GoalPriorityProvider](../../com.habithatch.demo.core.config/-goal-priority-provider/index.md), statusProvider: [GoalStatusProvider](../../com.habithatch.demo.core.config/-goal-status-provider/index.md))
+class [HabitFilterBuilderFactory](index.md)@Injectconstructor(priorityProvider: [HabitPriorityProvider](../../com.habithatch.demo.core.config/-habit-priority-provider/index.md), statusProvider: [HabitStatusProvider](../../com.habithatch.demo.core.config/-habit-status-provider/index.md))
 
 Factory for creating [GoalFilter.Builder](../-goal-filter/-builder/index.md) instances.
 
@@ -11,10 +11,10 @@ Factory for creating [GoalFilter.Builder](../-goal-filter/-builder/index.md) ins
 
 | | |
 |---|---|
-| [GoalFilterBuilderFactory](-goal-filter-builder-factory.md) | [app]<br>@Inject<br>constructor(priorityProvider: [GoalPriorityProvider](../../com.habithatch.demo.core.config/-goal-priority-provider/index.md), statusProvider: [GoalStatusProvider](../../com.habithatch.demo.core.config/-goal-status-provider/index.md)) |
+| [HabitFilterBuilderFactory](-habit-filter-builder-factory.md) | [app]<br>@Inject<br>constructor(priorityProvider: [HabitPriorityProvider](../../com.habithatch.demo.core.config/-habit-priority-provider/index.md), statusProvider: [HabitStatusProvider](../../com.habithatch.demo.core.config/-habit-status-provider/index.md)) |
 
 ## Properties
 
 | Name | Summary |
 |---|---|
-| [matchAllBuilder](match-all-builder.md) | [app]<br>val [matchAllBuilder](match-all-builder.md): [GoalFilter.Builder](../-goal-filter/-builder/index.md) |
+| [matchAllBuilder](match-all-builder.md) | [app]<br>val [matchAllBuilder](match-all-builder.md): [HabitFilter.Builder](../-habit-filter/-builder/index.md) |
