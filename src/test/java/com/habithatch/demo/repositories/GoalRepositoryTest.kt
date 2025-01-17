@@ -36,14 +36,14 @@ class HabitRepositoryTest {
 
     private val normalPriority =
         HabitModel.Priority(
-            label = "Normal",
+            labelRes = "Normal",
             importance = HabitModel.Priority.Importance.Normal,
             iconResourceId = 1,
             getColor = { Color.Green },
         )
     private val highPriority =
         HabitModel.Priority(
-            label = "High",
+            labelRes = "High",
             importance = HabitModel.Priority.Importance.High,
             iconResourceId = 2,
             getColor = { Color.Red },
@@ -91,7 +91,7 @@ class HabitRepositoryTest {
                     pet =
                         Pet(
                             id = 1,
-                            name = "",
+                            nameRes = "",
                             coverImage = 1,
                         ),
                 ),

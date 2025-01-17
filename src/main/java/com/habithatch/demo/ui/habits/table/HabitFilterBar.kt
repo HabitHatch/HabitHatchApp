@@ -46,7 +46,7 @@ fun HabitFilterBar(
             modifier =
                 Modifier
                     .align(Alignment.CenterVertically)
-                    .heightIn(max = 38.dp)
+                    .heightIn(max = 44.dp)
                     .widthIn(max = 120.dp)
                     .weight(1f),
             searchQuery = searchQuery,
@@ -57,6 +57,10 @@ fun HabitFilterBar(
 
         SimpleIconButton(
             labelRes = R.string.status_toggle_label,
+            modifier =
+                Modifier
+                    .size(36.dp)
+                    .padding(horizontal = 4.dp),
             color = doneIconColor,
             painter = painterResource(R.drawable.vuesax_tick_circle),
             onClick = {

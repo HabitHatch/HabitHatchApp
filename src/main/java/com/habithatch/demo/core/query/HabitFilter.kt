@@ -118,13 +118,13 @@ data class HabitFilter private constructor(
 
     @Throws(IllegalArgumentException::class)
     private fun matchesStatus(habit: HabitModel): Boolean {
-        require(statusVisibility[habit.status] != null) { "status ${habit.status.label} not in HabitFilter" }
+        require(statusVisibility[habit.status] != null) { "status id ${habit.status.id} not in HabitFilter" }
         return statusVisibility[habit.status]!!
     }
 
     @Throws(IllegalArgumentException::class)
     private fun matchesPriority(habit: HabitModel): Boolean {
-        require(priorityVisibility[habit.priority] != null) { "priority ${habit.priority.label} not in HabitFilter" }
+        require(priorityVisibility[habit.priority] != null) { "priority ${habit.priority.labelRes} not in HabitFilter" }
         return priorityVisibility[habit.priority]!!
     }
 

@@ -1,18 +1,20 @@
 package com.habithatch.demo.data.entities
 
 import android.util.Log
+
 import com.habithatch.demo.core.animation.FrameStateAnimation
 import com.habithatch.demo.core.animation.ImageResource
 import com.habithatch.demo.core.util.allDone
 import com.habithatch.demo.data.models.HabitModel
+import java.util.concurrent.atomic.AtomicInteger
 import kotlinx.coroutines.flow.MutableStateFlow
 
 /**
  * [Pet] represents a pet
  */
 data class Pet(
-    val id: Int,
-    val name: String,
+    val id: Int = generateId(),
+    val nameRes: Int,
     val coverImage: ImageResource,
     private val petMoodAnimations: PetMoodAnimations? = null,
     private var mood: PetMood? = null,
@@ -36,9 +38,14 @@ data class Pet(
         """
         Pet(
             id=$id,
-            name='$name',
+            name='$nameRes',
             coverImage=$coverImage,
-            petMoodAnimations=$petMoodAnimations,
             mood=$mood,
         """.trimIndent()
+
+    companion object {
+        private val idGenerator = AtomicInteger(0)
+
+        private fun generateId(): Int = idGenerator.incrementAndGet()
+    }
 }

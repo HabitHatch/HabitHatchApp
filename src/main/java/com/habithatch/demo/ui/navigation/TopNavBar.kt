@@ -80,6 +80,6 @@ fun TopNavBar(
 fun TopAppInformationBarPreview() {
     TopNavBar(
         title = "Home",
-        rightNavItem = Screen("settings", R.drawable.vuesax_profile_circle),
+        rightNavItem = Screen("settings", R.string.settings_nav_item_title, R.drawable.vuesax_profile_circle),
     )
 }

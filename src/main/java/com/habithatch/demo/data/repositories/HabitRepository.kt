@@ -42,8 +42,8 @@ class HabitRepository
             habitDao.update(
                 id = habitEntity.id,
                 title = habitEntity.title,
-                statusLabel = habitEntity.statusLabel,
-                priorityLabel = habitEntity.priorityLabel,
+                statusId = habitEntity.statusId,
+                priorityId = habitEntity.priorityId,
             )
         }
 

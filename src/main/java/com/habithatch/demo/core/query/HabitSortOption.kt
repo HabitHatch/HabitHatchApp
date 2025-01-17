@@ -13,10 +13,10 @@ import com.habithatch.demo.data.models.HabitModel
  */
 @Immutable
 data class HabitSortOption(
-    val label: String,
+    val labelRes: Int,
     private val _comparator: Comparator<HabitModel>,
     val sortState: SortState = SortState.NOT_USED,
-    private val uiIndex: Int,
+    val uiIndex: Int,
 ) : Comparable<HabitSortOption> {
     val comparator: Comparator<HabitModel>
         get() =
@@ -26,8 +26,7 @@ data class HabitSortOption(
                 else -> error("Sort state is not used")
             }
 
-    /**
-     * Returns a copy of this sort option with the sort state cycled.
+    /**Returns a copy of this sort option with the sort state cycled.
      */
     fun cycleState(): HabitSortOption = this.copy(sortState = sortState.nextInCycle())
 
@@ -39,17 +38,7 @@ data class HabitSortOption(
     /**
      * @suppress
      */
-    override fun equals(other: Any?) = other is HabitSortOption && other.label == label && other.sortState == sortState
-
-    /**
-     * @suppress
-     */
-    override fun hashCode(): Int = label.hashCode() + 31 * sortState.hashCode()
-
-    /**
-     * @suppress
-     */
-    override fun toString(): String = "HabitSortOption(label='$label', sortState=$sortState)"
+    override fun toString(): String = "HabitSortOption(sortState=$sortState)"
 
     /**
      * @suppress

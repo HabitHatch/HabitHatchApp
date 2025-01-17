@@ -1,6 +1,7 @@
 package com.habithatch.demo.ui.pets
 
 import android.util.Log
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
@@ -70,8 +71,7 @@ fun PetAnimationPreview() {
             )
     val pet =
         Pet(
-            id = 1,
-            name = "Cat",
+            nameRes = R.string.cat_name,
             coverImage = R.mipmap.cat,
             petMoodAnimations = petMoodAnimations,
         )

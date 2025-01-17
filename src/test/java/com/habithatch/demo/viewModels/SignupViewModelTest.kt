@@ -31,7 +31,7 @@ class SignupViewModelTest {
     private val appConfig = mockk<HabitHatchConfig>()
 
     private val testDispatcher = StandardTestDispatcher()
-    private val someUser = UserModel(uuid = UUID.randomUUID(), pet = Pet(id = 1, name = "Dog", coverImage = 1001))
+    private val someUser = UserModel(uuid = UUID.randomUUID(), pet = Pet(id = 1, nameRes = "Dog", coverImage = 1001))
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before

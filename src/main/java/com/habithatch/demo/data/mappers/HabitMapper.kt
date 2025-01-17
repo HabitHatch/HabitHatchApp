@@ -1,10 +1,10 @@
 package com.habithatch.demo.data.mappers
 
-import javax.inject.Inject
 import com.habithatch.demo.core.config.HabitPriorityProvider
 import com.habithatch.demo.core.config.HabitStatusProvider
 import com.habithatch.demo.data.entities.HabitEntity
 import com.habithatch.demo.data.models.HabitModel
+import javax.inject.Inject
 
 /**
  * [HabitMapper] is a mapper that maps [HabitModel] to [HabitEntity] and vice versa.
@@ -31,12 +31,12 @@ class HabitMapper
                 "createdAt must not be null for non-draft habits $habit"
             }
             return HabitEntity(
-                    id = habit.getUniqueId(),
-                    userId = habit.userId,
-                    title = habit.title,
-                    statusLabel = habit.status.label,
-                    priorityLabel = habit.priority.label,
-                    createdAt = habit.getCreatedAtOrNow(),
+                id = habit.getUniqueId(),
+                userId = habit.userId,
+                title = habit.title,
+                statusId = habit.status.id,
+                priorityId = habit.priority.id,
+                createdAt = habit.getCreatedAtOrNow(),
             )
         }
 
@@ -44,7 +44,7 @@ class HabitMapper
         fun asModel(entity: HabitEntity): HabitModel =
             habitModelFactory.createFromEntity(
                 entity = entity,
-                status = statusProvider.getStatusByLabel(entity.statusLabel),
-                priority = priorityProvider.getPriorityByLabel(entity.priorityLabel),
+                status = statusProvider.getStatusById(entity.statusId),
+                priority = priorityProvider.getPriorityByLabel(entity.priorityId),
             )
     }

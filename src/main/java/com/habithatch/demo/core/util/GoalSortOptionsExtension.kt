@@ -11,7 +11,7 @@ fun Iterable<HabitSortOption>.getUsed() = filter { it.isUsed() }
 /**
  * Removes all [HabitSortOption]'s with the given [label].
  */
-fun Iterable<HabitSortOption>.removeByLabel(label: String) = filter { it.label != label }
+fun Iterable<HabitSortOption>.removeByUIIndex(uiIndex: Int) = filter { it.uiIndex != uiIndex }
 
 /**
  * Disables all [HabitSortOption]'s.

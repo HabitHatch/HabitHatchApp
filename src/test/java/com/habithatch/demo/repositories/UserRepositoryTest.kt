@@ -1,7 +1,6 @@
 package com.habithatch.demo.repositories
 
 import com.google.common.truth.Truth.assertThat
-import com.habithatch.demo.core.exceptions.InvalidUUIdException
 import com.habithatch.demo.core.exceptions.UserExistsException
 import com.habithatch.demo.data.daos.UserDao
 import com.habithatch.demo.data.entities.Pet
@@ -22,8 +21,8 @@ class UserRepositoryTest {
     private val userDao = mockk<UserDao>()
     private val userMapper = mockk<UserMapper>()
     private val userRepository = UserRepository(userDao, userMapper)
-    private val somePet = Pet(id = 1, name = "Pet1", coverImage = 1001)
-    private val anotherPet = Pet(id = 2, name = "Pet1", coverImage = 1002)
+    private val somePet = Pet(id = 1, nameRes = "Pet1", coverImage = 1001)
+    private val anotherPet = Pet(id = 2, nameRes = "Pet1", coverImage = 1002)
     private val someUser = UserModel(uuid = UUID.randomUUID(), pet = somePet)
     private val someUserEntity = UserEntity(uuid = someUser.uuid, petId = somePet.id)
 

@@ -8,5 +8,5 @@ interface HabitPriorityProvider {
     val defaultPriority: HabitModel.Priority
 
     @Throws(NoSuchElementException::class)
-    fun getPriorityByLabel(priorityLabel: String) = priorities.first { it.label == priorityLabel }
+    fun getPriorityByLabel(priorityId: Int) = priorities.first { it.id == priorityId }
 }

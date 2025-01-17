@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 import javax.inject.Inject
 import com.habithatch.demo.core.util.disableAll
 import com.habithatch.demo.core.util.getUsed
-import com.habithatch.demo.core.util.removeByLabel
+import com.habithatch.demo.core.util.removeByUIIndex
 import com.habithatch.demo.data.models.HabitModel
 
 /**
@@ -29,7 +29,7 @@ data class HabitQuery(
 
     @Throws(NoSuchElementException::class, IllegalArgumentException::class)
     fun updateSortOption(sortOption: HabitSortOption): HabitQuery {
-        require(sortOptions.filter { it.label == sortOption.label }.size == 1) {
+        require(sortOptions.filter { it.labelRes == sortOption.labelRes }.size == 1) {
             "Selected option is not exactly once in the list of sort options"
         }
         return setActiveSortOption(sortOption)
@@ -38,7 +38,7 @@ data class HabitQuery(
     fun getComparator() = (getActiveComparator() ?: compareBy { 0 }).then(defaultComparator)
 
     private fun setActiveSortOption(sortOption: HabitSortOption): HabitQuery {
-        val disabledOptions = sortOptions.removeByLabel(sortOption.label).disableAll()
+        val disabledOptions = sortOptions.removeByUIIndex(sortOption.uiIndex).disableAll()
         return this.copy(sortOptions = disabledOptions + sortOption)
     }
 

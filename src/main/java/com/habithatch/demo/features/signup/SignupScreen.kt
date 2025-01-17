@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import com.habithatch.demo.R
 import com.habithatch.demo.ui.common.ImageBox
 import com.habithatch.demo.ui.common.ImageTextCard
@@ -30,7 +31,10 @@ fun SignupScreen(
     ) {
         Text(
             text = stringResource(R.string.pet_selection_cta),
-            style = MaterialTheme.typography.titleLarge,
+            style =
+                MaterialTheme.typography.displayMedium.copy(
+                    fontWeight = FontWeight.Bold,
+                ),
             color = MaterialTheme.colorScheme.primary,
         )
         SelectionGrid(
@@ -46,7 +50,7 @@ fun SignupScreen(
                     },
                     text = {
                         Text(
-                            text = pet.name,
+                            text = stringResource(pet.nameRes),
                         )
                     },
                     onSelected = onPetSelected,

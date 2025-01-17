@@ -26,25 +26,24 @@ interface HabitDao {
     @Insert
     suspend fun insert(habit: HabitEntity)
 
-
     /**
      * Updates the habit with the given [id] with the given [title], [statusLabel], and [priorityLabel].
-     * [HabitEntity.createdAt] and [HabitEntity.id] are not allowed tto be updated.
+     * [HabitEntity.createdAt] and [HabitEntity.id] are not allowed to be updated.
      */
     @Query(
         """
         UPDATE habit
         SET title = :title,
-            statusLabel = :statusLabel,
-            priorityLabel = :priorityLabel
+            statusId = :statusId,
+            priorityId = :priorityId
         WHERE id = :id
     """,
     )
     suspend fun update(
         id: Long,
         title: String,
-        statusLabel: String,
-        priorityLabel: String,
+        statusId: Int,
+        priorityId: Int,
     )
 
     /**

@@ -10,5 +10,5 @@ interface HabitStatusProvider {
     val defaultStatus: HabitModel.Status
 
     @Throws(NoSuchElementException::class)
-    fun getStatusByLabel(statusLabel: String): HabitModel.Status = statuses.first { it.label == statusLabel }
+    fun getStatusById(statusId: Int): HabitModel.Status = statuses.first { it.id == statusId }
 }

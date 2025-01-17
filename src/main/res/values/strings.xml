@@ -31,4 +31,20 @@
   <string name="contact_us">Contact Us</string>
   <string name="username">Username</string>
   <string name="user_example_email">user@example.com</string>
+  <string name="cat_name">Lux</string>
+  <string name="panda_name">Bao</string>
+  <string name="rabbit_name">Rosie</string>
+  <string name="wolf_name">Jacob</string>
+  <string name="normal_priority_label">Normal</string>
+  <string name="high_priority_label">High</string>
+  <string name="date_sort_option_label">Date</string>
+  <string name="priority_sort_option_label">Priority</string>
+  <string name="in_progress_status_label">In Progress</string>
+  <string name="done_status_label">Done</string>
+  <string name="sign_up_nav_item_title">Sign up</string>
+  <string name="home_nav_item_title">Home</string>
+  <string name="settings_nav_item_title">Settings</string>
+  <string name="habits_nav_item_title">Habits</string>
+  <string name="friends">Friends</string>
+  <string name="pet">Pet</string>
 </resources>

@@ -104,7 +104,6 @@ fun HomeScreenPreview() {
 
     AppTheme(
         typography = MaterialTheme.typography,
-        darkTheme = true,
     ) {
         HomeScreen(
             topNavBar = {

@@ -92,13 +92,13 @@ class HabitHatchDevConfig
             listOf(
                 Pet(
                     id = 1,
-                    name = "Cat",
+                    nameRes = R.string.cat_name,
                     coverImage = R.mipmap.cat,
                     petMoodAnimations = catAnimation,
                 ),
                 Pet(
                     id = 2,
-                    name = "Fox",
+                    nameRes = R.string.panda_name,
                     coverImage = R.mipmap.panda,
                     petMoodAnimations =
                         petMoodAnimationsBuilder
@@ -108,7 +108,7 @@ class HabitHatchDevConfig
                 ),
                 Pet(
                     id = 3,
-                    name = "Rabbit",
+                    nameRes = R.string.rabbit_name,
                     coverImage = R.mipmap.rabbit,
                     petMoodAnimations =
                         petMoodAnimationsBuilder
@@ -118,7 +118,7 @@ class HabitHatchDevConfig
                 ),
                 Pet(
                     id = 4,
-                    name = "Ice Bear",
+                    nameRes = R.string.wolf_name,
                     coverImage = R.mipmap.wolf,
                     petMoodAnimations =
                         petMoodAnimationsBuilder
@@ -128,16 +128,46 @@ class HabitHatchDevConfig
                 ),
             )
 
-        override val signUpNavItem = Screen("sign_up", R.drawable.vuesax_profile_circle)
-        override val homeNavItem = Screen("home", R.drawable.vuesax_home_2)
-        override val settingsNavigationItem = Screen("settings", R.drawable.vuesax_profile_circle)
+        override val signUpNavItem =
+            Screen(
+                "sign_up",
+                R.string.sign_up_nav_item_title,
+                R.drawable.vuesax_profile_circle,
+            )
+        override val homeNavItem =
+            Screen(
+                "home",
+                R.string.home_nav_item_title,
+                R.drawable.vuesax_home_2,
+            )
+        override val settingsNavigationItem =
+            Screen(
+                "settings",
+                R.string.settings_nav_item_title,
+                R.drawable.vuesax_profile_circle,
+            )
 
         override val navItems =
             listOf(
                 homeNavItem,
-                Screen("habits", R.drawable.vuesax_flag, enabled = false),
-                Screen("friends", R.drawable.vuesax_profile_2user, enabled = false),
-                Screen("pet", R.drawable.vuesax_pet, enabled = false),
+                Screen(
+                    "habits",
+                    R.string.habits_nav_item_title,
+                    R.drawable.vuesax_flag,
+                    enabled = false,
+                ),
+                Screen(
+                    "friends",
+                    R.string.friends,
+                    R.drawable.vuesax_profile_2user,
+                    enabled = false,
+                ),
+                Screen(
+                    "pet",
+                    R.string.pet,
+                    R.drawable.vuesax_pet,
+                    enabled = false,
+                ),
                 settingsNavigationItem,
             )
         override val topRightNavItem = settingsNavigationItem
@@ -159,14 +189,14 @@ class HabitHatchDevConfig
 
         private val inProgressStatus =
             HabitModel.Status(
-                label = "In Progress",
+                labelRes = R.string.in_progress_status_label,
                 stepNumber = 1,
                 isDone = false,
             )
 
         private val doneStatus =
             HabitModel.Status(
-                label = "Done",
+                labelRes = R.string.done_status_label,
                 stepNumber = 2,
                 isDone = true,
             )
@@ -176,7 +206,7 @@ class HabitHatchDevConfig
 
         private val normalPriority =
             HabitModel.Priority(
-                label = "Normal",
+                labelRes = R.string.normal_priority_label,
                 importance = HabitModel.Priority.Importance.Normal,
                 iconResourceId = R.drawable.chevron_up,
                 getColor = @Composable { MaterialTheme.colorScheme.tertiary },
@@ -184,7 +214,7 @@ class HabitHatchDevConfig
 
         private val highPriority =
             HabitModel.Priority(
-                label = "High",
+                labelRes = R.string.high_priority_label,
                 importance = HabitModel.Priority.Importance.High,
                 iconResourceId = R.drawable.chevron_double_up,
                 getColor = @Composable { MaterialTheme.colorScheme.error },
@@ -198,12 +228,12 @@ class HabitHatchDevConfig
         private val sortOptions =
             listOf(
                 HabitSortOption(
-                    "Date",
+                    R.string.date_sort_option_label,
                     compareBy { it.createdAt },
                     uiIndex = 1,
                 ),
                 HabitSortOption(
-                    "Priority",
+                    R.string.priority_sort_option_label,
                     compareBy { it.priority.importance },
                     uiIndex = 2,
                 ),

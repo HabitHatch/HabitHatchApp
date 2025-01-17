@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.habithatch.demo.data.models.HabitModel
@@ -65,7 +66,7 @@ fun HabitItem(
             Icon(
                 modifier = Modifier.weight(0.25f),
                 painter = painterResource(habit.priority.iconResourceId),
-                contentDescription = habit.priority.label,
+                contentDescription = stringResource(habit.priority.labelRes),
                 tint = habitStyle.iconColor,
             )
         }

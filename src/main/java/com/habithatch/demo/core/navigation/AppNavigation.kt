@@ -3,6 +3,7 @@ package com.habithatch.demo.core.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -47,7 +48,7 @@ fun AppNavigation(
 
     val topNavBar = @Composable {
         TopNavBar(
-            title = config.getActiveNavItem(navController).title,
+            title = stringResource(config.getActiveNavItem(navController).titleRes),
             rightNavItem = config.topRightNavItem,
             onRightNavItemClicked = { navController.navigateTo(config.topRightNavItem) },
         )

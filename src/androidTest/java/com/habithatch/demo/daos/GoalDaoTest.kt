@@ -43,8 +43,8 @@ class HabitDaoTest {
                     id = 1,
                     userId = UUID.randomUUID(),
                     title = "Drink water",
-                    statusLabel = "In Progress",
-                    priorityLabel = "Normal",
+                    statusId = "In Progress",
+                    priorityId = "Normal",
                     createdAt = Instant.now(),
                 )
             habitDao.insert(habit)
@@ -67,16 +67,16 @@ class HabitDaoTest {
                         id = 1,
                         userId = UUID.randomUUID(),
                         title = "Drink water",
-                        statusLabel = "In Progress",
-                        priorityLabel = "Normal",
+                        statusId = "In Progress",
+                        priorityId = "Normal",
                         createdAt = Instant.now(),
                     ),
                     HabitEntity(
                         id = 2,
                         userId = UUID.randomUUID(),
                         title = "Eat vegetables",
-                        statusLabel = "In Progress",
-                        priorityLabel = "High",
+                        statusId = "In Progress",
+                        priorityId = "High",
                         createdAt = Instant.now(),
                     ),
                 )

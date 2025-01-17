@@ -3,10 +3,11 @@ package com.habithatch.demo.data.models
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
+import com.habithatch.demo.data.entities.HabitEntity
 import java.time.Instant
 import java.util.UUID
+import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
-import com.habithatch.demo.data.entities.HabitEntity
 
 /**
  * [HabitModel] represents a habit.
@@ -29,7 +30,8 @@ data class HabitModel private constructor(
 ) {
     @Immutable
     data class Priority(
-        val label: String,
+        val id: Int = generateId(),
+        val labelRes: Int,
         val importance: Importance,
         val iconResourceId: Int,
         val getColor: @Composable () -> Color,
@@ -60,19 +62,26 @@ data class HabitModel private constructor(
         }
 
         fun isImportant() = importance >= Importance.High
+
+        companion object {
+            private val idGenerator = AtomicInteger(0)
+
+            private fun generateId(): Int = idGenerator.incrementAndGet()
+        }
     }
 
     @Immutable
     data class Status(
-        val label: String,
+        val id: Int = generateId(),
+        val labelRes: Int,
         val stepNumber: Int,
         val isDone: Boolean = false,
     ) {
         /** @suppress */
-        override fun equals(other: Any?) = other is Status && other.label == label
+        override fun equals(other: Any?) = other is Status && other.stepNumber == stepNumber
 
         /** @suppress */
-        override fun hashCode() = label.hashCode()
+        override fun hashCode(): Int = stepNumber
     }
 
     fun isDone(): Boolean = this.status.isDone
@@ -94,6 +103,12 @@ data class HabitModel private constructor(
     fun getCreatedAtOrNow() = createdAt ?: Instant.now()
 
     fun getUniqueId() = title.hashCode() + 31 * getCreatedAtOrNow().toEpochMilli()
+
+    companion object {
+        private val idGenerator = AtomicInteger(0)
+
+        private fun generateId(): Int = idGenerator.incrementAndGet()
+    }
 
     @Suppress("ktlint:standard:annotation", "ktlint:standard:function-expression-body")
     class Factory @Inject constructor() {
