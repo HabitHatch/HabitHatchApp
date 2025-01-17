@@ -1,6 +1,7 @@
 package com.habithatch.demo.ui.navigation
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -9,7 +10,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.foundation.layout.size
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -43,29 +43,19 @@ fun TopNavBar(
         title = {
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleLarge.copy
-                    (fontWeight = FontWeight.ExtraBold)
+                style =
+                    MaterialTheme.typography.titleLarge.copy
+                        (fontWeight = FontWeight.ExtraBold),
             )
-        },
-        navigationIcon = {
-            leftNavItem?.let {
-                NavItem(
-                    navScreen = leftNavItem,
-                    iconColor = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier
-                        .padding(start = 4.dp)
-                        .size(33.dp),
-                    onClick = onLeftNavItemClicked,
-                )
-            }
         },
         actions = {
             rightNavItem?.let {
                 NavItem(
                     navScreen = rightNavItem,
-                    modifier = Modifier
-                        .padding(end = 4.dp)
-                        .size(33.dp),
+                    modifier =
+                        Modifier
+                            .padding(end = 4.dp)
+                            .size(33.dp),
                     iconColor = MaterialTheme.colorScheme.onSurface,
                     onClick = onRightNavItemClicked,
                 )
@@ -80,6 +70,11 @@ fun TopNavBar(
 fun TopAppInformationBarPreview() {
     TopNavBar(
         title = "Home",
-        rightNavItem = Screen("settings", R.string.settings_nav_item_title, R.drawable.vuesax_profile_circle),
+        rightNavItem =
+            Screen(
+                "settings",
+                R.string.settings_nav_item_title,
+                R.drawable.vuesax_profile_circle,
+            ),
     )
 }

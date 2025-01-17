@@ -189,6 +189,7 @@ class HabitHatchDevConfig
 
         private val inProgressStatus =
             HabitModel.Status(
+                id = 1,
                 labelRes = R.string.in_progress_status_label,
                 stepNumber = 1,
                 isDone = false,
@@ -196,6 +197,7 @@ class HabitHatchDevConfig
 
         private val doneStatus =
             HabitModel.Status(
+                id = 2,
                 labelRes = R.string.done_status_label,
                 stepNumber = 2,
                 isDone = true,
@@ -206,6 +208,7 @@ class HabitHatchDevConfig
 
         private val normalPriority =
             HabitModel.Priority(
+                id = 1,
                 labelRes = R.string.normal_priority_label,
                 importance = HabitModel.Priority.Importance.Normal,
                 iconResourceId = R.drawable.chevron_up,
@@ -214,6 +217,7 @@ class HabitHatchDevConfig
 
         private val highPriority =
             HabitModel.Priority(
+                id = 2,
                 labelRes = R.string.high_priority_label,
                 importance = HabitModel.Priority.Importance.High,
                 iconResourceId = R.drawable.chevron_double_up,
