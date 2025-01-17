@@ -3,6 +3,6 @@
 # disableAll
 
 [app]\
-fun [Iterable](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-iterable/index.html)&lt;[GoalSortOption](../com.habithatch.demo.core.query/-goal-sort-option/index.md)&gt;.[disableAll](disable-all.md)(): [List](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html)&lt;[GoalSortOption](../com.habithatch.demo.core.query/-goal-sort-option/index.md)&gt;
+fun [Iterable](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-iterable/index.html)&lt;[HabitSortOption](../com.habithatch.demo.core.query/-habit-sort-option/index.md)&gt;.[disableAll](disable-all.md)(): [List](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html)&lt;[HabitSortOption](../com.habithatch.demo.core.query/-habit-sort-option/index.md)&gt;
 
-Disables all [GoalSortOption](../com.habithatch.demo.core.query/-goal-sort-option/index.md)'s.
+Disables all [HabitSortOption](../com.habithatch.demo.core.query/-habit-sort-option/index.md)'s.

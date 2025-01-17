@@ -34,12 +34,7 @@ fun HabitItem(
     Card(
         modifier =
             Modifier.Companion
-                .fillMaxWidth()
-                .border(
-                    width = 1.dp,
-                    color = habitStyle.borderColor,
-                    shape = habitStyle.cardShape,
-                ),
+                .fillMaxWidth(),
         colors = habitStyle.cardColors,
         shape = habitStyle.cardShape,
     ) {

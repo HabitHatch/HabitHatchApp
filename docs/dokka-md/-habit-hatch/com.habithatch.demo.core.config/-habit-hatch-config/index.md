@@ -2,7 +2,7 @@
 
 # HabitHatchConfig
 
-interface [HabitHatchConfig](index.md) : [GoalStatusProvider](../-goal-status-provider/index.md), [GoalPriorityProvider](../-goal-priority-provider/index.md)
+interface [HabitHatchConfig](index.md) : [HabitStatusProvider](../-habit-status-provider/index.md), [HabitPriorityProvider](../-habit-priority-provider/index.md)
 
 The main application configuration.
 
@@ -17,11 +17,11 @@ The main application configuration.
 | Name | Summary |
 |---|---|
 | [bodyFontFamily](body-font-family.md) | [app]<br>abstract val [bodyFontFamily](body-font-family.md): [FontFamily](https://developer.android.com/reference/kotlin/androidx/compose/ui/text/font/FontFamily.html) |
-| [defaultGoalQuery](default-goal-query.md) | [app]<br>abstract val [defaultGoalQuery](default-goal-query.md): [GoalQuery](../../com.habithatch.demo.core.query/-goal-query/index.md) |
+| [defaultHabitQuery](default-habit-query.md) | [app]<br>abstract val [defaultHabitQuery](default-habit-query.md): [HabitQuery](../../com.habithatch.demo.core.query/-habit-query/index.md) |
 | [displayFontFamily](display-font-family.md) | [app]<br>abstract val [displayFontFamily](display-font-family.md): [FontFamily](https://developer.android.com/reference/kotlin/androidx/compose/ui/text/font/FontFamily.html) |
 | [homeNavItem](home-nav-item.md) | [app]<br>abstract val [homeNavItem](home-nav-item.md): [Screen](../../com.habithatch.demo.core.navigation/-screen/index.md) |
 | [navItems](nav-items.md) | [app]<br>abstract val [navItems](nav-items.md): [List](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html)&lt;[Screen](../../com.habithatch.demo.core.navigation/-screen/index.md)&gt; |
-| [numberExampleGoals](number-example-goals.md) | [app]<br>abstract val [numberExampleGoals](number-example-goals.md): [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) |
+| [numberExampleHabits](number-example-habits.md) | [app]<br>abstract val [numberExampleHabits](number-example-habits.md): [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html) |
 | [pets](pets.md) | [app]<br>abstract val [pets](pets.md): [List](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html)&lt;[Pet](../../com.habithatch.demo.data.entities/-pet/index.md)&gt; |
 | [settingsNavigationItem](settings-navigation-item.md) | [app]<br>abstract val [settingsNavigationItem](settings-navigation-item.md): [Screen](../../com.habithatch.demo.core.navigation/-screen/index.md) |
 | [signUpNavItem](sign-up-nav-item.md) | [app]<br>abstract val [signUpNavItem](sign-up-nav-item.md): [Screen](../../com.habithatch.demo.core.navigation/-screen/index.md) |

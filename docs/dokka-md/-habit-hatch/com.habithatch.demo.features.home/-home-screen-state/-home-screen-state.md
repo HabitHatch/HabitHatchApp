@@ -3,4 +3,4 @@
 # HomeScreenState
 
 [app]\
-constructor(goalsViewState: [GoalsViewState](../../com.habithatch.demo.ui.goals/-goals-view-state/index.md), goalFilterState: [GoalFilterState](../../com.habithatch.demo.ui.goals/-goal-filter-state/index.md), core: [CoreHomeState](../-core-home-state/index.md), addGoalDialogState: [AddGoalDialogState](../../com.habithatch.demo.ui.goals/-add-goal-dialog-state/index.md) = AddGoalDialogState(), goalSortState: [GoalSortState](../../com.habithatch.demo.ui.goals/-goal-sort-state/index.md) = GoalSortState(emptyList()))
+constructor(habitsViewState: [HabitsViewState](../../com.habithatch.demo.ui.habits/-habits-view-state/index.md), habitFilterState: [HabitFilterState](../../com.habithatch.demo.ui.habits/-habit-filter-state/index.md), core: [CoreHomeState](../-core-home-state/index.md), addHabitDialogState: [AddHabitDialogState](../../com.habithatch.demo.ui.habits/-add-habit-dialog-state/index.md) = AddHabitDialogState(), habitSortState: [HabitSortState](../../com.habithatch.demo.ui.habits/-habit-sort-state/index.md) = HabitSortState(emptyList()))

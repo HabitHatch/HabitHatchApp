@@ -3,32 +3,32 @@
 # HomeViewModel
 
 [app]\
-class [HomeViewModel](index.md)@Injectconstructor(userRepository: [UserRepository](../../com.habithatch.demo.data.repositories/-user-repository/index.md), goalRepository: [GoalRepository](../../com.habithatch.demo.data.repositories/-goal-repository/index.md), val config: [HabitHatchConfig](../../com.habithatch.demo.core.config/-habit-hatch-config/index.md), val goalQueryFactory: [GoalQuery.Factory](../../com.habithatch.demo.core.query/-goal-query/-factory/index.md), goalModelFactory: [GoalModel.Factory](../../com.habithatch.demo.data.models/-goal-model/-factory/index.md), val builderFactory: [GoalFilterBuilderFactory](../../com.habithatch.demo.core.query/-goal-filter-builder-factory/index.md)) : [ViewModel](https://developer.android.com/reference/kotlin/androidx/lifecycle/ViewModel.html)
+class [HomeViewModel](index.md)@Injectconstructor(userRepository: [UserRepository](../../com.habithatch.demo.data.repositories/-user-repository/index.md), habitRepository: [HabitRepository](../../com.habithatch.demo.data.repositories/-habit-repository/index.md), val config: [HabitHatchConfig](../../com.habithatch.demo.core.config/-habit-hatch-config/index.md), val habitQueryFactory: [HabitQuery.Factory](../../com.habithatch.demo.core.query/-habit-query/-factory/index.md), habitModelFactory: [HabitModel.Factory](../../com.habithatch.demo.data.models/-habit-model/-factory/index.md), val builderFactory: [HabitFilterBuilderFactory](../../com.habithatch.demo.core.query/-habit-filter-builder-factory/index.md)) : [ViewModel](https://developer.android.com/reference/kotlin/androidx/lifecycle/ViewModel.html)
 
 ## Constructors
 
 | | |
 |---|---|
-| [HomeViewModel](-home-view-model.md) | [app]<br>@Inject<br>constructor(userRepository: [UserRepository](../../com.habithatch.demo.data.repositories/-user-repository/index.md), goalRepository: [GoalRepository](../../com.habithatch.demo.data.repositories/-goal-repository/index.md), config: [HabitHatchConfig](../../com.habithatch.demo.core.config/-habit-hatch-config/index.md), goalQueryFactory: [GoalQuery.Factory](../../com.habithatch.demo.core.query/-goal-query/-factory/index.md), goalModelFactory: [GoalModel.Factory](../../com.habithatch.demo.data.models/-goal-model/-factory/index.md), builderFactory: [GoalFilterBuilderFactory](../../com.habithatch.demo.core.query/-goal-filter-builder-factory/index.md)) |
+| [HomeViewModel](-home-view-model.md) | [app]<br>@Inject<br>constructor(userRepository: [UserRepository](../../com.habithatch.demo.data.repositories/-user-repository/index.md), habitRepository: [HabitRepository](../../com.habithatch.demo.data.repositories/-habit-repository/index.md), config: [HabitHatchConfig](../../com.habithatch.demo.core.config/-habit-hatch-config/index.md), habitQueryFactory: [HabitQuery.Factory](../../com.habithatch.demo.core.query/-habit-query/-factory/index.md), habitModelFactory: [HabitModel.Factory](../../com.habithatch.demo.data.models/-habit-model/-factory/index.md), builderFactory: [HabitFilterBuilderFactory](../../com.habithatch.demo.core.query/-habit-filter-builder-factory/index.md)) |
 
 ## Properties
 
 | Name | Summary |
 |---|---|
-| [builderFactory](builder-factory.md) | [app]<br>val [builderFactory](builder-factory.md): [GoalFilterBuilderFactory](../../com.habithatch.demo.core.query/-goal-filter-builder-factory/index.md) |
+| [builderFactory](builder-factory.md) | [app]<br>val [builderFactory](builder-factory.md): [HabitFilterBuilderFactory](../../com.habithatch.demo.core.query/-habit-filter-builder-factory/index.md) |
 | [config](config.md) | [app]<br>val [config](config.md): [HabitHatchConfig](../../com.habithatch.demo.core.config/-habit-hatch-config/index.md) |
-| [goalQuery](goal-query.md) | [app]<br>val [goalQuery](goal-query.md): StateFlow&lt;[GoalQuery](../../com.habithatch.demo.core.query/-goal-query/index.md)&gt; |
-| [goalQueryFactory](goal-query-factory.md) | [app]<br>val [goalQueryFactory](goal-query-factory.md): [GoalQuery.Factory](../../com.habithatch.demo.core.query/-goal-query/-factory/index.md) |
-| [hasAnyGoals](has-any-goals.md) | [app]<br>val [hasAnyGoals](has-any-goals.md): StateFlow&lt;[Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html)&gt; |
-| [queriedGoals](queried-goals.md) | [app]<br>val [queriedGoals](queried-goals.md): StateFlow&lt;[List](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html)&lt;[GoalModel](../../com.habithatch.demo.data.models/-goal-model/index.md)&gt;&gt; |
+| [habitQuery](habit-query.md) | [app]<br>val [habitQuery](habit-query.md): StateFlow&lt;[HabitQuery](../../com.habithatch.demo.core.query/-habit-query/index.md)&gt; |
+| [habitQueryFactory](habit-query-factory.md) | [app]<br>val [habitQueryFactory](habit-query-factory.md): [HabitQuery.Factory](../../com.habithatch.demo.core.query/-habit-query/-factory/index.md) |
+| [hasAnyHabits](has-any-habits.md) | [app]<br>val [hasAnyHabits](has-any-habits.md): StateFlow&lt;[Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html)&gt; |
+| [queriedHabits](queried-habits.md) | [app]<br>val [queriedHabits](queried-habits.md): StateFlow&lt;[List](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html)&lt;[HabitModel](../../com.habithatch.demo.data.models/-habit-model/index.md)&gt;&gt; |
 | [user](user.md) | [app]<br>val [user](user.md): StateFlow&lt;[UserModel](../../com.habithatch.demo.data.models/-user-model/index.md)?&gt; |
 
 ## Functions
 
 | Name | Summary |
 |---|---|
-| [addGoal](add-goal.md) | [app]<br>fun [addGoal](add-goal.md)(goal: [GoalModel](../../com.habithatch.demo.data.models/-goal-model/index.md)) |
-| [seedGoals](seed-goals.md) | [app]<br>fun [seedGoals](seed-goals.md)() |
-| [toggleGoalStatus](toggle-goal-status.md) | [app]<br>fun [toggleGoalStatus](toggle-goal-status.md)(goal: [GoalModel](../../com.habithatch.demo.data.models/-goal-model/index.md)) |
-| [updateGoalFilter](update-goal-filter.md) | [app]<br>fun [updateGoalFilter](update-goal-filter.md)(newGoalFilter: [GoalFilter.Builder](../../com.habithatch.demo.core.query/-goal-filter/-builder/index.md)) |
-| [updateGoalSortOption](update-goal-sort-option.md) | [app]<br>fun [updateGoalSortOption](update-goal-sort-option.md)(newGoalSortOption: [GoalSortOption](../../com.habithatch.demo.core.query/-goal-sort-option/index.md)) |
+| [addHabit](add-habit.md) | [app]<br>fun [addHabit](add-habit.md)(habit: [HabitModel](../../com.habithatch.demo.data.models/-habit-model/index.md)) |
+| [seedHabits](seed-habits.md) | [app]<br>fun [seedHabits](seed-habits.md)() |
+| [toggleHabitStatus](toggle-habit-status.md) | [app]<br>fun [toggleHabitStatus](toggle-habit-status.md)(habit: [HabitModel](../../com.habithatch.demo.data.models/-habit-model/index.md)) |
+| [updateHabitFilter](update-habit-filter.md) | [app]<br>fun [updateHabitFilter](update-habit-filter.md)(newHabitFilter: [HabitFilter.Builder](../../com.habithatch.demo.core.query/-habit-filter/-builder/index.md)) |
+| [updateHabitSortOption](update-habit-sort-option.md) | [app]<br>fun [updateHabitSortOption](update-habit-sort-option.md)(newHabitSortOption: [HabitSortOption](../../com.habithatch.demo.core.query/-habit-sort-option/index.md)) |

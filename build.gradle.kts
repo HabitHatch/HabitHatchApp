@@ -29,7 +29,7 @@ android {
         minSdk = 34
         targetSdk = 35
         versionCode = 2
-        versionName = "1.1.0"
+        versionName = "1.1.2"
         group = "com.habithatch.demo"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -161,9 +161,6 @@ tasks.withType<DokkaTask>().configureEach {
         )
     }
 }
-tasks.dokkaHtml.configure {
-    outputDirectory.set(file("docs/dokka"))
-}
 tasks.dokkaGfm.configure {
     outputDirectory.set(file("docs/dokka-md"))
 }
@@ -270,7 +267,7 @@ fun transformKotlinMarkup(
 tasks.register("mergeLeafIndexesMd") {
     val dokkaOutputDir = file("docs/dokka-md")
     val srcDir = file("src/main/java")
-    val mergedOutputFile = file("docs/docsify/code_documentation.md")
+    val mergedOutputFile = file("docs/code_documentation.md")
     val basePackage = "com.habithatch.demo"
 
     doLast {

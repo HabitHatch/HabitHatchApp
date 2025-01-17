@@ -3,4 +3,4 @@
 # Screen
 
 [app]\
-constructor(route: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), iconResourceId: [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html), enabled: [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html) = true)
+constructor(route: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), titleRes: [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html), iconResourceId: [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html), enabled: [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html) = true)

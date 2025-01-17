@@ -6,7 +6,7 @@
 
 | Name | Summary |
 |---|---|
-| [Screen](-screen/index.md) | [app]<br>data class [Screen](-screen/index.md)(val route: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), val iconResourceId: [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html), val enabled: [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html) = true)<br>Represents a screen in the app. Is used to generate the navigation graph. |
+| [Screen](-screen/index.md) | [app]<br>data class [Screen](-screen/index.md)(val route: [String](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html), val titleRes: [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html), val iconResourceId: [Int](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html), val enabled: [Boolean](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html) = true)<br>Represents a screen in the app. Is used to generate the navigation graph. |
 
 ## Functions
 
