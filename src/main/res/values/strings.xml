@@ -5,7 +5,7 @@
   <string name="action_button_description">Add Habit</string>
   <string name="account_settings">Account</string>
   <string name="about">About</string>
-  <string name="notification_toggle">Notifications</string>
+  <string name="settings_group_notifications">Notifications</string>
   <string name="account_icon_description">Account</string>
   <string name="delete_account_dialog_title">Delete Account</string>
   <string name="delete_account_dialog_message">Are you sure you want to delete your account?</string>
@@ -26,4 +26,9 @@
   <string name="confirm_add_habit">Add</string>
   <string name="cancel_add_habit">Cancel</string>
   <string name="add_habit">Add Habit</string>
+  <string name="usage_tips">Usage Tips</string>
+  <string name="faqs">FAQs</string>
+  <string name="contact_us">Contact Us</string>
+  <string name="username">Username</string>
+  <string name="user_example_email">user@example.com</string>
 </resources>
