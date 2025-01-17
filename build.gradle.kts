@@ -29,7 +29,7 @@ android {
         minSdk = 34
         targetSdk = 35
         versionCode = 2
-        versionName = "0.2.1"
+        versionName = "1.1.0"
         group = "com.habithatch.demo"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

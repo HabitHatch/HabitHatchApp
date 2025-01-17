@@ -34,7 +34,7 @@ fun TopNavBar(
 
     CenterAlignedTopAppBar(
         modifier = modifier,
-        expandedHeight = 50.dp,
+        expandedHeight = 38.dp,
         colors =
             TopAppBarDefaults.topAppBarColors(
                 containerColor = navBarColor,
