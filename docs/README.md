@@ -128,7 +128,7 @@ https://developer.android.com/topic/architecture/recommendations
 
 ## Architecture:
 
-![](docs/class_diagram.png)
+![](diagrams/class_diagram.png)
 
 ## Activities / Navigation
 
